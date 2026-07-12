@@ -66,6 +66,7 @@ function LessonPlayer() {
   }
 
   async function finish() {
+    if (!lesson) return;
     setSaving(true);
     const { data } = await supabase.auth.getUser();
     if (!data.user) return;
