@@ -1,12 +1,12 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, User, Store, Sparkles, Settings } from "lucide-react";
+import { Home, BookOpen, Trophy, User, Store } from "lucide-react";
 
 const items = [
-  { to: "/home", label: "Aprender", icon: Home },
-  { to: "/store", label: "Loja", icon: Store },
-  { to: "/neko-ai", label: "Neko AI", icon: Sparkles },
+  { to: "/home", label: "Início", icon: Home },
+  { to: "/home", label: "Lições", icon: BookOpen },
+  { to: "/neko-ai", label: "Desafios", icon: Trophy },
   { to: "/profile", label: "Perfil", icon: User },
-  { to: "/settings", label: "Ajustes", icon: Settings },
+  { to: "/store", label: "Loja", icon: Store },
 ] as const;
 
 export function BottomNav() {
