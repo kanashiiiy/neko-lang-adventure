@@ -1,23 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, Gem, ChevronDown, ChevronRight, Lock, Briefcase, Hand, UtensilsCrossed, Users } from "lucide-react";
+import { Flame, Gem, Trophy } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, fetchCompletedLessons } from "@/lib/profile";
 import { LESSONS, LANGUAGES, type Language } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
+import { NekoMascot } from "@/components/NekoMascot";
 
 export const Route = createFileRoute("/_authenticated/home")({
   component: HomePage,
 });
-
-interface Category {
-  key: string;
-  title: string;
-  progress?: string;
-  icon: React.ReactNode;
-  tint: string;
-  lessonId?: string;
-}
 
 function HomePage() {
   const { data: profile } = useQuery({
@@ -43,141 +35,89 @@ function HomePage() {
     },
   });
 
-  const dailyLesson = lessons[0];
-  const doneCount = lessons.filter((l) => completed?.has(l.id)).length;
-
-  const categories: Category[] = [
-    {
-      key: "alfabeto",
-      title: lang === "ja" ? "Hiragana" : "Básico",
-      progress: `${doneCount * 7}/46`,
-      icon: <Briefcase className="h-5 w-5" />,
-      tint: "bg-primary/15 text-primary",
-      lessonId: lessons[0]?.id,
-    },
-    {
-      key: "sauda",
-      title: "Saudações",
-      icon: <Hand className="h-5 w-5" />,
-      tint: "bg-gold/25 text-gold-foreground",
-      lessonId: lessons[2]?.id,
-    },
-    {
-      key: "comidas",
-      title: "Comidas",
-      icon: <UtensilsCrossed className="h-5 w-5" />,
-      tint: "bg-orange-500/15 text-orange-500",
-    },
-    {
-      key: "familia",
-      title: "Família",
-      icon: <Users className="h-5 w-5" />,
-      tint: "bg-pink-500/15 text-pink-500",
-    },
-  ];
-
   return (
     <div className="mobile-shell bg-background">
-      {/* Header */}
       <header className="sticky top-0 z-10 border-b-2 border-border bg-card/95 px-4 py-3 backdrop-blur">
-        <div className="flex items-center justify-between gap-3">
-          <button className="flex min-w-0 items-center gap-2 rounded-full px-1 py-1 font-bold">
-            <span className="text-xl">{langMeta?.flag}</span>
-            <span className="truncate text-sm">{langMeta?.name}</span>
-            <ChevronDown className="h-4 w-4 text-muted-foreground" />
-          </button>
-          <div className="flex shrink-0 items-center gap-3">
-            <div className="flex items-center gap-1 text-sm font-black">
-              <Flame className="h-5 w-5 text-orange-500" fill="currentColor" />
-              <span>{profile?.streak ?? 0}</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">{langMeta?.flag}</span>
+            <div>
+              <div className="text-xs text-muted-foreground">Aprendendo</div>
+              <div className="text-sm font-bold">{langMeta?.name}</div>
             </div>
-            <div className="flex items-center gap-1 text-sm font-black">
-              <Gem className="h-5 w-5 text-primary" fill="currentColor" />
-              <span>{profile?.gems ?? 0}</span>
-            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Stat icon={<Flame className="h-4 w-4 text-orange-500" />} value={profile?.streak ?? 0} />
+            <Stat icon={<Gem className="h-4 w-4 text-primary" />} value={profile?.gems ?? 0} />
+            <Stat icon={<Trophy className="h-4 w-4 text-gold" />} value={profile?.xp ?? 0} />
           </div>
         </div>
       </header>
 
-      <main className="flex-1 px-4 py-4">
-        {/* Section title */}
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-2xl font-black">Hoje</h2>
-          <span className="rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-accent-foreground">
-            Meta diária
-          </span>
+      <main className="flex-1 px-4 py-5">
+        <div className="mb-6 rounded-3xl bg-gradient-primary p-5 text-primary-foreground shadow-soft">
+          <div className="flex items-center gap-3">
+            <NekoMascot size={72} float />
+            <div>
+              <div className="text-xs opacity-90">Olá, {profile?.name ?? "amigo"}!</div>
+              <div className="text-lg font-black">Vamos aprender hoje? 🔥</div>
+              <div className="mt-1 text-xs opacity-90">Meta diária: 20 XP</div>
+            </div>
+          </div>
         </div>
 
-        {/* Lição do dia */}
-        {dailyLesson && (
-          <Link
-            to="/lesson/$id"
-            params={{ id: dailyLesson.id }}
-            className="mb-5 block rounded-2xl border-2 border-border bg-card p-4 shadow-card transition active:scale-[0.99]"
-          >
-            <div className="flex items-start gap-3">
-              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary">
-                <Briefcase className="h-6 w-6" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
-                  Lição do dia
-                </div>
-                <div className="truncate text-base font-black">{dailyLesson.title}</div>
-                <div className="mt-2 flex items-center gap-2">
-                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full rounded-full bg-gradient-primary transition-all"
-                      style={{ width: completed?.has(dailyLesson.id) ? "100%" : "10%" }}
-                    />
-                  </div>
-                  <span className="shrink-0 text-[11px] font-bold text-muted-foreground">
-                    {completed?.has(dailyLesson.id) ? "5/5" : "0/5"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Link>
-        )}
+        <h2 className="mb-3 px-1 text-sm font-bold uppercase tracking-wide text-muted-foreground">
+          Unidade 1 · {langMeta?.name}
+        </h2>
 
-        {/* Categorias */}
-        <div className="flex flex-col gap-3">
-          {categories.map((c, i) => {
-            const locked = !c.lessonId || (i > 0 && doneCount < i);
-            const content = (
-              <div
-                className={`flex items-center gap-3 rounded-2xl border-2 border-border bg-card p-3 shadow-card transition ${
-                  locked ? "opacity-60" : "active:scale-[0.99]"
-                }`}
-              >
-                <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${c.tint}`}>
-                  {c.icon}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-black">{c.title}</div>
-                  {c.progress && !locked && (
-                    <div className="text-xs font-bold text-muted-foreground">{c.progress}</div>
-                  )}
-                </div>
-                {locked ? (
-                  <Lock className="h-5 w-5 shrink-0 text-muted-foreground" />
-                ) : (
-                  <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
-                )}
+        <div className="relative flex flex-col items-center gap-4">
+          {lessons.map((l, i) => {
+            const isDone = completed?.has(l.id);
+            const prevDone = i === 0 || completed?.has(lessons[i - 1].id);
+            const locked = !prevDone && !isDone;
+            const offset = i % 2 === 0 ? "translate-x-6" : "-translate-x-6";
+            return (
+              <div key={l.id} className={`${offset}`}>
+                <Link
+                  to="/lesson/$id"
+                  params={{ id: l.id }}
+                  disabled={locked}
+                  className={`group flex flex-col items-center ${locked ? "pointer-events-none opacity-50" : ""}`}
+                >
+                  <div className={`btn-3d flex h-20 w-20 items-center justify-center rounded-full text-4xl transition ${
+                    isDone ? "bg-success text-success-foreground"
+                    : locked ? "bg-muted text-muted-foreground"
+                    : "bg-gradient-primary text-primary-foreground"
+                  }`}>
+                    {isDone ? "✓" : locked ? "🔒" : l.icon}
+                  </div>
+                  <div className="mt-2 text-center">
+                    <div className="text-sm font-bold">{l.title}</div>
+                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                      +{l.xp} XP · {l.category}
+                    </div>
+                  </div>
+                </Link>
               </div>
-            );
-            return locked || !c.lessonId ? (
-              <div key={c.key}>{content}</div>
-            ) : (
-              <Link key={c.key} to="/lesson/$id" params={{ id: c.lessonId }}>
-                {content}
-              </Link>
             );
           })}
+        </div>
+
+        <div className="mt-8 rounded-2xl border-2 border-dashed border-border p-6 text-center text-sm text-muted-foreground">
+          Mais lições em breve! 🎓
         </div>
       </main>
 
       <BottomNav />
+    </div>
+  );
+}
+
+function Stat({ icon, value }: { icon: React.ReactNode; value: number }) {
+  return (
+    <div className="flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs font-bold">
+      {icon}
+      <span>{value}</span>
     </div>
   );
 }
