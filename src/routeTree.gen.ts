@@ -16,7 +16,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiNekoAiRouteImport } from './routes/api/neko-ai'
 import { Route as AuthenticatedStoreRouteImport } from './routes/_authenticated/store'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedNekoAiRouteImport } from './routes/_authenticated/neko-ai'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
@@ -56,11 +55,6 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -89,7 +83,6 @@ export interface FileRoutesByFullPath {
   '/home': typeof AuthenticatedHomeRoute
   '/neko-ai': typeof AuthenticatedNekoAiRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
-  '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
@@ -102,7 +95,6 @@ export interface FileRoutesByTo {
   '/home': typeof AuthenticatedHomeRoute
   '/neko-ai': typeof AuthenticatedNekoAiRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
-  '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
@@ -117,7 +109,6 @@ export interface FileRoutesById {
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/neko-ai': typeof AuthenticatedNekoAiRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
-  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
@@ -132,7 +123,6 @@ export interface FileRouteTypes {
     | '/home'
     | '/neko-ai'
     | '/onboarding'
-    | '/profile'
     | '/settings'
     | '/store'
     | '/api/neko-ai'
@@ -145,7 +135,6 @@ export interface FileRouteTypes {
     | '/home'
     | '/neko-ai'
     | '/onboarding'
-    | '/profile'
     | '/settings'
     | '/store'
     | '/api/neko-ai'
@@ -159,7 +148,6 @@ export interface FileRouteTypes {
     | '/_authenticated/home'
     | '/_authenticated/neko-ai'
     | '/_authenticated/onboarding'
-    | '/_authenticated/profile'
     | '/_authenticated/settings'
     | '/_authenticated/store'
     | '/api/neko-ai'
@@ -225,13 +213,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/profile': {
-      id: '/_authenticated/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/onboarding': {
       id: '/_authenticated/onboarding'
       path: '/onboarding'
@@ -267,7 +248,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedNekoAiRoute: typeof AuthenticatedNekoAiRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
-  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStoreRoute: typeof AuthenticatedStoreRoute
   AuthenticatedLessonIdRoute: typeof AuthenticatedLessonIdRoute
@@ -277,7 +257,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedNekoAiRoute: AuthenticatedNekoAiRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
-  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStoreRoute: AuthenticatedStoreRoute,
   AuthenticatedLessonIdRoute: AuthenticatedLessonIdRoute,

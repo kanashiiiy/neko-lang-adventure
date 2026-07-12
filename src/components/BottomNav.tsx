@@ -1,11 +1,10 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, User, Store, Sparkles, Settings } from "lucide-react";
+import { Home, Store, Sparkles, Settings } from "lucide-react";
 
 const items = [
   { to: "/home", label: "Aprender", icon: Home },
   { to: "/store", label: "Loja", icon: Store },
   { to: "/neko-ai", label: "Neko AI", icon: Sparkles },
-  { to: "/profile", label: "Perfil", icon: User },
   { to: "/settings", label: "Ajustes", icon: Settings },
 ] as const;
 

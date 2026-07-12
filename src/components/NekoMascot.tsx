@@ -6,24 +6,39 @@ interface NekoMascotProps {
   className?: string;
   float?: boolean;
   bounce?: boolean;
+  entrance?: boolean;
 }
 
-export function NekoMascot({ size = 160, className, float = true, bounce = false }: NekoMascotProps) {
+export function NekoMascot({
+  size = 160,
+  className,
+  float = true,
+  bounce = false,
+  entrance = true,
+}: NekoMascotProps) {
   return (
-    <img
-      src={nekoImg}
-      alt="Neko, o mascote do NEKOTeach"
-      width={size}
-      height={size}
-      style={{ width: size, height: size }}
+    <div
       className={cn(
-        "select-none pointer-events-none drop-shadow-[0_10px_20px_rgba(108,62,255,0.25)]",
-        float && "animate-float",
-        bounce && "animate-bounce-in",
-        className,
+        "inline-block",
+        entrance && "animate-neko-enter",
       )}
-      loading="eager"
-    />
+      style={{ width: size, height: size }}
+    >
+      <img
+        src={nekoImg}
+        alt="Neko, o mascote do NEKOTeach"
+        width={size}
+        height={size}
+        style={{ width: size, height: size }}
+        className={cn(
+          "select-none pointer-events-none drop-shadow-[0_10px_20px_rgba(108,62,255,0.25)]",
+          float && "animate-float",
+          bounce && "animate-bounce-in",
+          className,
+        )}
+        loading="eager"
+      />
+    </div>
   );
 }
 
@@ -36,8 +51,8 @@ interface NekoBubbleProps {
 export function NekoBubble({ children, size = 110, side = "right" }: NekoBubbleProps) {
   return (
     <div className={cn("flex items-end gap-3", side === "left" && "flex-row-reverse")}>
-      <NekoMascot size={size} float bounce />
-      <div className="relative flex-1 rounded-2xl border-2 border-primary/20 bg-card p-4 shadow-card">
+      <NekoMascot size={size} float entrance />
+      <div className="relative flex-1 rounded-2xl border-2 border-primary/20 bg-card p-4 shadow-card animate-bubble-in">
         <div className="text-sm leading-relaxed">{children}</div>
       </div>
     </div>
