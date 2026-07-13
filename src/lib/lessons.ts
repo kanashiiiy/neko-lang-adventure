@@ -1,94 +1,158 @@
-// Lesson content for NEKOTeach
-export type Language = "ja" | "en" | "ko" | "fr" | "es";
+// Lesson content for NEKOTeach — 3 languages, 10 phases × 10 tasks
+export type Language = "pt" | "ja" | "en";
 
-export const LANGUAGES: { code: Language; name: string; flag: string }[] = [
-  { code: "ja", name: "Japonês", flag: "🇯🇵" },
-  { code: "en", name: "Inglês", flag: "🇬🇧" },
-  { code: "ko", name: "Coreano", flag: "🇰🇷" },
-  { code: "fr", name: "Francês", flag: "🇫🇷" },
-  { code: "es", name: "Espanhol", flag: "🇪🇸" },
+export const LANGUAGES: { code: Language; name: string; flag: string; nativeName: string }[] = [
+  { code: "pt", name: "Português", nativeName: "Português", flag: "🇧🇷" },
+  { code: "ja", name: "Japonês", nativeName: "日本語", flag: "🇯🇵" },
+  { code: "en", name: "Inglês", nativeName: "English", flag: "🇺🇸" },
 ];
 
+export type TaskKind = "choose" | "listen" | "complete" | "speak";
+
 export interface Question {
-  prompt: string;
-  answer: string;
-  options: string[];
+  kind: TaskKind;
+  prompt: string;       // shown to user (or listen: TTS target)
+  audio?: string;       // string to speak via TTS
+  answer: string;       // correct answer
+  options?: string[];   // for 'choose' / 'listen'
   hint?: string;
+  translation?: string;
 }
 
-export interface Lesson {
+export interface Phase {
   id: string;
   title: string;
   icon: string;
-  category: "alfabeto" | "vocabulario" | "frases" | "quiz";
   xp: number;
   questions: Question[];
 }
 
-const shuffle = <T,>(a: T[]) => a;
+// ---------- Content generators ----------
 
-const jaHiragana: Question[] = [
-  { prompt: "あ", answer: "a", options: ["a", "i", "u", "e"] },
-  { prompt: "い", answer: "i", options: ["a", "i", "o", "u"] },
-  { prompt: "う", answer: "u", options: ["e", "u", "a", "o"] },
-  { prompt: "え", answer: "e", options: ["e", "i", "o", "a"] },
-  { prompt: "お", answer: "o", options: ["u", "o", "a", "e"] },
-  { prompt: "か", answer: "ka", options: ["ka", "ki", "ku", "ke"] },
-  { prompt: "さ", answer: "sa", options: ["sa", "shi", "su", "so"] },
+const JA_WORDS: [string, string, string][] = [
+  ["こんにちは", "Olá", "konnichiwa"],
+  ["おはよう", "Bom dia", "ohayou"],
+  ["こんばんは", "Boa noite", "konbanwa"],
+  ["ありがとう", "Obrigado", "arigatou"],
+  ["さようなら", "Tchau", "sayounara"],
+  ["すみません", "Desculpe", "sumimasen"],
+  ["はい", "Sim", "hai"],
+  ["いいえ", "Não", "iie"],
+  ["ねこ", "Gato", "neko"],
+  ["いぬ", "Cachorro", "inu"],
+  ["みず", "Água", "mizu"],
+  ["ほん", "Livro", "hon"],
+  ["がっこう", "Escola", "gakkou"],
+  ["せんせい", "Professor", "sensei"],
+  ["ともだち", "Amigo", "tomodachi"],
+  ["いち", "Um", "ichi"],
+  ["に", "Dois", "ni"],
+  ["さん", "Três", "san"],
+  ["よん", "Quatro", "yon"],
+  ["ご", "Cinco", "go"],
 ];
 
-const jaGreetings: Question[] = [
-  { prompt: 'Como se diz "Olá" em japonês?', answer: "こんにちは", options: ["こんにちは", "さようなら", "ありがとう", "おはよう"] },
-  { prompt: 'Como se diz "Obrigado"?', answer: "ありがとう", options: ["おはよう", "ありがとう", "すみません", "こんばんは"] },
-  { prompt: '"Bom dia" é...', answer: "おはよう", options: ["こんばんは", "こんにちは", "おはよう", "さようなら"] },
-  { prompt: '"Tchau" é...', answer: "さようなら", options: ["おやすみ", "さようなら", "こんにちは", "ありがとう"] },
+const EN_WORDS: [string, string][] = [
+  ["Hello", "Olá"], ["Good morning", "Bom dia"], ["Good night", "Boa noite"],
+  ["Thank you", "Obrigado"], ["Goodbye", "Tchau"], ["Sorry", "Desculpe"],
+  ["Yes", "Sim"], ["No", "Não"], ["Cat", "Gato"], ["Dog", "Cachorro"],
+  ["Water", "Água"], ["Book", "Livro"], ["School", "Escola"], ["Teacher", "Professor"],
+  ["Friend", "Amigo"], ["One", "Um"], ["Two", "Dois"], ["Three", "Três"],
+  ["Four", "Quatro"], ["Five", "Cinco"], ["House", "Casa"], ["Car", "Carro"],
+  ["Food", "Comida"], ["Love", "Amor"], ["Work", "Trabalho"],
 ];
 
-const enBasics: Question[] = [
-  { prompt: 'Traduza: "Olá"', answer: "Hello", options: ["Hello", "Goodbye", "Please", "Sorry"] },
-  { prompt: 'Traduza: "Obrigado"', answer: "Thank you", options: ["You're welcome", "Thank you", "Please", "Sorry"] },
-  { prompt: 'Traduza: "Bom dia"', answer: "Good morning", options: ["Good night", "Good morning", "Good evening", "Goodbye"] },
-  { prompt: 'Traduza: "Sim"', answer: "Yes", options: ["No", "Maybe", "Yes", "Please"] },
+const PT_WORDS: [string, string][] = [
+  ["Olá", "Hello"], ["Bom dia", "Good morning"], ["Boa noite", "Good night"],
+  ["Obrigado", "Thank you"], ["Tchau", "Goodbye"], ["Desculpe", "Sorry"],
+  ["Sim", "Yes"], ["Não", "No"], ["Gato", "Cat"], ["Cachorro", "Dog"],
+  ["Água", "Water"], ["Livro", "Book"], ["Escola", "School"], ["Professor", "Teacher"],
+  ["Amigo", "Friend"], ["Um", "One"], ["Dois", "Two"], ["Três", "Three"],
+  ["Quatro", "Four"], ["Cinco", "Five"], ["Casa", "House"], ["Carro", "Car"],
+  ["Comida", "Food"], ["Amor", "Love"], ["Trabalho", "Work"],
 ];
 
-const koBasics: Question[] = [
-  { prompt: '"Olá" em coreano', answer: "안녕하세요", options: ["안녕하세요", "감사합니다", "미안해요", "안녕히"] },
-  { prompt: '"Obrigado" em coreano', answer: "감사합니다", options: ["안녕", "감사합니다", "죄송합니다", "네"] },
-];
+function shuffle<T>(a: T[]): T[] { return [...a].sort(() => Math.random() - 0.5); }
+function pickOptions<T>(correct: T, all: T[], n = 4): T[] {
+  const pool = all.filter((x) => x !== correct);
+  return shuffle([correct, ...shuffle(pool).slice(0, n - 1)]);
+}
 
-const frBasics: Question[] = [
-  { prompt: 'Traduza: "Olá"', answer: "Bonjour", options: ["Bonjour", "Merci", "Au revoir", "S'il vous plaît"] },
-  { prompt: 'Traduza: "Obrigado"', answer: "Merci", options: ["Merci", "Bonjour", "Pardon", "Oui"] },
-];
+function buildJaPhase(phaseIdx: number): Phase {
+  const start = (phaseIdx * 2) % JA_WORDS.length;
+  const words = Array.from({ length: 10 }, (_, i) => JA_WORDS[(start + i) % JA_WORDS.length]);
+  const allTargets = JA_WORDS.map((w) => w[0]);
+  const allPt = JA_WORDS.map((w) => w[1]);
+  const questions: Question[] = words.map((w, i) => {
+    const [jp, pt] = w;
+    const mod = (phaseIdx + i) % 4;
+    if (mod === 0) return { kind: "choose", prompt: `Traduza: "${pt}"`, answer: jp, options: pickOptions(jp, allTargets), audio: jp, translation: pt };
+    if (mod === 1) return { kind: "listen", prompt: "Ouça e escolha", audio: jp, answer: jp, options: pickOptions(jp, allTargets), translation: pt };
+    if (mod === 2) return { kind: "choose", prompt: `O que significa "${jp}"?`, answer: pt, options: pickOptions(pt, allPt), audio: jp };
+    return { kind: "speak", prompt: `Fale: "${jp}"`, answer: jp, audio: jp, translation: pt };
+  });
+  return {
+    id: `ja-phase-${phaseIdx + 1}`,
+    title: `Fase ${phaseIdx + 1}`,
+    icon: ["🌸","⛩️","🍣","🗾","🎋","🍜","🎌","🌊","🗻","🎎"][phaseIdx],
+    xp: 20 + phaseIdx * 5,
+    questions,
+  };
+}
 
-const esBasics: Question[] = [
-  { prompt: 'Traduza: "Olá"', answer: "Hola", options: ["Hola", "Gracias", "Adiós", "Por favor"] },
-  { prompt: 'Traduza: "Obrigado"', answer: "Gracias", options: ["Hola", "Gracias", "Perdón", "Sí"] },
-];
+function buildEnPhase(phaseIdx: number): Phase {
+  const start = (phaseIdx * 2) % EN_WORDS.length;
+  const words = Array.from({ length: 10 }, (_, i) => EN_WORDS[(start + i) % EN_WORDS.length]);
+  const allEn = EN_WORDS.map((w) => w[0]);
+  const allPt = EN_WORDS.map((w) => w[1]);
+  const questions: Question[] = words.map((w, i) => {
+    const [en, pt] = w;
+    const mod = (phaseIdx + i) % 4;
+    if (mod === 0) return { kind: "choose", prompt: `Traduza: "${pt}"`, answer: en, options: pickOptions(en, allEn), audio: en };
+    if (mod === 1) return { kind: "listen", prompt: "Ouça e escolha", audio: en, answer: en, options: pickOptions(en, allEn), translation: pt };
+    if (mod === 2) return { kind: "choose", prompt: `O que significa "${en}"?`, answer: pt, options: pickOptions(pt, allPt), audio: en };
+    return { kind: "speak", prompt: `Fale: "${en}"`, answer: en, audio: en, translation: pt };
+  });
+  return {
+    id: `en-phase-${phaseIdx + 1}`,
+    title: `Fase ${phaseIdx + 1}`,
+    icon: ["👋","🏫","🍔","🎬","⚽","🌎","🗽","🎵","🚀","🏆"][phaseIdx],
+    xp: 20 + phaseIdx * 5,
+    questions,
+  };
+}
 
-export const LESSONS: Record<Language, Lesson[]> = {
-  ja: [
-    { id: "ja-hiragana-1", title: "Hiragana: Vogais", icon: "あ", category: "alfabeto", xp: 15, questions: shuffle(jaHiragana.slice(0, 5)) },
-    { id: "ja-hiragana-2", title: "Hiragana: K & S", icon: "か", category: "alfabeto", xp: 15, questions: shuffle(jaHiragana.slice(5)) },
-    { id: "ja-greetings", title: "Saudações", icon: "👋", category: "vocabulario", xp: 20, questions: jaGreetings },
-    { id: "ja-quiz-1", title: "Revisão", icon: "🎯", category: "quiz", xp: 30, questions: [...jaHiragana.slice(0, 3), ...jaGreetings.slice(0, 2)] },
-  ],
-  en: [
-    { id: "en-basics-1", title: "Básico 1", icon: "👋", category: "vocabulario", xp: 15, questions: enBasics.slice(0, 2) },
-    { id: "en-basics-2", title: "Básico 2", icon: "💬", category: "frases", xp: 15, questions: enBasics.slice(2) },
-    { id: "en-quiz-1", title: "Revisão", icon: "🎯", category: "quiz", xp: 30, questions: enBasics },
-  ],
-  ko: [
-    { id: "ko-basics-1", title: "Saudações", icon: "👋", category: "vocabulario", xp: 15, questions: koBasics },
-  ],
-  fr: [
-    { id: "fr-basics-1", title: "Bonjour!", icon: "👋", category: "vocabulario", xp: 15, questions: frBasics },
-  ],
-  es: [
-    { id: "es-basics-1", title: "¡Hola!", icon: "👋", category: "vocabulario", xp: 15, questions: esBasics },
-  ],
+function buildPtPhase(phaseIdx: number): Phase {
+  const start = (phaseIdx * 2) % PT_WORDS.length;
+  const words = Array.from({ length: 10 }, (_, i) => PT_WORDS[(start + i) % PT_WORDS.length]);
+  const allPt = PT_WORDS.map((w) => w[0]);
+  const allEn = PT_WORDS.map((w) => w[1]);
+  const questions: Question[] = words.map((w, i) => {
+    const [pt, en] = w;
+    const mod = (phaseIdx + i) % 4;
+    if (mod === 0) return { kind: "choose", prompt: `Como se diz em português: "${en}"?`, answer: pt, options: pickOptions(pt, allPt), audio: pt };
+    if (mod === 1) return { kind: "listen", prompt: "Ouça e escolha", audio: pt, answer: pt, options: pickOptions(pt, allPt), translation: en };
+    if (mod === 2) return { kind: "choose", prompt: `O que significa "${pt}" em inglês?`, answer: en, options: pickOptions(en, allEn), audio: pt };
+    return { kind: "speak", prompt: `Fale: "${pt}"`, answer: pt, audio: pt, translation: en };
+  });
+  return {
+    id: `pt-phase-${phaseIdx + 1}`,
+    title: `Fase ${phaseIdx + 1}`,
+    icon: ["🇧🇷","☀️","🥥","⚽","🎉","🌴","🎶","🏖️","🐆","🦜"][phaseIdx],
+    xp: 20 + phaseIdx * 5,
+    questions,
+  };
+}
+
+export const PHASES: Record<Language, Phase[]> = {
+  ja: Array.from({ length: 10 }, (_, i) => buildJaPhase(i)),
+  en: Array.from({ length: 10 }, (_, i) => buildEnPhase(i)),
+  pt: Array.from({ length: 10 }, (_, i) => buildPtPhase(i)),
 };
 
-export function getLesson(lang: Language, id: string): Lesson | undefined {
-  return LESSONS[lang]?.find((l) => l.id === id);
+// Legacy alias (kept for any older imports)
+export const LESSONS = PHASES;
+
+export function getLesson(lang: Language, id: string): Phase | undefined {
+  return PHASES[lang]?.find((l) => l.id === id);
 }

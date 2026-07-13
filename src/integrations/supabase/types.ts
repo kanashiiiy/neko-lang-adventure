@@ -78,12 +78,14 @@ export type Database = {
           country: string | null
           created_at: string
           email: string | null
+          focus: number
           gems: number
           goal: string | null
           id: string
           is_premium: boolean
           language: string | null
           last_activity_date: string | null
+          last_focus_refill: string | null
           level: string | null
           name: string | null
           notifications_enabled: boolean
@@ -100,12 +102,14 @@ export type Database = {
           country?: string | null
           created_at?: string
           email?: string | null
+          focus?: number
           gems?: number
           goal?: string | null
           id: string
           is_premium?: boolean
           language?: string | null
           last_activity_date?: string | null
+          last_focus_refill?: string | null
           level?: string | null
           name?: string | null
           notifications_enabled?: boolean
@@ -122,12 +126,14 @@ export type Database = {
           country?: string | null
           created_at?: string
           email?: string | null
+          focus?: number
           gems?: number
           goal?: string | null
           id?: string
           is_premium?: boolean
           language?: string | null
           last_activity_date?: string | null
+          last_focus_refill?: string | null
           level?: string | null
           name?: string | null
           notifications_enabled?: boolean

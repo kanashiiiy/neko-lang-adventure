@@ -18,22 +18,21 @@ function SplashScreen() {
     const timer = setTimeout(() => setReady(true), 1400);
     (async () => {
       const { data } = await supabase.auth.getSession();
-      // Wait at least until splash animation is comfortable
       await new Promise((r) => setTimeout(r, 1400));
       if (cancelled) return;
       if (!data.session) {
-        navigate({ to: "/auth", replace: true });
+        navigate({ to: "/start", replace: true });
         return;
       }
       try {
         const profile = await fetchProfile(data.session.user.id);
-        if (!profile?.onboarding_complete) {
+        if (!profile?.onboarding_complete || !profile?.name) {
           navigate({ to: "/onboarding", replace: true });
         } else {
           navigate({ to: "/home", replace: true });
         }
       } catch {
-        navigate({ to: "/home", replace: true });
+        navigate({ to: "/onboarding", replace: true });
       }
     })();
     return () => { cancelled = true; clearTimeout(timer); };
