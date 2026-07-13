@@ -12,8 +12,10 @@ export interface Profile {
   level: string;
   xp: number;
   gems: number;
+  focus: number;
   streak: number;
   last_activity_date: string | null;
+  last_focus_refill: string | null;
   is_premium: boolean;
   onboarding_complete: boolean;
   theme: string;
@@ -29,7 +31,7 @@ export async function fetchProfile(userId: string): Promise<Profile | null> {
 export async function updateProfile(userId: string, patch: Partial<Profile>) {
   const { data, error } = await supabase
     .from("profiles")
-    .update(patch)
+    .update(patch as never)
     .eq("id", userId)
     .select()
     .maybeSingle();
@@ -37,7 +39,12 @@ export async function updateProfile(userId: string, patch: Partial<Profile>) {
   return data as Profile;
 }
 
-export async function addXpAndGems(userId: string, xpDelta: number, gemsDelta: number) {
+export async function addXpAndGems(
+  userId: string,
+  xpDelta: number,
+  gemsDelta: number,
+  focusDelta = 0,
+) {
   const profile = await fetchProfile(userId);
   if (!profile) return null;
   const today = new Date().toISOString().slice(0, 10);
@@ -46,13 +53,31 @@ export async function addXpAndGems(userId: string, xpDelta: number, gemsDelta: n
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const y = yesterday.toISOString().slice(0, 10);
-    streak = profile.last_activity_date === y ? streak + 1 : 1;
+    streak = profile.last_activity_date === y ? streak + 1 : Math.max(1, streak);
   }
   return updateProfile(userId, {
     xp: profile.xp + xpDelta,
     gems: profile.gems + gemsDelta,
+    focus: Math.max(0, profile.focus + focusDelta),
     streak,
     last_activity_date: today,
+  });
+}
+
+export async function spendFocus(userId: string, amount = 1) {
+  const profile = await fetchProfile(userId);
+  if (!profile) return null;
+  if (profile.focus < amount) return null;
+  return updateProfile(userId, { focus: profile.focus - amount });
+}
+
+export async function buyFocus(userId: string, focusAmount: number, gemCost: number) {
+  const profile = await fetchProfile(userId);
+  if (!profile) return null;
+  if (profile.gems < gemCost) return null;
+  return updateProfile(userId, {
+    focus: profile.focus + focusAmount,
+    gems: profile.gems - gemCost,
   });
 }
 

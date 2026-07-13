@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, Gem, Trophy } from "lucide-react";
+import { Flame, Gem, Trophy, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, fetchCompletedLessons } from "@/lib/profile";
-import { LESSONS, LANGUAGES, type Language } from "@/lib/lessons";
+import { PHASES, LANGUAGES, type Language } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 
@@ -22,7 +22,7 @@ function HomePage() {
   });
 
   const lang = (profile?.language ?? "ja") as Language;
-  const lessons = LESSONS[lang] ?? [];
+  const phases = PHASES[lang] ?? [];
   const langMeta = LANGUAGES.find((l) => l.code === lang);
 
   const { data: completed } = useQuery({
@@ -46,10 +46,11 @@ function HomePage() {
               <div className="text-sm font-bold">{langMeta?.name}</div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Stat icon={<Flame className="h-4 w-4 text-orange-500" />} value={profile?.streak ?? 0} />
             <Stat icon={<Gem className="h-4 w-4 text-primary" />} value={profile?.gems ?? 0} />
             <Stat icon={<Trophy className="h-4 w-4 text-gold" />} value={profile?.xp ?? 0} />
+            <Stat icon={<Zap className="h-4 w-4 text-yellow-500" />} value={profile?.focus ?? 0} />
           </div>
         </div>
       </header>
@@ -67,13 +68,13 @@ function HomePage() {
         </div>
 
         <h2 className="mb-3 px-1 text-sm font-bold uppercase tracking-wide text-muted-foreground">
-          Unidade 1 · {langMeta?.name}
+          Fases · {langMeta?.name}
         </h2>
 
         <div className="relative flex flex-col items-center gap-4">
-          {lessons.map((l, i) => {
+          {phases.map((l, i) => {
             const isDone = completed?.has(l.id);
-            const prevDone = i === 0 || completed?.has(lessons[i - 1].id);
+            const prevDone = i === 0 || completed?.has(phases[i - 1].id);
             const locked = !prevDone && !isDone;
             const offset = i % 2 === 0 ? "translate-x-6" : "-translate-x-6";
             return (
@@ -94,17 +95,13 @@ function HomePage() {
                   <div className="mt-2 text-center">
                     <div className="text-sm font-bold">{l.title}</div>
                     <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                      +{l.xp} XP · {l.category}
+                      +{l.xp} XP · {l.questions.length} tarefas
                     </div>
                   </div>
                 </Link>
               </div>
             );
           })}
-        </div>
-
-        <div className="mt-8 rounded-2xl border-2 border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          Mais lições em breve! 🎓
         </div>
       </main>
 

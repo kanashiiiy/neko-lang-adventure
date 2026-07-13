@@ -1,11 +1,12 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { X, Heart } from "lucide-react";
+import { X, Zap, Volume2, Mic } from "lucide-react";
 import { getLesson, type Language } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, addXpAndGems, saveLessonCompletion } from "@/lib/profile";
+import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus } from "@/lib/profile";
+import { speakForLang, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
 
 export const Route = createFileRoute("/_authenticated/lesson/$id")({
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/_authenticated/lesson/$id")({
 function LessonPlayer() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
+  const qc = useQueryClient();
 
   const { data: profile } = useQuery({
     queryKey: ["profile"],
@@ -28,12 +30,24 @@ function LessonPlayer() {
   const lang = (profile?.language ?? "ja") as Language;
   const lesson = useMemo(() => getLesson(lang, id), [lang, id]);
   const [idx, setIdx] = useState(0);
-  const [hearts, setHearts] = useState(3);
   const [picked, setPicked] = useState<string | null>(null);
+  const [typed, setTyped] = useState("");
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [rights, setRights] = useState(0);
+  const [streakInLesson, setStreakInLesson] = useState(0);
+  const [bonusFocus, setBonusFocus] = useState(0);
   const [done, setDone] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [outOfFocus, setOutOfFocus] = useState(false);
+  const [listening, setListening] = useState(false);
+  const [heard, setHeard] = useState<string | null>(null);
+  const spentRef = useRef(false);
+
+  // Check focus before starting
+  useEffect(() => {
+    if (!profile) return;
+    if (profile.focus <= 0) setOutOfFocus(true);
+  }, [profile]);
 
   if (!lesson) {
     return (
@@ -47,72 +61,121 @@ function LessonPlayer() {
   const q = lesson.questions[idx];
   const total = lesson.questions.length;
 
-  function check() {
-    if (!picked) return;
-    const isRight = picked === q.answer;
-    setCorrect(isRight);
-    if (isRight) setRights((r) => r + 1);
-    else setHearts((h) => Math.max(0, h - 1));
+  async function ensureFocusSpent() {
+    if (spentRef.current || !profile) return true;
+    spentRef.current = true;
+    const res = await spendFocus(profile.id, 1);
+    qc.invalidateQueries({ queryKey: ["profile"] });
+    if (!res) { setOutOfFocus(true); return false; }
+    return true;
   }
 
-  async function next() {
-    setPicked(null);
-    setCorrect(null);
-    if (idx + 1 < total && hearts > 0) {
-      setIdx(idx + 1);
+  async function check() {
+    const answer = q.kind === "complete" ? typed.trim() : picked;
+    if (!answer && q.kind !== "speak") return;
+    if (!(await ensureFocusSpent())) return;
+    const isRight = normalize(answer ?? "") === normalize(q.answer);
+    applyResult(isRight);
+  }
+
+  function applyResult(isRight: boolean) {
+    setCorrect(isRight);
+    if (isRight) {
+      setRights((r) => r + 1);
+      setStreakInLesson((s) => {
+        const next = s + 1;
+        if (next % 7 === 0) {
+          setBonusFocus((b) => b + 2);
+          toast.success("🔥 7 acertos seguidos! +2 Foco");
+        }
+        return next;
+      });
     } else {
-      await finish();
+      setStreakInLesson(0);
     }
   }
 
+  async function handleSpeak() {
+    if (!isRecognitionSupported()) {
+      toast.error("Seu navegador não suporta microfone. Toque em ✓ para pular.");
+      return;
+    }
+    if (!(await ensureFocusSpent())) return;
+    const langMap = { pt: "pt-BR", ja: "ja-JP", en: "en-US" } as const;
+    const rec = getRecognition(langMap[lang]);
+    if (!rec) return;
+    setListening(true);
+    setHeard(null);
+    rec.onresult = (e) => {
+      const results = Array.from(e.results[0] ?? []).map((r) => ({
+        transcript: r.transcript, confidence: r.confidence,
+      }));
+      const first = results[0]?.transcript ?? "";
+      setHeard(first);
+      const ok = matchSpeech(q.answer, results);
+      applyResult(ok);
+      setListening(false);
+    };
+    rec.onerror = () => { setListening(false); toast.error("Não consegui ouvir. Tente de novo."); };
+    rec.onend = () => setListening(false);
+    try { rec.start(); } catch { setListening(false); }
+  }
+
+  async function next() {
+    setPicked(null); setTyped(""); setCorrect(null); setHeard(null);
+    spentRef.current = false;
+    if (idx + 1 < total) setIdx(idx + 1);
+    else await finish();
+  }
+
   async function finish() {
-    if (!lesson) return;
+    if (!lesson || !profile) return;
     setSaving(true);
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) return;
     const score = Math.round((rights / total) * 100);
     const xpEarned = Math.round((rights / total) * lesson.xp);
-    const gemsEarned = rights === total ? 5 : 2;
+    const gemsEarned = rights === total ? 10 : Math.max(1, Math.floor(rights / 2));
     try {
-      await saveLessonCompletion(data.user.id, lang, lesson.id, score, xpEarned);
-      await addXpAndGems(data.user.id, xpEarned, gemsEarned);
-    } catch (e) {
+      await saveLessonCompletion(profile.id, lang, lesson.id, score, xpEarned);
+      await addXpAndGems(profile.id, xpEarned, gemsEarned, bonusFocus);
+      qc.invalidateQueries({ queryKey: ["profile"] });
+      qc.invalidateQueries({ queryKey: ["completed", lang] });
+    } catch {
       toast.error("Não conseguimos salvar seu progresso.");
     }
     setSaving(false);
     setDone(true);
   }
 
-  if (done) {
-    const score = Math.round((rights / total) * 100);
+  if (outOfFocus && !done) {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
-        <NekoMascot size={180} bounce float />
-        <h1 className="mt-4 text-3xl font-black">Lição concluída! 🎉</h1>
-        <p className="mt-1 text-muted-foreground">Você acertou {rights} de {total}</p>
-        <div className="mt-6 grid w-full grid-cols-3 gap-3">
-          <Reward label="XP" value={`+${Math.round((rights / total) * lesson.xp)}`} color="bg-gold text-gold-foreground" />
-          <Reward label="Acerto" value={`${score}%`} color="bg-success text-success-foreground" />
-          <Reward label="Gemas" value={rights === total ? "+5" : "+2"} color="bg-primary text-primary-foreground" />
+        <NekoMascot size={160} entrance />
+        <h1 className="mt-4 text-2xl font-black">Sem Foco ⚡</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Compre mais Foco na loja com seus diamantes.</p>
+        <div className="mt-6 flex w-full flex-col gap-2">
+          <Link to="/store" className="btn-3d rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">Ir à loja</Link>
+          <Link to="/home" className="text-sm font-semibold text-muted-foreground">Voltar</Link>
         </div>
-        <Link to="/home" className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
-          Continuar
-        </Link>
       </div>
     );
   }
 
-  if (hearts <= 0) {
+  if (done) {
+    const score = Math.round((rights / total) * 100);
+    const xpEarned = Math.round((rights / total) * lesson.xp);
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
-        <NekoMascot size={160} />
-        <h1 className="mt-4 text-2xl font-black">Sem vidas 💔</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Tente de novo, você consegue!</p>
-        <div className="mt-6 flex w-full flex-col gap-2">
-          <button onClick={() => { setIdx(0); setHearts(3); setRights(0); }}
-            className="btn-3d rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">Recomeçar</button>
-          <Link to="/home" className="text-sm font-semibold text-muted-foreground">Voltar ao mapa</Link>
+        <NekoMascot size={180} bounce float entrance />
+        <h1 className="mt-4 text-3xl font-black">Fase concluída! 🎉</h1>
+        <p className="mt-1 text-muted-foreground">Você acertou {rights} de {total}</p>
+        <div className="mt-6 grid w-full grid-cols-3 gap-3">
+          <Reward label="XP" value={`+${xpEarned}`} color="bg-gold text-gold-foreground" />
+          <Reward label="Acerto" value={`${score}%`} color="bg-success text-success-foreground" />
+          <Reward label="Foco" value={bonusFocus > 0 ? `+${bonusFocus}` : "0"} color="bg-primary text-primary-foreground" />
         </div>
+        <Link to="/home" className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
+          Continuar
+        </Link>
       </div>
     );
   }
@@ -125,44 +188,86 @@ function LessonPlayer() {
           <div className="h-full bg-gradient-primary transition-all duration-500"
             style={{ width: `${((idx + 1) / total) * 100}%` }} />
         </div>
-        <div className="flex items-center gap-1 text-destructive font-bold">
-          <Heart className="h-5 w-5 fill-current" /> {hearts}
+        <div className="flex items-center gap-1 font-bold text-yellow-600">
+          <Zap className="h-5 w-5 fill-current" /> {(profile?.focus ?? 0)}
         </div>
       </header>
 
       <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
-        Pergunta {idx + 1} de {total}
+        Tarefa {idx + 1} de {total} · {q.kind === "listen" ? "Ouvir" : q.kind === "speak" ? "Falar" : q.kind === "complete" ? "Escrever" : "Escolher"}
       </div>
-      <h2 className="mt-2 text-2xl font-black">Escolha a tradução</h2>
+      <h2 className="mt-2 text-2xl font-black">{q.prompt}</h2>
 
-      <div className="mt-6 flex items-center justify-center rounded-3xl bg-card p-8 shadow-card">
-        <span className="text-6xl font-black">{q.prompt}</span>
-      </div>
+      {(q.kind === "listen") && (
+        <button onClick={() => q.audio && speakForLang(q.audio, lang)}
+          className="mt-6 flex w-full items-center justify-center gap-3 rounded-3xl bg-primary py-8 text-primary-foreground shadow-soft">
+          <Volume2 className="h-8 w-8" />
+          <span className="text-lg font-black">Tocar áudio</span>
+        </button>
+      )}
 
-      <div className="mt-6 grid grid-cols-2 gap-3">
-        {q.options.map((opt) => {
-          const isPicked = picked === opt;
-          const showResult = correct !== null && isPicked;
-          return (
-            <button key={opt} disabled={correct !== null}
-              onClick={() => setPicked(opt)}
-              className={`rounded-2xl border-2 bg-card p-4 text-base font-bold transition ${
-                showResult && correct ? "border-success bg-success/10" :
-                showResult && !correct ? "border-destructive bg-destructive/10" :
-                isPicked ? "border-primary bg-accent" : "border-border"
-              }`}>
-              {opt}
-            </button>
-          );
-        })}
-      </div>
+      {q.kind === "choose" && (
+        <div className="mt-6 flex items-center justify-center rounded-3xl bg-card p-8 shadow-card">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-5xl font-black">{q.prompt.match(/"([^"]+)"/)?.[1] ?? ""}</span>
+            {q.audio && (
+              <button onClick={() => speakForLang(q.audio!, lang)} className="mt-2 text-primary">
+                <Volume2 className="h-6 w-6" />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {q.kind === "speak" && (
+        <div className="mt-6 flex flex-col items-center gap-4 rounded-3xl bg-card p-8 shadow-card">
+          <span className="text-5xl font-black">{q.answer}</span>
+          <button onClick={() => speakForLang(q.answer, lang)} className="text-primary">
+            <Volume2 className="h-6 w-6" />
+          </button>
+          <button onClick={handleSpeak} disabled={listening || correct !== null}
+            className={`btn-3d mt-2 flex items-center gap-2 rounded-2xl px-6 py-3 font-bold text-primary-foreground ${listening ? "bg-destructive animate-pulse" : "bg-primary"}`}>
+            <Mic className="h-5 w-5" />
+            {listening ? "Ouvindo..." : "Falar"}
+          </button>
+          {heard && <div className="text-xs text-muted-foreground">Ouvi: "{heard}"</div>}
+        </div>
+      )}
+
+      {(q.kind === "choose" || q.kind === "listen") && q.options && (
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          {q.options.map((opt) => {
+            const isPicked = picked === opt;
+            const showResult = correct !== null && isPicked;
+            return (
+              <button key={opt} disabled={correct !== null}
+                onClick={() => setPicked(opt)}
+                className={`rounded-2xl border-2 bg-card p-4 text-base font-bold transition ${
+                  showResult && correct ? "border-success bg-success/10" :
+                  showResult && !correct ? "border-destructive bg-destructive/10" :
+                  isPicked ? "border-primary bg-accent" : "border-border"
+                }`}>
+                {opt}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {q.kind === "complete" && (
+        <input value={typed} onChange={(e) => setTyped(e.target.value)} disabled={correct !== null}
+          placeholder="Digite sua resposta"
+          className="mt-6 w-full rounded-2xl border-2 border-border bg-card px-4 py-3.5 text-lg outline-none focus:border-primary" />
+      )}
 
       <div className="mt-auto pt-6">
         {correct === null ? (
-          <button onClick={check} disabled={!picked}
-            className="btn-3d w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground disabled:opacity-50">
-            Verificar
-          </button>
+          q.kind === "speak" ? null : (
+            <button onClick={check} disabled={q.kind === "complete" ? !typed.trim() : !picked}
+              className="btn-3d w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground disabled:opacity-50">
+              Verificar
+            </button>
+          )
         ) : (
           <div className={`rounded-2xl p-4 ${correct ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
             <div className="text-sm font-black">{correct ? "Muito bem! 🎉" : `Resposta certa: ${q.answer}`}</div>

@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, Zap, Gem } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, updateProfile } from "@/lib/profile";
+import { fetchProfile, updateProfile, buyFocus } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 
@@ -12,12 +12,17 @@ export const Route = createFileRoute("/_authenticated/store")({
 });
 
 const BENEFITS = [
-  "Todas as lições desbloqueadas",
+  "Todas as fases desbloqueadas",
   "Neko AI ilimitado",
   "Sem anúncios",
+  "Foco infinito",
   "Conteúdo exclusivo semanal",
-  "Vidas infinitas",
-  "Modo offline",
+];
+
+const FOCUS_PACKS: { id: string; focus: number; cost: number; label: string; badge?: string }[] = [
+  { id: "starter", focus: 20, cost: 400, label: "Oferta iniciante", badge: "MELHOR" },
+  { id: "small", focus: 5, cost: 150, label: "Pequeno" },
+  { id: "medium", focus: 10, cost: 300, label: "Médio" },
 ];
 
 function StorePage() {
@@ -32,21 +37,32 @@ function StorePage() {
   });
 
   async function startTrial() {
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) return;
+    if (!profile) return;
     const until = new Date();
     until.setDate(until.getDate() + 3);
-    await updateProfile(data.user.id, { is_premium: true, premium_until: until.toISOString() } as never);
+    await updateProfile(profile.id, { is_premium: true, premium_until: until.toISOString() } as never);
     qc.invalidateQueries({ queryKey: ["profile"] });
     toast.success("🎉 3 dias grátis ativados!");
   }
 
+  async function purchase(focus: number, cost: number) {
+    if (!profile) return;
+    if (profile.gems < cost) return toast.error("Diamantes insuficientes 💎");
+    const res = await buyFocus(profile.id, focus, cost);
+    if (!res) return toast.error("Não foi possível comprar");
+    qc.invalidateQueries({ queryKey: ["profile"] });
+    toast.success(`+${focus} Foco adicionados! ⚡`);
+  }
+
   return (
     <div className="mobile-shell">
-      <header className="border-b-2 border-border bg-card px-6 py-4">
-        <h1 className="text-2xl font-black">Loja</h1>
+      <header className="border-b-2 border-border bg-card px-6 py-4 flex items-center justify-between">
+        <h1 className="text-2xl font-black">Premium</h1>
+        <div className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-sm font-bold text-primary">
+          <Gem className="h-4 w-4" /> {profile?.gems ?? 0}
+        </div>
       </header>
-      <main className="flex-1 px-4 py-5">
+      <main className="flex-1 px-4 py-5 space-y-5">
         <div className="rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-soft">
           <div className="flex items-center gap-3">
             <NekoMascot size={90} float />
@@ -85,16 +101,34 @@ function StorePage() {
                 className="btn-3d-gold mt-5 w-full rounded-2xl bg-gold py-3.5 font-black text-gold-foreground">
                 Começar 3 dias grátis
               </button>
-              <p className="mt-2 text-center text-[11px] opacity-90">
-                Depois, R$ 20/mês. Renovação automática.
-              </p>
+              <p className="mt-2 text-center text-[11px] opacity-90">Depois, R$ 20/mês. Renovação automática.</p>
             </>
           )}
         </div>
 
-        <p className="mt-4 text-center text-xs text-muted-foreground">
-          O processamento de pagamento real será ativado em breve.
-        </p>
+        <div>
+          <h2 className="mb-3 px-1 text-sm font-bold uppercase tracking-wide text-muted-foreground">Comprar Foco</h2>
+          <div className="space-y-2">
+            {FOCUS_PACKS.map((p) => (
+              <div key={p.id} className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600">
+                  <Zap className="h-6 w-6" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-black">+{p.focus} Foco</span>
+                    {p.badge && <span className="rounded-full bg-gold px-2 py-0.5 text-[10px] font-bold text-gold-foreground">{p.badge}</span>}
+                  </div>
+                  <div className="text-xs text-muted-foreground">{p.label}</div>
+                </div>
+                <button onClick={() => purchase(p.focus, p.cost)}
+                  className="btn-3d flex items-center gap-1 rounded-2xl bg-primary px-3 py-2 text-sm font-bold text-primary-foreground">
+                  <Gem className="h-3.5 w-3.5" /> {p.cost}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       </main>
       <BottomNav />
     </div>

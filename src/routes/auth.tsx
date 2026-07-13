@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -11,7 +11,6 @@ export const Route = createFileRoute("/auth")({
 });
 
 const signupSchema = z.object({
-  name: z.string().trim().min(2, "Nome muito curto").max(60),
   email: z.string().trim().email("E-mail inválido").max(255),
   password: z.string().min(6, "Mínimo 6 caracteres").max(72),
   confirm: z.string(),
@@ -25,7 +24,7 @@ const loginSchema = z.object({
 });
 
 function AuthPage() {
-  const [mode, setMode] = useState<"login" | "signup" | "forgot">("login");
+  const [mode, setMode] = useState<"login" | "signup" | "forgot">("signup");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +45,6 @@ function AuthPage() {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const parsed = signupSchema.safeParse({
-      name: fd.get("name"),
       email: fd.get("email"),
       password: fd.get("password"),
       confirm: fd.get("confirm"),
@@ -57,10 +55,7 @@ function AuthPage() {
     const { error } = await supabase.auth.signUp({
       email: parsed.data.email,
       password: parsed.data.password,
-      options: {
-        data: { name: parsed.data.name },
-        emailRedirectTo: `${window.location.origin}/`,
-      },
+      options: { emailRedirectTo: `${window.location.origin}/` },
     });
     setLoading(false);
     if (error) return toast.error(error.message);
@@ -121,7 +116,6 @@ function AuthPage() {
 
       {mode === "signup" && (
         <form onSubmit={handleSignup} className="mt-6 flex flex-col gap-3">
-          <Field name="name" placeholder="Como você se chama?" label="Nome" autoComplete="name" />
           <Field name="email" type="email" placeholder="seu@email.com" label="E-mail" autoComplete="email" />
           <Field name="password" type="password" placeholder="Mínimo 6 caracteres" label="Senha" autoComplete="new-password" />
           <Field name="confirm" type="password" placeholder="Repita a senha" label="Confirmar senha" autoComplete="new-password" />
