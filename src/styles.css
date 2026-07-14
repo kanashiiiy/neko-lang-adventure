@@ -180,3 +180,9 @@
   animation: medal-celebrate 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both, medal-idle 2.4s ease-in-out 0.9s infinite;
 }
 
+@keyframes stroke-guide {
+  0% { opacity: 0.3; transform: scale(0.92); filter: blur(2px); }
+  60% { opacity: 1; transform: scale(1.02); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+@utility animate-stroke-guide { animation: stroke-guide 1.2s ease-out both; }

@@ -39,7 +39,7 @@ function AlfabetoSystem() {
       <div className="grid grid-cols-3 gap-1 border-b-2 border-border bg-card p-1">
         <TabButton active={tab === "table"} onClick={() => setTab("table")}>Tabela</TabButton>
         <TabButton active={tab === "write"} onClick={() => setTab("write")}>Escrever</TabButton>
-        <TabButton active={tab === "vocab"} onClick={() => setTab("vocab")}>Vocabulário</TabButton>
+        <TabButton active={tab === "vocab"} onClick={() => setTab("vocab")}>Palavras</TabButton>
       </div>
 
       <main className="flex-1 overflow-y-auto px-4 py-4">
@@ -140,9 +140,11 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
         <button onClick={() => speak(letter.char, "ja-JP")} className="text-primary mb-2">
           <Volume2 className="h-5 w-5" />
         </button>
-        <div className="text-8xl font-black leading-none">{letter.char}</div>
+        <div key={letter.char} className="relative text-8xl font-black leading-none animate-stroke-guide">
+          {letter.char}
+        </div>
         <div className="mt-2 text-sm font-bold uppercase text-muted-foreground">{letter.romaji}</div>
-        <div className="mt-1 text-[10px] text-muted-foreground">Observe a letra e tente reproduzir abaixo</div>
+        <div className="mt-1 text-[10px] text-muted-foreground">Observe a ordem dos traços e reproduza abaixo</div>
       </div>
 
       <div className="w-full">

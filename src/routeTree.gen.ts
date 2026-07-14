@@ -25,6 +25,8 @@ import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/h
 import { Route as AuthenticatedAlfabetoRouteImport } from './routes/_authenticated/alfabeto'
 import { Route as AuthenticatedLessonIdRouteImport } from './routes/_authenticated/lesson.$id'
 import { Route as AuthenticatedAlfabetoSystemRouteImport } from './routes/_authenticated/alfabeto.$system'
+import { Route as AuthenticatedAlfabetoPtSectionRouteImport } from './routes/_authenticated/alfabeto-pt.$section'
+import { Route as AuthenticatedAlfabetoEnSectionRouteImport } from './routes/_authenticated/alfabeto-en.$section'
 
 const StartRoute = StartRouteImport.update({
   id: '/start',
@@ -106,6 +108,18 @@ const AuthenticatedAlfabetoSystemRoute =
     path: '/$system',
     getParentRoute: () => AuthenticatedAlfabetoRoute,
   } as any)
+const AuthenticatedAlfabetoPtSectionRoute =
+  AuthenticatedAlfabetoPtSectionRouteImport.update({
+    id: '/alfabeto-pt/$section',
+    path: '/alfabeto-pt/$section',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAlfabetoEnSectionRoute =
+  AuthenticatedAlfabetoEnSectionRouteImport.update({
+    id: '/alfabeto-en/$section',
+    path: '/alfabeto-en/$section',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -121,6 +135,8 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
+  '/alfabeto-en/$section': typeof AuthenticatedAlfabetoEnSectionRoute
+  '/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
   '/lesson/$id': typeof AuthenticatedLessonIdRoute
 }
@@ -138,6 +154,8 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
+  '/alfabeto-en/$section': typeof AuthenticatedAlfabetoEnSectionRoute
+  '/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
   '/lesson/$id': typeof AuthenticatedLessonIdRoute
 }
@@ -157,6 +175,8 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
+  '/_authenticated/alfabeto-en/$section': typeof AuthenticatedAlfabetoEnSectionRoute
+  '/_authenticated/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/_authenticated/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
   '/_authenticated/lesson/$id': typeof AuthenticatedLessonIdRoute
 }
@@ -176,6 +196,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/store'
     | '/api/neko-ai'
+    | '/alfabeto-en/$section'
+    | '/alfabeto-pt/$section'
     | '/alfabeto/$system'
     | '/lesson/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -193,6 +215,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/store'
     | '/api/neko-ai'
+    | '/alfabeto-en/$section'
+    | '/alfabeto-pt/$section'
     | '/alfabeto/$system'
     | '/lesson/$id'
   id:
@@ -211,6 +235,8 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/store'
     | '/api/neko-ai'
+    | '/_authenticated/alfabeto-en/$section'
+    | '/_authenticated/alfabeto-pt/$section'
     | '/_authenticated/alfabeto/$system'
     | '/_authenticated/lesson/$id'
   fileRoutesById: FileRoutesById
@@ -338,6 +364,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAlfabetoSystemRouteImport
       parentRoute: typeof AuthenticatedAlfabetoRoute
     }
+    '/_authenticated/alfabeto-pt/$section': {
+      id: '/_authenticated/alfabeto-pt/$section'
+      path: '/alfabeto-pt/$section'
+      fullPath: '/alfabeto-pt/$section'
+      preLoaderRoute: typeof AuthenticatedAlfabetoPtSectionRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/alfabeto-en/$section': {
+      id: '/_authenticated/alfabeto-en/$section'
+      path: '/alfabeto-en/$section'
+      fullPath: '/alfabeto-en/$section'
+      preLoaderRoute: typeof AuthenticatedAlfabetoEnSectionRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -363,6 +403,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStoreRoute: typeof AuthenticatedStoreRoute
+  AuthenticatedAlfabetoEnSectionRoute: typeof AuthenticatedAlfabetoEnSectionRoute
+  AuthenticatedAlfabetoPtSectionRoute: typeof AuthenticatedAlfabetoPtSectionRoute
   AuthenticatedLessonIdRoute: typeof AuthenticatedLessonIdRoute
 }
 
@@ -375,6 +417,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStoreRoute: AuthenticatedStoreRoute,
+  AuthenticatedAlfabetoEnSectionRoute: AuthenticatedAlfabetoEnSectionRoute,
+  AuthenticatedAlfabetoPtSectionRoute: AuthenticatedAlfabetoPtSectionRoute,
   AuthenticatedLessonIdRoute: AuthenticatedLessonIdRoute,
 }
 
