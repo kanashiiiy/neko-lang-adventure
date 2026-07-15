@@ -21,7 +21,9 @@ export interface Question {
   hint?: string;
   translation?: string;
   romaji?: string;
+  japanese?: string;
 }
+
 
 export interface Phase {
   id: string;
@@ -87,34 +89,42 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
   const mixed = [...goalWords, ...core];
   const start = (phaseIdx * 2) % mixed.length;
   const words = Array.from({ length: 10 }, (_, i) => mixed[(start + i) % mixed.length]);
-  const allTargets = mixed.map((w) => w[0]);
+  const isJa = lang === "ja";
+  // For Japanese, answers/options must always be in romaji (never kana/kanji).
+  const allAnswers = mixed.map((w) => (isJa ? (w[2] || w[0]) : w[0]));
   const allPt = mixed.map((w) => w[1]);
   const kinds = kindsForLevel(level);
 
   const questions: Question[] = words.map((w, i) => {
     const [target, ptTr, romaji] = w;
+    const answerText = isJa ? (romaji || target) : target;
     const kind = kinds[(phaseIdx + i) % kinds.length];
-    const base: Partial<Question> = { audio: target, translation: ptTr, romaji: romaji || undefined };
+    const base: Partial<Question> = {
+      audio: target,
+      translation: ptTr,
+      romaji: romaji || undefined,
+      japanese: isJa ? target : undefined,
+    };
 
     if (kind === "choose") {
-      // Alternate direction: to-target vs to-pt
-      if (i % 2 === 0) {
-        return { ...base, kind: "choose", prompt: `Traduza: "${ptTr}"`, answer: target,
-          options: pickOptions(target, allTargets) } as Question;
-      }
-      return { ...base, kind: "choose", prompt: `O que significa "${target}"?`, answer: ptTr,
-        options: pickOptions(ptTr, allPt) } as Question;
+      // Always PT → target-language (romaji for JA) to keep alternatives readable for beginners.
+      return { ...base, kind: "choose", prompt: `Como se diz "${ptTr}" em ${langName(lang)}?`, answer: answerText,
+        options: pickOptions(answerText, allAnswers) } as Question;
     }
     if (kind === "listen") {
-      return { ...base, kind: "listen", prompt: "Ouça e escolha", answer: target,
-        options: pickOptions(target, allTargets) } as Question;
+      return { ...base, kind: "listen", prompt: "Ouça e escolha", answer: answerText,
+        options: pickOptions(answerText, allAnswers) } as Question;
     }
     if (kind === "complete") {
-      return { ...base, kind: "complete", prompt: `Escreva em ${langName(lang)}: "${ptTr}"`, answer: target,
-        hint: level === "iniciante" ? target : undefined } as Question;
+      const label = isJa ? "romaji" : langName(lang);
+      return { ...base, kind: "complete", prompt: `Escreva em ${label}: "${ptTr}"`, answer: answerText,
+        hint: level === "iniciante" ? answerText : undefined } as Question;
     }
+    // speak: match against native pronunciation (kana for JA), but display romaji as reference.
     return { ...base, kind: "speak", prompt: `Fale: "${target}"`, answer: target } as Question;
   });
+
+
 
   return {
     id: `${lang}-phase-${phaseIdx + 1}`,

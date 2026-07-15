@@ -210,16 +210,10 @@ function LessonPlayer() {
         <div className="mt-6 flex items-center justify-center rounded-3xl bg-card p-8 shadow-card">
           <div className="flex flex-col items-center gap-2 text-center">
             <span className="text-5xl font-black">{q.prompt.match(/"([^"]+)"/)?.[1] ?? ""}</span>
-            {lang === "ja" && q.romaji && <span className="text-sm font-bold uppercase text-muted-foreground">{q.romaji}</span>}
-            {q.translation && <span className="text-xs text-muted-foreground">{q.translation}</span>}
-            {q.audio && (
-              <button onClick={() => speakForLang(q.audio!, lang)} className="mt-2 text-primary">
-                <Volume2 className="h-6 w-6" />
-              </button>
-            )}
           </div>
         </div>
       )}
+
 
       {q.kind === "speak" && (
         <div className="mt-6 flex flex-col items-center gap-2 rounded-3xl bg-card p-8 shadow-card">
@@ -275,6 +269,19 @@ function LessonPlayer() {
         ) : (
           <div className={`rounded-2xl p-4 ${correct ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
             <div className="text-sm font-black">{correct ? "Muito bem! 🎉" : `Resposta certa: ${q.answer}`}</div>
+            {(q.translation || q.japanese || q.romaji) && (
+              <div className="mt-2 space-y-1 rounded-xl bg-background/60 p-3 text-left">
+                {q.translation && (
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">Português:</span> <span className="font-bold text-foreground">{q.translation}</span></div>
+                )}
+                {q.japanese && (
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">Japonês:</span> <span className="font-bold text-foreground">{q.japanese}</span></div>
+                )}
+                {q.romaji && (
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">Romaji:</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
+                )}
+              </div>
+            )}
             <button onClick={next} disabled={saving}
               className="btn-3d mt-3 w-full rounded-2xl bg-current py-3 font-bold">
               <span className={correct ? "text-success-foreground" : "text-destructive-foreground"}>
@@ -283,6 +290,7 @@ function LessonPlayer() {
             </button>
           </div>
         )}
+
       </div>
     </div>
   );
