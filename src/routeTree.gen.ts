@@ -23,6 +23,7 @@ import { Route as AuthenticatedNekoAiRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedMissoesRouteImport } from './routes/_authenticated/missoes'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedAlfabetoRouteImport } from './routes/_authenticated/alfabeto'
+import { Route as AuthenticatedAlfabetoIndexRouteImport } from './routes/_authenticated/alfabeto.index'
 import { Route as AuthenticatedLessonIdRouteImport } from './routes/_authenticated/lesson.$id'
 import { Route as AuthenticatedAlfabetoSystemRouteImport } from './routes/_authenticated/alfabeto.$system'
 import { Route as AuthenticatedAlfabetoPtSectionRouteImport } from './routes/_authenticated/alfabeto-pt.$section'
@@ -97,6 +98,12 @@ const AuthenticatedAlfabetoRoute = AuthenticatedAlfabetoRouteImport.update({
   path: '/alfabeto',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAlfabetoIndexRoute =
+  AuthenticatedAlfabetoIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAlfabetoRoute,
+  } as any)
 const AuthenticatedLessonIdRoute = AuthenticatedLessonIdRouteImport.update({
   id: '/lesson/$id',
   path: '/lesson/$id',
@@ -139,13 +146,13 @@ export interface FileRoutesByFullPath {
   '/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
   '/lesson/$id': typeof AuthenticatedLessonIdRoute
+  '/alfabeto/': typeof AuthenticatedAlfabetoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/start': typeof StartRoute
-  '/alfabeto': typeof AuthenticatedAlfabetoRouteWithChildren
   '/home': typeof AuthenticatedHomeRoute
   '/missoes': typeof AuthenticatedMissoesRoute
   '/neko-ai': typeof AuthenticatedNekoAiRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
   '/lesson/$id': typeof AuthenticatedLessonIdRoute
+  '/alfabeto': typeof AuthenticatedAlfabetoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/_authenticated/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/_authenticated/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
   '/_authenticated/lesson/$id': typeof AuthenticatedLessonIdRoute
+  '/_authenticated/alfabeto/': typeof AuthenticatedAlfabetoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -200,13 +209,13 @@ export interface FileRouteTypes {
     | '/alfabeto-pt/$section'
     | '/alfabeto/$system'
     | '/lesson/$id'
+    | '/alfabeto/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/reset-password'
     | '/start'
-    | '/alfabeto'
     | '/home'
     | '/missoes'
     | '/neko-ai'
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/alfabeto-pt/$section'
     | '/alfabeto/$system'
     | '/lesson/$id'
+    | '/alfabeto'
   id:
     | '__root__'
     | '/'
@@ -239,6 +249,7 @@ export interface FileRouteTypes {
     | '/_authenticated/alfabeto-pt/$section'
     | '/_authenticated/alfabeto/$system'
     | '/_authenticated/lesson/$id'
+    | '/_authenticated/alfabeto/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -350,6 +361,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAlfabetoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/alfabeto/': {
+      id: '/_authenticated/alfabeto/'
+      path: '/'
+      fullPath: '/alfabeto/'
+      preLoaderRoute: typeof AuthenticatedAlfabetoIndexRouteImport
+      parentRoute: typeof AuthenticatedAlfabetoRoute
+    }
     '/_authenticated/lesson/$id': {
       id: '/_authenticated/lesson/$id'
       path: '/lesson/$id'
@@ -383,10 +401,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAlfabetoRouteChildren {
   AuthenticatedAlfabetoSystemRoute: typeof AuthenticatedAlfabetoSystemRoute
+  AuthenticatedAlfabetoIndexRoute: typeof AuthenticatedAlfabetoIndexRoute
 }
 
 const AuthenticatedAlfabetoRouteChildren: AuthenticatedAlfabetoRouteChildren = {
   AuthenticatedAlfabetoSystemRoute: AuthenticatedAlfabetoSystemRoute,
+  AuthenticatedAlfabetoIndexRoute: AuthenticatedAlfabetoIndexRoute,
 }
 
 const AuthenticatedAlfabetoRouteWithChildren =
