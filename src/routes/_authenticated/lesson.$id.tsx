@@ -210,16 +210,10 @@ function LessonPlayer() {
         <div className="mt-6 flex items-center justify-center rounded-3xl bg-card p-8 shadow-card">
           <div className="flex flex-col items-center gap-2 text-center">
             <span className="text-5xl font-black">{q.prompt.match(/"([^"]+)"/)?.[1] ?? ""}</span>
-            {lang === "ja" && q.romaji && <span className="text-sm font-bold uppercase text-muted-foreground">{q.romaji}</span>}
-            {q.translation && <span className="text-xs text-muted-foreground">{q.translation}</span>}
-            {q.audio && (
-              <button onClick={() => speakForLang(q.audio!, lang)} className="mt-2 text-primary">
-                <Volume2 className="h-6 w-6" />
-              </button>
-            )}
           </div>
         </div>
       )}
+
 
       {q.kind === "speak" && (
         <div className="mt-6 flex flex-col items-center gap-2 rounded-3xl bg-card p-8 shadow-card">
