@@ -21,7 +21,9 @@ export interface Question {
   hint?: string;
   translation?: string;
   romaji?: string;
+  japanese?: string;
 }
+
 
 export interface Phase {
   id: string;
