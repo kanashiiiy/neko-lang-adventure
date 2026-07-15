@@ -37,9 +37,10 @@ function AlfabetoSystem() {
       </header>
 
       <div className="grid grid-cols-3 gap-1 border-b-2 border-border bg-card p-1">
-        <TabButton active={tab === "table"} onClick={() => setTab("table")}>Tabela</TabButton>
+        <TabButton active={tab === "table"} onClick={() => setTab("table")}>Alfabeto</TabButton>
         <TabButton active={tab === "write"} onClick={() => setTab("write")}>Escrever</TabButton>
         <TabButton active={tab === "vocab"} onClick={() => setTab("vocab")}>Palavras</TabButton>
+
       </div>
 
       <main className="flex-1 overflow-y-auto px-4 py-4">
