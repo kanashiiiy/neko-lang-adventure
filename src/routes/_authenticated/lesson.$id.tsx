@@ -275,6 +275,19 @@ function LessonPlayer() {
         ) : (
           <div className={`rounded-2xl p-4 ${correct ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
             <div className="text-sm font-black">{correct ? "Muito bem! 🎉" : `Resposta certa: ${q.answer}`}</div>
+            {(q.translation || q.japanese || q.romaji) && (
+              <div className="mt-2 space-y-1 rounded-xl bg-background/60 p-3 text-left">
+                {q.translation && (
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">Português:</span> <span className="font-bold text-foreground">{q.translation}</span></div>
+                )}
+                {q.japanese && (
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">Japonês:</span> <span className="font-bold text-foreground">{q.japanese}</span></div>
+                )}
+                {q.romaji && (
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">Romaji:</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
+                )}
+              </div>
+            )}
             <button onClick={next} disabled={saving}
               className="btn-3d mt-3 w-full rounded-2xl bg-current py-3 font-bold">
               <span className={correct ? "text-success-foreground" : "text-destructive-foreground"}>
@@ -283,6 +296,7 @@ function LessonPlayer() {
             </button>
           </div>
         )}
+
       </div>
     </div>
   );
