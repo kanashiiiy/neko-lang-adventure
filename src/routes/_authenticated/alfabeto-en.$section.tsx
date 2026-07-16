@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Volume2, RotateCcw, Check } from "lucide-react";
 import { toast } from "sonner";
 import { speakForLang } from "@/lib/speech";
-import { EN_ALPHABET, EN_TO_BE, EN_PHRASES, EN_SECTION_META, type EnSection } from "@/lib/en-content";
+import { EN_ALPHABET, EN_TO_BE, EN_PHRASES, EN_TENSES, EN_SECTION_META, type EnSection } from "@/lib/en-content";
 
 export const Route = createFileRoute("/_authenticated/alfabeto-en/$section")({
   component: AlfabetoEn,
