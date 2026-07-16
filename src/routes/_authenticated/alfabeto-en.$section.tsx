@@ -33,6 +33,7 @@ function AlfabetoEn() {
       <main className="flex-1 overflow-y-auto px-4 py-4">
         {sec === "alphabet" && <AlphabetTab />}
         {sec === "to-be" && <ToBeTab />}
+        {sec === "tenses" && <TensesTab />}
         {sec === "phrases" && <PhrasesTab />}
       </main>
     </div>
