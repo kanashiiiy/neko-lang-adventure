@@ -95,6 +95,7 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
   const [hasDrawn, setHasDrawn] = useState(false);
+  const [replayKey, setReplayKey] = useState(0);
 
   useEffect(() => { clear(); /* reset on letter change */
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,7 +116,7 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
   function start(e: React.PointerEvent<HTMLCanvasElement>) {
     drawing.current = true;
     const c = canvasRef.current!; const ctx = c.getContext("2d")!;
-    ctx.strokeStyle = "#6C3EFF"; ctx.lineWidth = 8; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.strokeStyle = "#6C3EFF"; ctx.lineWidth = 24; ctx.lineCap = "round"; ctx.lineJoin = "round";
     const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y);
     (e.target as Element).setPointerCapture?.(e.pointerId);
   }
@@ -126,6 +127,90 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
     setHasDrawn(true);
   }
   function end() { drawing.current = false; }
+
+  function buildMask(getImage: (ctx: CanvasRenderingContext2D) => void, size = 64) {
+    const off = document.createElement("canvas");
+    off.width = size; off.height = size;
+    const ctx = off.getContext("2d")!;
+    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, size, size);
+    getImage(ctx);
+    const data = ctx.getImageData(0, 0, size, size).data;
+    const mask = new Uint8Array(size * size);
+    let count = 0;
+    for (let i = 0; i < mask.length; i++) {
+      // "dark" pixel = drawn
+      const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2];
+      if ((r + g + b) / 3 < 200) { mask[i] = 1; count++; }
+    }
+    return { mask, size, count };
+  }
+
+  function dilate(mask: Uint8Array, size: number, radius: number) {
+    const out = new Uint8Array(mask.length);
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        if (!mask[y * size + x]) continue;
+        for (let dy = -radius; dy <= radius; dy++) {
+          for (let dx = -radius; dx <= radius; dx++) {
+            const nx = x + dx, ny = y + dy;
+            if (nx < 0 || ny < 0 || nx >= size || ny >= size) continue;
+            out[ny * size + nx] = 1;
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+  function verify() {
+    if (!hasDrawn) { toast.error("Desenhe a letra primeiro!"); return; }
+    const c = canvasRef.current!;
+    const SIZE = 64;
+
+    // User mask (downsample from live canvas)
+    const user = buildMask((ctx) => {
+      ctx.drawImage(c, 0, 0, SIZE, SIZE);
+    }, SIZE);
+
+    // Target mask: render the character centered
+    const target = buildMask((ctx) => {
+      ctx.fillStyle = "#000";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = `900 ${SIZE * 0.78}px system-ui, "Noto Sans JP", sans-serif`;
+      ctx.fillText(letter.char, SIZE / 2, SIZE / 2);
+    }, SIZE);
+
+    if (user.count < 40) { toast.error("Desenho muito pequeno. Tente novamente."); setReplayKey((k) => k + 1); return; }
+    if (target.count === 0) { toast.success("Parabéns! Você acertou. 🎉"); clear(); return; }
+
+    // Tolerance zones
+    const targetDilated = dilate(target.mask, SIZE, 4);
+    const userDilated = dilate(user.mask, SIZE, 4);
+
+    // completeness: fraction of target covered by user (near)
+    let hit = 0;
+    for (let i = 0; i < target.mask.length; i++) if (target.mask[i] && userDilated[i]) hit++;
+    const completeness = hit / target.count;
+
+    // precision: fraction of user strokes that are near target
+    let onTarget = 0;
+    for (let i = 0; i < user.mask.length; i++) if (user.mask[i] && targetDilated[i]) onTarget++;
+    const precision = onTarget / user.count;
+
+    // reject if user drew way too much extra ink
+    const ratio = user.count / target.count;
+
+    const ok = completeness >= 0.5 && precision >= 0.55 && ratio >= 0.35 && ratio <= 2.8;
+
+    if (ok) {
+      toast.success("Parabéns! Você acertou. 🎉");
+      clear();
+    } else {
+      toast.error("Tente novamente");
+      setReplayKey((k) => k + 1);
+    }
+  }
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -141,7 +226,7 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
         <button onClick={() => speak(letter.char, "ja-JP")} className="text-primary mb-2">
           <Volume2 className="h-5 w-5" />
         </button>
-        <div key={letter.char} className="relative text-8xl font-black leading-none animate-stroke-guide">
+        <div key={`${letter.char}-${replayKey}`} className="relative text-8xl font-black leading-none animate-stroke-guide">
           {letter.char}
         </div>
         <div className="mt-2 text-sm font-bold uppercase text-muted-foreground">{letter.romaji}</div>
@@ -155,7 +240,7 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
             <button onClick={clear} className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-xs font-bold">
               <RotateCcw className="h-3 w-3" /> Limpar
             </button>
-            <button onClick={() => { toast.success(hasDrawn ? "Continue praticando! ✏️" : "Desenhe primeiro!"); if (hasDrawn) clear(); }}
+            <button onClick={verify}
               className="btn-3d flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground">
               <Check className="h-3 w-3" /> Verificar
             </button>
@@ -168,6 +253,7 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
     </div>
   );
 }
+
 
 function VocabTab({ system }: { system: AlphabetSystem }) {
   const words = VOCAB[system];
