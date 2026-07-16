@@ -58,10 +58,42 @@ export const EN_PHRASES: Phrase[] = [
   { text: "How are you?", translation: "Como você está?" },
 ];
 
+export interface TenseItem {
+  tense: string;
+  label: string;
+  translation: string;
+  structure: string;
+  example: string;
+  exampleTranslation: string;
+}
+
+export const EN_TENSES: TenseItem[] = [
+  { tense: "Present", label: "Presente", translation: "Ações habituais ou fatos",
+    structure: "Subject + verb (s/es for he/she/it)",
+    example: "I study English every day.", exampleTranslation: "Eu estudo inglês todos os dias." },
+  { tense: "Present", label: "Presente Contínuo", translation: "Ações acontecendo agora",
+    structure: "Subject + am/is/are + verb-ing",
+    example: "She is reading a book.", exampleTranslation: "Ela está lendo um livro." },
+  { tense: "Past", label: "Passado Simples", translation: "Ações concluídas no passado",
+    structure: "Subject + verb (past) — regular: +ed",
+    example: "They played soccer yesterday.", exampleTranslation: "Eles jogaram futebol ontem." },
+  { tense: "Past", label: "Passado Contínuo", translation: "Ação em progresso no passado",
+    structure: "Subject + was/were + verb-ing",
+    example: "I was watching TV.", exampleTranslation: "Eu estava assistindo TV." },
+  { tense: "Future", label: "Futuro com Will", translation: "Decisões e previsões",
+    structure: "Subject + will + verb",
+    example: "We will travel tomorrow.", exampleTranslation: "Nós viajaremos amanhã." },
+  { tense: "Future", label: "Futuro com Going to", translation: "Planos e intenções",
+    structure: "Subject + am/is/are + going to + verb",
+    example: "He is going to study.", exampleTranslation: "Ele vai estudar." },
+];
+
 export const EN_SECTION_META = {
-  alphabet: { label: "Alfabeto", icon: "🔤", description: "As 26 letras" },
-  "to-be": { label: "Verb To Be", icon: "📚", description: "I am, You are, He is..." },
+  alphabet: { label: "Alfabeto Inglês", icon: "🔤", description: "Letras A–Z, pronúncia e escrita" },
+  "to-be": { label: "Verbo To Be", icon: "📘", description: "Affirmative, Negative, Interrogative" },
+  tenses: { label: "Tempos Verbais", icon: "📅", description: "Present, Past, Future" },
   phrases: { label: "Frases Básicas", icon: "💬", description: "Comunicação do dia a dia" },
 } as const;
 
 export type EnSection = keyof typeof EN_SECTION_META;
+

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Volume2, RotateCcw, Check } from "lucide-react";
 import { toast } from "sonner";
 import { speakForLang } from "@/lib/speech";
-import { EN_ALPHABET, EN_TO_BE, EN_PHRASES, EN_SECTION_META, type EnSection } from "@/lib/en-content";
+import { EN_ALPHABET, EN_TO_BE, EN_PHRASES, EN_TENSES, EN_SECTION_META, type EnSection } from "@/lib/en-content";
 
 export const Route = createFileRoute("/_authenticated/alfabeto-en/$section")({
   component: AlfabetoEn,
@@ -33,6 +33,7 @@ function AlfabetoEn() {
       <main className="flex-1 overflow-y-auto px-4 py-4">
         {sec === "alphabet" && <AlphabetTab />}
         {sec === "to-be" && <ToBeTab />}
+        {sec === "tenses" && <TensesTab />}
         {sec === "phrases" && <PhrasesTab />}
       </main>
     </div>
@@ -148,6 +149,75 @@ function PhrasesTab() {
         </button>
       ))}
       <WritePractice target={p.text} lang="en" phonetic={p.translation} />
+    </div>
+  );
+}
+
+function TensesTab() {
+  const [idx, setIdx] = useState(0);
+  const t = EN_TENSES[idx];
+  const [answered, setAnswered] = useState<null | boolean>(null);
+  const options = ["Present", "Past", "Future"];
+
+  function pick(opt: string) {
+    if (answered !== null) return;
+    setAnswered(opt === t.tense);
+  }
+  function next() {
+    setAnswered(null);
+    setIdx((v) => Math.min(EN_TENSES.length - 1, v + 1));
+  }
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <button onClick={() => { setAnswered(null); setIdx((v) => Math.max(0, v - 1)); }} disabled={idx === 0}
+          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">← Anterior</button>
+        <span className="text-xs font-bold uppercase text-muted-foreground">{idx + 1} / {EN_TENSES.length}</span>
+        <button onClick={next} disabled={idx === EN_TENSES.length - 1}
+          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">Próximo →</button>
+      </div>
+
+      <div className="rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-soft">
+        <div className="text-xs uppercase opacity-90">{t.tense}</div>
+        <div className="mt-1 text-2xl font-black">{t.label}</div>
+        <div className="mt-1 text-sm opacity-90">{t.translation}</div>
+        <div className="mt-3 rounded-2xl bg-white/20 p-3 text-xs font-bold backdrop-blur">
+          Estrutura: {t.structure}
+        </div>
+      </div>
+
+      <div className="rounded-2xl bg-card p-4 shadow-card">
+        <div className="text-xs font-bold uppercase text-muted-foreground">Exemplo</div>
+        <div className="mt-1 text-lg font-black">{t.example}</div>
+        <div className="text-xs text-muted-foreground">{t.exampleTranslation}</div>
+        <button onClick={() => speakForLang(t.example, "en")} className="mt-2 text-primary">
+          <Volume2 className="h-5 w-5" />
+        </button>
+      </div>
+
+      <div className="rounded-2xl bg-card p-4 shadow-card">
+        <div className="text-xs font-bold uppercase text-muted-foreground">A qual tempo pertence?</div>
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {options.map((opt) => {
+            const isPick = answered !== null && opt === t.tense;
+            const wrong = answered === false && opt !== t.tense;
+            return (
+              <button key={opt} onClick={() => pick(opt)}
+                className={`rounded-2xl border-2 py-3 font-black transition ${
+                  isPick ? "border-success bg-success/10 text-success" :
+                  wrong ? "border-border" : "border-border bg-card"
+                }`}>{opt}</button>
+            );
+          })}
+        </div>
+        {answered !== null && (
+          <div className={`mt-3 rounded-2xl p-3 text-sm font-bold ${answered ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
+            {answered ? "Perfeito! 🎉" : `Correto: ${t.tense}`}
+          </div>
+        )}
+      </div>
+
+      <WritePractice target={t.example} lang="en" phonetic={t.exampleTranslation} />
     </div>
   );
 }
