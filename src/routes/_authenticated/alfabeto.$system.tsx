@@ -181,12 +181,12 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
       ctx.fillText(letter.char, SIZE / 2, SIZE / 2);
     }, SIZE);
 
-    if (user.count < 40) { toast.error("Desenho muito pequeno. Tente novamente."); setReplayKey((k) => k + 1); return; }
+    if (user.count < 25) { toast.error("Desenho muito pequeno. Tente novamente."); setReplayKey((k) => k + 1); return; }
     if (target.count === 0) { toast.success("Parabéns! Você acertou. 🎉"); clear(); return; }
 
-    // Tolerance zones
-    const targetDilated = dilate(target.mask, SIZE, 4);
-    const userDilated = dilate(user.mask, SIZE, 4);
+    // Tolerance zones — larger radius = more forgiving of position/size/slant
+    const targetDilated = dilate(target.mask, SIZE, 8);
+    const userDilated = dilate(user.mask, SIZE, 8);
 
     // completeness: fraction of target covered by user (near)
     let hit = 0;
@@ -201,7 +201,7 @@ function WriteTab({ system }: { system: AlphabetSystem }) {
     // reject if user drew way too much extra ink
     const ratio = user.count / target.count;
 
-    const ok = completeness >= 0.5 && precision >= 0.55 && ratio >= 0.35 && ratio <= 2.8;
+    const ok = completeness >= 0.28 && precision >= 0.35 && ratio >= 0.2 && ratio <= 4.5;
 
     if (ok) {
       toast.success("Parabéns! Você acertou. 🎉");
