@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { NekoMascot, NekoBubble } from "@/components/NekoMascot";
 import { LANGUAGES } from "@/lib/lessons";
+import { setUiLangFromCountry } from "@/lib/i18n";
 
 export const Route = createFileRoute("/start")({
   component: StartPage,
@@ -36,7 +37,7 @@ function StartPage() {
       onChange={(v) => setData({ ...data, language: v })}
       options={LANGUAGES.map((l) => ({ id: l.code, label: l.name, icon: l.flag }))} />,
     <StepChoice key="c" title="De qual país você é? Isso vai nos ajudar a personalizar tudo!" value={data.country}
-      onChange={(v) => setData({ ...data, country: v })}
+      onChange={(v) => { setUiLangFromCountry(v); setData({ ...data, country: v }); }}
       options={COUNTRIES.map((c) => ({ id: c, label: c, icon: "🌍" }))} />,
     <div key="a" className="flex flex-col gap-6">
       <NekoBubble>Que ótimo! Agora me conta... Qual é a sua idade?</NekoBubble>

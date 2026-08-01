@@ -1,5 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { Home, Target, Sparkles, Languages, Gem, User } from "lucide-react";
+import { useT } from "@/lib/i18n";
 
 const items = [
   { to: "/home", label: "Início", icon: Home },
@@ -12,6 +13,7 @@ const items = [
 
 export function BottomNav() {
   const { pathname } = useLocation();
+  const t = useT();
   return (
     <nav className="sticky bottom-0 mt-auto border-t-2 border-border bg-card/95 backdrop-blur">
       <div className="mx-auto flex max-w-md items-center justify-around px-1 py-1.5">
@@ -26,7 +28,7 @@ export function BottomNav() {
               }`}
             >
               <Icon className={`h-5 w-5 ${active ? "stroke-[2.5]" : ""}`} />
-              {label}
+              {t(label)}
             </Link>
           );
         })}
