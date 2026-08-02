@@ -1086,12 +1086,27 @@ const ko: Dict = {
   "Vocabulário do dia a dia": "일상 어휘",
 };
 
-const DICTS: Record<UiLang, Dict> = { pt: {}, en, ja, fr, es, ko };
+const DICTS: Record<UiLang, Dict> = {
+  pt: {},
+  en: { ...en, ...APP_EXTRA.en },
+  ja: { ...ja, ...APP_EXTRA.ja },
+  fr: { ...fr, ...APP_EXTRA.fr },
+  es: { ...es, ...APP_EXTRA.es },
+  ko: { ...ko, ...APP_EXTRA.ko },
+};
 
 export function translate(key: string, lang: UiLang): string {
   if (lang === "pt") return key;
   return DICTS[lang]?.[key] ?? key;
 }
+
+/** Tradução com variáveis: tf('Fase {n}', { n: 2 }, lang) */
+export function translateVars(key: string, vars: Record<string, string | number>, lang: UiLang): string {
+  let out = translate(key, lang);
+  for (const [k, v] of Object.entries(vars)) out = out.replaceAll(`{${k}}`, String(v));
+  return out;
+}
+
 
 /** Hook reativo com o idioma atual da interface. */
 export function useUiLang(): UiLang {
