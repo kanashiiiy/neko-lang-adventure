@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { APP_EXTRA } from "@/lib/i18n-app";
+import { EXTRA } from "@/lib/i18n-extra";
+
+
+
 export type UiLang = "pt" | "en" | "ja" | "fr" | "es" | "ko";
 
 export const UI_LANG_KEY = "nekoteach:ui-lang";
@@ -1086,12 +1091,28 @@ const ko: Dict = {
   "Vocabulário do dia a dia": "일상 어휘",
 };
 
-const DICTS: Record<UiLang, Dict> = { pt: {}, en, ja, fr, es, ko };
+const DICTS: Record<UiLang, Dict> = {
+  pt: {},
+  en: { ...en, ...APP_EXTRA.en, ...EXTRA.en },
+  ja: { ...ja, ...APP_EXTRA.ja, ...EXTRA.ja },
+  fr: { ...fr, ...APP_EXTRA.fr, ...EXTRA.fr },
+  es: { ...es, ...APP_EXTRA.es, ...EXTRA.es },
+  ko: { ...ko, ...APP_EXTRA.ko, ...EXTRA.ko },
+
+};
 
 export function translate(key: string, lang: UiLang): string {
   if (lang === "pt") return key;
   return DICTS[lang]?.[key] ?? key;
 }
+
+/** Tradução com variáveis: tf('Fase {n}', { n: 2 }, lang) */
+export function translateVars(key: string, vars: Record<string, string | number>, lang: UiLang): string {
+  let out = translate(key, lang);
+  for (const [k, v] of Object.entries(vars)) out = out.replaceAll(`{${k}}`, String(v));
+  return out;
+}
+
 
 /** Hook reativo com o idioma atual da interface. */
 export function useUiLang(): UiLang {
@@ -1116,3 +1137,13 @@ export function useT() {
   const lang = useUiLang();
   return useCallback((key: string) => translate(key, lang), [lang]);
 }
+
+/** Hook com variáveis: const tf = useTf(); tf("Fase {n}", { n: 1 }) */
+export function useTf() {
+  const lang = useUiLang();
+  return useCallback(
+    (key: string, vars: Record<string, string | number>) => translateVars(key, vars, lang),
+    [lang],
+  );
+}
+

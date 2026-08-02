@@ -6,6 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
+import { useT } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/_authenticated/missoes")({
   component: MissoesPage,
@@ -53,7 +55,9 @@ function setClaimed(s: Set<string>) {
 
 function MissoesPage() {
   const qc = useQueryClient();
+  const t = useT();
   const { data: profile } = useQuery({
+
     queryKey: ["profile"],
     queryFn: async () => {
       const { data } = await supabase.auth.getUser();
@@ -74,7 +78,7 @@ function MissoesPage() {
       focus: profile.focus + (m.reward.focus ?? 0),
     });
     qc.invalidateQueries({ queryKey: ["profile"] });
-    toast.success("Recompensa recebida! 🎉");
+    toast.success(t("Recompensa recebida! 🎉"));
   }
 
   const claimed = getClaimed();
@@ -84,17 +88,18 @@ function MissoesPage() {
     <div className="mobile-shell">
       <header className="border-b-2 border-border bg-card px-6 py-4 flex items-center gap-3">
         <Target className="h-6 w-6 text-primary" />
-        <h1 className="text-2xl font-black">Missões</h1>
+        <h1 className="text-2xl font-black">{t("Missões")}</h1>
       </header>
 
       <main className="flex-1 px-4 py-5 space-y-4">
         <div className="rounded-3xl bg-gradient-primary p-5 text-primary-foreground shadow-soft flex items-center gap-3">
           <NekoMascot size={72} float />
           <div>
-            <div className="text-lg font-black">Complete missões e ganhe recompensas!</div>
-            <div className="text-xs opacity-90">Diamantes, XP e Foco te esperam</div>
+            <div className="text-lg font-black">{t("Complete missões e ganhe recompensas!")}</div>
+            <div className="text-xs opacity-90">{t("Diamantes, XP e Foco te esperam")}</div>
           </div>
         </div>
+
 
         {p && MISSIONS.map((m) => {
           const progress = m.progress(p);
@@ -104,9 +109,10 @@ function MissoesPage() {
             <div key={m.id} className="rounded-2xl bg-card p-4 shadow-card">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="font-black">{m.title}</div>
-                  <div className="text-xs text-muted-foreground">{m.desc}</div>
+                  <div className="font-black">{t(m.title)}</div>
+                  <div className="text-xs text-muted-foreground">{t(m.desc)}</div>
                 </div>
+
                 <div className="flex items-center gap-2 text-xs font-bold">
                   {m.reward.xp && <span className="flex items-center gap-1 text-gold"><Trophy className="h-3 w-3" />{m.reward.xp}</span>}
                   {m.reward.gems && <span className="flex items-center gap-1 text-primary"><Gem className="h-3 w-3" />{m.reward.gems}</span>}
@@ -120,12 +126,13 @@ function MissoesPage() {
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">{progress} / {m.target}</span>
                 {already ? (
-                  <span className="flex items-center gap-1 text-xs font-bold text-success"><Check className="h-3 w-3" /> Recebido</span>
+                  <span className="flex items-center gap-1 text-xs font-bold text-success"><Check className="h-3 w-3" /> {t("Recebido")}</span>
                 ) : complete ? (
-                  <button onClick={() => claim(m)} className="btn-3d rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground">Coletar</button>
+                  <button onClick={() => claim(m)} className="btn-3d rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground">{t("Coletar")}</button>
                 ) : (
-                  <span className="text-xs text-muted-foreground">Em progresso</span>
+                  <span className="text-xs text-muted-foreground">{t("Em progresso")}</span>
                 )}
+
               </div>
             </div>
           );

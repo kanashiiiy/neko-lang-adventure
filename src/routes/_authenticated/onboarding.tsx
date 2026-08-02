@@ -5,6 +5,7 @@ import { NekoBubble } from "@/components/NekoMascot";
 import { updateProfile } from "@/lib/profile";
 import { supabase } from "@/integrations/supabase/client";
 import { PRE_ONBOARDING_KEY } from "@/routes/start";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
   component: OnboardingFinal,
@@ -15,9 +16,11 @@ function OnboardingFinal() {
   const [step, setStep] = useState<"name" | "done">("name");
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
+  const t = useT();
 
   async function finish() {
-    if (name.trim().length < 2) return toast.error("Digite seu nome");
+    if (name.trim().length < 2) return toast.error(t("Digite seu nome"));
+
     setSaving(true);
     const { data: userData } = await supabase.auth.getUser();
     if (!userData.user) { setSaving(false); return; }
@@ -41,7 +44,7 @@ function OnboardingFinal() {
       localStorage.removeItem(PRE_ONBOARDING_KEY);
       setStep("done");
     } catch {
-      toast.error("Não conseguimos salvar. Tente novamente.");
+      toast.error(t("Não conseguimos salvar. Tente novamente."));
     } finally {
       setSaving(false);
     }
@@ -55,10 +58,11 @@ function OnboardingFinal() {
         <div className="h-full bg-gradient-primary" style={{ width: "100%" }} />
       </div>
       <div className="flex flex-col gap-6">
-        <NekoBubble>Bem-vindo(a)! Como posso te chamar?</NekoBubble>
+        <NekoBubble>{t("Bem-vindo(a)! Como posso te chamar?")}</NekoBubble>
         <input
           type="text"
-          placeholder="Seu nome"
+          placeholder={t("Seu nome")}
+
           value={name}
           onChange={(e) => setName(e.target.value)}
           maxLength={40}
@@ -70,7 +74,7 @@ function OnboardingFinal() {
         onClick={finish}
         className="btn-3d mt-8 rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground disabled:opacity-50"
       >
-        {saving ? "Salvando..." : "Continuar"}
+        {saving ? t("Salvando...") : t("Continuar")}
       </button>
     </div>
   );
@@ -79,7 +83,9 @@ function OnboardingFinal() {
 const CONFETTI_COLORS = ["#6C3EFF", "#FFD54A", "#22c55e", "#ec4899", "#38bdf8", "#f97316"];
 
 function CelebrationStep({ onContinue }: { onContinue: () => void }) {
+  const t = useT();
   const pieces = Array.from({ length: 40 });
+
   return (
     <div className="mobile-shell relative flex flex-col items-center justify-center px-6 pt-2 pb-8">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[70vh] overflow-hidden">
@@ -111,22 +117,23 @@ function CelebrationStep({ onContinue }: { onContinue: () => void }) {
         })}
       </div>
 
-      <NekoBubble>Tudo pronto! Você está preparado para começar essa jornada! 🎉</NekoBubble>
+      <NekoBubble>{t("Tudo pronto! Você está preparado para começar essa jornada! 🎉")}</NekoBubble>
 
       <div className="relative mt-6 flex flex-col items-center">
         <div className="animate-medal-celebrate">
           <Medal />
         </div>
-        <h2 className="mt-6 text-3xl font-black">Vamos nessa!</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Bons estudos!</p>
+        <h2 className="mt-6 text-3xl font-black">{t("Vamos nessa!")}</h2>
+        <p className="mt-1 text-sm text-muted-foreground">{t("Bons estudos!")}</p>
       </div>
 
       <button
         onClick={onContinue}
         className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground"
       >
-        Começar a aprender
+        {t("Começar a aprender")}
       </button>
+
     </div>
   );
 }

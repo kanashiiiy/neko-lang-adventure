@@ -4,29 +4,31 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { NekoMascot } from "@/components/NekoMascot";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
   ssr: false,
 });
 
-const signupSchema = z.object({
-  email: z.string().trim().email("E-mail inválido").max(255),
-  password: z.string().min(6, "Mínimo 6 caracteres").max(72),
-  confirm: z.string(),
-  accept: z.boolean(),
-}).refine((d) => d.password === d.confirm, { message: "As senhas não coincidem", path: ["confirm"] })
-  .refine((d) => d.accept, { message: "Aceite os termos para continuar", path: ["accept"] });
-
-const loginSchema = z.object({
-  email: z.string().trim().email("E-mail inválido"),
-  password: z.string().min(1, "Digite sua senha"),
-});
-
 function AuthPage() {
   const [mode, setMode] = useState<"login" | "signup" | "forgot">("signup");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const t = useT();
+
+  const signupSchema = z.object({
+    email: z.string().trim().email(t("E-mail inválido")).max(255),
+    password: z.string().min(6, t("Mínimo 6 caracteres")).max(72),
+    confirm: z.string(),
+    accept: z.boolean(),
+  }).refine((d) => d.password === d.confirm, { message: t("As senhas não coincidem"), path: ["confirm"] })
+    .refine((d) => d.accept, { message: t("Aceite os termos para continuar"), path: ["accept"] });
+
+  const loginSchema = z.object({
+    email: z.string().trim().email(t("E-mail inválido")),
+    password: z.string().min(1, t("Digite sua senha")),
+  });
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,7 +39,7 @@ function AuthPage() {
     const { error } = await supabase.auth.signInWithPassword(parsed.data);
     setLoading(false);
     if (error) return toast.error(error.message);
-    toast.success("Bem-vindo de volta!");
+    toast.success(t("Bem-vindo de volta!"));
     navigate({ to: "/", replace: true });
   }
 
@@ -59,7 +61,7 @@ function AuthPage() {
     });
     setLoading(false);
     if (error) return toast.error(error.message);
-    toast.success("Conta criada! Vamos começar 🎉");
+    toast.success(t("Conta criada! Vamos começar 🎉"));
     navigate({ to: "/", replace: true });
   }
 
@@ -67,14 +69,14 @@ function AuthPage() {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const email = String(fd.get("email") ?? "");
-    if (!z.string().email().safeParse(email).success) return toast.error("E-mail inválido");
+    if (!z.string().email().safeParse(email).success) return toast.error(t("E-mail inválido"));
     setLoading(true);
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
     setLoading(false);
     if (error) return toast.error(error.message);
-    toast.success("Enviamos um link para o seu e-mail.");
+    toast.success(t("Enviamos um link para o seu e-mail."));
     setMode("login");
   }
 
@@ -86,7 +88,7 @@ function AuthPage() {
           NEKO<span className="text-primary">Teach</span>
         </h1>
         <p className="text-sm text-muted-foreground">
-          {mode === "signup" ? "Crie sua conta grátis" : mode === "forgot" ? "Recupere sua senha" : "Entre para continuar"}
+          {mode === "signup" ? t("Crie sua conta grátis") : mode === "forgot" ? t("Recupere sua senha") : t("Entre para continuar")}
         </p>
       </div>
 
@@ -95,51 +97,51 @@ function AuthPage() {
           <button
             onClick={() => setMode("login")}
             className={`rounded-xl py-2 text-sm font-bold transition ${mode === "login" ? "bg-card shadow-card text-foreground" : "text-muted-foreground"}`}
-          >Entrar</button>
+          >{t("Entrar")}</button>
           <button
             onClick={() => setMode("signup")}
             className={`rounded-xl py-2 text-sm font-bold transition ${mode === "signup" ? "bg-card shadow-card text-foreground" : "text-muted-foreground"}`}
-          >Cadastrar</button>
+          >{t("Cadastrar")}</button>
         </div>
       )}
 
       {mode === "login" && (
         <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-3">
-          <Field name="email" type="email" placeholder="seu@email.com" label="E-mail" autoComplete="email" />
-          <Field name="password" type="password" placeholder="Sua senha" label="Senha" autoComplete="current-password" />
+          <Field name="email" type="email" placeholder="seu@email.com" label={t("E-mail")} autoComplete="email" />
+          <Field name="password" type="password" placeholder={t("Sua senha")} label={t("Senha")} autoComplete="current-password" />
           <button type="button" onClick={() => setMode("forgot")} className="self-end text-xs font-semibold text-primary">
-            Esqueci minha senha
+            {t("Esqueci minha senha")}
           </button>
-          <PrimaryButton loading={loading}>Entrar</PrimaryButton>
+          <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")}>{t("Entrar")}</PrimaryButton>
         </form>
       )}
 
       {mode === "signup" && (
         <form onSubmit={handleSignup} className="mt-6 flex flex-col gap-3">
-          <Field name="email" type="email" placeholder="seu@email.com" label="E-mail" autoComplete="email" />
-          <Field name="password" type="password" placeholder="Mínimo 6 caracteres" label="Senha" autoComplete="new-password" />
-          <Field name="confirm" type="password" placeholder="Repita a senha" label="Confirmar senha" autoComplete="new-password" />
+          <Field name="email" type="email" placeholder="seu@email.com" label={t("E-mail")} autoComplete="email" />
+          <Field name="password" type="password" placeholder={t("Mínimo 6 caracteres")} label={t("Senha")} autoComplete="new-password" />
+          <Field name="confirm" type="password" placeholder={t("Repita a senha")} label={t("Confirmar senha")} autoComplete="new-password" />
           <label className="mt-1 flex items-start gap-2 text-xs text-muted-foreground">
             <input name="accept" type="checkbox" className="mt-0.5 h-4 w-4 accent-primary" />
-            <span>Concordo com os <a className="text-primary font-semibold">Termos de Uso</a> e a <a className="text-primary font-semibold">Política de Privacidade</a>.</span>
+            <span>{t("Concordo com os")} <a className="text-primary font-semibold">{t("Termos de Uso")}</a> {t("e a")} <a className="text-primary font-semibold">{t("Política de Privacidade")}</a>.</span>
           </label>
-          <PrimaryButton loading={loading}>Criar conta</PrimaryButton>
+          <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")}>{t("Criar conta")}</PrimaryButton>
         </form>
       )}
 
       {mode === "forgot" && (
         <form onSubmit={handleForgot} className="mt-6 flex flex-col gap-3">
-          <p className="text-sm text-muted-foreground">Enviaremos um link de redefinição para o seu e-mail.</p>
-          <Field name="email" type="email" placeholder="seu@email.com" label="E-mail" autoComplete="email" />
-          <PrimaryButton loading={loading}>Enviar link</PrimaryButton>
+          <p className="text-sm text-muted-foreground">{t("Enviaremos um link de redefinição para o seu e-mail.")}</p>
+          <Field name="email" type="email" placeholder="seu@email.com" label={t("E-mail")} autoComplete="email" />
+          <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")}>{t("Enviar link")}</PrimaryButton>
           <button type="button" onClick={() => setMode("login")} className="text-sm font-semibold text-primary">
-            Voltar ao login
+            {t("Voltar ao login")}
           </button>
         </form>
       )}
 
       <p className="mt-8 text-center text-xs text-muted-foreground">
-        Ao continuar você aceita nossos termos.
+        {t("Ao continuar você aceita nossos termos.")}
       </p>
     </div>
   );
@@ -157,13 +159,13 @@ function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> 
   );
 }
 
-function PrimaryButton({ children, loading }: { children: React.ReactNode; loading?: boolean }) {
+function PrimaryButton({ children, loading, loadingLabel }: { children: React.ReactNode; loading?: boolean; loadingLabel: string }) {
   return (
     <button
       disabled={loading}
       className="btn-3d mt-2 rounded-2xl bg-primary py-3.5 text-primary-foreground disabled:opacity-70"
     >
-      {loading ? "Aguarde..." : children}
+      {loading ? loadingLabel : children}
     </button>
   );
 }

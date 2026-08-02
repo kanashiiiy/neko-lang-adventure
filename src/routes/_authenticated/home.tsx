@@ -6,12 +6,17 @@ import { fetchProfile, fetchCompletedLessons } from "@/lib/profile";
 import { buildPhases, LANGUAGES, type Language } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
+import { useT, useTf, useUiLang } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/_authenticated/home")({
   component: HomePage,
 });
 
 function HomePage() {
+  const t = useT();
+  const tf = useTf();
+  const ui = useUiLang();
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
@@ -22,8 +27,9 @@ function HomePage() {
   });
 
   const lang = (profile?.language ?? "ja") as Language;
-  const phases = buildPhases(lang, profile?.level, profile?.goal);
+  const phases = buildPhases(lang, profile?.level, profile?.goal, ui);
   const langMeta = LANGUAGES.find((l) => l.code === lang);
+
 
   const { data: completed } = useQuery({
     queryKey: ["completed", lang],
@@ -42,8 +48,9 @@ function HomePage() {
           <div className="flex items-center gap-2">
             <span className="text-2xl">{langMeta?.flag}</span>
             <div>
-              <div className="text-xs text-muted-foreground">Aprendendo</div>
-              <div className="text-sm font-bold">{langMeta?.name}</div>
+              <div className="text-xs text-muted-foreground">{t("Aprendendo")}</div>
+              <div className="text-sm font-bold">{t(langMeta?.name ?? "")}</div>
+
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -60,16 +67,17 @@ function HomePage() {
           <div className="flex items-center gap-3">
             <NekoMascot size={72} float />
             <div>
-              <div className="text-xs opacity-90">Olá, {profile?.name ?? "amigo"}!</div>
-              <div className="text-lg font-black">Vamos aprender hoje? 🔥</div>
-              <div className="mt-1 text-xs opacity-90">Meta diária: 20 XP</div>
+              <div className="text-xs opacity-90">{tf("Olá, {name}!", { name: profile?.name ?? t("amigo") })}</div>
+              <div className="text-lg font-black">{t("Vamos aprender hoje? 🔥")}</div>
+              <div className="mt-1 text-xs opacity-90">{t("Meta diária: 20 XP")}</div>
             </div>
           </div>
         </div>
 
         <h2 className="mb-3 px-1 text-sm font-bold uppercase tracking-wide text-muted-foreground">
-          Fases · {langMeta?.name}
+          {t("Fases")} · {t(langMeta?.name ?? "")}
         </h2>
+
 
         <div className="relative flex flex-col items-center gap-4">
           {phases.map((l, i) => {
@@ -95,8 +103,9 @@ function HomePage() {
                   <div className="mt-2 text-center">
                     <div className="text-sm font-bold">{l.title}</div>
                     <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                      +{l.xp} XP · {l.questions.length} tarefas
+                      +{l.xp} XP · {tf("{n} tarefas", { n: l.questions.length })}
                     </div>
+
                   </div>
                 </Link>
               </div>

@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { NekoMascot, NekoBubble } from "@/components/NekoMascot";
+import { NekoBubble } from "@/components/NekoMascot";
 import { LANGUAGES } from "@/lib/lessons";
-import { setUiLangFromCountry } from "@/lib/i18n";
+import { setUiLangFromCountry, useT } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/start")({
   component: StartPage,
@@ -31,16 +32,17 @@ function StartPage() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState({ language: "ja", country: "Brasil", age: 16, goal: "viajar", level: "iniciante" });
   const navigate = useNavigate();
+  const t = useT();
 
   const steps = [
-    <StepChoice key="l" title="Qual idioma você quer aprender?" value={data.language}
+    <StepChoice key="l" title={t("Qual idioma você quer aprender?")} value={data.language}
       onChange={(v) => setData({ ...data, language: v })}
-      options={LANGUAGES.map((l) => ({ id: l.code, label: l.name, icon: l.flag }))} />,
-    <StepChoice key="c" title="De qual país você é? Isso vai nos ajudar a personalizar tudo!" value={data.country}
+      options={LANGUAGES.map((l) => ({ id: l.code, label: t(l.name), icon: l.flag }))} />,
+    <StepChoice key="c" title={t("De qual país você é? Isso vai nos ajudar a personalizar tudo!")} value={data.country}
       onChange={(v) => { setUiLangFromCountry(v); setData({ ...data, country: v }); }}
-      options={COUNTRIES.map((c) => ({ id: c, label: c, icon: "🌍" }))} />,
+      options={COUNTRIES.map((c) => ({ id: c, label: t(c), icon: "🌍" }))} />,
     <div key="a" className="flex flex-col gap-6">
-      <NekoBubble>Que ótimo! Agora me conta... Qual é a sua idade?</NekoBubble>
+      <NekoBubble>{t("Que ótimo! Agora me conta... Qual é a sua idade?")}</NekoBubble>
       <div className="text-center">
         <div className="text-6xl font-black text-primary">{data.age}</div>
         <input type="range" min={8} max={99} value={data.age}
@@ -48,13 +50,14 @@ function StartPage() {
           className="mt-6 w-full accent-primary" />
       </div>
     </div>,
-    <StepChoice key="g" title="Entendi! E para que você quer aprender esse idioma?" value={data.goal}
+    <StepChoice key="g" title={t("Entendi! E para que você quer aprender esse idioma?")} value={data.goal}
       onChange={(v) => setData({ ...data, goal: v })}
-      options={GOALS.map((g) => ({ id: g.id, label: g.label, icon: g.icon }))} />,
-    <StepChoice key="v" title="Legal! Assim posso personalizar suas lições para você!" value={data.level}
+      options={GOALS.map((g) => ({ id: g.id, label: t(g.label), icon: g.icon }))} />,
+    <StepChoice key="v" title={t("Legal! Assim posso personalizar suas lições para você!")} value={data.level}
       onChange={(v) => setData({ ...data, level: v })}
-      options={LEVELS.map((l) => ({ id: l.id, label: l.label, sub: l.desc, icon: "📊" }))} />,
+      options={LEVELS.map((l) => ({ id: l.id, label: t(l.label), sub: t(l.desc), icon: "📊" }))} />,
   ];
+
 
   const isLast = step === steps.length - 1;
 
@@ -82,8 +85,9 @@ function StartPage() {
         onClick={next}
         className="btn-3d mt-8 rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground"
       >
-        {isLast ? "Criar minha conta" : "Continuar"}
+        {isLast ? t("Criar minha conta") : t("Continuar")}
       </button>
+
     </div>
   );
 }

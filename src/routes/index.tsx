@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { NekoMascot } from "@/components/NekoMascot";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile } from "@/lib/profile";
+import { useT } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/")({
   component: SplashScreen,
@@ -11,7 +13,9 @@ export const Route = createFileRoute("/")({
 
 function SplashScreen() {
   const navigate = useNavigate();
+  const t = useT();
   const [ready, setReady] = useState(false);
+
 
   useEffect(() => {
     let cancelled = false;
@@ -46,7 +50,7 @@ function SplashScreen() {
           <h1 className="text-4xl font-black tracking-tight">
             NEKO<span className="text-gold">Teach</span>
           </h1>
-          <p className="mt-2 text-sm opacity-90">Aprenda idiomas com o Neko</p>
+          <p className="mt-2 text-sm opacity-90">{t("Aprenda idiomas com o Neko")}</p>
         </div>
         <div className="mt-6 h-2 w-40 overflow-hidden rounded-full bg-white/25">
           <div
