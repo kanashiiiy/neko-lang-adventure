@@ -1,5 +1,7 @@
 // Lesson content for NEKOTeach — 3 languages, 10 phases × 10 tasks, customized by level+goal.
 import { goalWordsFor } from "@/lib/goals";
+import { translate, translateVars, type UiLang } from "@/lib/i18n";
+
 
 export type Language = "pt" | "ja" | "en";
 export type Level = "iniciante" | "basico" | "intermediario" | "avancado";
