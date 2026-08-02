@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { NekoMascot, NekoBubble } from "@/components/NekoMascot";
+import { NekoBubble } from "@/components/NekoMascot";
 import { LANGUAGES } from "@/lib/lessons";
 import { setUiLangFromCountry, useT } from "@/lib/i18n";
 
