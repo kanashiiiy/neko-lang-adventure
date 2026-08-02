@@ -109,9 +109,10 @@ function MissoesPage() {
             <div key={m.id} className="rounded-2xl bg-card p-4 shadow-card">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="font-black">{m.title}</div>
-                  <div className="text-xs text-muted-foreground">{m.desc}</div>
+                  <div className="font-black">{t(m.title)}</div>
+                  <div className="text-xs text-muted-foreground">{t(m.desc)}</div>
                 </div>
+
                 <div className="flex items-center gap-2 text-xs font-bold">
                   {m.reward.xp && <span className="flex items-center gap-1 text-gold"><Trophy className="h-3 w-3" />{m.reward.xp}</span>}
                   {m.reward.gems && <span className="flex items-center gap-1 text-primary"><Gem className="h-3 w-3" />{m.reward.gems}</span>}
@@ -125,12 +126,13 @@ function MissoesPage() {
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">{progress} / {m.target}</span>
                 {already ? (
-                  <span className="flex items-center gap-1 text-xs font-bold text-success"><Check className="h-3 w-3" /> Recebido</span>
+                  <span className="flex items-center gap-1 text-xs font-bold text-success"><Check className="h-3 w-3" /> {t("Recebido")}</span>
                 ) : complete ? (
-                  <button onClick={() => claim(m)} className="btn-3d rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground">Coletar</button>
+                  <button onClick={() => claim(m)} className="btn-3d rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground">{t("Coletar")}</button>
                 ) : (
-                  <span className="text-xs text-muted-foreground">Em progresso</span>
+                  <span className="text-xs text-muted-foreground">{t("Em progresso")}</span>
                 )}
+
               </div>
             </div>
           );
