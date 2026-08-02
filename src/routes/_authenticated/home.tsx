@@ -103,8 +103,9 @@ function HomePage() {
                   <div className="mt-2 text-center">
                     <div className="text-sm font-bold">{l.title}</div>
                     <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                      +{l.xp} XP · {l.questions.length} tarefas
+                      +{l.xp} XP · {tf("{n} tarefas", { n: l.questions.length })}
                     </div>
+
                   </div>
                 </Link>
               </div>
