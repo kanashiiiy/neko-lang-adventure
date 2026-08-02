@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { APP_EXTRA } from "@/lib/i18n-app";
+import { EXTRA } from "@/lib/i18n-extra";
+
 
 
 export type UiLang = "pt" | "en" | "ja" | "fr" | "es" | "ko";
