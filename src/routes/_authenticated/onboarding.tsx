@@ -5,6 +5,7 @@ import { NekoBubble } from "@/components/NekoMascot";
 import { updateProfile } from "@/lib/profile";
 import { supabase } from "@/integrations/supabase/client";
 import { PRE_ONBOARDING_KEY } from "@/routes/start";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
   component: OnboardingFinal,
@@ -15,9 +16,11 @@ function OnboardingFinal() {
   const [step, setStep] = useState<"name" | "done">("name");
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
+  const t = useT();
 
   async function finish() {
-    if (name.trim().length < 2) return toast.error("Digite seu nome");
+    if (name.trim().length < 2) return toast.error(t("Digite seu nome"));
+
     setSaving(true);
     const { data: userData } = await supabase.auth.getUser();
     if (!userData.user) { setSaving(false); return; }
