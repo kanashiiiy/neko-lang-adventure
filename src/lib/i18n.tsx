@@ -1134,3 +1134,13 @@ export function useT() {
   const lang = useUiLang();
   return useCallback((key: string) => translate(key, lang), [lang]);
 }
+
+/** Hook com variáveis: const tf = useTf(); tf("Fase {n}", { n: 1 }) */
+export function useTf() {
+  const lang = useUiLang();
+  return useCallback(
+    (key: string, vars: Record<string, string | number>) => translateVars(key, vars, lang),
+    [lang],
+  );
+}
+
