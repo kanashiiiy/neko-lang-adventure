@@ -1091,11 +1091,12 @@ const ko: Dict = {
 
 const DICTS: Record<UiLang, Dict> = {
   pt: {},
-  en: { ...en, ...APP_EXTRA.en },
-  ja: { ...ja, ...APP_EXTRA.ja },
-  fr: { ...fr, ...APP_EXTRA.fr },
-  es: { ...es, ...APP_EXTRA.es },
-  ko: { ...ko, ...APP_EXTRA.ko },
+  en: { ...en, ...APP_EXTRA.en, ...EXTRA.en },
+  ja: { ...ja, ...APP_EXTRA.ja, ...EXTRA.ja },
+  fr: { ...fr, ...APP_EXTRA.fr, ...EXTRA.fr },
+  es: { ...es, ...APP_EXTRA.es, ...EXTRA.es },
+  ko: { ...ko, ...APP_EXTRA.ko, ...EXTRA.ko },
+
 };
 
 export function translate(key: string, lang: UiLang): string {
