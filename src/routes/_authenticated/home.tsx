@@ -6,6 +6,8 @@ import { fetchProfile, fetchCompletedLessons } from "@/lib/profile";
 import { buildPhases, LANGUAGES, type Language } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
+import { useT, useTf, useUiLang } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/_authenticated/home")({
   component: HomePage,
