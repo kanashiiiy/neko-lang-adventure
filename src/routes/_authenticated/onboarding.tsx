@@ -44,7 +44,7 @@ function OnboardingFinal() {
       localStorage.removeItem(PRE_ONBOARDING_KEY);
       setStep("done");
     } catch {
-      toast.error("Não conseguimos salvar. Tente novamente.");
+      toast.error(t("Não conseguimos salvar. Tente novamente."));
     } finally {
       setSaving(false);
     }
@@ -58,10 +58,11 @@ function OnboardingFinal() {
         <div className="h-full bg-gradient-primary" style={{ width: "100%" }} />
       </div>
       <div className="flex flex-col gap-6">
-        <NekoBubble>Bem-vindo(a)! Como posso te chamar?</NekoBubble>
+        <NekoBubble>{t("Bem-vindo(a)! Como posso te chamar?")}</NekoBubble>
         <input
           type="text"
-          placeholder="Seu nome"
+          placeholder={t("Seu nome")}
+
           value={name}
           onChange={(e) => setName(e.target.value)}
           maxLength={40}
@@ -73,7 +74,7 @@ function OnboardingFinal() {
         onClick={finish}
         className="btn-3d mt-8 rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground disabled:opacity-50"
       >
-        {saving ? "Salvando..." : "Continuar"}
+        {saving ? t("Salvando...") : t("Continuar")}
       </button>
     </div>
   );
@@ -82,7 +83,9 @@ function OnboardingFinal() {
 const CONFETTI_COLORS = ["#6C3EFF", "#FFD54A", "#22c55e", "#ec4899", "#38bdf8", "#f97316"];
 
 function CelebrationStep({ onContinue }: { onContinue: () => void }) {
+  const t = useT();
   const pieces = Array.from({ length: 40 });
+
   return (
     <div className="mobile-shell relative flex flex-col items-center justify-center px-6 pt-2 pb-8">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[70vh] overflow-hidden">
