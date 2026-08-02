@@ -14,6 +14,9 @@ export const Route = createFileRoute("/_authenticated/home")({
 });
 
 function HomePage() {
+  const t = useT();
+  const tf = useTf();
+  const ui = useUiLang();
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
@@ -24,8 +27,9 @@ function HomePage() {
   });
 
   const lang = (profile?.language ?? "ja") as Language;
-  const phases = buildPhases(lang, profile?.level, profile?.goal);
+  const phases = buildPhases(lang, profile?.level, profile?.goal, ui);
   const langMeta = LANGUAGES.find((l) => l.code === lang);
+
 
   const { data: completed } = useQuery({
     queryKey: ["completed", lang],
