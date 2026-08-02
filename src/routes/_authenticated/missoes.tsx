@@ -6,6 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
+import { useT } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/_authenticated/missoes")({
   component: MissoesPage,
