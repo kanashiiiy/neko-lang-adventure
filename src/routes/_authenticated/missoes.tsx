@@ -55,7 +55,9 @@ function setClaimed(s: Set<string>) {
 
 function MissoesPage() {
   const qc = useQueryClient();
+  const t = useT();
   const { data: profile } = useQuery({
+
     queryKey: ["profile"],
     queryFn: async () => {
       const { data } = await supabase.auth.getUser();
@@ -76,7 +78,7 @@ function MissoesPage() {
       focus: profile.focus + (m.reward.focus ?? 0),
     });
     qc.invalidateQueries({ queryKey: ["profile"] });
-    toast.success("Recompensa recebida! 🎉");
+    toast.success(t("Recompensa recebida! 🎉"));
   }
 
   const claimed = getClaimed();
@@ -86,17 +88,18 @@ function MissoesPage() {
     <div className="mobile-shell">
       <header className="border-b-2 border-border bg-card px-6 py-4 flex items-center gap-3">
         <Target className="h-6 w-6 text-primary" />
-        <h1 className="text-2xl font-black">Missões</h1>
+        <h1 className="text-2xl font-black">{t("Missões")}</h1>
       </header>
 
       <main className="flex-1 px-4 py-5 space-y-4">
         <div className="rounded-3xl bg-gradient-primary p-5 text-primary-foreground shadow-soft flex items-center gap-3">
           <NekoMascot size={72} float />
           <div>
-            <div className="text-lg font-black">Complete missões e ganhe recompensas!</div>
-            <div className="text-xs opacity-90">Diamantes, XP e Foco te esperam</div>
+            <div className="text-lg font-black">{t("Complete missões e ganhe recompensas!")}</div>
+            <div className="text-xs opacity-90">{t("Diamantes, XP e Foco te esperam")}</div>
           </div>
         </div>
+
 
         {p && MISSIONS.map((m) => {
           const progress = m.progress(p);
