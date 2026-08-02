@@ -54,12 +54,13 @@ const EN_CORE: [string, string, string][] = [
 ];
 
 const PT_CORE: [string, string, string][] = [
-  ["Olá", "Hello", ""], ["Bom dia", "Good morning", ""],
-  ["Obrigado", "Thank you", ""], ["Tchau", "Goodbye", ""],
-  ["Sim", "Yes", ""], ["Não", "No", ""],
-  ["Gato", "Cat", ""], ["Cachorro", "Dog", ""],
-  ["Água", "Water", ""], ["Livro", "Book", ""],
+  ["Olá", "Olá", ""], ["Bom dia", "Bom dia", ""],
+  ["Obrigado", "Obrigado", ""], ["Tchau", "Tchau", ""],
+  ["Sim", "Sim", ""], ["Não", "Não", ""],
+  ["Gato", "Gato", ""], ["Cachorro", "Cachorro", ""],
+  ["Água", "Água", ""], ["Livro", "Livro", ""],
 ];
+
 
 const CORE: Record<Language, [string, string, string][]> = { ja: JA_CORE, en: EN_CORE, pt: PT_CORE };
 

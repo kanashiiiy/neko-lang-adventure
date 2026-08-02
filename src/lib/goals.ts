@@ -89,42 +89,43 @@ const EN: GoalBank = {
 
 const PT: GoalBank = {
   viajar: [
-    ["Aeroporto", "Airport", ""], ["Hotel", "Hotel", ""],
-    ["Restaurante", "Restaurant", ""], ["Trem", "Train", ""],
-    ["Passagem", "Ticket", ""], ["Mapa", "Map", ""],
-    ["Táxi", "Taxi", ""], ["Compras", "Shopping", ""],
+    ["Aeroporto", "Aeroporto", ""], ["Hotel", "Hotel", ""],
+    ["Restaurante", "Restaurante", ""], ["Trem", "Trem", ""],
+    ["Passagem", "Passagem", ""], ["Mapa", "Mapa", ""],
+    ["Táxi", "Táxi", ""], ["Compras", "Compras", ""],
   ],
   trabalhar: [
-    ["Reunião", "Meeting", ""], ["Entrevista", "Interview", ""],
-    ["E-mail", "Email", ""], ["Empresa", "Company", ""],
-    ["Colega", "Colleague", ""], ["Contrato", "Contract", ""],
-    ["Prazo", "Deadline", ""], ["Escritório", "Office", ""],
+    ["Reunião", "Reunião", ""], ["Entrevista", "Entrevista", ""],
+    ["E-mail", "E-mail", ""], ["Empresa", "Empresa", ""],
+    ["Colega", "Colega", ""], ["Contrato", "Contrato", ""],
+    ["Prazo", "Prazo", ""], ["Escritório", "Escritório", ""],
   ],
   estudar: [
-    ["Escola", "School", ""], ["Universidade", "University", ""],
-    ["Professor", "Teacher", ""], ["Lição", "Homework", ""],
-    ["Livro", "Book", ""], ["Prova", "Exam", ""],
-    ["Gramática", "Grammar", ""], ["Redação", "Essay", ""],
+    ["Escola", "Escola", ""], ["Universidade", "Universidade", ""],
+    ["Professor", "Professor", ""], ["Lição", "Lição", ""],
+    ["Livro", "Livro", ""], ["Prova", "Prova", ""],
+    ["Gramática", "Gramática", ""], ["Redação", "Redação", ""],
   ],
   morar: [
-    ["Mercado", "Market", ""], ["Hospital", "Hospital", ""],
-    ["Banco", "Bank", ""], ["Aluguel", "Rent", ""],
-    ["Ônibus", "Bus", ""], ["Correio", "Mail", ""],
-    ["Chave", "Key", ""], ["Eletricidade", "Electricity", ""],
+    ["Mercado", "Mercado", ""], ["Hospital", "Hospital", ""],
+    ["Banco", "Banco", ""], ["Aluguel", "Aluguel", ""],
+    ["Ônibus", "Ônibus", ""], ["Correio", "Correio", ""],
+    ["Chave", "Chave", ""], ["Eletricidade", "Eletricidade", ""],
   ],
   hobby: [
-    ["Filme", "Movie", ""], ["Música", "Music", ""],
-    ["Jogo", "Game", ""], ["Livro", "Book", ""],
-    ["Cultura", "Culture", ""], ["Festa", "Party", ""],
-    ["Canção", "Song", ""], ["Arte", "Art", ""],
+    ["Filme", "Filme", ""], ["Música", "Música", ""],
+    ["Jogo", "Jogo", ""], ["Livro", "Livro", ""],
+    ["Cultura", "Cultura", ""], ["Festa", "Festa", ""],
+    ["Canção", "Canção", ""], ["Arte", "Arte", ""],
   ],
   outro: [
-    ["Olá", "Hello", ""], ["Obrigado", "Thank you", ""],
-    ["Família", "Family", ""], ["Amigo", "Friend", ""],
-    ["Tempo", "Time", ""], ["Comida", "Food", ""],
-    ["Água", "Water", ""], ["Amor", "Love", ""],
+    ["Olá", "Olá", ""], ["Obrigado", "Obrigado", ""],
+    ["Família", "Família", ""], ["Amigo", "Amigo", ""],
+    ["Tempo", "Tempo", ""], ["Comida", "Comida", ""],
+    ["Água", "Água", ""], ["Amor", "Amor", ""],
   ],
 };
+
 
 export const GOAL_WORDS: Record<Language, GoalBank> = { ja: JA, en: EN, pt: PT };
 
