@@ -117,22 +117,23 @@ function CelebrationStep({ onContinue }: { onContinue: () => void }) {
         })}
       </div>
 
-      <NekoBubble>Tudo pronto! Você está preparado para começar essa jornada! 🎉</NekoBubble>
+      <NekoBubble>{t("Tudo pronto! Você está preparado para começar essa jornada! 🎉")}</NekoBubble>
 
       <div className="relative mt-6 flex flex-col items-center">
         <div className="animate-medal-celebrate">
           <Medal />
         </div>
-        <h2 className="mt-6 text-3xl font-black">Vamos nessa!</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Bons estudos!</p>
+        <h2 className="mt-6 text-3xl font-black">{t("Vamos nessa!")}</h2>
+        <p className="mt-1 text-sm text-muted-foreground">{t("Bons estudos!")}</p>
       </div>
 
       <button
         onClick={onContinue}
         className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground"
       >
-        Começar a aprender
+        {t("Começar a aprender")}
       </button>
+
     </div>
   );
 }
