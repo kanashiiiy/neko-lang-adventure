@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
+import { useT, useTf } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
@@ -15,6 +16,8 @@ export const Route = createFileRoute("/_authenticated/profile")({
 const COUNTRIES = ["Brasil", "Portugal", "Estados Unidos", "Japão", "Coreia do Sul", "França", "Espanha", "Outro"];
 
 function ProfilePage() {
+  const t = useT();
+  const tf = useTf();
   const qc = useQueryClient();
   const navigate = useNavigate();
   const { data: profile } = useQuery({
@@ -41,18 +44,18 @@ function ProfilePage() {
   }
 
   async function saveName() {
-    if (name.trim().length < 2) return toast.error("Nome muito curto");
+    if (name.trim().length < 2) return toast.error(t("Nome muito curto"));
     await save({ name: name.trim() });
-    toast.success("Nome atualizado!");
+    toast.success(t("Nome atualizado!"));
     setModal(null);
   }
 
   async function savePass() {
-    if (pass.length < 6) return toast.error("Mínimo 6 caracteres");
-    if (pass !== confirm) return toast.error("As senhas não coincidem");
+    if (pass.length < 6) return toast.error(t("Mínimo 6 caracteres"));
+    if (pass !== confirm) return toast.error(t("As senhas não coincidem"));
     const { error } = await supabase.auth.updateUser({ password: pass });
     if (error) return toast.error(error.message);
-    toast.success("Senha atualizada!");
+    toast.success(t("Senha atualizada!"));
     setPass(""); setConfirm(""); setModal(null);
   }
 
@@ -73,14 +76,14 @@ function ProfilePage() {
     navigate({ to: "/auth", replace: true });
   }
 
-  if (!profile) return <div className="mobile-shell items-center justify-center">Carregando...</div>;
+  if (!profile) return <div className="mobile-shell items-center justify-center">{t("Carregando...")}</div>;
 
   const langMeta = LANGUAGES.find((l) => l.code === profile.language);
 
   return (
     <div className="mobile-shell">
       <header className="border-b-2 border-border bg-card px-6 py-4">
-        <h1 className="text-2xl font-black">Perfil</h1>
+        <h1 className="text-2xl font-black">{t("Perfil")}</h1>
       </header>
 
       <main className="flex-1 px-4 py-4 space-y-5">
@@ -91,47 +94,47 @@ function ProfilePage() {
           </div>
           <div className="mt-3 text-2xl font-black">{profile.name}</div>
           <div className="text-xs opacity-90">{profile.email}</div>
-          <div className="mt-1 text-xs font-bold uppercase tracking-wide opacity-90">Nível {profile.level}</div>
+          <div className="mt-1 text-xs font-bold uppercase tracking-wide opacity-90">{tf("Nível {n}", { n: profile.level })}</div>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-4 gap-2">
-          <StatCard icon={<Trophy className="h-4 w-4" />} label="XP" value={profile.xp} color="text-gold" />
-          <StatCard icon={<Gem className="h-4 w-4" />} label="Diamantes" value={profile.gems} color="text-primary" />
-          <StatCard icon={<Flame className="h-4 w-4" />} label="Sequência" value={profile.streak} color="text-orange-500" />
-          <StatCard icon={<Zap className="h-4 w-4" />} label="Foco" value={profile.focus} color="text-yellow-500" />
+          <StatCard icon={<Trophy className="h-4 w-4" />} label={t("XP")} value={profile.xp} color="text-gold" />
+          <StatCard icon={<Gem className="h-4 w-4" />} label={t("Diamantes")} value={profile.gems} color="text-primary" />
+          <StatCard icon={<Flame className="h-4 w-4" />} label={t("Sequência")} value={profile.streak} color="text-orange-500" />
+          <StatCard icon={<Zap className="h-4 w-4" />} label={t("Foco")} value={profile.focus} color="text-yellow-500" />
         </div>
 
-        <Section title="Conquistas">
+        <Section title={t("Conquistas")}>
           <div className="flex items-center gap-3 px-4 py-3">
             <Award className="h-6 w-6 text-gold" />
             <div className="flex-1 text-sm">
-              <div className="font-bold">Sua jornada começou!</div>
-              <div className="text-xs text-muted-foreground">Conclua mais fases para desbloquear mais conquistas</div>
+              <div className="font-bold">{t("Sua jornada começou!")}</div>
+              <div className="text-xs text-muted-foreground">{t("Conclua mais fases para desbloquear mais conquistas")}</div>
             </div>
           </div>
         </Section>
 
-        <Section title="Conta">
-          <ClickRow icon={<Edit3 className="h-5 w-5" />} label="Editar nome" onClick={() => { setName(profile.name ?? ""); setModal("name"); }} />
-          <ClickRow icon={<Lock className="h-5 w-5" />} label="Alterar senha" onClick={() => setModal("password")} />
+        <Section title={t("Conta")}>
+          <ClickRow icon={<Edit3 className="h-5 w-5" />} label={t("Editar nome")} onClick={() => { setName(profile.name ?? ""); setModal("name"); }} />
+          <ClickRow icon={<Lock className="h-5 w-5" />} label={t("Alterar senha")} onClick={() => setModal("password")} />
         </Section>
 
-        <Section title="Preferências">
-          <ClickRow icon={<Globe className="h-5 w-5" />} label={`Idioma: ${langMeta?.flag} ${langMeta?.name}`} onClick={() => setModal("language")} />
-          <ClickRow icon={<MapPin className="h-5 w-5" />} label={`País: ${profile.country ?? "Não definido"}`} onClick={() => setModal("country")} />
-          <Row icon={<Bell className="h-5 w-5" />} label="Notificações">
+        <Section title={t("Preferências")}>
+          <ClickRow icon={<Globe className="h-5 w-5" />} label={tf("Idioma: {flag} {name}", { flag: langMeta?.flag ?? "", name: langMeta?.name ?? "" })} onClick={() => setModal("language")} />
+          <ClickRow icon={<MapPin className="h-5 w-5" />} label={tf("País: {country}", { country: profile.country ?? t("Não definido") })} onClick={() => setModal("country")} />
+          <Row icon={<Bell className="h-5 w-5" />} label={t("Notificações")}>
             <Switch checked={profile.notifications_enabled} onChange={toggleNotif} />
           </Row>
-          <Row icon={<Moon className="h-5 w-5" />} label="Modo escuro">
+          <Row icon={<Moon className="h-5 w-5" />} label={t("Modo escuro")}>
             <Switch checked={profile.theme === "dark"} onChange={toggleTheme} />
           </Row>
-          <ClickRow icon={<Shield className="h-5 w-5" />} label="Privacidade" onClick={() => toast.info("Em breve!")} />
+          <ClickRow icon={<Shield className="h-5 w-5" />} label={t("Privacidade")} onClick={() => toast.info(t("Em breve!"))} />
         </Section>
 
         <button onClick={logout}
           className="btn-3d flex w-full items-center justify-center gap-2 rounded-2xl bg-destructive py-3.5 font-bold text-destructive-foreground">
-          <LogOut className="h-5 w-5" /> Sair da conta
+          <LogOut className="h-5 w-5" /> {t("Sair da conta")}
         </button>
       </main>
 
@@ -140,7 +143,7 @@ function ProfilePage() {
           <div className="w-full max-w-md rounded-3xl bg-card p-6 animate-bounce-in" onClick={(e) => e.stopPropagation()}>
             {modal === "name" && (
               <>
-                <h2 className="text-xl font-black">Editar nome</h2>
+                <h2 className="text-xl font-black">{t("Editar nome")}</h2>
                 <input value={name} onChange={(e) => setName(e.target.value)}
                   className="mt-4 w-full rounded-2xl border-2 border-border bg-card px-4 py-3 outline-none focus:border-primary" />
                 <ModalActions onCancel={() => setModal(null)} onSave={saveName} />
@@ -148,11 +151,11 @@ function ProfilePage() {
             )}
             {modal === "password" && (
               <>
-                <h2 className="text-xl font-black">Alterar senha</h2>
+                <h2 className="text-xl font-black">{t("Alterar senha")}</h2>
                 <div className="mt-4 flex flex-col gap-3">
-                  <input type="password" placeholder="Nova senha" value={pass} onChange={(e) => setPass(e.target.value)}
+                  <input type="password" placeholder={t("Nova senha")} value={pass} onChange={(e) => setPass(e.target.value)}
                     className="rounded-2xl border-2 border-border bg-card px-4 py-3 outline-none focus:border-primary" />
-                  <input type="password" placeholder="Confirmar" value={confirm} onChange={(e) => setConfirm(e.target.value)}
+                  <input type="password" placeholder={t("Confirmar senha")} value={confirm} onChange={(e) => setConfirm(e.target.value)}
                     className="rounded-2xl border-2 border-border bg-card px-4 py-3 outline-none focus:border-primary" />
                 </div>
                 <ModalActions onCancel={() => setModal(null)} onSave={savePass} />
@@ -160,10 +163,10 @@ function ProfilePage() {
             )}
             {modal === "language" && (
               <>
-                <h2 className="text-xl font-black">Idioma</h2>
+                <h2 className="text-xl font-black">{t("Idioma")}</h2>
                 <div className="mt-4 flex flex-col gap-2">
                   {LANGUAGES.map((l) => (
-                    <button key={l.code} onClick={async () => { await save({ language: l.code }); setModal(null); toast.success("Idioma atualizado"); }}
+                    <button key={l.code} onClick={async () => { await save({ language: l.code }); setModal(null); toast.success(t("Idioma atualizado")); }}
                       className={`flex items-center gap-3 rounded-2xl border-2 p-3 text-left ${profile.language === l.code ? "border-primary bg-accent" : "border-border"}`}>
                       <span className="text-2xl">{l.flag}</span>
                       <span className="flex-1 font-bold">{l.name}</span>
@@ -175,12 +178,12 @@ function ProfilePage() {
             )}
             {modal === "country" && (
               <>
-                <h2 className="text-xl font-black">País</h2>
+                <h2 className="text-xl font-black">{t("País")}</h2>
                 <div className="mt-4 flex max-h-80 flex-col gap-2 overflow-y-auto">
                   {COUNTRIES.map((c) => (
                     <button key={c} onClick={async () => { await save({ country: c }); setModal(null); }}
                       className={`flex items-center gap-3 rounded-2xl border-2 p-3 text-left ${profile.country === c ? "border-primary bg-accent" : "border-border"}`}>
-                      <span className="flex-1 font-bold">{c}</span>
+                      <span className="flex-1 font-bold">{t(c)}</span>
                       {profile.country === c && <span className="text-primary">✓</span>}
                     </button>
                   ))}
@@ -240,10 +243,11 @@ function Switch({ checked, onChange }: { checked: boolean; onChange: (v: boolean
   );
 }
 function ModalActions({ onCancel, onSave }: { onCancel: () => void; onSave: () => void }) {
+  const t = useT();
   return (
     <div className="mt-4 grid grid-cols-2 gap-3">
-      <button onClick={onCancel} className="rounded-2xl border-2 border-border py-3 font-bold">Cancelar</button>
-      <button onClick={onSave} className="btn-3d rounded-2xl bg-primary py-3 font-bold text-primary-foreground">Salvar</button>
+      <button onClick={onCancel} className="rounded-2xl border-2 border-border py-3 font-bold">{t("Cancelar")}</button>
+      <button onClick={onSave} className="btn-3d rounded-2xl bg-primary py-3 font-bold text-primary-foreground">{t("Salvar")}</button>
     </div>
   );
 }

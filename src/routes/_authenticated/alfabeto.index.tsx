@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile } from "@/lib/profile";
 import { ALPHABET_META, type AlphabetSystem } from "@/lib/alphabet";
 import { EN_SECTION_META } from "@/lib/en-content";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/alfabeto/")({
   component: AlfabetoPage,
@@ -15,6 +16,7 @@ const EN_SECTIONS = ["alphabet", "to-be", "tenses"] as const;
 const PT_SECTIONS = ["alphabet", "syllables", "phrases"] as const;
 
 function AlfabetoPage() {
+  const t = useT();
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
@@ -25,15 +27,20 @@ function AlfabetoPage() {
   });
 
   const lang = profile?.language ?? "ja";
+  const PT_META = {
+    alphabet: { label: t("Alfabeto"), icon: "🔤", description: t("Letras e pronúncia") },
+    syllables: { label: t("Sílabas"), icon: "🔡", description: "BA-BE-BI-BO-BU..." },
+    phrases: { label: t("Palavras e Frases"), icon: "💬", description: t("Vocabulário do dia a dia") },
+  } as const;
 
   return (
     <div className="mobile-shell">
       <header className="border-b-2 border-border bg-card px-6 py-4">
-        <h1 className="text-2xl font-black">Aprender</h1>
+        <h1 className="text-2xl font-black">{t("Aprender")}</h1>
         <p className="text-xs text-muted-foreground">
-          {lang === "en" && "Aprenda o inglês passo a passo"}
-          {lang === "pt" && "Aprenda o português passo a passo"}
-          {lang === "ja" && "Aprenda os sistemas de escrita japonesa"}
+          {lang === "en" && t("Aprenda o inglês passo a passo")}
+          {lang === "pt" && t("Aprenda o português passo a passo")}
+          {lang === "ja" && t("Aprenda os sistemas de escrita japonesa")}
         </p>
       </header>
 
@@ -91,9 +98,3 @@ function AlfabetoPage() {
     </div>
   );
 }
-
-const PT_META = {
-  alphabet: { label: "Alfabeto", icon: "🔤", description: "Letras e pronúncia" },
-  syllables: { label: "Sílabas", icon: "🔡", description: "BA-BE-BI-BO-BU..." },
-  phrases: { label: "Palavras e Frases", icon: "💬", description: "Vocabulário do dia a dia" },
-} as const;
