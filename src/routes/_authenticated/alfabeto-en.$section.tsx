@@ -4,20 +4,22 @@ import { ArrowLeft, Volume2, RotateCcw, Check } from "lucide-react";
 import { toast } from "sonner";
 import { speakForLang } from "@/lib/speech";
 import { EN_ALPHABET, EN_TO_BE, EN_PHRASES, EN_TENSES, EN_SECTION_META, type EnSection } from "@/lib/en-content";
+import { useT, useTf } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/alfabeto-en/$section")({
   component: AlfabetoEn,
 });
 
 function AlfabetoEn() {
+  const t = useT();
   const { section } = Route.useParams();
   const sec = section as EnSection;
   const meta = EN_SECTION_META[sec];
   if (!meta) {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
-        <p>Seção não encontrada.</p>
-        <Link to="/alfabeto" className="btn-3d mt-4 rounded-2xl bg-primary px-6 py-3 font-bold text-primary-foreground">Voltar</Link>
+        <p>{t("Seção não encontrada.")}</p>
+        <Link to="/alfabeto" className="btn-3d mt-4 rounded-2xl bg-primary px-6 py-3 font-bold text-primary-foreground">{t("Voltar")}</Link>
       </div>
     );
   }
@@ -62,6 +64,7 @@ function AlphabetTab() {
 }
 
 function ToBeTab() {
+  const t = useT();
   const [i, setI] = useState(0);
   const step = EN_TO_BE[i];
   const [answered, setAnswered] = useState<null | boolean>(null);
@@ -79,24 +82,24 @@ function ToBeTab() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <button onClick={() => { setAnswered(null); setI((v) => Math.max(0, v - 1)); }} disabled={i === 0}
-          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">← Anterior</button>
+          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">← {t("Anterior")}</button>
         <span className="text-xs font-bold uppercase text-muted-foreground">{i + 1} / {EN_TO_BE.length}</span>
         <button onClick={next} disabled={i === EN_TO_BE.length - 1}
-          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">Próximo →</button>
+          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">{t("Próximo")} →</button>
       </div>
 
       <div className="rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-soft">
-        <div className="text-xs uppercase opacity-90">Passo {i + 1}</div>
+        <div className="text-xs uppercase opacity-90">{t("Passo")} {i + 1}</div>
         <div className="mt-1 text-4xl font-black">{step.full}</div>
         <div className="mt-1 text-sm opacity-90">{step.translation}</div>
         <button onClick={() => speakForLang(step.full, "en")}
           className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-xs font-bold backdrop-blur">
-          <Volume2 className="h-4 w-4" /> Ouvir
+          <Volume2 className="h-4 w-4" /> {t("Ouvir")}
         </button>
       </div>
 
       <div className="rounded-2xl bg-card p-4 shadow-card">
-        <div className="text-xs font-bold uppercase text-muted-foreground">Exemplo</div>
+        <div className="text-xs font-bold uppercase text-muted-foreground">{t("Exemplo")}</div>
         <div className="mt-1 text-lg font-black">{step.example}</div>
         <div className="text-xs text-muted-foreground">{step.exampleTranslation}</div>
         <button onClick={() => speakForLang(step.example, "en")} className="mt-2 text-primary">
@@ -105,7 +108,7 @@ function ToBeTab() {
       </div>
 
       <div className="rounded-2xl bg-card p-4 shadow-card">
-        <div className="text-xs font-bold uppercase text-muted-foreground">Complete: {step.pronoun} ___</div>
+        <div className="text-xs font-bold uppercase text-muted-foreground">{t("Complete:")} {step.pronoun} ___</div>
         <div className="mt-3 grid grid-cols-3 gap-2">
           {options.map((opt) => {
             const isPick = answered !== null && opt === step.form;
@@ -121,7 +124,7 @@ function ToBeTab() {
         </div>
         {answered !== null && (
           <div className={`mt-3 rounded-2xl p-3 text-sm font-bold ${answered ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
-            {answered ? "Perfeito! 🎉" : `Correto: ${step.pronoun} ${step.form}`}
+            {answered ? t("Perfeito! 🎉") : `${t("Correto:")} ${step.pronoun} ${step.form}`}
           </div>
         )}
       </div>
@@ -154,14 +157,15 @@ function PhrasesTab() {
 }
 
 function TensesTab() {
+  const t = useT();
   const [idx, setIdx] = useState(0);
-  const t = EN_TENSES[idx];
+  const tenseStep = EN_TENSES[idx];
   const [answered, setAnswered] = useState<null | boolean>(null);
   const options = ["Present", "Past", "Future"];
 
   function pick(opt: string) {
     if (answered !== null) return;
-    setAnswered(opt === t.tense);
+    setAnswered(opt === tenseStep.tense);
   }
   function next() {
     setAnswered(null);
@@ -171,36 +175,36 @@ function TensesTab() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <button onClick={() => { setAnswered(null); setIdx((v) => Math.max(0, v - 1)); }} disabled={idx === 0}
-          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">← Anterior</button>
+          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">← {t("Anterior")}</button>
         <span className="text-xs font-bold uppercase text-muted-foreground">{idx + 1} / {EN_TENSES.length}</span>
         <button onClick={next} disabled={idx === EN_TENSES.length - 1}
-          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">Próximo →</button>
+          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">{t("Próximo")} →</button>
       </div>
 
       <div className="rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-soft">
-        <div className="text-xs uppercase opacity-90">{t.tense}</div>
-        <div className="mt-1 text-2xl font-black">{t.label}</div>
-        <div className="mt-1 text-sm opacity-90">{t.translation}</div>
+        <div className="text-xs uppercase opacity-90">{tenseStep.tense}</div>
+        <div className="mt-1 text-2xl font-black">{tenseStep.label}</div>
+        <div className="mt-1 text-sm opacity-90">{tenseStep.translation}</div>
         <div className="mt-3 rounded-2xl bg-white/20 p-3 text-xs font-bold backdrop-blur">
-          Estrutura: {t.structure}
+          {t("Estrutura:")} {tenseStep.structure}
         </div>
       </div>
 
       <div className="rounded-2xl bg-card p-4 shadow-card">
-        <div className="text-xs font-bold uppercase text-muted-foreground">Exemplo</div>
-        <div className="mt-1 text-lg font-black">{t.example}</div>
-        <div className="text-xs text-muted-foreground">{t.exampleTranslation}</div>
-        <button onClick={() => speakForLang(t.example, "en")} className="mt-2 text-primary">
+        <div className="text-xs font-bold uppercase text-muted-foreground">{t("Exemplo")}</div>
+        <div className="mt-1 text-lg font-black">{tenseStep.example}</div>
+        <div className="text-xs text-muted-foreground">{tenseStep.exampleTranslation}</div>
+        <button onClick={() => speakForLang(tenseStep.example, "en")} className="mt-2 text-primary">
           <Volume2 className="h-5 w-5" />
         </button>
       </div>
 
       <div className="rounded-2xl bg-card p-4 shadow-card">
-        <div className="text-xs font-bold uppercase text-muted-foreground">A qual tempo pertence?</div>
+        <div className="text-xs font-bold uppercase text-muted-foreground">{t("A qual tempo pertence?")}</div>
         <div className="mt-3 grid grid-cols-3 gap-2">
           {options.map((opt) => {
-            const isPick = answered !== null && opt === t.tense;
-            const wrong = answered === false && opt !== t.tense;
+            const isPick = answered !== null && opt === tenseStep.tense;
+            const wrong = answered === false && opt !== tenseStep.tense;
             return (
               <button key={opt} onClick={() => pick(opt)}
                 className={`rounded-2xl border-2 py-3 font-black transition ${
@@ -212,12 +216,12 @@ function TensesTab() {
         </div>
         {answered !== null && (
           <div className={`mt-3 rounded-2xl p-3 text-sm font-bold ${answered ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
-            {answered ? "Perfeito! 🎉" : `Correto: ${t.tense}`}
+            {answered ? t("Perfeito! 🎉") : `${t("Correto:")} ${tenseStep.tense}`}
           </div>
         )}
       </div>
 
-      <WritePractice target={t.example} lang="en" phonetic={t.exampleTranslation} />
+      <WritePractice target={tenseStep.example} lang="en" phonetic={tenseStep.exampleTranslation} />
     </div>
   );
 }

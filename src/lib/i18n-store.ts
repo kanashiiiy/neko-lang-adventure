@@ -2,6 +2,11 @@
 type Dict = Record<string, string>;
 
 const en: Dict = {
+  "Muitas mensagens! Espere um pouco 🐾": "Too many messages! Please wait a bit 🐾",
+  "Créditos de IA esgotados.": "AI credits ran out.",
+  "Deu um probleminha. Tente de novo!": "Something went wrong. Try again!",
+  "Neko AI ainda não está configurado.": "Neko AI isn"t set up yet.",
+  "Miau!": "Meow!",
   "Todas as fases desbloqueadas": "All stages unlocked",
   "Neko AI ilimitado": "Unlimited Neko AI",
   "Sem anúncios": "No ads",
@@ -32,6 +37,11 @@ const en: Dict = {
 };
 
 const ja: Dict = {
+  "Muitas mensagens! Espere um pouco 🐾": "メッセージが多すぎます！少し待ってね 🐾",
+  "Créditos de IA esgotados.": "AIクレジットがなくなりました。",
+  "Deu um probleminha. Tente de novo!": "問題が発生しました。もう一度試してね！",
+  "Neko AI ainda não está configurado.": "Neko AI はまだ設定されていません。",
+  "Miau!": "ニャー！",
   "Todas as fases desbloqueadas": "すべてのステージが解放",
   "Neko AI ilimitado": "Neko AI 無制限",
   "Sem anúncios": "広告なし",
@@ -62,6 +72,11 @@ const ja: Dict = {
 };
 
 const fr: Dict = {
+  "Muitas mensagens! Espere um pouco 🐾": "Trop de messages ! Patiente un peu 🐾",
+  "Créditos de IA esgotados.": "Crédits IA épuisés.",
+  "Deu um probleminha. Tente de novo!": "Un souci est survenu. Réessaie !",
+  "Neko AI ainda não está configurado.": "Neko AI n"est pas encore configuré.",
+  "Miau!": "Miaou !",
   "Todas as fases desbloqueadas": "Toutes les étapes débloquées",
   "Neko AI ilimitado": "Neko AI illimité",
   "Sem anúncios": "Sans publicités",
@@ -92,6 +107,11 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  "Muitas mensagens! Espere um pouco 🐾": "¡Demasiados mensajes! Espera un poco 🐾",
+  "Créditos de IA esgotados.": "Créditos de IA agotados.",
+  "Deu um probleminha. Tente de novo!": "Hubo un problema. ¡Inténtalo de nuevo!",
+  "Neko AI ainda não está configurado.": "Neko AI aún no está configurado.",
+  "Miau!": "¡Miau!",
   "Todas as fases desbloqueadas": "Todas las fases desbloqueadas",
   "Neko AI ilimitado": "Neko AI ilimitado",
   "Sem anúncios": "Sin anuncios",
@@ -122,6 +142,11 @@ const es: Dict = {
 };
 
 const ko: Dict = {
+  "Muitas mensagens! Espere um pouco 🐾": "메시지가 너무 많아요! 잠시 기다려 주세요 🐾",
+  "Créditos de IA esgotados.": "AI 크레딧이 모두 소진됐어요.",
+  "Deu um probleminha. Tente de novo!": "문제가 발생했어요. 다시 시도해 주세요!",
+  "Neko AI ainda não está configurado.": "Neko AI가 아직 설정되지 않았어요.",
+  "Miau!": "야옹!",
   "Todas as fases desbloqueadas": "모든 단계 잠금 해제",
   "Neko AI ilimitado": "Neko AI 무제한",
   "Sem anúncios": "광고 없음",
