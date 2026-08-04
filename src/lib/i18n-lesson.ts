@@ -1,0 +1,42 @@
+export const LESSON_EXTRA: Record<"en" | "ja" | "fr" | "es" | "ko", Record<string, string>> = {
+  en: {
+    "🔥 7 acertos seguidos! +2 Foco": "🔥 7 correct in a row! +2 Focus",
+    "Você acertou {rights} de {total}": "You got {rights} out of {total}",
+    "Tarefa {idx} de {total} · {kind}": "Task {idx} of {total} · {kind}",
+    "Português:": "Portuguese:",
+    "Japonês:": "Japanese:",
+    "Ouvi: \"{heard}\"": "I heard: \"{heard}\"",
+  },
+  ja: {
+    "🔥 7 acertos seguidos! +2 Foco": "🔥 7連続正解！+2フォーカス",
+    "Você acertou {rights} de {total}": "{total}問中{rights}問正解しました",
+    "Tarefa {idx} de {total} · {kind}": "問題 {idx}/{total}・{kind}",
+    "Português:": "ポルトガル語：",
+    "Japonês:": "日本語：",
+    "Ouvi: \"{heard}\"": "聞き取った内容：「{heard}」",
+  },
+  fr: {
+    "🔥 7 acertos seguidos! +2 Foco": "🔥 7 bonnes réponses de suite ! +2 Focus",
+    "Você acertou {rights} de {total}": "Vous avez obtenu {rights} sur {total}",
+    "Tarefa {idx} de {total} · {kind}": "Tâche {idx} sur {total} · {kind}",
+    "Português:": "Portugais :",
+    "Japonês:": "Japonais :",
+    "Ouvi: \"{heard}\"": "J'ai entendu : \"{heard}\"",
+  },
+  es: {
+    "🔥 7 acertos seguidos! +2 Foco": "🔥 ¡7 aciertos seguidos! +2 Enfoque",
+    "Você acertou {rights} de {total}": "Acertaste {rights} de {total}",
+    "Tarefa {idx} de {total} · {kind}": "Tarea {idx} de {total} · {kind}",
+    "Português:": "Portugués:",
+    "Japonês:": "Japonés:",
+    "Ouvi: \"{heard}\"": "Escuché: \"{heard}\"",
+  },
+  ko: {
+    "🔥 7 acertos seguidos! +2 Foco": "🔥 7연속 정답! +2 포커스",
+    "Você acertou {rights} de {total}": "{total}문제 중 {rights}문제를 맞혔어요",
+    "Tarefa {idx} de {total} · {kind}": "과제 {idx}/{total} · {kind}",
+    "Português:": "포르투갈어:",
+    "Japonês:": "일본어:",
+    "Ouvi: \"{heard}\"": "들은 내용: \"{heard}\"",
+  },
+};
