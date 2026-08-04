@@ -17,6 +17,7 @@ type Tab = "table" | "write" | "vocab" | "exercise" | "review";
 
 function AlfabetoSystem() {
   const t = useT();
+  const tf = useTf();
   const { system } = Route.useParams();
   const sys = system as AlphabetSystem;
   const meta = ALPHABET_META[sys];
