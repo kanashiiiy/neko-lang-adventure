@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { APP_EXTRA } from "@/lib/i18n-app";
 import { EXTRA } from "@/lib/i18n-extra";
+import { STORE_EXTRA } from "@/lib/i18n-store";
 
 
 
@@ -1093,11 +1094,11 @@ const ko: Dict = {
 
 const DICTS: Record<UiLang, Dict> = {
   pt: {},
-  en: { ...en, ...APP_EXTRA.en, ...EXTRA.en },
-  ja: { ...ja, ...APP_EXTRA.ja, ...EXTRA.ja },
-  fr: { ...fr, ...APP_EXTRA.fr, ...EXTRA.fr },
-  es: { ...es, ...APP_EXTRA.es, ...EXTRA.es },
-  ko: { ...ko, ...APP_EXTRA.ko, ...EXTRA.ko },
+  en: { ...en, ...APP_EXTRA.en, ...EXTRA.en, ...STORE_EXTRA.en },
+  ja: { ...ja, ...APP_EXTRA.ja, ...EXTRA.ja, ...STORE_EXTRA.ja },
+  fr: { ...fr, ...APP_EXTRA.fr, ...EXTRA.fr, ...STORE_EXTRA.fr },
+  es: { ...es, ...APP_EXTRA.es, ...EXTRA.es, ...STORE_EXTRA.es },
+  ko: { ...ko, ...APP_EXTRA.ko, ...EXTRA.ko, ...STORE_EXTRA.ko },
 
 };
 
