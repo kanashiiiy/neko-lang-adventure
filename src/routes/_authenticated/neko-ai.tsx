@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
+import { useT, useUiLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/neko-ai")({
   component: NekoAIPage,
@@ -12,6 +13,8 @@ export const Route = createFileRoute("/_authenticated/neko-ai")({
 interface Msg { role: "user" | "assistant"; content: string }
 
 function NekoAIPage() {
+  const t = useT();
+  const uiLang = useUiLang();
   const [messages, setMessages] = useState<Msg[]>([
     { role: "assistant", content: "Oi! Eu sou o Neko 🐾 Posso explicar palavras, traduzir frases, corrigir sua gramática e te ajudar com as lições. Como posso ajudar hoje?" },
   ]);
@@ -34,13 +37,13 @@ function NekoAIPage() {
       const res = await fetch("/api/neko-ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next }),
+        body: JSON.stringify({ messages: next, uiLang }),
       });
       if (!res.ok) throw new Error(await res.text());
       const data = await res.json();
       setMessages([...next, { role: "assistant", content: data.reply }]);
     } catch {
-      setMessages([...next, { role: "assistant", content: "Não consegui responder agora. Tente de novo em instantes 🐾" }]);
+      setMessages([...next, { role: "assistant", content: t("Não consegui responder agora. Tente de novo em instantes 🐾") }]);
     } finally {
       setLoading(false);
     }
@@ -52,7 +55,7 @@ function NekoAIPage() {
         <NekoMascot size={44} float={false} />
         <div>
           <div className="font-black">Neko AI</div>
-          <div className="text-xs text-muted-foreground">Seu tutor inteligente</div>
+          <div className="text-xs text-muted-foreground">{t("Seu tutor inteligente")}</div>
         </div>
       </header>
 
@@ -62,7 +65,7 @@ function NekoAIPage() {
             <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
               m.role === "user" ? "bg-primary text-primary-foreground" : "bg-card shadow-card"
             }`}>
-              {m.content}
+              {i === 0 && m.role === "assistant" ? t(m.content) : m.content}
             </div>
           </div>
         ))}
@@ -82,7 +85,7 @@ function NekoAIPage() {
       <div className="border-t-2 border-border bg-card px-3 py-2">
         <form onSubmit={(e) => { e.preventDefault(); send(); }} className="flex items-center gap-2">
           <input value={input} onChange={(e) => setInput(e.target.value)}
-            placeholder="Pergunte algo ao Neko..."
+            placeholder={t("Pergunte algo ao Neko...")}
             className="flex-1 rounded-full border-2 border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary" />
           <button type="submit" disabled={!input.trim() || loading}
             className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground disabled:opacity-50">
