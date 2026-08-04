@@ -233,6 +233,7 @@ function shuffleOptions(correct: string, all: string[]) {
 
 // Shared write practice — used across languages.
 export function WritePractice({ target, lang, phonetic }: { target: string; lang: "en" | "pt" | "ja"; phonetic?: string }) {
+  const t = useT();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
   const [hasDrawn, setHasDrawn] = useState(false);
@@ -268,7 +269,7 @@ export function WritePractice({ target, lang, phonetic }: { target: string; lang
     <div className="rounded-3xl bg-card p-4 shadow-card">
       <div className="flex items-center justify-between">
         <div>
-          <div className="text-xs font-bold uppercase text-muted-foreground">Pratique escrevendo</div>
+          <div className="text-xs font-bold uppercase text-muted-foreground">{t("Pratique escrevendo")}</div>
           <div className="text-3xl font-black leading-tight">{target}</div>
           {phonetic && <div className="text-xs text-muted-foreground">{phonetic}</div>}
         </div>
@@ -286,11 +287,11 @@ export function WritePractice({ target, lang, phonetic }: { target: string; lang
       </div>
       <div className="mt-3 flex gap-2 justify-end">
         <button onClick={clear} className="flex items-center gap-1 rounded-full bg-muted px-3 py-1.5 text-xs font-bold">
-          <RotateCcw className="h-3 w-3" /> Limpar
+          <RotateCcw className="h-3 w-3" /> {t("Limpar")}
         </button>
-        <button onClick={() => { toast.success(hasDrawn ? "Ótimo trabalho! ✏️" : "Desenhe primeiro!"); if (hasDrawn) clear(); }}
+        <button onClick={() => { toast.success(hasDrawn ? t("Ótimo trabalho! ✏️") : t("Desenhe primeiro!")); if (hasDrawn) clear(); }}
           className="btn-3d flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground">
-          <Check className="h-3 w-3" /> Verificar
+          <Check className="h-3 w-3" /> {t("Verificar")}
         </button>
       </div>
     </div>

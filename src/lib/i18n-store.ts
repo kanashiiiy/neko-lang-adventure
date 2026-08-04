@@ -5,7 +5,7 @@ const en: Dict = {
   "Muitas mensagens! Espere um pouco 🐾": "Too many messages! Please wait a bit 🐾",
   "Créditos de IA esgotados.": "AI credits ran out.",
   "Deu um probleminha. Tente de novo!": "Something went wrong. Try again!",
-  "Neko AI ainda não está configurado.": "Neko AI isn"t set up yet.",
+  "Neko AI ainda não está configurado.": "Neko AI is not set up yet.",
   "Miau!": "Meow!",
   "Todas as fases desbloqueadas": "All stages unlocked",
   "Neko AI ilimitado": "Unlimited Neko AI",
