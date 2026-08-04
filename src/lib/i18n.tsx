@@ -2,6 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 
 import { APP_EXTRA } from "@/lib/i18n-app";
 import { EXTRA } from "@/lib/i18n-extra";
+import { STORE_EXTRA } from "@/lib/i18n-store";
+import { PROFILE_EXTRA } from "@/lib/i18n-profile";
+import { LESSON_EXTRA } from "@/lib/i18n-lesson";
+import { ALPHABET_EXTRA } from "@/lib/i18n-alphabet";
 
 
 
@@ -1093,11 +1097,11 @@ const ko: Dict = {
 
 const DICTS: Record<UiLang, Dict> = {
   pt: {},
-  en: { ...en, ...APP_EXTRA.en, ...EXTRA.en },
-  ja: { ...ja, ...APP_EXTRA.ja, ...EXTRA.ja },
-  fr: { ...fr, ...APP_EXTRA.fr, ...EXTRA.fr },
-  es: { ...es, ...APP_EXTRA.es, ...EXTRA.es },
-  ko: { ...ko, ...APP_EXTRA.ko, ...EXTRA.ko },
+  en: { ...en, ...APP_EXTRA.en, ...EXTRA.en, ...STORE_EXTRA.en, ...PROFILE_EXTRA.en, ...LESSON_EXTRA.en, ...ALPHABET_EXTRA.en },
+  ja: { ...ja, ...APP_EXTRA.ja, ...EXTRA.ja, ...STORE_EXTRA.ja, ...PROFILE_EXTRA.ja, ...LESSON_EXTRA.ja, ...ALPHABET_EXTRA.ja },
+  fr: { ...fr, ...APP_EXTRA.fr, ...EXTRA.fr, ...STORE_EXTRA.fr, ...PROFILE_EXTRA.fr, ...LESSON_EXTRA.fr, ...ALPHABET_EXTRA.fr },
+  es: { ...es, ...APP_EXTRA.es, ...EXTRA.es, ...STORE_EXTRA.es, ...PROFILE_EXTRA.es, ...LESSON_EXTRA.es, ...ALPHABET_EXTRA.es },
+  ko: { ...ko, ...APP_EXTRA.ko, ...EXTRA.ko, ...STORE_EXTRA.ko, ...PROFILE_EXTRA.ko, ...LESSON_EXTRA.ko, ...ALPHABET_EXTRA.ko },
 
 };
 

@@ -8,12 +8,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus } from "@/lib/profile";
 import { speakForLang, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
+import { useT, useTf } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/lesson/$id")({
   component: LessonPlayer,
 });
 
 function LessonPlayer() {
+  const t = useT();
+  const tf = useTf();
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -52,8 +55,8 @@ function LessonPlayer() {
   if (!lesson) {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
-        <p>Lição não encontrada.</p>
-        <Link to="/home" className="btn-3d mt-4 rounded-2xl bg-primary px-6 py-3 font-bold text-primary-foreground">Voltar</Link>
+        <p>{t("Lição não encontrada.")}</p>
+        <Link to="/home" className="btn-3d mt-4 rounded-2xl bg-primary px-6 py-3 font-bold text-primary-foreground">{t("Voltar")}</Link>
       </div>
     );
   }
@@ -86,7 +89,7 @@ function LessonPlayer() {
         const next = s + 1;
         if (next % 7 === 0) {
           setBonusFocus((b) => b + 2);
-          toast.success("🔥 7 acertos seguidos! +2 Foco");
+          toast.success(t("🔥 7 acertos seguidos! +2 Foco"));
         }
         return next;
       });
@@ -97,7 +100,7 @@ function LessonPlayer() {
 
   async function handleSpeak() {
     if (!isRecognitionSupported()) {
-      toast.error("Seu navegador não suporta microfone. Toque em ✓ para pular.");
+      toast.error(t("Seu navegador não suporta microfone. Toque em ✓ para pular."));
       return;
     }
     if (!(await ensureFocusSpent())) return;
@@ -116,7 +119,7 @@ function LessonPlayer() {
       applyResult(ok);
       setListening(false);
     };
-    rec.onerror = () => { setListening(false); toast.error("Não consegui ouvir. Tente de novo."); };
+    rec.onerror = () => { setListening(false); toast.error(t("Não consegui ouvir. Tente de novo.")); };
     rec.onend = () => setListening(false);
     try { rec.start(); } catch { setListening(false); }
   }
@@ -140,7 +143,7 @@ function LessonPlayer() {
       qc.invalidateQueries({ queryKey: ["profile"] });
       qc.invalidateQueries({ queryKey: ["completed", lang] });
     } catch {
-      toast.error("Não conseguimos salvar seu progresso.");
+      toast.error(t("Não conseguimos salvar seu progresso."));
     }
     setSaving(false);
     setDone(true);
@@ -150,11 +153,11 @@ function LessonPlayer() {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
         <NekoMascot size={160} entrance />
-        <h1 className="mt-4 text-2xl font-black">Sem Foco ⚡</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Compre mais Foco na loja com seus diamantes.</p>
+        <h1 className="mt-4 text-2xl font-black">{t("Sem Foco ⚡")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("Compre mais Foco na loja com seus diamantes.")}</p>
         <div className="mt-6 flex w-full flex-col gap-2">
-          <Link to="/store" className="btn-3d rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">Ir à loja</Link>
-          <Link to="/home" className="text-sm font-semibold text-muted-foreground">Voltar</Link>
+          <Link to="/store" className="btn-3d rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">{t("Ir à loja")}</Link>
+          <Link to="/home" className="text-sm font-semibold text-muted-foreground">{t("Voltar")}</Link>
         </div>
       </div>
     );
@@ -166,15 +169,15 @@ function LessonPlayer() {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
         <NekoMascot size={180} bounce float entrance />
-        <h1 className="mt-4 text-3xl font-black">Fase concluída! 🎉</h1>
-        <p className="mt-1 text-muted-foreground">Você acertou {rights} de {total}</p>
+        <h1 className="mt-4 text-3xl font-black">{t("Fase concluída! 🎉")}</h1>
+        <p className="mt-1 text-muted-foreground">{tf("Você acertou {rights} de {total}", { rights, total })}</p>
         <div className="mt-6 grid w-full grid-cols-3 gap-3">
-          <Reward label="XP" value={`+${xpEarned}`} color="bg-gold text-gold-foreground" />
-          <Reward label="Acerto" value={`${score}%`} color="bg-success text-success-foreground" />
-          <Reward label="Foco" value={bonusFocus > 0 ? `+${bonusFocus}` : "0"} color="bg-primary text-primary-foreground" />
+          <Reward label={t("XP")} value={`+${xpEarned}`} color="bg-gold text-gold-foreground" />
+          <Reward label={t("Acerto")} value={`${score}%`} color="bg-success text-success-foreground" />
+          <Reward label={t("Foco")} value={bonusFocus > 0 ? `+${bonusFocus}` : "0"} color="bg-primary text-primary-foreground" />
         </div>
         <Link to="/home" className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
-          Continuar
+          {t("Continuar")}
         </Link>
       </div>
     );
@@ -194,7 +197,11 @@ function LessonPlayer() {
       </header>
 
       <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
-        Tarefa {idx + 1} de {total} · {q.kind === "listen" ? "Ouvir" : q.kind === "speak" ? "Falar" : q.kind === "complete" ? "Escrever" : "Escolher"}
+        {tf("Tarefa {idx} de {total} · {kind}", {
+          idx: idx + 1,
+          total,
+          kind: q.kind === "listen" ? t("Ouvir") : q.kind === "speak" ? t("Falar") : q.kind === "complete" ? t("Escrever") : t("Escolher"),
+        })}
       </div>
       <h2 className="mt-2 text-2xl font-black">{q.prompt}</h2>
 
@@ -202,7 +209,7 @@ function LessonPlayer() {
         <button onClick={() => q.audio && speakForLang(q.audio, lang)}
           className="mt-6 flex w-full items-center justify-center gap-3 rounded-3xl bg-primary py-8 text-primary-foreground shadow-soft">
           <Volume2 className="h-8 w-8" />
-          <span className="text-lg font-black">Tocar áudio</span>
+          <span className="text-lg font-black">{t("Tocar áudio")}</span>
         </button>
       )}
 
@@ -226,9 +233,9 @@ function LessonPlayer() {
           <button onClick={handleSpeak} disabled={listening || correct !== null}
             className={`btn-3d mt-2 flex items-center gap-2 rounded-2xl px-6 py-3 font-bold text-primary-foreground ${listening ? "bg-destructive animate-pulse" : "bg-primary"}`}>
             <Mic className="h-5 w-5" />
-            {listening ? "Ouvindo..." : "Falar"}
+            {listening ? t("Ouvindo...") : t("Falar")}
           </button>
-          {heard && <div className="text-xs text-muted-foreground">Ouvi: "{heard}"</div>}
+          {heard && <div className="text-xs text-muted-foreground">{tf('Ouvi: "{heard}"', { heard })}</div>}
         </div>
       )}
 
@@ -254,7 +261,7 @@ function LessonPlayer() {
 
       {q.kind === "complete" && (
         <input value={typed} onChange={(e) => setTyped(e.target.value)} disabled={correct !== null}
-          placeholder="Digite sua resposta"
+          placeholder={t("Digite sua resposta")}
           className="mt-6 w-full rounded-2xl border-2 border-border bg-card px-4 py-3.5 text-lg outline-none focus:border-primary" />
       )}
 
@@ -263,29 +270,29 @@ function LessonPlayer() {
           q.kind === "speak" ? null : (
             <button onClick={check} disabled={q.kind === "complete" ? !typed.trim() : !picked}
               className="btn-3d w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground disabled:opacity-50">
-              Verificar
+              {t("Verificar")}
             </button>
           )
         ) : (
           <div className={`rounded-2xl p-4 ${correct ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
-            <div className="text-sm font-black">{correct ? "Muito bem! 🎉" : `Resposta certa: ${q.answer}`}</div>
+            <div className="text-sm font-black">{correct ? t("Muito bem! 🎉") : `${t("Resposta certa:")} ${q.answer}`}</div>
             {(q.translation || q.japanese || q.romaji) && (
               <div className="mt-2 space-y-1 rounded-xl bg-background/60 p-3 text-left">
                 {q.translation && (
-                  <div className="text-xs"><span className="font-black uppercase opacity-70">Português:</span> <span className="font-bold text-foreground">{q.translation}</span></div>
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.translation}</span></div>
                 )}
                 {q.japanese && (
-                  <div className="text-xs"><span className="font-black uppercase opacity-70">Japonês:</span> <span className="font-bold text-foreground">{q.japanese}</span></div>
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{q.japanese}</span></div>
                 )}
                 {q.romaji && (
-                  <div className="text-xs"><span className="font-black uppercase opacity-70">Romaji:</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
                 )}
               </div>
             )}
             <button onClick={next} disabled={saving}
               className="btn-3d mt-3 w-full rounded-2xl bg-current py-3 font-bold">
               <span className={correct ? "text-success-foreground" : "text-destructive-foreground"}>
-                {saving ? "Salvando..." : "Continuar"}
+                {saving ? t("Salvando...") : t("Continuar")}
               </span>
             </button>
           </div>

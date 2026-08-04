@@ -7,12 +7,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   component: SettingsPage,
 });
 
 function SettingsPage() {
+  const t = useT();
   const qc = useQueryClient();
   const { data: profile } = useQuery({
     queryKey: ["profile"],
@@ -50,36 +52,36 @@ function SettingsPage() {
 
   async function changeLanguage(code: string) {
     await save({ language: code });
-    toast.success("Idioma atualizado!");
+    toast.success(t("Idioma atualizado!"));
   }
 
   async function updatePassword() {
-    if (pass.length < 6) return toast.error("Mínimo 6 caracteres");
-    if (pass !== confirm) return toast.error("As senhas não coincidem");
+    if (pass.length < 6) return toast.error(t("Mínimo 6 caracteres"));
+    if (pass !== confirm) return toast.error(t("As senhas não coincidem"));
     const { error } = await supabase.auth.updateUser({ password: pass });
     if (error) return toast.error(error.message);
-    toast.success("Senha atualizada!");
+    toast.success(t("Senha atualizada!"));
     setShowPass(false); setPass(""); setConfirm("");
   }
 
   return (
     <div className="mobile-shell">
       <header className="border-b-2 border-border bg-card px-6 py-4">
-        <h1 className="text-2xl font-black">Configurações</h1>
+        <h1 className="text-2xl font-black">{t("Configurações")}</h1>
       </header>
 
       <main className="flex-1 px-4 py-4 space-y-5">
-        <Section title="Aparência">
-          <Row icon={theme === "dark" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />} label="Tema">
+        <Section title={t("Aparência")}>
+          <Row icon={theme === "dark" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />} label={t("Tema")}>
             <div className="flex rounded-full bg-muted p-1">
-              <ThemeBtn active={theme === "light"} onClick={() => { setTheme("light"); save({ theme: "light" }); }}>Claro</ThemeBtn>
-              <ThemeBtn active={theme === "dark"} onClick={() => { setTheme("dark"); save({ theme: "dark" }); }}>Escuro</ThemeBtn>
+              <ThemeBtn active={theme === "light"} onClick={() => { setTheme("light"); save({ theme: "light" }); }}>{t("Claro")}</ThemeBtn>
+              <ThemeBtn active={theme === "dark"} onClick={() => { setTheme("dark"); save({ theme: "dark" }); }}>{t("Escuro")}</ThemeBtn>
             </div>
           </Row>
         </Section>
 
-        <Section title="Aprendizado">
-          <Row icon={<Globe className="h-5 w-5" />} label="Idioma">
+        <Section title={t("Aprendizado")}>
+          <Row icon={<Globe className="h-5 w-5" />} label={t("Idioma")}>
             <select value={profile?.language ?? "ja"} onChange={(e) => changeLanguage(e.target.value)}
               className="rounded-lg bg-muted px-3 py-1.5 text-sm font-bold outline-none">
               {LANGUAGES.map((l) => <option key={l.code} value={l.code}>{l.flag} {l.name}</option>)}
@@ -87,31 +89,31 @@ function SettingsPage() {
           </Row>
         </Section>
 
-        <Section title="Notificações">
-          <Row icon={<Bell className="h-5 w-5" />} label="Lembretes diários">
+        <Section title={t("Notificações")}>
+          <Row icon={<Bell className="h-5 w-5" />} label={t("Lembretes diários")}>
             <Switch checked={notif} onChange={(v) => { setNotif(v); save({ notifications_enabled: v }); }} />
           </Row>
         </Section>
 
-        <Section title="Conta">
-          <ClickRow icon={<Lock className="h-5 w-5" />} label="Alterar senha" onClick={() => setShowPass(true)} />
-          <ClickRow icon={<HelpCircle className="h-5 w-5" />} label="Ajuda" onClick={() => toast.info("Em breve!")} />
-          <ClickRow icon={<Info className="h-5 w-5" />} label="Sobre o NEKOTeach" onClick={() =>
-            toast("NEKOTeach v1.0", { description: "Feito com 💜 para você aprender idiomas" })} />
+        <Section title={t("Conta")}>
+          <ClickRow icon={<Lock className="h-5 w-5" />} label={t("Alterar senha")} onClick={() => setShowPass(true)} />
+          <ClickRow icon={<HelpCircle className="h-5 w-5" />} label={t("Ajuda")} onClick={() => toast.info(t("Em breve!"))} />
+          <ClickRow icon={<Info className="h-5 w-5" />} label={t("Sobre o NEKOTeach")} onClick={() =>
+            toast("NEKOTeach v1.0", { description: t("Feito com 💜 para você aprender idiomas") })} />
         </Section>
 
         {showPass && (
           <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-4 sm:items-center" onClick={() => setShowPass(false)}>
             <div className="w-full max-w-md rounded-3xl bg-card p-6 animate-bounce-in" onClick={(e) => e.stopPropagation()}>
-              <h2 className="text-xl font-black">Alterar senha</h2>
+              <h2 className="text-xl font-black">{t("Alterar senha")}</h2>
               <div className="mt-4 flex flex-col gap-3">
-                <input type="password" placeholder="Nova senha" value={pass} onChange={(e) => setPass(e.target.value)}
+                <input type="password" placeholder={t("Nova senha")} value={pass} onChange={(e) => setPass(e.target.value)}
                   className="rounded-2xl border-2 border-border bg-card px-4 py-3 outline-none focus:border-primary" />
-                <input type="password" placeholder="Confirmar" value={confirm} onChange={(e) => setConfirm(e.target.value)}
+                <input type="password" placeholder={t("Confirmar senha")} value={confirm} onChange={(e) => setConfirm(e.target.value)}
                   className="rounded-2xl border-2 border-border bg-card px-4 py-3 outline-none focus:border-primary" />
                 <div className="grid grid-cols-2 gap-3">
-                  <button onClick={() => setShowPass(false)} className="rounded-2xl border-2 border-border py-3 font-bold">Cancelar</button>
-                  <button onClick={updatePassword} className="btn-3d rounded-2xl bg-primary py-3 font-bold text-primary-foreground">Salvar</button>
+                  <button onClick={() => setShowPass(false)} className="rounded-2xl border-2 border-border py-3 font-bold">{t("Cancelar")}</button>
+                  <button onClick={updatePassword} className="btn-3d rounded-2xl bg-primary py-3 font-bold text-primary-foreground">{t("Salvar")}</button>
                 </div>
               </div>
             </div>

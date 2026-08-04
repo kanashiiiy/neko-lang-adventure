@@ -1,18 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+const LANG_NAME: Record<string, string> = {
+  pt: "português brasileiro",
+  en: "English",
+  ja: "日本語 (japonês)",
+  fr: "français",
+  es: "español",
+  ko: "한국어 (coreano)",
+};
+
 interface ChatMsg { role: "user" | "assistant" | "system"; content: string }
 
 export const Route = createFileRoute("/api/neko-ai")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const body = (await request.json()) as { messages?: ChatMsg[] };
+        const body = (await request.json()) as { messages?: ChatMsg[]; uiLang?: string };
         const userMessages = Array.isArray(body.messages) ? body.messages : [];
         const key = process.env.LOVABLE_API_KEY;
         if (!key) return new Response(JSON.stringify({ reply: "Neko AI ainda não está configurado." }), { status: 500 });
 
         const systemPrompt = `Você é o Neko, um gato preto simpático que é tutor de idiomas no app NEKOTeach.
-Fale sempre em português brasileiro, de forma calorosa, curta e divertida (2-4 frases).
+Responda SEMPRE no idioma da interface do usuário: ${LANG_NAME[body.uiLang ?? "pt"] ?? "português brasileiro"}.
+Seja caloroso, curto e divertido (2-4 frases).
 Ajude com: explicar palavras, traduzir frases, corrigir gramática, dar dicas de pronúncia.
 Use ocasionalmente emojis como 🐾 ✨. Não invente respostas: quando não souber, diga com sinceridade.`;
 

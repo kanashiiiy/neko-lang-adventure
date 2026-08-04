@@ -7,6 +7,7 @@ import { speak } from "@/lib/speech";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile } from "@/lib/profile";
 import { toast } from "sonner";
+import { useT, useTf } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/alfabeto/$system")({
   component: AlfabetoSystem,
@@ -15,6 +16,8 @@ export const Route = createFileRoute("/_authenticated/alfabeto/$system")({
 type Tab = "table" | "write" | "vocab" | "exercise" | "review";
 
 function AlfabetoSystem() {
+  const t = useT();
+  const tf = useTf();
   const { system } = Route.useParams();
   const sys = system as AlphabetSystem;
   const meta = ALPHABET_META[sys];
@@ -38,8 +41,8 @@ function AlfabetoSystem() {
   if (!meta) {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
-        <p>Sistema não encontrado.</p>
-        <Link to="/alfabeto" className="btn-3d mt-4 rounded-2xl bg-primary px-6 py-3 font-bold text-primary-foreground">Voltar</Link>
+        <p>{t("Sistema não encontrado.")}</p>
+        <Link to="/alfabeto" className="btn-3d mt-4 rounded-2xl bg-primary px-6 py-3 font-bold text-primary-foreground">{t("Voltar")}</Link>
       </div>
     );
   }
@@ -52,7 +55,7 @@ function AlfabetoSystem() {
         <button
           onClick={() => (category ? setCategoryId(null) : window.history.back())}
           className="text-muted-foreground"
-          aria-label="Voltar"
+          aria-label={t("Voltar")}
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
@@ -68,7 +71,7 @@ function AlfabetoSystem() {
 
       {!category && (
         <main className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-          <p className="text-xs text-muted-foreground px-1">Escolha uma categoria para começar</p>
+          <p className="text-xs text-muted-foreground px-1">{t("Escolha uma categoria para começar")}</p>
           {cats.map((c) => (
             <button
               key={c.id}
@@ -81,14 +84,14 @@ function AlfabetoSystem() {
               <div className="flex-1">
                 <div className="text-lg font-black">{c.label}</div>
                 <div className="text-xs text-muted-foreground">{c.description}</div>
-                <div className="text-[10px] font-bold uppercase text-primary mt-1">{c.letters.length} itens</div>
+                <div className="text-[10px] font-bold uppercase text-primary mt-1">{tf("{n} itens", { n: c.letters.length })}</div>
               </div>
               <ChevronRight className="h-5 w-5 text-muted-foreground" />
             </button>
           ))}
           {cats.length === 0 && (
             <p className="text-center text-sm text-muted-foreground pt-8">
-              Nenhuma categoria disponível para o seu nível.
+              {t("Nenhuma categoria disponível para o seu nível.")}
             </p>
           )}
         </main>
@@ -97,11 +100,11 @@ function AlfabetoSystem() {
       {category && (
         <>
           <div className="grid grid-cols-5 gap-1 border-b-2 border-border bg-card p-1">
-            <TabButton active={tab === "table"} onClick={() => setTab("table")}>Alfabeto</TabButton>
-            <TabButton active={tab === "write"} onClick={() => setTab("write")}>Escrever</TabButton>
-            <TabButton active={tab === "vocab"} onClick={() => setTab("vocab")}>Palavras</TabButton>
-            <TabButton active={tab === "exercise"} onClick={() => setTab("exercise")}>Exerc.</TabButton>
-            <TabButton active={tab === "review"} onClick={() => setTab("review")}>Revisão</TabButton>
+            <TabButton active={tab === "table"} onClick={() => setTab("table")}>{t("Alfabeto")}</TabButton>
+            <TabButton active={tab === "write"} onClick={() => setTab("write")}>{t("Escrever")}</TabButton>
+            <TabButton active={tab === "vocab"} onClick={() => setTab("vocab")}>{t("Palavras")}</TabButton>
+            <TabButton active={tab === "exercise"} onClick={() => setTab("exercise")}>{t("Exerc.")}</TabButton>
+            <TabButton active={tab === "review"} onClick={() => setTab("review")}>{t("Revisão")}</TabButton>
           </div>
 
           <main className="flex-1 overflow-y-auto px-4 py-4">
@@ -127,6 +130,8 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
 }
 
 function TableTab({ system, category }: { system: AlphabetSystem; category: Category }) {
+  const t = useT();
+  const tf = useTf();
   const grouped: Record<string, Letter[]> = {};
   for (const l of category.letters) (grouped[l.group] ??= []).push(l);
   const isKanji = system === "kanji";
@@ -142,9 +147,9 @@ function TableTab({ system, category }: { system: AlphabetSystem; category: Cate
                 {l.char}
               </button>
               <div className="flex-1 space-y-1">
-                <div className="text-sm"><span className="font-bold text-muted-foreground">Onyomi:</span> {l.onyomi}</div>
-                <div className="text-sm"><span className="font-bold text-muted-foreground">Kunyomi:</span> {l.kunyomi}</div>
-                <div className="text-sm"><span className="font-bold text-muted-foreground">Romaji:</span> {l.romaji}</div>
+                <div className="text-sm"><span className="font-bold text-muted-foreground">{t("Onyomi:")}</span> {l.onyomi}</div>
+                <div className="text-sm"><span className="font-bold text-muted-foreground">{t("Kunyomi:")}</span> {l.kunyomi}</div>
+                <div className="text-sm"><span className="font-bold text-muted-foreground">{t("Romaji:")}</span> {l.romaji}</div>
                 <div className="text-sm font-semibold text-primary">{l.meaning}</div>
               </div>
               <button onClick={() => speak(l.char, "ja-JP")} className="text-primary">
@@ -153,7 +158,7 @@ function TableTab({ system, category }: { system: AlphabetSystem; category: Cate
             </div>
             {l.examples && l.examples.length > 0 && (
               <div className="mt-3 border-t border-border pt-2 space-y-1">
-                <div className="text-[10px] font-bold uppercase text-muted-foreground">Exemplos</div>
+                <div className="text-[10px] font-bold uppercase text-muted-foreground">{t("Exemplos")}</div>
                 {l.examples.map((ex) => (
                   <button key={ex.word} onClick={() => speak(ex.word, "ja-JP")}
                     className="flex w-full items-center justify-between rounded-xl bg-muted/40 px-3 py-2 text-left active:scale-[0.99]">
@@ -168,7 +173,7 @@ function TableTab({ system, category }: { system: AlphabetSystem; category: Cate
             )}
           </div>
         ))}
-        <p className="text-center text-xs text-muted-foreground pt-2">Toque no kanji ou nos exemplos para ouvir</p>
+        <p className="text-center text-xs text-muted-foreground pt-2">{t("Toque no kanji ou nos exemplos para ouvir")}</p>
       </div>
     );
   }
@@ -177,7 +182,7 @@ function TableTab({ system, category }: { system: AlphabetSystem; category: Cate
     <div className="space-y-5">
       {Object.entries(grouped).map(([g, arr]) => (
         <div key={g}>
-          <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">Grupo {g}</h3>
+          <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">{tf("Grupo {g}", { g })}</h3>
           <div className="grid grid-cols-5 gap-2">
             {arr.map((l) => (
               <button key={l.char + l.romaji} onClick={() => speak(l.char, "ja-JP")}
@@ -189,12 +194,13 @@ function TableTab({ system, category }: { system: AlphabetSystem; category: Cate
           </div>
         </div>
       ))}
-      <p className="text-center text-xs text-muted-foreground pt-2">Toque em uma letra para ouvir a pronúncia</p>
+      <p className="text-center text-xs text-muted-foreground pt-2">{t("Toque em uma letra para ouvir a pronúncia")}</p>
     </div>
   );
 }
 
 function WriteTab({ category }: { category: Category }) {
+  const t = useT();
   const letters = category.letters;
   const [idx, setIdx] = useState(0);
   const letter = letters[idx];
@@ -262,7 +268,7 @@ function WriteTab({ category }: { category: Category }) {
   }
 
   function verify() {
-    if (!hasDrawn) { toast.error("Desenhe a letra primeiro!"); return; }
+    if (!hasDrawn) { toast.error(t("Desenhe a letra primeiro!")); return; }
     const c = canvasRef.current!;
     const SIZE = 64;
     const user = buildMask((ctx) => { ctx.drawImage(c, 0, 0, SIZE, SIZE); }, SIZE);
@@ -272,8 +278,8 @@ function WriteTab({ category }: { category: Category }) {
       ctx.fillText(letter.char, SIZE / 2, SIZE / 2);
     }, SIZE);
 
-    if (user.count < 25) { toast.error("Desenho muito pequeno. Tente novamente."); setReplayKey((k) => k + 1); return; }
-    if (target.count === 0) { toast.success("Parabéns! Você acertou. 🎉"); clear(); return; }
+    if (user.count < 25) { toast.error(t("Desenho muito pequeno. Tente novamente.")); setReplayKey((k) => k + 1); return; }
+    if (target.count === 0) { toast.success(t("Parabéns! Você acertou. 🎉")); clear(); return; }
 
     const targetDilated = dilate(target.mask, SIZE, 8);
     const userDilated = dilate(user.mask, SIZE, 8);
@@ -284,18 +290,18 @@ function WriteTab({ category }: { category: Category }) {
     const ratio = user.count / target.count;
     const ok = completeness >= 0.28 && precision >= 0.35 && ratio >= 0.2 && ratio <= 4.5;
 
-    if (ok) { toast.success("Parabéns! Você acertou. 🎉"); clear(); }
-    else { toast.error("Tente novamente"); setReplayKey((k) => k + 1); }
+    if (ok) { toast.success(t("Parabéns! Você acertou. 🎉")); clear(); }
+    else { toast.error(t("Tente novamente")); setReplayKey((k) => k + 1); }
   }
 
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="flex items-center justify-between w-full">
         <button onClick={() => setIdx((i) => Math.max(0, i - 1))} disabled={idx === 0}
-          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">← Anterior</button>
+          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">← {t("Anterior")}</button>
         <span className="text-xs font-bold uppercase text-muted-foreground">{idx + 1} / {letters.length}</span>
         <button onClick={() => setIdx((i) => Math.min(letters.length - 1, i + 1))} disabled={idx === letters.length - 1}
-          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">Próxima →</button>
+          className="rounded-full bg-muted px-3 py-1 text-sm font-bold disabled:opacity-40">{t("Próxima")} →</button>
       </div>
 
       <div className="flex w-full flex-col items-center rounded-3xl bg-card p-4 shadow-card">
@@ -307,19 +313,19 @@ function WriteTab({ category }: { category: Category }) {
         </div>
         <div className="mt-2 text-sm font-bold uppercase text-muted-foreground">{letter.romaji}</div>
         {letter.meaning && <div className="text-xs text-primary font-semibold">{letter.meaning}</div>}
-        <div className="mt-1 text-[10px] text-muted-foreground">Observe a ordem dos traços e reproduza abaixo</div>
+        <div className="mt-1 text-[10px] text-muted-foreground">{t("Observe a ordem dos traços e reproduza abaixo")}</div>
       </div>
 
       <div className="w-full">
         <div className="mb-2 flex items-center justify-between">
-          <span className="text-xs font-bold uppercase text-muted-foreground">Desenhe aqui</span>
+          <span className="text-xs font-bold uppercase text-muted-foreground">{t("Desenhe aqui")}</span>
           <div className="flex gap-2">
             <button onClick={clear} className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-xs font-bold">
-              <RotateCcw className="h-3 w-3" /> Limpar
+              <RotateCcw className="h-3 w-3" /> {t("Limpar")}
             </button>
             <button onClick={verify}
               className="btn-3d flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground">
-              <Check className="h-3 w-3" /> Verificar
+              <Check className="h-3 w-3" /> {t("Verificar")}
             </button>
           </div>
         </div>
@@ -332,6 +338,8 @@ function WriteTab({ category }: { category: Category }) {
 }
 
 function VocabTab({ category, system }: { category: Category; system: AlphabetSystem }) {
+  const t = useT();
+  const tf = useTf();
   // For kanji: build a vocab list from examples across the category.
   if (system === "kanji") {
     const words = category.letters.flatMap((l) => l.examples ?? []);
@@ -348,13 +356,13 @@ function VocabTab({ category, system }: { category: Category; system: AlphabetSy
             <Volume2 className="h-6 w-6 text-primary" />
           </button>
         ))}
-        {words.length === 0 && <p className="text-center text-sm text-muted-foreground">Sem palavras nesta categoria.</p>}
+        {words.length === 0 && <p className="text-center text-sm text-muted-foreground">{t("Sem palavras nesta categoria.")}</p>}
       </div>
     );
   }
   // For kana: sample words that use characters of this category (fallback: category letters themselves).
   const items = category.letters.slice(0, 20).map((l) => ({
-    word: l.char, reading: l.romaji, translation: `Som "${l.romaji}"`,
+    word: l.char, reading: l.romaji, translation: tf('Som "{r}"', { r: l.romaji }),
   }));
   return (
     <div className="space-y-2">
@@ -369,7 +377,7 @@ function VocabTab({ category, system }: { category: Category; system: AlphabetSy
           <Volume2 className="h-6 w-6 text-primary" />
         </button>
       ))}
-      <p className="text-center text-xs text-muted-foreground pt-2">Toque para ouvir</p>
+      <p className="text-center text-xs text-muted-foreground pt-2">{t("Toque para ouvir")}</p>
     </div>
   );
 }
@@ -377,6 +385,8 @@ function VocabTab({ category, system }: { category: Category; system: AlphabetSy
 function shuffle<T>(a: T[]): T[] { return [...a].sort(() => Math.random() - 0.5); }
 
 function ExerciseTab({ category }: { category: Category }) {
+  const t = useT();
+  const tf = useTf();
   const pool = category.letters;
   const [seed, setSeed] = useState(0);
   const questions = useMemo(() => {
@@ -394,16 +404,16 @@ function ExerciseTab({ category }: { category: Category }) {
 
   useEffect(() => { setI(0); setPicked(null); setScore(0); }, [category.id, seed]);
 
-  if (pool.length === 0) return <p className="text-center text-muted-foreground">Sem itens.</p>;
+  if (pool.length === 0) return <p className="text-center text-muted-foreground">{t("Sem itens.")}</p>;
 
   if (i >= questions.length) {
     return (
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="text-6xl">🎉</div>
-        <h2 className="text-2xl font-black">Exercício concluído!</h2>
-        <p className="text-muted-foreground">{score} / {questions.length} acertos</p>
+        <h2 className="text-2xl font-black">{t("Exercício concluído!")}</h2>
+        <p className="text-muted-foreground">{tf("{score} / {total} acertos", { score, total: questions.length })}</p>
         <button onClick={() => setSeed((s) => s + 1)}
-          className="btn-3d rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground">Repetir</button>
+          className="btn-3d rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground">{t("Repetir")}</button>
       </div>
     );
   }
@@ -411,11 +421,11 @@ function ExerciseTab({ category }: { category: Category }) {
   const q = questions[i];
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="text-xs font-bold uppercase text-muted-foreground">Questão {i + 1} / {questions.length}</div>
+      <div className="text-xs font-bold uppercase text-muted-foreground">{tf("Questão {n} / {total}", { n: i + 1, total: questions.length })}</div>
       <div className="rounded-3xl bg-card p-8 shadow-card">
         <div className="text-7xl font-black text-center">{q.char}</div>
       </div>
-      <div className="text-sm text-muted-foreground">Qual é o romaji?</div>
+      <div className="text-sm text-muted-foreground">{t("Qual é o romaji?")}</div>
       <div className="grid grid-cols-2 gap-2 w-full">
         {q.options.map((opt) => {
           const isPicked = picked === opt;
@@ -440,16 +450,18 @@ function ExerciseTab({ category }: { category: Category }) {
 }
 
 function ReviewTab({ category }: { category: Category }) {
+  const t = useT();
+  const tf = useTf();
   const [i, setI] = useState(0);
   const [flip, setFlip] = useState(false);
   const letters = category.letters;
   useEffect(() => { setI(0); setFlip(false); }, [category.id]);
-  if (letters.length === 0) return <p className="text-center text-muted-foreground">Sem itens.</p>;
+  if (letters.length === 0) return <p className="text-center text-muted-foreground">{t("Sem itens.")}</p>;
   const l = letters[i];
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="text-xs font-bold uppercase text-muted-foreground">Revisão {i + 1} / {letters.length}</div>
+      <div className="text-xs font-bold uppercase text-muted-foreground">{tf("Revisão {n} / {total}", { n: i + 1, total: letters.length })}</div>
       <button onClick={() => setFlip((f) => !f)}
         className="btn-3d w-full max-w-sm aspect-square rounded-3xl bg-card p-6 shadow-card flex flex-col items-center justify-center active:scale-[0.98]">
         {!flip ? (
@@ -458,23 +470,23 @@ function ReviewTab({ category }: { category: Category }) {
           <div className="text-center space-y-2">
             <div className="text-4xl font-black text-primary">{l.romaji}</div>
             {l.meaning && <div className="text-lg font-bold">{l.meaning}</div>}
-            {l.onyomi && <div className="text-xs text-muted-foreground">On: {l.onyomi}</div>}
-            {l.kunyomi && <div className="text-xs text-muted-foreground">Kun: {l.kunyomi}</div>}
+            {l.onyomi && <div className="text-xs text-muted-foreground">{t("On:")} {l.onyomi}</div>}
+            {l.kunyomi && <div className="text-xs text-muted-foreground">{t("Kun:")} {l.kunyomi}</div>}
           </div>
         )}
-        <div className="mt-4 text-[10px] font-bold uppercase text-muted-foreground">Toque para virar</div>
+        <div className="mt-4 text-[10px] font-bold uppercase text-muted-foreground">{t("Toque para virar")}</div>
       </button>
       <div className="flex items-center gap-2">
         <button onClick={() => speak(l.char, "ja-JP")}
           className="flex items-center gap-1 rounded-full bg-muted px-4 py-2 text-sm font-bold">
-          <Volume2 className="h-4 w-4" /> Ouvir
+          <Volume2 className="h-4 w-4" /> {t("Ouvir")}
         </button>
       </div>
       <div className="flex items-center justify-between w-full">
         <button onClick={() => { setI((x) => Math.max(0, x - 1)); setFlip(false); }} disabled={i === 0}
-          className="rounded-full bg-muted px-4 py-2 text-sm font-bold disabled:opacity-40">← Anterior</button>
+          className="rounded-full bg-muted px-4 py-2 text-sm font-bold disabled:opacity-40">← {t("Anterior")}</button>
         <button onClick={() => { setI((x) => Math.min(letters.length - 1, x + 1)); setFlip(false); }} disabled={i === letters.length - 1}
-          className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground disabled:opacity-40">Próxima →</button>
+          className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground disabled:opacity-40">{t("Próxima")} →</button>
       </div>
     </div>
   );
