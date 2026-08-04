@@ -16,6 +16,7 @@ export const Route = createFileRoute("/_authenticated/alfabeto/$system")({
 type Tab = "table" | "write" | "vocab" | "exercise" | "review";
 
 function AlfabetoSystem() {
+  const t = useT();
   const { system } = Route.useParams();
   const sys = system as AlphabetSystem;
   const meta = ALPHABET_META[sys];
@@ -128,6 +129,8 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
 }
 
 function TableTab({ system, category }: { system: AlphabetSystem; category: Category }) {
+  const t = useT();
+  const tf = useTf();
   const grouped: Record<string, Letter[]> = {};
   for (const l of category.letters) (grouped[l.group] ??= []).push(l);
   const isKanji = system === "kanji";
@@ -196,6 +199,7 @@ function TableTab({ system, category }: { system: AlphabetSystem; category: Cate
 }
 
 function WriteTab({ category }: { category: Category }) {
+  const t = useT();
   const letters = category.letters;
   const [idx, setIdx] = useState(0);
   const letter = letters[idx];
@@ -333,6 +337,8 @@ function WriteTab({ category }: { category: Category }) {
 }
 
 function VocabTab({ category, system }: { category: Category; system: AlphabetSystem }) {
+  const t = useT();
+  const tf = useTf();
   // For kanji: build a vocab list from examples across the category.
   if (system === "kanji") {
     const words = category.letters.flatMap((l) => l.examples ?? []);
@@ -378,6 +384,8 @@ function VocabTab({ category, system }: { category: Category; system: AlphabetSy
 function shuffle<T>(a: T[]): T[] { return [...a].sort(() => Math.random() - 0.5); }
 
 function ExerciseTab({ category }: { category: Category }) {
+  const t = useT();
+  const tf = useTf();
   const pool = category.letters;
   const [seed, setSeed] = useState(0);
   const questions = useMemo(() => {
@@ -441,6 +449,8 @@ function ExerciseTab({ category }: { category: Category }) {
 }
 
 function ReviewTab({ category }: { category: Category }) {
+  const t = useT();
+  const tf = useTf();
   const [i, setI] = useState(0);
   const [flip, setFlip] = useState(false);
   const letters = category.letters;
