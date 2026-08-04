@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, buyFocus } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
+import { useT, useTf } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/store")({
   component: StorePage,
@@ -27,6 +28,8 @@ const FOCUS_PACKS: { id: string; focus: number; cost: number; label: string; bad
 
 function StorePage() {
   const qc = useQueryClient();
+  const t = useT();
+  const tf = useTf();
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
@@ -42,22 +45,22 @@ function StorePage() {
     until.setDate(until.getDate() + 3);
     await updateProfile(profile.id, { is_premium: true, premium_until: until.toISOString() } as never);
     qc.invalidateQueries({ queryKey: ["profile"] });
-    toast.success("🎉 3 dias grátis ativados!");
+    toast.success(t("🎉 3 dias grátis ativados!"));
   }
 
   async function purchase(focus: number, cost: number) {
     if (!profile) return;
-    if (profile.gems < cost) return toast.error("Diamantes insuficientes 💎");
+    if (profile.gems < cost) return toast.error(t("Diamantes insuficientes 💎"));
     const res = await buyFocus(profile.id, focus, cost);
-    if (!res) return toast.error("Não foi possível comprar");
+    if (!res) return toast.error(t("Não foi possível comprar"));
     qc.invalidateQueries({ queryKey: ["profile"] });
-    toast.success(`+${focus} Foco adicionados! ⚡`);
+    toast.success(tf("+{n} Foco adicionados! ⚡", { n: focus }));
   }
 
   return (
     <div className="mobile-shell">
       <header className="border-b-2 border-border bg-card px-6 py-4 flex items-center justify-between">
-        <h1 className="text-2xl font-black">Premium</h1>
+        <h1 className="text-2xl font-black">{t("Premium")}</h1>
         <div className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-sm font-bold text-primary">
           <Gem className="h-4 w-4" /> {profile?.gems ?? 0}
         </div>
@@ -68,16 +71,16 @@ function StorePage() {
             <NekoMascot size={90} float />
             <div>
               <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wide">
-                <Sparkles className="h-3.5 w-3.5" /> Premium
+                <Sparkles className="h-3.5 w-3.5" /> {t("Premium")}
               </div>
               <div className="text-2xl font-black">NEKOTeach Plus</div>
-              <div className="text-xs opacity-90">Aprenda sem limites</div>
+              <div className="text-xs opacity-90">{t("Aprenda sem limites")}</div>
             </div>
           </div>
 
           <div className="mt-5 rounded-2xl bg-white/15 p-4 backdrop-blur">
-            <div className="text-4xl font-black">R$ 20<span className="text-lg opacity-80">/mês</span></div>
-            <div className="text-xs opacity-90">Cancele quando quiser</div>
+            <div className="text-4xl font-black">R$ 20<span className="text-lg opacity-80">{t("/mês")}</span></div>
+            <div className="text-xs opacity-90">{t("Cancele quando quiser")}</div>
           </div>
 
           <ul className="mt-4 space-y-2">
@@ -86,28 +89,28 @@ function StorePage() {
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold text-gold-foreground">
                   <Check className="h-3 w-3" />
                 </span>
-                {b}
+                {t(b)}
               </li>
             ))}
           </ul>
 
           {profile?.is_premium ? (
             <div className="btn-3d-gold mt-5 rounded-2xl bg-gold py-3.5 text-center font-black text-gold-foreground">
-              ✨ Você é Premium
+              {t("✨ Você é Premium")}
             </div>
           ) : (
             <>
               <button onClick={startTrial}
                 className="btn-3d-gold mt-5 w-full rounded-2xl bg-gold py-3.5 font-black text-gold-foreground">
-                Começar 3 dias grátis
+                {t("Começar 3 dias grátis")}
               </button>
-              <p className="mt-2 text-center text-[11px] opacity-90">Depois, R$ 20/mês. Renovação automática.</p>
+              <p className="mt-2 text-center text-[11px] opacity-90">{t("Depois, R$ 20/mês. Renovação automática.")}</p>
             </>
           )}
         </div>
 
         <div>
-          <h2 className="mb-3 px-1 text-sm font-bold uppercase tracking-wide text-muted-foreground">Comprar Foco</h2>
+          <h2 className="mb-3 px-1 text-sm font-bold uppercase tracking-wide text-muted-foreground">{t("Comprar Foco")}</h2>
           <div className="space-y-2">
             {FOCUS_PACKS.map((p) => (
               <div key={p.id} className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card">
@@ -116,10 +119,10 @@ function StorePage() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-lg font-black">+{p.focus} Foco</span>
-                    {p.badge && <span className="rounded-full bg-gold px-2 py-0.5 text-[10px] font-bold text-gold-foreground">{p.badge}</span>}
+                    <span className="text-lg font-black">{tf("+{n} Foco", { n: p.focus })}</span>
+                    {p.badge && <span className="rounded-full bg-gold px-2 py-0.5 text-[10px] font-bold text-gold-foreground">{t(p.badge)}</span>}
                   </div>
-                  <div className="text-xs text-muted-foreground">{p.label}</div>
+                  <div className="text-xs text-muted-foreground">{t(p.label)}</div>
                 </div>
                 <button onClick={() => purchase(p.focus, p.cost)}
                   className="btn-3d flex items-center gap-1 rounded-2xl bg-primary px-3 py-2 text-sm font-bold text-primary-foreground">
