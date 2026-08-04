@@ -4,20 +4,22 @@ import { ArrowLeft, Volume2 } from "lucide-react";
 import { speakForLang } from "@/lib/speech";
 import { PT_ALPHABET, PT_SYLLABLES, PT_PHRASES, PT_SECTION_META, type PtSection } from "@/lib/pt-content";
 import { WritePractice } from "./alfabeto-en.$section";
+import { useT, useTf } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/alfabeto-pt/$section")({
   component: AlfabetoPt,
 });
 
 function AlfabetoPt() {
+  const t = useT();
   const { section } = Route.useParams();
   const sec = section as PtSection;
   const meta = PT_SECTION_META[sec];
   if (!meta) {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
-        <p>Seção não encontrada.</p>
-        <Link to="/alfabeto" className="btn-3d mt-4 rounded-2xl bg-primary px-6 py-3 font-bold text-primary-foreground">Voltar</Link>
+        <p>{t("Seção não encontrada.")}</p>
+        <Link to="/alfabeto" className="btn-3d mt-4 rounded-2xl bg-primary px-6 py-3 font-bold text-primary-foreground">{t("Voltar")}</Link>
       </div>
     );
   }
@@ -61,12 +63,14 @@ function AlphabetTab() {
 }
 
 function SyllablesTab() {
+  const t = useT();
+  const tf = useTf();
   const [current, setCurrent] = useState(PT_SYLLABLES[0].syllables[0]);
   return (
     <div className="space-y-5">
       {PT_SYLLABLES.map((row) => (
         <div key={row.group}>
-          <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">Grupo {row.group}</h3>
+          <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">{tf("Grupo {g}", { g: row.group })}</h3>
           <div className="grid grid-cols-5 gap-2">
             {row.syllables.map((s) => (
               <button key={s} onClick={() => { setCurrent(s); speakForLang(s, "pt"); }}
@@ -79,7 +83,7 @@ function SyllablesTab() {
           </div>
         </div>
       ))}
-      <p className="text-center text-xs text-muted-foreground">Toque em uma sílaba para ouvir</p>
+      <p className="text-center text-xs text-muted-foreground">{t("Toque em uma sílaba para ouvir")}</p>
       <WritePractice target={current} lang="pt" />
     </div>
   );
