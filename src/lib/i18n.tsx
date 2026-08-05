@@ -24,33 +24,38 @@ export const COUNTRY_UI_LANG: Record<string, UiLang> = {
   "Coreia do Sul": "ko",
   França: "fr",
   Espanha: "es",
-  Outro: "pt",
+  Outro: "en",
 };
 
+/** Idioma da interface antes do usuário escolher país/região. */
+export const DEFAULT_UI_LANG: UiLang = "en";
+
 export function uiLangForCountry(country?: string | null): UiLang {
-  if (!country) return "pt";
-  return COUNTRY_UI_LANG[country] ?? "pt";
+  if (!country) return DEFAULT_UI_LANG;
+  return COUNTRY_UI_LANG[country] ?? DEFAULT_UI_LANG;
 }
 
 export function getUiLang(): UiLang {
-  if (typeof window === "undefined") return "pt";
+  if (typeof window === "undefined") return DEFAULT_UI_LANG;
   try {
     const raw = localStorage.getItem(UI_LANG_KEY);
     if (raw && ["pt", "en", "ja", "fr", "es", "ko"].includes(raw)) return raw as UiLang;
   } catch {
     /* ignore */
   }
-  return "pt";
+  return DEFAULT_UI_LANG;
 }
 
 export function setUiLang(lang: UiLang) {
   if (typeof window === "undefined") return;
-  if (getUiLang() === lang) return;
+  let stored: string | null = null;
   try {
+    stored = localStorage.getItem(UI_LANG_KEY);
     localStorage.setItem(UI_LANG_KEY, lang);
   } catch {
     /* ignore */
   }
+  if (stored === lang) return;
   window.dispatchEvent(new CustomEvent(UI_LANG_EVENT));
 }
 
