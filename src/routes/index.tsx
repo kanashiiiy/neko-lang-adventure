@@ -25,7 +25,7 @@ function SplashScreen() {
       await new Promise((r) => setTimeout(r, 1400));
       if (cancelled) return;
       if (!data.session) {
-        navigate({ to: "/start", replace: true });
+        navigate({ to: "/welcome", replace: true });
         return;
       }
       try {

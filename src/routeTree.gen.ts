@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as StartRouteImport } from './routes/start'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -29,6 +30,11 @@ import { Route as AuthenticatedAlfabetoSystemRouteImport } from './routes/_authe
 import { Route as AuthenticatedAlfabetoPtSectionRouteImport } from './routes/_authenticated/alfabeto-pt.$section'
 import { Route as AuthenticatedAlfabetoEnSectionRouteImport } from './routes/_authenticated/alfabeto-en.$section'
 
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StartRoute = StartRouteImport.update({
   id: '/start',
   path: '/start',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/start': typeof StartRoute
+  '/welcome': typeof WelcomeRoute
   '/alfabeto': typeof AuthenticatedAlfabetoRouteWithChildren
   '/home': typeof AuthenticatedHomeRoute
   '/missoes': typeof AuthenticatedMissoesRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/start': typeof StartRoute
+  '/welcome': typeof WelcomeRoute
   '/home': typeof AuthenticatedHomeRoute
   '/missoes': typeof AuthenticatedMissoesRoute
   '/neko-ai': typeof AuthenticatedNekoAiRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/start': typeof StartRoute
+  '/welcome': typeof WelcomeRoute
   '/_authenticated/alfabeto': typeof AuthenticatedAlfabetoRouteWithChildren
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/missoes': typeof AuthenticatedMissoesRoute
@@ -196,6 +205,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/start'
+    | '/welcome'
     | '/alfabeto'
     | '/home'
     | '/missoes'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/start'
+    | '/welcome'
     | '/home'
     | '/missoes'
     | '/neko-ai'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/start'
+    | '/welcome'
     | '/_authenticated/alfabeto'
     | '/_authenticated/home'
     | '/_authenticated/missoes'
@@ -258,11 +270,19 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   StartRoute: typeof StartRoute
+  WelcomeRoute: typeof WelcomeRoute
   ApiNekoAiRoute: typeof ApiNekoAiRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/start': {
       id: '/start'
       path: '/start'
@@ -451,6 +471,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   StartRoute: StartRoute,
+  WelcomeRoute: WelcomeRoute,
   ApiNekoAiRoute: ApiNekoAiRoute,
 }
 export const routeTree = rootRouteImport
