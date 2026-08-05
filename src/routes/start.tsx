@@ -62,6 +62,7 @@ function StartPage() {
   const isLast = step === steps.length - 1;
 
   function next() {
+    setUiLangFromCountry(data.country);
     if (!isLast) return setStep(step + 1);
     try { localStorage.setItem(PRE_ONBOARDING_KEY, JSON.stringify(data)); } catch { /* ignore */ }
     navigate({ to: "/auth", replace: true });
