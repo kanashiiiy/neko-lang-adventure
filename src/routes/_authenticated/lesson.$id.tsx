@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus } from "@/lib/profile";
 import { speakForLang, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
-import { useT, useTf } from "@/lib/i18n";
+import { useT, useTf, useUiLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/lesson/$id")({
   component: LessonPlayer,
@@ -17,6 +17,7 @@ export const Route = createFileRoute("/_authenticated/lesson/$id")({
 function LessonPlayer() {
   const t = useT();
   const tf = useTf();
+  const ui = useUiLang();
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -31,7 +32,7 @@ function LessonPlayer() {
   });
 
   const lang = (profile?.language ?? "ja") as Language;
-  const lesson = useMemo(() => getLesson(lang, id, profile?.level, profile?.goal), [lang, id, profile?.level, profile?.goal]);
+  const lesson = useMemo(() => getLesson(lang, id, profile?.level, profile?.goal, ui), [lang, id, profile?.level, profile?.goal, ui]);
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [typed, setTyped] = useState("");
