@@ -17,6 +17,7 @@ export const Route = createFileRoute("/_authenticated/lesson/$id")({
 function LessonPlayer() {
   const t = useT();
   const tf = useTf();
+  const ui = useUiLang();
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
