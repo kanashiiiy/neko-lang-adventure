@@ -31,7 +31,7 @@ function LessonPlayer() {
   });
 
   const lang = (profile?.language ?? "ja") as Language;
-  const lesson = useMemo(() => getLesson(lang, id, profile?.level, profile?.goal), [lang, id, profile?.level, profile?.goal]);
+  const lesson = useMemo(() => getLesson(lang, id, profile?.level, profile?.goal, ui), [lang, id, profile?.level, profile?.goal, ui]);
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [typed, setTyped] = useState("");
