@@ -9,13 +9,18 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
   ssr: false,
+  validateSearch: (search: Record<string, unknown>) => ({
+    mode: search.mode === "login" ? ("login" as const) : undefined,
+  }),
 });
 
 function AuthPage() {
-  const [mode, setMode] = useState<"login" | "signup" | "forgot">("signup");
+  const { mode: initialMode } = Route.useSearch();
+  const [mode, setMode] = useState<"login" | "signup" | "forgot">(initialMode ?? "signup");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const t = useT();
+
 
   const signupSchema = z.object({
     email: z.string().trim().email(t("E-mail inválido")).max(255),
