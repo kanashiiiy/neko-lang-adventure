@@ -1126,7 +1126,7 @@ export function translateVars(key: string, vars: Record<string, string | number>
 
 /** Hook reativo com o idioma atual da interface. */
 export function useUiLang(): UiLang {
-  const [lang, setLang] = useState<UiLang>("pt");
+  const [lang, setLang] = useState<UiLang>(() => getUiLang());
 
   useEffect(() => {
     setLang(getUiLang());
