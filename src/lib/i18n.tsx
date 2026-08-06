@@ -13,6 +13,8 @@ import { WELCOME_EXTRA } from "@/lib/i18n-welcome";
 export type UiLang = "pt" | "en" | "ja" | "fr" | "es" | "ko";
 
 export const UI_LANG_KEY = "nekoteach:ui-lang";
+const UI_LANG_VERSION_KEY = "nekoteach:ui-lang-version";
+const UI_LANG_VERSION = "2";
 const UI_LANG_EVENT = "nekoteach:ui-lang-change";
 
 /** País escolhido na configuração inicial -> idioma da interface */
@@ -38,6 +40,15 @@ export function uiLangForCountry(country?: string | null): UiLang {
 export function getUiLang(): UiLang {
   if (typeof window === "undefined") return DEFAULT_UI_LANG;
   try {
+    const version = localStorage.getItem(UI_LANG_VERSION_KEY);
+    if (version !== UI_LANG_VERSION) {
+      // Preferências gravadas antes da regra "primeira abertura em inglês"
+      // não indicam se o país foi escolhido no fluxo atual. Migre uma única
+      // vez para inglês; a próxima escolha de país será persistida normalmente.
+      localStorage.setItem(UI_LANG_KEY, DEFAULT_UI_LANG);
+      localStorage.setItem(UI_LANG_VERSION_KEY, UI_LANG_VERSION);
+      return DEFAULT_UI_LANG;
+    }
     const raw = localStorage.getItem(UI_LANG_KEY);
     if (raw && ["pt", "en", "ja", "fr", "es", "ko"].includes(raw)) return raw as UiLang;
   } catch {
@@ -52,6 +63,7 @@ export function setUiLang(lang: UiLang) {
   try {
     stored = localStorage.getItem(UI_LANG_KEY);
     localStorage.setItem(UI_LANG_KEY, lang);
+    localStorage.setItem(UI_LANG_VERSION_KEY, UI_LANG_VERSION);
   } catch {
     /* ignore */
   }
