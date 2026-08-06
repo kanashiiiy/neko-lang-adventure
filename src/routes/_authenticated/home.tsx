@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Flame, Gem, Trophy, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, fetchCompletedLessons } from "@/lib/profile";
+import { fetchProfile, fetchCompletedLessons, isPremiumActive } from "@/lib/profile";
 import { buildPhases, LANGUAGES, type Language } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
@@ -57,7 +57,7 @@ function HomePage() {
             <Stat icon={<Flame className="h-4 w-4 text-orange-500" />} value={profile?.streak ?? 0} />
             <Stat icon={<Gem className="h-4 w-4 text-primary" />} value={profile?.gems ?? 0} />
             <Stat icon={<Trophy className="h-4 w-4 text-gold" />} value={profile?.xp ?? 0} />
-            <Stat icon={<Zap className="h-4 w-4 text-yellow-500" />} value={profile?.focus ?? 0} />
+            <Stat icon={<Zap className="h-4 w-4 text-yellow-500" />} value={isPremiumActive(profile) ? "∞" : (profile?.focus ?? 0)} />
           </div>
         </div>
       </header>
@@ -119,7 +119,7 @@ function HomePage() {
   );
 }
 
-function Stat({ icon, value }: { icon: React.ReactNode; value: number }) {
+function Stat({ icon, value }: { icon: React.ReactNode; value: number | string }) {
   return (
     <div className="flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs font-bold">
       {icon}

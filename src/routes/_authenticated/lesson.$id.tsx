@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { X, Zap, Volume2, Mic } from "lucide-react";
 import { getLesson, type Language } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus } from "@/lib/profile";
+import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive } from "@/lib/profile";
 import { speakForLang, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
@@ -50,6 +50,7 @@ function LessonPlayer() {
   // Check focus before starting
   useEffect(() => {
     if (!profile) return;
+    if (isPremiumActive(profile)) return;
     if (profile.focus <= 0) setOutOfFocus(true);
   }, [profile]);
 
@@ -67,6 +68,7 @@ function LessonPlayer() {
 
   async function ensureFocusSpent() {
     if (spentRef.current || !profile) return true;
+    if (isPremiumActive(profile)) { spentRef.current = true; return true; }
     spentRef.current = true;
     const res = await spendFocus(profile.id, 1);
     qc.invalidateQueries({ queryKey: ["profile"] });
@@ -193,7 +195,7 @@ function LessonPlayer() {
             style={{ width: `${((idx + 1) / total) * 100}%` }} />
         </div>
         <div className="flex items-center gap-1 font-bold text-yellow-600">
-          <Zap className="h-5 w-5 fill-current" /> {(profile?.focus ?? 0)}
+          <Zap className="h-5 w-5 fill-current" /> {isPremiumActive(profile) ? "∞" : (profile?.focus ?? 0)}
         </div>
       </header>
 

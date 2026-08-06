@@ -17,15 +17,27 @@ export interface Profile {
   last_activity_date: string | null;
   last_focus_refill: string | null;
   is_premium: boolean;
+  premium_until: string | null;
   onboarding_complete: boolean;
   theme: string;
   notifications_enabled: boolean;
 }
 
+export function isPremiumActive(profile: Pick<Profile, "is_premium" | "premium_until"> | null | undefined) {
+  if (!profile?.is_premium) return false;
+  if (!profile.premium_until) return true;
+  return new Date(profile.premium_until).getTime() > Date.now();
+}
+
 export async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
   if (error) throw error;
-  return data as Profile | null;
+  const profile = data as Profile | null;
+  // Premium/trial expirou -> volta automaticamente ao Foco normal
+  if (profile?.is_premium && profile.premium_until && !isPremiumActive(profile)) {
+    return await updateProfile(userId, { is_premium: false });
+  }
+  return profile;
 }
 
 export async function updateProfile(userId: string, patch: Partial<Profile>) {
@@ -67,6 +79,7 @@ export async function addXpAndGems(
 export async function spendFocus(userId: string, amount = 1) {
   const profile = await fetchProfile(userId);
   if (!profile) return null;
+  if (isPremiumActive(profile)) return profile; // Foco infinito
   if (profile.focus < amount) return null;
   return updateProfile(userId, { focus: profile.focus - amount });
 }
