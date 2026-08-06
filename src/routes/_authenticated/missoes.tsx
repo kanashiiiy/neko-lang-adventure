@@ -13,19 +13,35 @@ export const Route = createFileRoute("/_authenticated/missoes")({
   component: MissoesPage,
 });
 
+interface MissionCtx { xp: number; streak: number; focus: number; gems: number; xpToday: number; loggedToday: boolean }
+
 interface Mission {
   id: string;
   title: string;
   desc: string;
   target: number;
-  progress: (p: { xp: number; streak: number; focus: number; gems: number }) => number;
+  progress: (p: MissionCtx) => number;
   reward: { xp?: number; gems?: number; focus?: number };
 }
 
-const MISSIONS: Mission[] = [
+// Missão permanente: nunca é substituída (mantém a sequência diária)
+const LOGIN_MISSION: Mission = {
+  id: "daily-login", title: "Login diário", desc: "Entre no app hoje", target: 1,
+  progress: (p) => (p.loggedToday ? 1 : 0),
+  reward: { gems: 5, xp: 5 },
+};
+
+// Pool de missões diárias — sorteadas a cada novo dia
+const DAILY_POOL: Mission[] = [
   { id: "daily-xp-20", title: "Meta diária", desc: "Ganhe 20 XP hoje", target: 20,
-    progress: (p) => Math.min(p.xp, 20),
+    progress: (p) => Math.min(p.xpToday, 20),
     reward: { gems: 10, focus: 2 } },
+  { id: "daily-xp-40", title: "Dobro de esforço", desc: "Ganhe 40 XP hoje", target: 40,
+    progress: (p) => Math.min(p.xpToday, 40),
+    reward: { gems: 20, focus: 3 } },
+  { id: "daily-xp-60", title: "Maratona do dia", desc: "Ganhe 60 XP hoje", target: 60,
+    progress: (p) => Math.min(p.xpToday, 60),
+    reward: { gems: 30, xp: 10 } },
   { id: "streak-3", title: "Sequência de 3 dias", desc: "Estude 3 dias seguidos", target: 3,
     progress: (p) => Math.min(p.streak, 3),
     reward: { gems: 20 } },
@@ -38,19 +54,59 @@ const MISSIONS: Mission[] = [
   { id: "xp-500", title: "Dedicado", desc: "Acumule 500 XP no total", target: 500,
     progress: (p) => Math.min(p.xp, 500),
     reward: { gems: 100, focus: 10 } },
+  { id: "gems-100", title: "Colecionador", desc: "Tenha 100 diamantes", target: 100,
+    progress: (p) => Math.min(p.gems, 100),
+    reward: { xp: 40, focus: 3 } },
 ];
 
+const DAILY_COUNT = 3;
 const CLAIMED_KEY = "nekoteach:missions-claimed";
+const DAY_XP_KEY = "nekoteach:day-xp";
+
+function today() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function hashDate(d: string) {
+  let h = 0;
+  for (let i = 0; i < d.length; i++) h = (h * 31 + d.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+// Seleção determinística por dia: muda automaticamente a cada novo dia
+function dailyMissions(day: string): Mission[] {
+  const pool = [...DAILY_POOL];
+  const picked: Mission[] = [];
+  let seed = hashDate(day) || 1;
+  for (let i = 0; i < DAILY_COUNT && pool.length; i++) {
+    seed = (seed * 1103515245 + 12345) >>> 0;
+    picked.push(pool.splice(seed % pool.length, 1)[0]);
+  }
+  return picked;
+}
 
 function getClaimed(): Set<string> {
   if (typeof window === "undefined") return new Set();
   try {
     const raw = localStorage.getItem(CLAIMED_KEY);
-    return new Set(raw ? JSON.parse(raw) : []);
+    const all: string[] = raw ? JSON.parse(raw) : [];
+    // mantém apenas as recompensas coletadas hoje (missões renovam diariamente)
+    return new Set(all.filter((k) => k.endsWith(`:${today()}`)));
   } catch { return new Set(); }
 }
 function setClaimed(s: Set<string>) {
   try { localStorage.setItem(CLAIMED_KEY, JSON.stringify([...s])); } catch { /* ignore */ }
+}
+
+function dayBaselineXp(xp: number) {
+  if (typeof window === "undefined") return xp;
+  try {
+    const raw = localStorage.getItem(DAY_XP_KEY);
+    const parsed = raw ? JSON.parse(raw) as { date: string; xp: number } : null;
+    if (parsed && parsed.date === today()) return parsed.xp;
+    localStorage.setItem(DAY_XP_KEY, JSON.stringify({ date: today(), xp }));
+    return xp;
+  } catch { return xp; }
 }
 
 function MissoesPage() {
@@ -68,9 +124,10 @@ function MissoesPage() {
 
   async function claim(m: Mission) {
     if (!profile) return;
+    const key = `${m.id}:${today()}`;
     const claimed = getClaimed();
-    if (claimed.has(m.id)) return;
-    claimed.add(m.id);
+    if (claimed.has(key)) return;
+    claimed.add(key);
     setClaimed(claimed);
     await updateProfile(profile.id, {
       xp: profile.xp + (m.reward.xp ?? 0),
@@ -82,7 +139,17 @@ function MissoesPage() {
   }
 
   const claimed = getClaimed();
-  const p = profile ? { xp: profile.xp, streak: profile.streak, focus: profile.focus, gems: profile.gems } : null;
+  const missions = [LOGIN_MISSION, ...dailyMissions(today())];
+  const p: MissionCtx | null = profile
+    ? {
+        xp: profile.xp,
+        streak: profile.streak,
+        focus: profile.focus,
+        gems: profile.gems,
+        xpToday: Math.max(0, profile.xp - dayBaselineXp(profile.xp)),
+        loggedToday: true,
+      }
+    : null;
 
   return (
     <div className="mobile-shell">
