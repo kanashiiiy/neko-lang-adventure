@@ -168,10 +168,10 @@ function MissoesPage() {
         </div>
 
 
-        {p && MISSIONS.map((m) => {
+        {p && missions.map((m) => {
           const progress = m.progress(p);
           const complete = progress >= m.target;
-          const already = claimed.has(m.id);
+          const already = claimed.has(`${m.id}:${today()}`);
           return (
             <div key={m.id} className="rounded-2xl bg-card p-4 shadow-card">
               <div className="flex items-start justify-between gap-3">
