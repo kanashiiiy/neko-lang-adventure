@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Flame, Gem, Trophy, Zap, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut, ChevronRight, Award } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, updateProfile } from "@/lib/profile";
+import { fetchProfile, updateProfile, isPremiumActive } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { useT, useTf } from "@/lib/i18n";
