@@ -102,7 +102,7 @@ function ProfilePage() {
           <StatCard icon={<Trophy className="h-4 w-4" />} label={t("XP")} value={profile.xp} color="text-gold" />
           <StatCard icon={<Gem className="h-4 w-4" />} label={t("Diamantes")} value={profile.gems} color="text-primary" />
           <StatCard icon={<Flame className="h-4 w-4" />} label={t("Sequência")} value={profile.streak} color="text-orange-500" />
-          <StatCard icon={<Zap className="h-4 w-4" />} label={t("Foco")} value={profile.focus} color="text-yellow-500" />
+          <StatCard icon={<Zap className="h-4 w-4" />} label={t("Foco")} value={isPremiumActive(profile) ? "∞" : profile.focus} color="text-yellow-500" />
         </div>
 
         <Section title={t("Conquistas")}>
@@ -199,7 +199,7 @@ function ProfilePage() {
   );
 }
 
-function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: number; color: string }) {
+function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: number | string; color: string }) {
   return (
     <div className="rounded-2xl bg-card p-2 text-center shadow-card">
       <div className={`flex justify-center ${color}`}>{icon}</div>
