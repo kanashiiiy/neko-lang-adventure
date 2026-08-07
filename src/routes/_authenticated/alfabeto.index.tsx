@@ -6,6 +6,7 @@ import { fetchProfile } from "@/lib/profile";
 import { ALPHABET_META, type AlphabetSystem } from "@/lib/alphabet";
 import { EN_SECTION_META } from "@/lib/en-content";
 import { useT } from "@/lib/i18n";
+import { normalizeLanguage } from "@/lib/lessons";
 
 export const Route = createFileRoute("/_authenticated/alfabeto/")({
   component: AlfabetoPage,
@@ -26,7 +27,7 @@ function AlfabetoPage() {
     },
   });
 
-  const lang = profile?.language ?? "ja";
+  const lang = normalizeLanguage(profile?.language);
   const PT_META = {
     alphabet: { label: t("Alfabeto"), icon: "🔤", description: t("Letras e pronúncia") },
     syllables: { label: t("Sílabas"), icon: "🔡", description: "BA-BE-BI-BO-BU..." },

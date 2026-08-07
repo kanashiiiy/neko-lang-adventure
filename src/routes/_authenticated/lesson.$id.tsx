@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { X, Zap, Volume2, Mic } from "lucide-react";
-import { getLesson, type Language } from "@/lib/lessons";
+import { getLesson, normalizeLanguage } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive } from "@/lib/profile";
 import { speakForLang, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
@@ -31,7 +31,7 @@ function LessonPlayer() {
     },
   });
 
-  const lang = (profile?.language ?? "ja") as Language;
+  const lang = normalizeLanguage(profile?.language);
   const lesson = useMemo(() => getLesson(lang, id, profile?.level, profile?.goal, ui), [lang, id, profile?.level, profile?.goal, ui]);
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);

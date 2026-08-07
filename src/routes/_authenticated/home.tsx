@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Flame, Gem, Trophy, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, fetchCompletedLessons, isPremiumActive } from "@/lib/profile";
-import { buildPhases, LANGUAGES, type Language } from "@/lib/lessons";
+import { buildPhases, LANGUAGES, normalizeLanguage } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
@@ -26,7 +26,7 @@ function HomePage() {
     },
   });
 
-  const lang = (profile?.language ?? "ja") as Language;
+  const lang = normalizeLanguage(profile?.language);
   const phases = buildPhases(lang, profile?.level, profile?.goal, ui);
   const langMeta = LANGUAGES.find((l) => l.code === lang);
 

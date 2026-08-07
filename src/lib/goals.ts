@@ -129,7 +129,8 @@ const PT: GoalBank = {
 
 export const GOAL_WORDS: Record<Language, GoalBank> = { ja: JA, en: EN, pt: PT };
 
-export function goalWordsFor(lang: Language, goal: string | null | undefined): GoalWord[] {
+export function goalWordsFor(lang: Language | string | null | undefined, goal: string | null | undefined): GoalWord[] {
+  const bank = GOAL_WORDS[lang as Language] ?? GOAL_WORDS.en;
   const g = (goal ?? "outro") as Goal;
-  return GOAL_WORDS[lang][g] ?? GOAL_WORDS[lang].outro;
+  return bank[g] ?? bank.outro;
 }
