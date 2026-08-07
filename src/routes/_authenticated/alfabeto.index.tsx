@@ -26,7 +26,7 @@ function AlfabetoPage() {
     },
   });
 
-  const lang = profile?.language ?? "ja";
+  const lang = normalizeLanguage(profile?.language);
   const PT_META = {
     alphabet: { label: t("Alfabeto"), icon: "🔤", description: t("Letras e pronúncia") },
     syllables: { label: t("Sílabas"), icon: "🔡", description: "BA-BE-BI-BO-BU..." },
