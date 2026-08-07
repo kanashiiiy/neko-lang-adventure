@@ -153,12 +153,19 @@ function normalizeLevel(l: string | null | undefined): Level {
   return "iniciante";
 }
 
+// Perfis antigos podem ter idiomas que não existem mais (ko, fr, es).
+// Sem essa normalização os bancos indexados por idioma retornam undefined.
+export function normalizeLanguage(lang: string | null | undefined): Language {
+  return lang === "ja" || lang === "en" || lang === "pt" ? lang : "en";
+}
+
 export function buildPhases(
-  lang: Language,
+  langInput: Language | string | null | undefined,
   level: string | null | undefined,
   goal: string | null | undefined,
   ui: UiLang = "pt",
 ): Phase[] {
+  const lang = normalizeLanguage(langInput);
   const lv = normalizeLevel(level);
   return Array.from({ length: 10 }, (_, i) => buildPhase(lang, i, lv, goal ?? "outro", ui));
 }
