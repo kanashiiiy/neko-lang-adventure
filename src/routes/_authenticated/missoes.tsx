@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Target, Gem, Trophy, Zap, Check } from "lucide-react";
+import { Target, Gem, Trophy, Brain, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
@@ -183,7 +183,7 @@ function MissoesPage() {
                 <div className="flex items-center gap-2 text-xs font-bold">
                   {m.reward.xp && <span className="flex items-center gap-1 text-gold"><Trophy className="h-3 w-3" />{m.reward.xp}</span>}
                   {m.reward.gems && <span className="flex items-center gap-1 text-primary"><Gem className="h-3 w-3" />{m.reward.gems}</span>}
-                  {m.reward.focus && <span className="flex items-center gap-1 text-yellow-500"><Zap className="h-3 w-3" />{m.reward.focus}</span>}
+                  {m.reward.focus && <span className="flex items-center gap-1 text-yellow-500"><Brain className="h-3 w-3" />{m.reward.focus}</span>}
                 </div>
               </div>
               <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">

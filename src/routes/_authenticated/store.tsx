@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Check, Sparkles, Zap, Gem } from "lucide-react";
+import { Check, Sparkles, Brain, Gem } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, buyFocus } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
@@ -115,7 +115,7 @@ function StorePage() {
             {FOCUS_PACKS.map((p) => (
               <div key={p.id} className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600">
-                  <Zap className="h-6 w-6" />
+                  <Brain className="h-6 w-6" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
