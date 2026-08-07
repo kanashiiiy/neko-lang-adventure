@@ -180,7 +180,7 @@ export const PHASES: Record<Language, Phase[]> = {
 export const LESSONS = PHASES;
 
 export function getLesson(
-  lang: Language,
+  lang: Language | string | null | undefined,
   id: string,
   level?: string | null,
   goal?: string | null,
