@@ -6,6 +6,7 @@ import { fetchProfile } from "@/lib/profile";
 import { ALPHABET_META, type AlphabetSystem } from "@/lib/alphabet";
 import { EN_SECTION_META } from "@/lib/en-content";
 import { useT } from "@/lib/i18n";
+import { normalizeLanguage } from "@/lib/lessons";
 
 export const Route = createFileRoute("/_authenticated/alfabeto/")({
   component: AlfabetoPage,
