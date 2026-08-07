@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Flame, Gem, Trophy, Zap, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut, ChevronRight, Award } from "lucide-react";
+import { Flame, Gem, Trophy, Brain, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut, ChevronRight, Award } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, isPremiumActive } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
@@ -102,7 +102,7 @@ function ProfilePage() {
           <StatCard icon={<Trophy className="h-4 w-4" />} label={t("XP")} value={profile.xp} color="text-gold" />
           <StatCard icon={<Gem className="h-4 w-4" />} label={t("Diamantes")} value={profile.gems} color="text-primary" />
           <StatCard icon={<Flame className="h-4 w-4" />} label={t("Sequência")} value={profile.streak} color="text-orange-500" />
-          <StatCard icon={<Zap className="h-4 w-4" />} label={t("Foco")} value={isPremiumActive(profile) ? "∞" : profile.focus} color="text-yellow-500" />
+          <StatCard icon={<Brain className="h-4 w-4" />} label={t("Foco")} value={isPremiumActive(profile) ? "∞" : profile.focus} color="text-yellow-500" />
         </div>
 
         <Section title={t("Conquistas")}>

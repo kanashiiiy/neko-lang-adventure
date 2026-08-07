@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { X, Zap, Volume2, Mic } from "lucide-react";
+import { X, Brain, Volume2, Mic } from "lucide-react";
 import { getLesson, normalizeLanguage } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive } from "@/lib/profile";
@@ -195,7 +195,7 @@ function LessonPlayer() {
             style={{ width: `${((idx + 1) / total) * 100}%` }} />
         </div>
         <div className="flex items-center gap-1 font-bold text-yellow-600">
-          <Zap className="h-5 w-5 fill-current" /> {isPremiumActive(profile) ? "∞" : (profile?.focus ?? 0)}
+          <Brain className="h-5 w-5" /> {isPremiumActive(profile) ? "∞" : (profile?.focus ?? 0)}
         </div>
       </header>
 
