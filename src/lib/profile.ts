@@ -51,6 +51,34 @@ export async function updateProfile(userId: string, patch: Partial<Profile>) {
   return data as Profile;
 }
 
+// Data local (YYYY-MM-DD) — a sequência conta dias do calendário do usuário
+function localDay(offsetDays = 0) {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+// Regra: 1º dia = 1; dia seguinte consecutivo = +1; pulou um dia = volta a 1;
+// várias entradas no mesmo dia não alteram nada.
+export function nextStreak(lastDate: string | null | undefined, current: number) {
+  const today = localDay();
+  if (lastDate === today) return current > 0 ? current : 1;
+  if (lastDate === localDay(-1)) return current + 1;
+  return 1;
+}
+
+// Chamado ao abrir o app (uma vez por dia efetivamente)
+export async function touchStreak(userId: string) {
+  const profile = await fetchProfile(userId);
+  if (!profile) return null;
+  const today = localDay();
+  if (profile.last_activity_date === today && profile.streak > 0) return profile;
+  return updateProfile(userId, {
+    streak: nextStreak(profile.last_activity_date, profile.streak),
+    last_activity_date: today,
+  });
+}
+
 export async function addXpAndGems(
   userId: string,
   xpDelta: number,
@@ -59,14 +87,11 @@ export async function addXpAndGems(
 ) {
   const profile = await fetchProfile(userId);
   if (!profile) return null;
-  const today = new Date().toISOString().slice(0, 10);
-  let streak = profile.streak;
-  if (profile.last_activity_date !== today) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const y = yesterday.toISOString().slice(0, 10);
-    streak = profile.last_activity_date === y ? streak + 1 : Math.max(1, streak);
-  }
+  const today = localDay();
+  const streak =
+    profile.last_activity_date === today
+      ? Math.max(1, profile.streak)
+      : nextStreak(profile.last_activity_date, profile.streak);
   return updateProfile(userId, {
     xp: profile.xp + xpDelta,
     gems: profile.gems + gemsDelta,
@@ -75,6 +100,7 @@ export async function addXpAndGems(
     last_activity_date: today,
   });
 }
+
 
 export async function spendFocus(userId: string, amount = 1) {
   const profile = await fetchProfile(userId);
