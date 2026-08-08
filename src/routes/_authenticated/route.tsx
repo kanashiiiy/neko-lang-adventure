@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { touchStreak } from "@/lib/profile";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -8,5 +11,28 @@ export const Route = createFileRoute("/_authenticated")({
     if (error || !data.user) throw redirect({ to: "/auth" });
     return { user: data.user };
   },
-  component: () => <Outlet />,
+  component: AuthenticatedLayout,
 });
+
+function AuthenticatedLayout() {
+  const qc = useQueryClient();
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const { data } = await supabase.auth.getUser();
+        if (!data.user || !active) return;
+        const updated = await touchStreak(data.user.id);
+        if (updated && active) qc.invalidateQueries({ queryKey: ["profile"] });
+      } catch {
+        /* sequência não é crítica para a navegação */
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [qc]);
+
+  return <Outlet />;
+}
