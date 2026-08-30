@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Send } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
+import { DailyDialogs } from "@/components/DailyDialogs";
+import { supabase } from "@/integrations/supabase/client";
+import { fetchProfile, isPremiumPlusActive } from "@/lib/profile";
+import { normalizeLanguage } from "@/lib/lessons";
 import { useT, useUiLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/neko-ai")({
@@ -15,12 +20,23 @@ interface Msg { role: "user" | "assistant"; content: string }
 function NekoAIPage() {
   const t = useT();
   const uiLang = useUiLang();
+  const [tab, setTab] = useState<"chat" | "dialogs">("chat");
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) return null;
+      return fetchProfile(data.user.id);
+    },
+  });
+  const hasPlus = isPremiumPlusActive(profile);
   const [messages, setMessages] = useState<Msg[]>([
     { role: "assistant", content: "Oi! Eu sou o Neko 🐾 Posso explicar palavras, traduzir frases, corrigir sua gramática e te ajudar com as lições. Como posso ajudar hoje?" },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
