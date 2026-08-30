@@ -122,7 +122,7 @@ function StorePage() {
                 className="btn-3d-gold mt-5 w-full rounded-2xl bg-gold py-3.5 font-black text-gold-foreground">
                 {t("Começar 3 dias grátis")}
               </button>
-              <p className="mt-2 text-center text-[11px] opacity-90">{t("Depois, R$ 20/mês. Renovação automática.")}</p>
+              <p className="mt-2 text-center text-[11px] opacity-90">{t("Depois, R$ 19,90/mês. Renovação automática.")}</p>
             </>
           )}
         </div>
@@ -131,8 +131,23 @@ function StorePage() {
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-primary">
             <Sparkles className="h-3.5 w-3.5" /> {t("Premium Plus")}
           </div>
-          <div className="mt-1 text-lg font-black">{t("Diálogos do dia a dia em todas as situações")}</div>
-          <p className="mt-1 text-sm text-muted-foreground">{t("Tudo do Premium + Diálogos do Dia a Dia")}</p>
+          <div className="mt-1 text-lg font-black">NEKOTeach Premium Plus</div>
+          <div className="mt-2 text-3xl font-black text-primary">
+            R$ 49,90<span className="text-base font-bold text-muted-foreground">{t("/mês")}</span>
+          </div>
+          <ul className="mt-3 space-y-2">
+            {PLUS_BENEFITS.map((b) => (
+              <li key={b} className="flex items-center gap-2 text-sm">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold text-gold-foreground">
+                  <Check className="h-3 w-3" />
+                </span>
+                {t(b)}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-3 rounded-2xl bg-muted p-3 text-xs font-bold text-muted-foreground">
+            🗣️ {t("Diálogos do Dia a Dia")} — {t("exclusivo do Premium Plus, dentro da tela do Neko AI")}
+          </div>
           {isPremiumPlusActive(profile) ? (
             <div className="mt-4 rounded-2xl bg-muted py-3 text-center font-black text-primary">
               {t("✨ Você é Premium Plus")}
