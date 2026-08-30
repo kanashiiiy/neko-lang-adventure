@@ -1,5 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { NekoMascot } from "@/components/NekoMascot";
+import { supabase } from "@/integrations/supabase/client";
 import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/welcome")({
@@ -10,6 +12,19 @@ export const Route = createFileRoute("/welcome")({
 function WelcomePage() {
   const navigate = useNavigate();
   const t = useT();
+
+  // Sessão salva? entra direto, sem passar pelo login.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!cancelled && data.session) navigate({ to: "/", replace: true });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [navigate]);
+
 
   return (
     <div className="mobile-shell px-6 pt-12 pb-8">
