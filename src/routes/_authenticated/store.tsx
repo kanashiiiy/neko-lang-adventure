@@ -13,11 +13,15 @@ export const Route = createFileRoute("/_authenticated/store")({
 });
 
 const BENEFITS = [
-  "Todas as fases desbloqueadas",
-  "Neko AI ilimitado",
+  "Foco infinito (∞)",
   "Sem anúncios",
-  "Foco infinito",
-  "Conteúdo exclusivo semanal",
+  "Prioridade nas respostas do Neko AI",
+];
+
+const PLUS_BENEFITS = [
+  "Tudo do Premium",
+  "Mais liberdade no Neko AI",
+  "Acesso exclusivo aos Diálogos do Dia a Dia",
 ];
 
 const FOCUS_PACKS: { id: string; focus: number; cost: number; label: string; badge?: string }[] = [
