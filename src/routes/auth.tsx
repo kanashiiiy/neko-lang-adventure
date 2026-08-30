@@ -21,6 +21,19 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
   const t = useT();
 
+  // Já existe sessão salva? entra direto na conta.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!cancelled && data.session) navigate({ to: "/", replace: true });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [navigate]);
+
+
 
   const signupSchema = z.object({
     email: z.string().trim().email(t("E-mail inválido")).max(255),
