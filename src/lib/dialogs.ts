@@ -83,7 +83,7 @@ const CATS: { id: string; emoji: string; name: string; rows: Row[] }[] = [
     id: "boa-noite", emoji: "🌙", name: "Boa noite",
     rows: [
       ["Boa noite.", "Good evening.", "こんばんは。", "Konbanwa.", "formal", 1],
-      ["Boa noite! Como foi seu dia?", "Good evening! How was your day?", "こんばんは！today はどうでしたか？", "Konbanwa! Kyō wa dō deshita ka?", "informal", 2],
+      ["Boa noite! Como foi seu dia?", "Good evening! How was your day?", "こんばんは！今日はどうでしたか？", "Konbanwa! Kyō wa dō deshita ka?", "informal", 2],
       ["Foi um bom dia.", "It was a good day.", "良い一日でした。", "Yoi ichinichi deshita.", "comum", 1],
       ["Estou cansado.", "I'm tired.", "疲れました。", "Tsukaremashita.", "comum", 4],
       ["Vou dormir agora.", "I'm going to sleep now.", "もう寝ます。", "Mō nemasu.", "comum", 5],
@@ -142,7 +142,7 @@ const CATS: { id: string; emoji: string; name: string; rows: Row[] }[] = [
   {
     id: "cafeteria", emoji: "☕", name: "Cafeteria",
     rows: [
-      ["Um café, por favor.", "A coffee, please.", "コーヒーを一つplease。", "Kōhī o hitotsu kudasai.", "pedir", 1],
+      ["Um café, por favor.", "A coffee, please.", "コーヒーを一つください。", "Kōhī o hitotsu kudasai.", "pedir", 1],
       ["Para viagem ou para comer aqui?", "To go or for here?", "お持ち帰りですか、店内ですか？", "Omochikaeri desu ka, tennai desu ka?", "informacao", 0],
       ["Para viagem, por favor.", "To go, please.", "持ち帰りでお願いします。", "Mochikaeri de onegaishimasu.", "pedir", 1],
       ["Com leite, por favor.", "With milk, please.", "ミルクを入れてください。", "Miruku o irete kudasai.", "pedir", 4],
