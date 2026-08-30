@@ -9,9 +9,8 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
   ssr: false,
-  validateSearch: (search: Record<string, unknown>) => ({
-    mode: search.mode === "login" ? ("login" as const) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { mode?: "login" } =>
+    search.mode === "login" ? { mode: "login" } : {},
 });
 
 function AuthPage() {
