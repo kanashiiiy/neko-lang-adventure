@@ -72,13 +72,25 @@ function AuthPage() {
     });
     if (!parsed.success) return toast.error(parsed.error.issues[0].message);
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: parsed.data.email,
       password: parsed.data.password,
       options: { emailRedirectTo: `${window.location.origin}/` },
     });
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      if (error.message.toLowerCase().includes("already registered")) {
+        toast.error(t("Este e-mail já tem conta. Faça login."));
+        setMode("login");
+        return;
+      }
+      return toast.error(error.message);
+    }
+    if (!data.session) {
+      toast.success(t("Enviamos um link para o seu e-mail."));
+      setMode("login");
+      return;
+    }
     toast.success(t("Conta criada! Vamos começar 🎉"));
     navigate({ to: "/", replace: true });
   }
