@@ -83,6 +83,7 @@ export type Database = {
           goal: string | null
           id: string
           is_premium: boolean
+          is_premium_plus: boolean
           language: string | null
           last_activity_date: string | null
           last_focus_refill: string | null
@@ -90,6 +91,7 @@ export type Database = {
           name: string | null
           notifications_enabled: boolean
           onboarding_complete: boolean
+          premium_plus_until: string | null
           premium_until: string | null
           streak: number
           theme: string | null
@@ -107,6 +109,7 @@ export type Database = {
           goal?: string | null
           id: string
           is_premium?: boolean
+          is_premium_plus?: boolean
           language?: string | null
           last_activity_date?: string | null
           last_focus_refill?: string | null
@@ -114,6 +117,7 @@ export type Database = {
           name?: string | null
           notifications_enabled?: boolean
           onboarding_complete?: boolean
+          premium_plus_until?: string | null
           premium_until?: string | null
           streak?: number
           theme?: string | null
@@ -131,6 +135,7 @@ export type Database = {
           goal?: string | null
           id?: string
           is_premium?: boolean
+          is_premium_plus?: boolean
           language?: string | null
           last_activity_date?: string | null
           last_focus_refill?: string | null
@@ -138,6 +143,7 @@ export type Database = {
           name?: string | null
           notifications_enabled?: boolean
           onboarding_complete?: boolean
+          premium_plus_until?: string | null
           premium_until?: string | null
           streak?: number
           theme?: string | null
