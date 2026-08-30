@@ -75,6 +75,30 @@ function NekoAIPage() {
         </div>
       </header>
 
+      {hasPlus && (
+        <div className="flex gap-2 border-b-2 border-border bg-card px-3 py-2">
+          <button onClick={() => setTab("chat")}
+            className={`flex-1 rounded-full px-3 py-2 text-sm font-bold ${
+              tab === "chat" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+            }`}>
+            💬 Neko AI
+          </button>
+          <button onClick={() => setTab("dialogs")}
+            className={`flex-1 rounded-full px-3 py-2 text-sm font-bold ${
+              tab === "dialogs" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+            }`}>
+            🗣️ {t("Diálogos do Dia a Dia")}
+          </button>
+        </div>
+      )}
+
+      {hasPlus && tab === "dialogs" ? (
+        <>
+          <DailyDialogs learnLang={normalizeLanguage(profile?.language)} />
+          <BottomNav />
+        </>
+      ) : (
+      <>
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
@@ -109,8 +133,9 @@ function NekoAIPage() {
           </button>
         </form>
       </div>
-
       <BottomNav />
+      </>
+      )}
     </div>
   );
 }
