@@ -91,13 +91,13 @@ function StorePage() {
               <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wide">
                 <Sparkles className="h-3.5 w-3.5" /> {t("Premium")}
               </div>
-              <div className="text-2xl font-black">NEKOTeach Plus</div>
+              <div className="text-2xl font-black">NEKOTeach Premium</div>
               <div className="text-xs opacity-90">{t("Aprenda sem limites")}</div>
             </div>
           </div>
 
           <div className="mt-5 rounded-2xl bg-white/15 p-4 backdrop-blur">
-            <div className="text-4xl font-black">R$ 20<span className="text-lg opacity-80">{t("/mês")}</span></div>
+            <div className="text-4xl font-black">R$ 19,90<span className="text-lg opacity-80">{t("/mês")}</span></div>
             <div className="text-xs opacity-90">{t("Cancele quando quiser")}</div>
           </div>
 
