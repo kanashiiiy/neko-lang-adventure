@@ -21,15 +21,26 @@ function SplashScreen() {
     let cancelled = false;
     const timer = setTimeout(() => setReady(true), 1400);
     (async () => {
-      const { data } = await supabase.auth.getSession();
+      // Sessão persistida: tenta algumas vezes, pois o backend pode demorar a responder
+      // logo após o app abrir — sem isso o usuário logado cairia na tela de boas-vindas.
+      let session = null;
+      for (let i = 0; i < 3 && !session; i++) {
+        try {
+          const { data } = await supabase.auth.getSession();
+          session = data.session;
+        } catch {
+          /* rede instável: tenta de novo */
+        }
+        if (!session && i < 2) await new Promise((r) => setTimeout(r, 700));
+      }
       await new Promise((r) => setTimeout(r, 1400));
       if (cancelled) return;
-      if (!data.session) {
+      if (!session) {
         navigate({ to: "/welcome", replace: true });
         return;
       }
       try {
-        const profile = await fetchProfile(data.session.user.id);
+        const profile = await fetchProfile(session.user.id);
         if (!profile?.onboarding_complete || !profile?.name) {
           navigate({ to: "/onboarding", replace: true });
         } else {

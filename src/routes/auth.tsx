@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,9 +9,8 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
   ssr: false,
-  validateSearch: (search: Record<string, unknown>) => ({
-    mode: search.mode === "login" ? ("login" as const) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { mode?: "login" } =>
+    search.mode === "login" ? { mode: "login" } : {},
 });
 
 function AuthPage() {
@@ -20,6 +19,19 @@ function AuthPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const t = useT();
+
+  // Já existe sessão salva? entra direto na conta.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!cancelled && data.session) navigate({ to: "/", replace: true });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [navigate]);
+
 
 
   const signupSchema = z.object({
@@ -59,13 +71,25 @@ function AuthPage() {
     });
     if (!parsed.success) return toast.error(parsed.error.issues[0].message);
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: parsed.data.email,
       password: parsed.data.password,
       options: { emailRedirectTo: `${window.location.origin}/` },
     });
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      if (error.message.toLowerCase().includes("already registered")) {
+        toast.error(t("Este e-mail já tem conta. Faça login."));
+        setMode("login");
+        return;
+      }
+      return toast.error(error.message);
+    }
+    if (!data.session) {
+      toast.success(t("Enviamos um link para o seu e-mail."));
+      setMode("login");
+      return;
+    }
     toast.success(t("Conta criada! Vamos começar 🎉"));
     navigate({ to: "/", replace: true });
   }
