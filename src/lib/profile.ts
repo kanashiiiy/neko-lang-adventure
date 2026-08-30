@@ -18,6 +18,8 @@ export interface Profile {
   last_focus_refill: string | null;
   is_premium: boolean;
   premium_until: string | null;
+  is_premium_plus: boolean;
+  premium_plus_until: string | null;
   onboarding_complete: boolean;
   theme: string;
   notifications_enabled: boolean;
@@ -29,6 +31,14 @@ export function isPremiumActive(profile: Pick<Profile, "is_premium" | "premium_u
   return new Date(profile.premium_until).getTime() > Date.now();
 }
 
+export function isPremiumPlusActive(
+  profile: Pick<Profile, "is_premium_plus" | "premium_plus_until"> | null | undefined,
+) {
+  if (!profile?.is_premium_plus) return false;
+  if (!profile.premium_plus_until) return true;
+  return new Date(profile.premium_plus_until).getTime() > Date.now();
+}
+
 export async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
   if (error) throw error;
@@ -36,6 +46,10 @@ export async function fetchProfile(userId: string): Promise<Profile | null> {
   // Premium/trial expirou -> volta automaticamente ao Foco normal
   if (profile?.is_premium && profile.premium_until && !isPremiumActive(profile)) {
     return await updateProfile(userId, { is_premium: false });
+  }
+  // Premium Plus expirado -> volta ao plano normal
+  if (profile?.is_premium_plus && profile.premium_plus_until && !isPremiumPlusActive(profile)) {
+    return await updateProfile(userId, { is_premium_plus: false });
   }
   return profile;
 }
