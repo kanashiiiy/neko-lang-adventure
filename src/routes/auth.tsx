@@ -123,8 +123,7 @@ function AuthPage() {
         </p>
       </div>
 
-      {mode !== "forgot" && (
-      {!loginOnly && (
+      {!loginOnly && mode !== "forgot" && (
         <div className="mt-6 grid grid-cols-2 gap-1 rounded-2xl bg-muted p-1">
           <button
             onClick={() => setMode("login")}
