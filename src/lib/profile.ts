@@ -23,33 +23,61 @@ export interface Profile {
   onboarding_complete: boolean;
   theme: string;
   notifications_enabled: boolean;
+  /** Somente leitura no cliente: derivado da função de Administrador no backend */
+  is_admin?: boolean;
 }
 
-export function isPremiumActive(profile: Pick<Profile, "is_premium" | "premium_until"> | null | undefined) {
+export function isPremiumActive(
+  profile: (Pick<Profile, "is_premium" | "premium_until"> & { is_admin?: boolean }) | null | undefined,
+) {
+  if (profile?.is_admin) return true;
   if (!profile?.is_premium) return false;
   if (!profile.premium_until) return true;
   return new Date(profile.premium_until).getTime() > Date.now();
 }
 
 export function isPremiumPlusActive(
-  profile: Pick<Profile, "is_premium_plus" | "premium_plus_until"> | null | undefined,
+  profile:
+    | (Pick<Profile, "is_premium_plus" | "premium_plus_until"> & { is_admin?: boolean })
+    | null
+    | undefined,
 ) {
+  if (profile?.is_admin) return true;
   if (!profile?.is_premium_plus) return false;
   if (!profile.premium_plus_until) return true;
   return new Date(profile.premium_plus_until).getTime() > Date.now();
 }
 
+export async function isAdmin(userId: string): Promise<boolean> {
+  try {
+    const { data, error } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
+    if (error) return false;
+    return Boolean(data);
+  } catch {
+    return false;
+  }
+}
+
 export async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
   if (error) throw error;
-  const profile = data as Profile | null;
+  const raw = data as Profile | null;
+  const admin = raw ? await isAdmin(userId) : false;
+  const profile = raw ? ({ ...raw, is_admin: admin } as Profile) : null;
   // Premium/trial expirou -> volta automaticamente ao Foco normal
-  if (profile?.is_premium && profile.premium_until && !isPremiumActive(profile)) {
-    return await updateProfile(userId, { is_premium: false });
+  if (!admin && profile?.is_premium && profile.premium_until && !isPremiumActive({ ...profile, is_admin: false })) {
+    const updated = await updateProfile(userId, { is_premium: false });
+    return { ...updated, is_admin: admin };
   }
   // Premium Plus expirado -> volta ao plano normal
-  if (profile?.is_premium_plus && profile.premium_plus_until && !isPremiumPlusActive(profile)) {
-    return await updateProfile(userId, { is_premium_plus: false });
+  if (
+    !admin &&
+    profile?.is_premium_plus &&
+    profile.premium_plus_until &&
+    !isPremiumPlusActive({ ...profile, is_admin: false })
+  ) {
+    const updated = await updateProfile(userId, { is_premium_plus: false });
+    return { ...updated, is_admin: admin };
   }
   return profile;
 }

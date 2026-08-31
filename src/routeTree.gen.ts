@@ -24,6 +24,7 @@ import { Route as AuthenticatedNekoAiRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedMissoesRouteImport } from './routes/_authenticated/missoes'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedAlfabetoRouteImport } from './routes/_authenticated/alfabeto'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAlfabetoIndexRouteImport } from './routes/_authenticated/alfabeto.index'
 import { Route as AuthenticatedLessonIdRouteImport } from './routes/_authenticated/lesson.$id'
 import { Route as AuthenticatedAlfabetoSystemRouteImport } from './routes/_authenticated/alfabeto.$system'
@@ -104,6 +105,11 @@ const AuthenticatedAlfabetoRoute = AuthenticatedAlfabetoRouteImport.update({
   path: '/alfabeto',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAlfabetoIndexRoute =
   AuthenticatedAlfabetoIndexRouteImport.update({
     id: '/',
@@ -140,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/start': typeof StartRoute
   '/welcome': typeof WelcomeRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/alfabeto': typeof AuthenticatedAlfabetoRouteWithChildren
   '/home': typeof AuthenticatedHomeRoute
   '/missoes': typeof AuthenticatedMissoesRoute
@@ -161,6 +168,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/start': typeof StartRoute
   '/welcome': typeof WelcomeRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/home': typeof AuthenticatedHomeRoute
   '/missoes': typeof AuthenticatedMissoesRoute
   '/neko-ai': typeof AuthenticatedNekoAiRoute
@@ -183,6 +191,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/start': typeof StartRoute
   '/welcome': typeof WelcomeRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/alfabeto': typeof AuthenticatedAlfabetoRouteWithChildren
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/missoes': typeof AuthenticatedMissoesRoute
@@ -206,6 +215,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/start'
     | '/welcome'
+    | '/admin'
     | '/alfabeto'
     | '/home'
     | '/missoes'
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/start'
     | '/welcome'
+    | '/admin'
     | '/home'
     | '/missoes'
     | '/neko-ai'
@@ -248,6 +259,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/start'
     | '/welcome'
+    | '/_authenticated/admin'
     | '/_authenticated/alfabeto'
     | '/_authenticated/home'
     | '/_authenticated/missoes'
@@ -381,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAlfabetoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/alfabeto/': {
       id: '/_authenticated/alfabeto/'
       path: '/'
@@ -435,6 +454,7 @@ const AuthenticatedAlfabetoRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAlfabetoRoute: typeof AuthenticatedAlfabetoRouteWithChildren
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedMissoesRoute: typeof AuthenticatedMissoesRoute
@@ -449,6 +469,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAlfabetoRoute: AuthenticatedAlfabetoRouteWithChildren,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedMissoesRoute: AuthenticatedMissoesRoute,

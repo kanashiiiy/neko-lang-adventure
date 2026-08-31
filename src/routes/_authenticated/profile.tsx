@@ -132,6 +132,12 @@ function ProfilePage() {
           <ClickRow icon={<Shield className="h-5 w-5" />} label={t("Privacidade")} onClick={() => toast.info(t("Em breve!"))} />
         </Section>
 
+        {profile.is_admin && (
+          <Section title={t("Administrador")}>
+            <ClickRow icon={<Shield className="h-5 w-5" />} label={t("Painel Admin")} onClick={() => navigate({ to: "/admin" })} />
+          </Section>
+        )}
+
         <button onClick={logout}
           className="btn-3d flex w-full items-center justify-center gap-2 rounded-2xl bg-destructive py-3.5 font-bold text-destructive-foreground">
           <LogOut className="h-5 w-5" /> {t("Sair da conta")}
