@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, Volume2, Mic, Star, ChevronRight } from "lucide-react";
+import { ArrowLeft, Volume2, Mic, Heart, ChevronRight, Lightbulb } from "lucide-react";
 import { DIALOG_CATEGORIES, USE_TEXT, categoryById, type LearnLang, type Phrase } from "@/lib/dialogs";
 import { useT, useUiLang, type UiLang } from "@/lib/i18n";
 import { speakForLang, getRecognition, matchSpeech, isRecognitionSupported } from "@/lib/speech";
@@ -44,12 +44,20 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
     });
   }
 
+  /** Abre a frase e já reproduz o áudio no idioma estudado. */
+  function openPhrase(p: Phrase) {
+    setPhraseId(p.id);
+    setFeedback(null);
+    speakForLang(p.text[learnLang], learnLang);
+  }
+
   const category = catId ? categoryById(catId) : null;
   const phrase = category && phraseId ? category.phrases.find((p) => p.id === phraseId) ?? null : null;
 
   // ---------- Tela da frase ----------
   if (category && phrase) {
     const reply = category.phrases[phrase.reply] ?? category.phrases[0];
+    const examples = [reply, ...category.phrases.filter((p) => p.id !== phrase.id && p.id !== reply.id).slice(0, 2)];
     const fav = favs.includes(phrase.id);
 
     function practice() {
@@ -76,65 +84,88 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
 
     return (
       <div className="flex-1 overflow-y-auto px-4 py-4">
-        <button onClick={() => setPhraseId(null)} className="mb-3 flex items-center gap-1 text-sm font-bold text-muted-foreground">
-          <ArrowLeft className="h-4 w-4" /> {t(category.name)}
-        </button>
-
-        {/* Ilustração da situação */}
-        <div className="flex h-40 items-center justify-center rounded-3xl bg-gradient-primary text-7xl shadow-soft">
-          <span aria-hidden>{category.emoji}</span>
+        {/* Cabeçalho da frase */}
+        <div className="mb-3 flex items-center gap-2">
+          <button onClick={() => setPhraseId(null)} aria-label={t("Voltar")}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted">
+            <ArrowLeft className="h-4 w-4" />
+          </button>
+          <h2 className="flex-1 truncate text-center text-lg font-black">{t(category.name)}</h2>
+          <button onClick={() => toggleFav(phrase.id)} aria-label={t("Favoritar")}
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
+              fav ? "bg-gold text-gold-foreground" : "bg-muted text-muted-foreground"
+            }`}>
+            <Heart className={`h-4 w-4 ${fav ? "fill-current" : ""}`} />
+          </button>
         </div>
 
+        {/* Ilustração da situação */}
+        <div className="relative flex h-44 items-center justify-center rounded-3xl bg-gradient-primary shadow-soft">
+          <span aria-hidden className="text-7xl">{category.emoji}</span>
+          <div className="absolute bottom-3 right-3 max-w-[60%] rounded-2xl bg-card px-3 py-2 shadow-card">
+            <div className="text-sm font-black leading-tight">{phrase.text[learnLang]}</div>
+            {learnLang === "ja" && <div className="text-xs italic text-primary">{phrase.romaji}</div>}
+          </div>
+        </div>
+
+        {/* Cartão principal */}
         <div className="mt-4 rounded-3xl bg-card p-5 shadow-card">
-          <div className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{t("Frase")}</div>
-          <div className="mt-1 text-2xl font-black leading-snug">{phrase.text[learnLang]}</div>
+          <div className="flex items-start gap-3">
+            <div className="flex-1">
+              <div className="text-2xl font-black leading-snug">{phrase.text[learnLang]}</div>
+              {learnLang === "ja" && <div className="mt-1 text-base italic text-primary">{phrase.romaji}</div>}
+              <div className="mt-1 text-base text-muted-foreground">{translationFor(phrase, uiLang)}</div>
+            </div>
+            <button onClick={() => speakForLang(phrase.text[learnLang], learnLang)} aria-label={t("Ouvir")}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Volume2 className="h-5 w-5" />
+            </button>
+          </div>
 
-          <div className="mt-3 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{t("Tradução")}</div>
-          <div className="text-base">{translationFor(phrase, uiLang)}</div>
+          <div className="mt-4 rounded-2xl bg-muted p-3">
+            <div className="flex items-center gap-2 text-sm font-bold text-primary">
+              <Lightbulb className="h-4 w-4" /> {t("Quando usar")}
+            </div>
+            <p className="mt-1 text-sm text-muted-foreground">{t(USE_TEXT[phrase.use])}</p>
+          </div>
 
-          {learnLang === "ja" && (
-            <>
-              <div className="mt-3 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{t("Pronúncia")}</div>
-              <div className="text-base italic text-primary">{phrase.romaji}</div>
-            </>
-          )}
-
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-4 grid grid-cols-3 gap-2">
             <button onClick={() => speakForLang(phrase.text[learnLang], learnLang)}
-              className="flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground">
-              <Volume2 className="h-4 w-4" /> {t("Ouvir")}
+              className="flex items-center justify-center gap-1.5 rounded-2xl border-2 border-border bg-background px-2 py-2.5 text-sm font-bold">
+              <Volume2 className="h-4 w-4 text-primary" /> {t("Ouvir")}
             </button>
             <button onClick={practice}
-              className="flex items-center gap-2 rounded-full bg-muted px-4 py-2.5 text-sm font-bold">
-              <Mic className="h-4 w-4" /> {listening ? t("Ouvindo...") : t("Praticar")}
+              className="flex items-center justify-center gap-1.5 rounded-2xl border-2 border-border bg-background px-2 py-2.5 text-sm font-bold">
+              <Mic className="h-4 w-4 text-primary" /> {listening ? t("Ouvindo...") : t("Praticar")}
             </button>
             <button onClick={() => toggleFav(phrase.id)}
-              className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold ${
-                fav ? "bg-gold text-gold-foreground" : "bg-muted"
+              className={`flex items-center justify-center gap-1.5 rounded-2xl border-2 px-2 py-2.5 text-sm font-bold ${
+                fav ? "border-gold bg-gold text-gold-foreground" : "border-border bg-background"
               }`}>
-              <Star className={`h-4 w-4 ${fav ? "fill-current" : ""}`} /> {fav ? t("Favorito") : t("Favoritar")}
+              <Heart className={`h-4 w-4 ${fav ? "fill-current" : "text-primary"}`} /> {t("Favoritar")}
             </button>
           </div>
 
           {feedback && <div className="mt-3 text-sm font-bold text-primary">{feedback}</div>}
         </div>
 
-        <div className="mt-4 rounded-3xl bg-card p-5 shadow-card">
-          <div className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{t("Quando usar")}</div>
-          <p className="mt-1 text-sm">{t(USE_TEXT[phrase.use])}</p>
-        </div>
-
-        <div className="mt-4 mb-6 rounded-3xl bg-card p-5 shadow-card">
-          <div className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{t("Exemplo em diálogo")}</div>
-          <div className="mt-2 space-y-2 text-sm">
-            <div className="rounded-2xl bg-muted px-3 py-2">
-              <div className="font-bold">A: {phrase.text[learnLang]}</div>
-              <div className="text-muted-foreground">{translationFor(phrase, uiLang)}</div>
-            </div>
-            <div className="rounded-2xl bg-muted px-3 py-2">
-              <div className="font-bold">B: {reply.text[learnLang]}</div>
-              <div className="text-muted-foreground">{translationFor(reply, uiLang)}</div>
-            </div>
+        {/* Exemplos de uso */}
+        <div className="mt-5 mb-6">
+          <h3 className="mb-2 text-lg font-black">{t("Exemplo em diálogo")}</h3>
+          <div className="space-y-2">
+            {examples.map((ex) => (
+              <div key={ex.id} className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card">
+                <div className="min-w-0 flex-1">
+                  <div className="truncate font-bold">{ex.text[learnLang]}</div>
+                  {learnLang === "ja" && <div className="truncate text-xs italic text-muted-foreground">{ex.romaji}</div>}
+                  <div className="truncate text-sm text-muted-foreground">{translationFor(ex, uiLang)}</div>
+                </div>
+                <button onClick={() => speakForLang(ex.text[learnLang], learnLang)} aria-label={t("Ouvir")}
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <Volume2 className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -154,11 +185,12 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
         </h2>
         <div className="space-y-2 pb-4">
           {category.phrases.map((p) => (
-            <button key={p.id} onClick={() => { setPhraseId(p.id); setFeedback(null); }}
+            <button key={p.id} onClick={() => openPhrase(p)}
               className="flex w-full items-center justify-between gap-3 rounded-2xl bg-card p-4 text-left shadow-card">
-              <span>
-                <span className="block font-bold">{p.text[learnLang]}</span>
-                <span className="block text-xs text-muted-foreground">{translationFor(p, uiLang)}</span>
+              <span className="min-w-0">
+                <span className="block truncate font-bold">{p.text[learnLang]}</span>
+                {learnLang === "ja" && <span className="block truncate text-xs italic text-muted-foreground">{p.romaji}</span>}
+                <span className="block truncate text-xs text-muted-foreground">{translationFor(p, uiLang)}</span>
               </span>
               <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
             </button>
@@ -172,13 +204,20 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
   return (
     <div className="flex-1 overflow-y-auto px-4 py-4">
       <p className="mb-3 text-sm text-muted-foreground">{t("Escolha uma categoria")}</p>
-      <div className="grid grid-cols-2 gap-3 pb-4">
+      <div className="space-y-2 pb-4">
         {DIALOG_CATEGORIES.map((c) => (
           <button key={c.id} onClick={() => setCatId(c.id)}
-            className="rounded-2xl bg-card p-4 text-left shadow-card">
-            <div className="text-3xl" aria-hidden>{c.emoji}</div>
-            <div className="mt-1 font-bold leading-tight">{t(c.name)}</div>
-            <div className="text-xs text-muted-foreground">{c.phrases.length} {t("frases")}</div>
+            className="flex w-full items-center gap-3 rounded-2xl bg-card p-4 text-left shadow-card">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-muted text-2xl" aria-hidden>
+              {c.emoji}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block font-black leading-tight">{t(c.name)}</span>
+              <span className="block truncate text-xs text-muted-foreground">
+                {c.phrases[0] ? translationFor(c.phrases[0], uiLang) : `${c.phrases.length} ${t("frases")}`}
+              </span>
+            </span>
+            <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
           </button>
         ))}
       </div>
