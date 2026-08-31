@@ -183,6 +183,7 @@ function LessonPlayer() {
       toast.error(t("Não conseguimos salvar seu progresso."));
     }
     setSaving(false);
+    try { localStorage.removeItem(progressKey); } catch { /* ignora */ }
     setDone(true);
   }
 
