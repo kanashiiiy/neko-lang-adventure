@@ -96,8 +96,9 @@ function LessonPlayer() {
     );
   }
 
-  const q = lesson.questions[idx];
   const total = lesson.questions.length;
+  const safeIdx = Math.min(idx, total - 1);
+  const q = lesson.questions[safeIdx];
 
   async function ensureFocusSpent() {
     if (spentRef.current || !profile) return true;
