@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ArrowLeft, Volume2 } from "lucide-react";
 import { speakForLang } from "@/lib/speech";
 import { PT_ALPHABET, PT_SYLLABLES, PT_PHRASES, PT_SECTION_META, type PtSection } from "@/lib/pt-content";
-import { WritePractice } from "./alfabeto-en.$section";
+
 import { useT, useTf } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/alfabeto-pt/$section")({
@@ -57,7 +57,6 @@ function AlphabetTab() {
           </button>
         ))}
       </div>
-      <WritePractice target={letter.char} lang="pt" phonetic={letter.phonetic} />
     </div>
   );
 }
@@ -84,7 +83,6 @@ function SyllablesTab() {
         </div>
       ))}
       <p className="text-center text-xs text-muted-foreground">{t("Toque em uma sílaba para ouvir")}</p>
-      <WritePractice target={current} lang="pt" />
     </div>
   );
 }
@@ -106,7 +104,6 @@ function PhrasesTab() {
           <Volume2 className="h-6 w-6" />
         </button>
       ))}
-      <WritePractice target={p.text} lang="pt" phonetic={p.translation} />
     </div>
   );
 }

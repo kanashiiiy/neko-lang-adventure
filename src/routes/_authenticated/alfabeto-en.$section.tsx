@@ -58,7 +58,6 @@ function AlphabetTab() {
           </button>
         ))}
       </div>
-      <WritePractice target={letter.char} lang="en" phonetic={letter.phonetic} />
     </div>
   );
 }
@@ -129,7 +128,6 @@ function ToBeTab() {
         )}
       </div>
 
-      <WritePractice target={step.full} lang="en" phonetic={step.translation} />
     </div>
   );
 }
@@ -151,7 +149,6 @@ function PhrasesTab() {
           <Volume2 className="h-6 w-6" />
         </button>
       ))}
-      <WritePractice target={p.text} lang="en" phonetic={p.translation} />
     </div>
   );
 }
@@ -221,7 +218,6 @@ function TensesTab() {
         )}
       </div>
 
-      <WritePractice target={tenseStep.example} lang="en" phonetic={tenseStep.exampleTranslation} />
     </div>
   );
 }
