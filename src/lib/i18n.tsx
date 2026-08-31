@@ -39,33 +39,38 @@ export function uiLangForCountry(country?: string | null): UiLang {
   return COUNTRY_UI_LANG[country] ?? DEFAULT_UI_LANG;
 }
 
+const UI_LANG_CHOSEN_KEY = "nekoteach:ui-lang-chosen";
+
 export function getUiLang(): UiLang {
   if (typeof window === "undefined") return DEFAULT_UI_LANG;
   try {
+    const raw = localStorage.getItem(UI_LANG_KEY);
+    const valid = raw && ["pt", "en", "ja", "fr", "es", "ko"].includes(raw) ? (raw as UiLang) : null;
+    // Idioma já escolhido pelo usuário (país/conta) nunca é substituído por inglês.
+    if (localStorage.getItem(UI_LANG_CHOSEN_KEY) === "1" && valid) return valid;
+
     const version = localStorage.getItem(UI_LANG_VERSION_KEY);
     if (version !== UI_LANG_VERSION) {
-      // Preferências gravadas antes da regra "primeira abertura em inglês"
-      // não indicam se o país foi escolhido no fluxo atual. Migre uma única
-      // vez para inglês; a próxima escolha de país será persistida normalmente.
+      // Preferência antiga, sem escolha explícita: primeira abertura em inglês.
       localStorage.setItem(UI_LANG_KEY, DEFAULT_UI_LANG);
       localStorage.setItem(UI_LANG_VERSION_KEY, UI_LANG_VERSION);
       return DEFAULT_UI_LANG;
     }
-    const raw = localStorage.getItem(UI_LANG_KEY);
-    if (raw && ["pt", "en", "ja", "fr", "es", "ko"].includes(raw)) return raw as UiLang;
+    if (valid) return valid;
   } catch {
     /* ignore */
   }
   return DEFAULT_UI_LANG;
 }
 
-export function setUiLang(lang: UiLang) {
+export function setUiLang(lang: UiLang, chosen = true) {
   if (typeof window === "undefined") return;
   let stored: string | null = null;
   try {
     stored = localStorage.getItem(UI_LANG_KEY);
     localStorage.setItem(UI_LANG_KEY, lang);
     localStorage.setItem(UI_LANG_VERSION_KEY, UI_LANG_VERSION);
+    if (chosen) localStorage.setItem(UI_LANG_CHOSEN_KEY, "1");
   } catch {
     /* ignore */
   }
@@ -77,6 +82,15 @@ export function setUiLangFromCountry(country?: string | null) {
   if (!country) return;
   setUiLang(uiLangForCountry(country));
 }
+
+/** Restaura o idioma salvo na conta (país do perfil) ao abrir o app logado. */
+export function syncUiLangFromAccount(country?: string | null) {
+  if (!country || typeof window === "undefined") return;
+  const lang = uiLangForCountry(country);
+  if (getUiLang() === lang && localStorage.getItem(UI_LANG_CHOSEN_KEY) === "1") return;
+  setUiLang(lang);
+}
+
 
 /** Dicionário: a chave é o texto em português (idioma-fonte do app). */
 type Dict = Record<string, string>;
