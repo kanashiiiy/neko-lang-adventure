@@ -124,6 +124,7 @@ function AuthPage() {
       </div>
 
       {mode !== "forgot" && (
+      {!loginOnly && (
         <div className="mt-6 grid grid-cols-2 gap-1 rounded-2xl bg-muted p-1">
           <button
             onClick={() => setMode("login")}
@@ -134,6 +135,7 @@ function AuthPage() {
             className={`rounded-xl py-2 text-sm font-bold transition ${mode === "signup" ? "bg-card shadow-card text-foreground" : "text-muted-foreground"}`}
           >{t("Cadastrar")}</button>
         </div>
+      )}
       )}
 
       {mode === "login" && (
