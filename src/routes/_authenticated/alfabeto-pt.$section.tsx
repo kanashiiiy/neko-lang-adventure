@@ -43,7 +43,6 @@ function AlfabetoPt() {
 
 function AlphabetTab() {
   const [idx, setIdx] = useState(0);
-  const letter = PT_ALPHABET[idx];
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-5 gap-2">
@@ -89,7 +88,6 @@ function SyllablesTab() {
 
 function PhrasesTab() {
   const [idx, setIdx] = useState(0);
-  const p = PT_PHRASES[idx];
   return (
     <div className="space-y-3">
       {PT_PHRASES.map((ph, i) => (

@@ -44,7 +44,6 @@ function AlfabetoEn() {
 
 function AlphabetTab() {
   const [idx, setIdx] = useState(0);
-  const letter = EN_ALPHABET[idx];
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-5 gap-2">
@@ -134,7 +133,6 @@ function ToBeTab() {
 
 function PhrasesTab() {
   const [idx, setIdx] = useState(0);
-  const p = EN_PHRASES[idx];
   return (
     <div className="space-y-3">
       {EN_PHRASES.map((ph, i) => (
