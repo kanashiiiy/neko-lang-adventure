@@ -9,6 +9,7 @@ export const LESSON_EXTRA: Record<"en" | "ja" | "fr" | "es" | "ko", Record<strin
     "Ouvi: \"{heard}\"": "I heard: \"{heard}\"",
   },
   ja: {
+    "Que bom que você voltou! Vamos continuar de onde paramos?": "おかえりなさい！続きからやりましょうか？",
     "🔥 7 acertos seguidos! +2 Foco": "🔥 7連続正解！+2フォーカス",
     "Você acertou {rights} de {total}": "{total}問中{rights}問正解しました",
     "Tarefa {idx} de {total} · {kind}": "問題 {idx}/{total}・{kind}",
@@ -17,6 +18,7 @@ export const LESSON_EXTRA: Record<"en" | "ja" | "fr" | "es" | "ko", Record<strin
     "Ouvi: \"{heard}\"": "聞き取った内容：「{heard}」",
   },
   fr: {
+    "Que bom que você voltou! Vamos continuar de onde paramos?": "Content de te revoir ! On reprend où on s’est arrêtés ?",
     "🔥 7 acertos seguidos! +2 Foco": "🔥 7 bonnes réponses de suite ! +2 Focus",
     "Você acertou {rights} de {total}": "Vous avez obtenu {rights} sur {total}",
     "Tarefa {idx} de {total} · {kind}": "Tâche {idx} sur {total} · {kind}",
@@ -25,6 +27,7 @@ export const LESSON_EXTRA: Record<"en" | "ja" | "fr" | "es" | "ko", Record<strin
     "Ouvi: \"{heard}\"": "J'ai entendu : \"{heard}\"",
   },
   es: {
+    "Que bom que você voltou! Vamos continuar de onde paramos?": "¡Qué bueno que volviste! ¿Seguimos donde lo dejamos?",
     "🔥 7 acertos seguidos! +2 Foco": "🔥 ¡7 aciertos seguidos! +2 Enfoque",
     "Você acertou {rights} de {total}": "Acertaste {rights} de {total}",
     "Tarefa {idx} de {total} · {kind}": "Tarea {idx} de {total} · {kind}",
@@ -33,6 +36,7 @@ export const LESSON_EXTRA: Record<"en" | "ja" | "fr" | "es" | "ko", Record<strin
     "Ouvi: \"{heard}\"": "Escuché: \"{heard}\"",
   },
   ko: {
+    "Que bom que você voltou! Vamos continuar de onde paramos?": "다시 와줘서 반가워요! 이어서 계속할까요?",
     "🔥 7 acertos seguidos! +2 Foco": "🔥 7연속 정답! +2 포커스",
     "Você acertou {rights} de {total}": "{total}문제 중 {rights}문제를 맞혔어요",
     "Tarefa {idx} de {total} · {kind}": "과제 {idx}/{total} · {kind}",
