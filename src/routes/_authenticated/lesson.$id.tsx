@@ -46,6 +46,39 @@ function LessonPlayer() {
   const [listening, setListening] = useState(false);
   const [heard, setHeard] = useState<string | null>(null);
   const spentRef = useRef(false);
+  const [resumed, setResumed] = useState(false);
+  const restoredRef = useRef(false);
+  const progressKey = `nekoteach:lesson-progress:${id}`;
+
+  // Retomar progresso salvo da lição
+  useEffect(() => {
+    if (restoredRef.current) return;
+    restoredRef.current = true;
+    try {
+      const raw = localStorage.getItem(progressKey);
+      if (!raw) return;
+      const saved = JSON.parse(raw) as {
+        idx?: number; rights?: number; streakInLesson?: number; bonusFocus?: number;
+      };
+      if (typeof saved.idx === "number" && saved.idx > 0) {
+        setIdx(saved.idx);
+        setRights(saved.rights ?? 0);
+        setStreakInLesson(saved.streakInLesson ?? 0);
+        setBonusFocus(saved.bonusFocus ?? 0);
+        setResumed(true);
+      }
+    } catch { /* ignora progresso inválido */ }
+  }, [progressKey]);
+
+  // Salva o progresso atual
+  useEffect(() => {
+    if (!restoredRef.current || done) return;
+    try {
+      if (idx > 0) {
+        localStorage.setItem(progressKey, JSON.stringify({ idx, rights, streakInLesson, bonusFocus }));
+      }
+    } catch { /* armazenamento indisponível */ }
+  }, [progressKey, idx, rights, streakInLesson, bonusFocus, done]);
 
   // Check focus before starting
   useEffect(() => {
