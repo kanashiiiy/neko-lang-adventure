@@ -1,5 +1,6 @@
 export const LESSON_EXTRA: Record<"en" | "ja" | "fr" | "es" | "ko", Record<string, string>> = {
   en: {
+    "Que bom que você voltou! Vamos continuar de onde paramos?": "Great to have you back! Shall we continue where we left off?",
     "🔥 7 acertos seguidos! +2 Foco": "🔥 7 correct in a row! +2 Focus",
     "Você acertou {rights} de {total}": "You got {rights} out of {total}",
     "Tarefa {idx} de {total} · {kind}": "Task {idx} of {total} · {kind}",
