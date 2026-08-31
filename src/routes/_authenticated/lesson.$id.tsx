@@ -223,11 +223,22 @@ function LessonPlayer() {
 
   return (
     <div className="mobile-shell px-4 pt-4 pb-6">
+      {resumed && (
+        <div className="pointer-events-none fixed bottom-24 right-3 z-50 flex items-end gap-2">
+          <div className="pointer-events-auto max-w-[62vw] rounded-2xl border-2 border-primary/20 bg-card p-3 text-xs font-semibold shadow-card animate-bubble-in">
+            {t("Que bom que você voltou! Vamos continuar de onde paramos?")}
+            <button onClick={() => setResumed(false)} className="mt-2 block text-[11px] font-black uppercase text-primary">
+              {t("Continuar")}
+            </button>
+          </div>
+          <NekoMascot size={84} entrance />
+        </div>
+      )}
       <header className="mb-6 flex items-center gap-3">
         <button onClick={() => navigate({ to: "/home" })} className="text-muted-foreground"><X className="h-6 w-6" /></button>
         <div className="flex-1 h-3 rounded-full bg-muted overflow-hidden">
           <div className="h-full bg-gradient-primary transition-all duration-500"
-            style={{ width: `${((idx + 1) / total) * 100}%` }} />
+            style={{ width: `${((safeIdx + 1) / total) * 100}%` }} />
         </div>
         <div className="flex items-center gap-1 font-bold text-yellow-600">
           <Brain className="h-5 w-5" /> {isPremiumActive(profile) ? "∞" : (profile?.focus ?? 0)}
