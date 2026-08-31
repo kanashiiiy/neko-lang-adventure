@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { touchStreak } from "@/lib/profile";
+import { touchStreak, fetchProfile } from "@/lib/profile";
+import { syncUiLangFromAccount } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -23,6 +24,12 @@ function AuthenticatedLayout() {
       try {
         const { data } = await supabase.auth.getUser();
         if (!data.user || !active) return;
+        try {
+          const profile = await fetchProfile(data.user.id);
+          if (active) syncUiLangFromAccount(profile?.country);
+        } catch {
+          /* idioma da conta é opcional */
+        }
         const updated = await touchStreak(data.user.id);
         if (updated && active) qc.invalidateQueries({ queryKey: ["profile"] });
       } catch {
@@ -33,6 +40,7 @@ function AuthenticatedLayout() {
       active = false;
     };
   }, [qc]);
+
 
   return <Outlet />;
 }
