@@ -44,7 +44,6 @@ function AlfabetoEn() {
 
 function AlphabetTab() {
   const [idx, setIdx] = useState(0);
-  const letter = EN_ALPHABET[idx];
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-5 gap-2">
@@ -58,7 +57,6 @@ function AlphabetTab() {
           </button>
         ))}
       </div>
-      <WritePractice target={letter.char} lang="en" phonetic={letter.phonetic} />
     </div>
   );
 }
@@ -129,14 +127,12 @@ function ToBeTab() {
         )}
       </div>
 
-      <WritePractice target={step.full} lang="en" phonetic={step.translation} />
     </div>
   );
 }
 
 function PhrasesTab() {
   const [idx, setIdx] = useState(0);
-  const p = EN_PHRASES[idx];
   return (
     <div className="space-y-3">
       {EN_PHRASES.map((ph, i) => (
@@ -151,7 +147,6 @@ function PhrasesTab() {
           <Volume2 className="h-6 w-6" />
         </button>
       ))}
-      <WritePractice target={p.text} lang="en" phonetic={p.translation} />
     </div>
   );
 }
@@ -221,7 +216,6 @@ function TensesTab() {
         )}
       </div>
 
-      <WritePractice target={tenseStep.example} lang="en" phonetic={tenseStep.exampleTranslation} />
     </div>
   );
 }
