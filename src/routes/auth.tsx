@@ -15,6 +15,8 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const { mode: initialMode } = Route.useSearch();
+  // Veio por "Já tenho uma conta": mostra SOMENTE o formulário de login.
+  const loginOnly = initialMode === "login";
   const [mode, setMode] = useState<"login" | "signup" | "forgot">(initialMode ?? "signup");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
