@@ -135,7 +135,6 @@ function AuthPage() {
           >{t("Cadastrar")}</button>
         </div>
       )}
-      )}
 
       {mode === "login" && (
         <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-3">
