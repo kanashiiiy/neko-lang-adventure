@@ -247,7 +247,7 @@ function LessonPlayer() {
 
       <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
         {tf("Tarefa {idx} de {total} · {kind}", {
-          idx: idx + 1,
+          idx: safeIdx + 1,
           total,
           kind: q.kind === "listen" ? t("Ouvir") : q.kind === "speak" ? t("Falar") : q.kind === "complete" ? t("Escrever") : t("Escolher"),
         })}
