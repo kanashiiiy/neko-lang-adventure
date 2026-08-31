@@ -46,6 +46,39 @@ function LessonPlayer() {
   const [listening, setListening] = useState(false);
   const [heard, setHeard] = useState<string | null>(null);
   const spentRef = useRef(false);
+  const [resumed, setResumed] = useState(false);
+  const restoredRef = useRef(false);
+  const progressKey = `nekoteach:lesson-progress:${id}`;
+
+  // Retomar progresso salvo da lição
+  useEffect(() => {
+    if (restoredRef.current) return;
+    restoredRef.current = true;
+    try {
+      const raw = localStorage.getItem(progressKey);
+      if (!raw) return;
+      const saved = JSON.parse(raw) as {
+        idx?: number; rights?: number; streakInLesson?: number; bonusFocus?: number;
+      };
+      if (typeof saved.idx === "number" && saved.idx > 0) {
+        setIdx(saved.idx);
+        setRights(saved.rights ?? 0);
+        setStreakInLesson(saved.streakInLesson ?? 0);
+        setBonusFocus(saved.bonusFocus ?? 0);
+        setResumed(true);
+      }
+    } catch { /* ignora progresso inválido */ }
+  }, [progressKey]);
+
+  // Salva o progresso atual
+  useEffect(() => {
+    if (!restoredRef.current || done) return;
+    try {
+      if (idx > 0) {
+        localStorage.setItem(progressKey, JSON.stringify({ idx, rights, streakInLesson, bonusFocus }));
+      }
+    } catch { /* armazenamento indisponível */ }
+  }, [progressKey, idx, rights, streakInLesson, bonusFocus, done]);
 
   // Check focus before starting
   useEffect(() => {
@@ -63,8 +96,9 @@ function LessonPlayer() {
     );
   }
 
-  const q = lesson.questions[idx];
   const total = lesson.questions.length;
+  const safeIdx = Math.min(idx, total - 1);
+  const q = lesson.questions[safeIdx];
 
   async function ensureFocusSpent() {
     if (spentRef.current || !profile) return true;
@@ -149,6 +183,7 @@ function LessonPlayer() {
       toast.error(t("Não conseguimos salvar seu progresso."));
     }
     setSaving(false);
+    try { localStorage.removeItem(progressKey); } catch { /* ignora */ }
     setDone(true);
   }
 
@@ -188,11 +223,22 @@ function LessonPlayer() {
 
   return (
     <div className="mobile-shell px-4 pt-4 pb-6">
+      {resumed && (
+        <div className="pointer-events-none fixed bottom-24 right-3 z-50 flex items-end gap-2">
+          <div className="pointer-events-auto max-w-[62vw] rounded-2xl border-2 border-primary/20 bg-card p-3 text-xs font-semibold shadow-card animate-bubble-in">
+            {t("Que bom que você voltou! Vamos continuar de onde paramos?")}
+            <button onClick={() => setResumed(false)} className="mt-2 block text-[11px] font-black uppercase text-primary">
+              {t("Continuar")}
+            </button>
+          </div>
+          <NekoMascot size={84} entrance />
+        </div>
+      )}
       <header className="mb-6 flex items-center gap-3">
         <button onClick={() => navigate({ to: "/home" })} className="text-muted-foreground"><X className="h-6 w-6" /></button>
         <div className="flex-1 h-3 rounded-full bg-muted overflow-hidden">
           <div className="h-full bg-gradient-primary transition-all duration-500"
-            style={{ width: `${((idx + 1) / total) * 100}%` }} />
+            style={{ width: `${((safeIdx + 1) / total) * 100}%` }} />
         </div>
         <div className="flex items-center gap-1 font-bold text-yellow-600">
           <Brain className="h-5 w-5" /> {isPremiumActive(profile) ? "∞" : (profile?.focus ?? 0)}
@@ -201,7 +247,7 @@ function LessonPlayer() {
 
       <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
         {tf("Tarefa {idx} de {total} · {kind}", {
-          idx: idx + 1,
+          idx: safeIdx + 1,
           total,
           kind: q.kind === "listen" ? t("Ouvir") : q.kind === "speak" ? t("Falar") : q.kind === "complete" ? t("Escrever") : t("Escolher"),
         })}
