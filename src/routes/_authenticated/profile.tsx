@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Flame, Gem, Trophy, Brain, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut, ChevronRight, Award } from "lucide-react";
+import { Flame, Gem, Trophy, Brain, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut, ChevronRight, Award, Camera } from "lucide-react";
+import { ProfileAvatar, fileToAvatarDataUrl } from "@/components/ProfileAvatar";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, isPremiumActive } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
@@ -32,6 +33,25 @@ function ProfilePage() {
   const [modal, setModal] = useState<null | "name" | "password" | "language" | "country">(null);
   const [name, setName] = useState("");
   const [pass, setPass] = useState(""); const [confirm, setConfirm] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  async function onPickPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return toast.error(t("Escolha uma imagem"));
+    setUploading(true);
+    try {
+      const dataUrl = await fileToAvatarDataUrl(file);
+      await save({ avatar_url: dataUrl });
+      toast.success(t("Foto atualizada!"));
+    } catch {
+      toast.error(t("Não foi possível salvar a foto"));
+    } finally {
+      setUploading(false);
+    }
+  }
 
   useEffect(() => {
     if (profile) document.documentElement.classList.toggle("dark", profile.theme === "dark");
@@ -89,9 +109,19 @@ function ProfilePage() {
       <main className="flex-1 px-4 py-4 space-y-5">
         {/* Header card */}
         <div className="flex flex-col items-center rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-soft">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/20 text-4xl font-black backdrop-blur">
-            {profile.name?.[0]?.toUpperCase() ?? "?"}
-          </div>
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            aria-label={t("Alterar foto")}
+            className="relative"
+            disabled={uploading}
+          >
+            <ProfileAvatar name={profile.name} url={profile.avatar_url} size={96} />
+            <span className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-card text-primary shadow-card">
+              <Camera className="h-4 w-4" />
+            </span>
+          </button>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPickPhoto} />
           <div className="mt-3 text-2xl font-black">{profile.name}</div>
           <div className="text-xs opacity-90">{profile.email}</div>
           <div className="mt-1 text-xs font-bold uppercase tracking-wide opacity-90">{tf("Nível {n}", { n: profile.level })}</div>
@@ -116,6 +146,7 @@ function ProfilePage() {
         </Section>
 
         <Section title={t("Conta")}>
+          <ClickRow icon={<Camera className="h-5 w-5" />} label={uploading ? t("Salvando...") : t("Alterar foto")} onClick={() => fileRef.current?.click()} />
           <ClickRow icon={<Edit3 className="h-5 w-5" />} label={t("Editar nome")} onClick={() => { setName(profile.name ?? ""); setModal("name"); }} />
           <ClickRow icon={<Lock className="h-5 w-5" />} label={t("Alterar senha")} onClick={() => setModal("password")} />
         </Section>
