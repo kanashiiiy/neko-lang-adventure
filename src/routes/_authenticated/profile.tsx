@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Flame, Gem, Trophy, Brain, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut, ChevronRight, Award } from "lucide-react";
+import { Flame, Gem, Trophy, Brain, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut, ChevronRight, Award, Camera } from "lucide-react";
+import { ProfileAvatar, fileToAvatarDataUrl } from "@/components/ProfileAvatar";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, isPremiumActive } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
