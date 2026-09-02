@@ -33,6 +33,25 @@ function ProfilePage() {
   const [modal, setModal] = useState<null | "name" | "password" | "language" | "country">(null);
   const [name, setName] = useState("");
   const [pass, setPass] = useState(""); const [confirm, setConfirm] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  async function onPickPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return toast.error(t("Escolha uma imagem"));
+    setUploading(true);
+    try {
+      const dataUrl = await fileToAvatarDataUrl(file);
+      await save({ avatar_url: dataUrl });
+      toast.success(t("Foto atualizada!"));
+    } catch {
+      toast.error(t("Não foi possível salvar a foto"));
+    } finally {
+      setUploading(false);
+    }
+  }
 
   useEffect(() => {
     if (profile) document.documentElement.classList.toggle("dark", profile.theme === "dark");
