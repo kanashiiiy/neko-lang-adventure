@@ -109,9 +109,19 @@ function ProfilePage() {
       <main className="flex-1 px-4 py-4 space-y-5">
         {/* Header card */}
         <div className="flex flex-col items-center rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-soft">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/20 text-4xl font-black backdrop-blur">
-            {profile.name?.[0]?.toUpperCase() ?? "?"}
-          </div>
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            aria-label={t("Alterar foto")}
+            className="relative"
+            disabled={uploading}
+          >
+            <ProfileAvatar name={profile.name} url={profile.avatar_url} size={96} />
+            <span className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-card text-primary shadow-card">
+              <Camera className="h-4 w-4" />
+            </span>
+          </button>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPickPhoto} />
           <div className="mt-3 text-2xl font-black">{profile.name}</div>
           <div className="text-xs opacity-90">{profile.email}</div>
           <div className="mt-1 text-xs font-bold uppercase tracking-wide opacity-90">{tf("Nível {n}", { n: profile.level })}</div>
