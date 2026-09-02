@@ -146,6 +146,7 @@ function ProfilePage() {
         </Section>
 
         <Section title={t("Conta")}>
+          <ClickRow icon={<Camera className="h-5 w-5" />} label={uploading ? t("Salvando...") : t("Alterar foto")} onClick={() => fileRef.current?.click()} />
           <ClickRow icon={<Edit3 className="h-5 w-5" />} label={t("Editar nome")} onClick={() => { setName(profile.name ?? ""); setModal("name"); }} />
           <ClickRow icon={<Lock className="h-5 w-5" />} label={t("Alterar senha")} onClick={() => setModal("password")} />
         </Section>
