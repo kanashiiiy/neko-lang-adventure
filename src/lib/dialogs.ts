@@ -272,7 +272,7 @@ const CATS: { id: string; emoji: string; name: string; rows: Row[] }[] = [
       ["Você os visita com frequência?", "Do you visit them often?", "よく会いに行きますか？", "Yoku ai ni ikimasu ka?", "informacao", 4],
       ["A minha filha perdeu o primeiro dente.", "My daughter lost her first tooth.", "娘の乳歯が初めて抜けました。", "Musume no nyūshi ga hajimete nukemashita.", "informal", 7],
       ["Ela deve estar animada com isso.", "She must be excited about that.", "きっと大喜びでしょうね。", "Kitto ōyorokobi deshō ne.", "informal", 6],
-      ["Precisamos tirar uma foto de todos juntos.", "We need to take a photo of everyone together.", "みんなで집合写真を撮りましょう。", "Minna de shūgō shashin o torimashō.", "informal", 9],
+      ["Precisamos tirar uma foto de todos juntos.", "We need to take a photo of everyone together.", "みんなで集合写真を撮りましょう。", "Minna de shūgō shashin o torimashō.", "informal", 9],
       ["Coloco o celular no timer.", "I'll set the phone timer.", "スマホのタイマーをセットします。", "Sumaho no taimā o setto shimasu.", "informal", 8],
     ],
   },
