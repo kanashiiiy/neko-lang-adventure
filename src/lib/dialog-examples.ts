@@ -14,75 +14,75 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "bom-dia-0-example-1",
         "text": {
-          "pt": "Sim, como uma pedra. Nem sequer lembro de ter sonhado.",
-          "en": "Yes, like a rock. I don't even remember dreaming.",
-          "ja": "はい、ぐっすり眠れました。夢も見ていません。"
+          "pt": "Sim, como uma pedra. Nem me lembro de ter sonhado.",
+          "en": "Yes, like a log. I don't even remember dreaming.",
+          "ja": "はい、ぐっすり眠れました。夢を見た記憶もありません。"
         },
-        "romaji": "Hai, gussuri nemuremashita. Yume mo mite imasen."
+        "romaji": "Hai, gussuri nemuremashita. Yume o mita kioku mo arimasen."
       },
       {
         "id": "bom-dia-0-example-2",
         "text": {
-          "pt": "Que bom! Eu virei a noite assistindo a uma série.",
-          "en": "That's good! I stayed up all night watching a series.",
-          "ja": "よかったですね！私は一晩中ドラマを見ていました。"
+          "pt": "Que bom! Eu já não posso dizer o mesmo, virei a noite assistindo a uma série.",
+          "en": "Good for you! I can't say the same, I stayed up all night watching a series.",
+          "ja": "よかったですね！私は一晩中ドラマを見ていて、あまり眠れませんでした。"
         },
-        "romaji": "Yokatta desu ne! Watashi wa hitobanjū dorama o mite imashita."
+        "romaji": "Yokatta desu ne! Watashi wa hitobanjū dorama o mite ite, amari nemuremasen deshita."
       },
       {
         "id": "bom-dia-0-example-3",
         "text": {
-          "pt": "Ah, sério? Por isso seus olhos estão um pouco inchados.",
-          "en": "Oh, really? That's why your eyes are a bit puffy.",
-          "ja": "あら、そうなの？だから少し目が腫れていますね。"
+          "pt": "Ah, é por isso que você está com uma cara de sono.",
+          "en": "Oh, so that's why you look so sleepy.",
+          "ja": "ああ、だからそんなに眠そうな顔をしているんですね。"
         },
-        "romaji": "Ara, sō na no? Dakara sukoshi me ga harete imasu ne."
+        "romaji": "Ā, dakara sonna ni nemusō na kao o shite iru n desu ne."
       }
     ],
     "bom-dia-1": [
       {
         "id": "bom-dia-1-example-1",
         "text": {
-          "pt": "Eu também! Tive que pular do colchão quando vi as horas.",
+          "pt": "Eu também! Tive que pular da cama quando vi as horas.",
           "en": "Me too! I had to jump out of bed when I saw the time.",
-          "ja": "私もです！時間を見て飛び起きましたよ。"
+          "ja": "私もです！時間を見て飛び起きました。"
         },
-        "romaji": "Watashi mo desu! Jikan o mite tobiokimashita yo."
+        "romaji": "Watashi mo desu! Jikan o mite tobiokimashita."
       },
       {
         "id": "bom-dia-1-example-2",
         "text": {
-          "pt": "Parece que a noite de ontem foi bem tranquila para nós dois.",
-          "en": "It seems yesterday night was very peaceful for both of us.",
-          "ja": "昨夜は私たち二人とも、とても穏やかな夜だったみたいですね。"
+          "pt": "Parece que a noite foi bem tranquila para nós dois.",
+          "en": "It seems last night was very peaceful for both of us.",
+          "ja": "お互い、昨夜はとても穏やかな夜だったみたいですね。"
         },
-        "romaji": "Sakuyu wa watashitachi futari tomo, totemo odayakana yoru datta mitai desu ne."
+        "romaji": "Otagai, yūbe wa totemo odayakana yoru datta mitai desu ne."
       },
       {
         "id": "bom-dia-1-example-3",
         "text": {
-          "pt": "Com certeza. Um sono reparador é tudo que eu precisava.",
-          "en": "Absolutely. A refreshing sleep is all I needed.",
-          "ja": "確かに。回復する睡眠が私には必要でした。"
+          "pt": "Com certeza. Um sono reparador era tudo de que eu precisava.",
+          "en": "Absolutely. A restorative sleep was exactly what I needed.",
+          "ja": "本当に。質の良い睡眠が何より必要でした。"
         },
-        "romaji": "Tashika ni. Kaifuku suru suimin ga watashi ni wa hitsuyō deshita."
+        "romaji": "Hontō ni. Shitsu no yoi suimin ga nani yori hitsuyō deshita."
       }
     ],
     "bom-dia-2": [
       {
         "id": "bom-dia-2-example-1",
         "text": {
-          "pt": "Que delícia! O cheiro do seu café é o melhor despertador.",
-          "en": "How lovely! The smell of your coffee is the best alarm clock.",
-          "ja": "いいですね！あなたのコーヒーの香りは最高の目覚ましです。"
+          "pt": "Que delícia! O cheiro de café fresco é o melhor despertador.",
+          "en": "How lovely! The smell of fresh coffee is the best alarm clock.",
+          "ja": "いいですね！淹れたてのコーヒーの香りは最高の目覚ましです。"
         },
-        "romaji": "Ī desu ne! Anata no kōhī no kaori wa saikō no mezamashi desu."
+        "romaji": "Ī desu ne! Iretate no kōhī no kaori wa saikō no mezamashi desu."
       },
       {
         "id": "bom-dia-2-example-2",
         "text": {
           "pt": "Quer que eu prepare algo para comer também?",
-          "en": "Do you want me to prepare something to eat as well?",
+          "en": "Would you like me to prepare something to eat as well?",
           "ja": "何か食べるものも用意しましょうか？"
         },
         "romaji": "Nanika taberu mono mo yōi shimashō ka?"
@@ -90,124 +90,124 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "bom-dia-2-example-3",
         "text": {
-          "pt": "Agradeço, mas já comi uma fruta. Só um cafezinho para começar o dia.",
-          "en": "Thank you, but I already ate some fruit. Just a small coffee to start the day.",
-          "ja": "ありがとう、でもフルーツはもう食べました。一日を始めるのにコーヒーだけでいいです。"
+          "pt": "Obrigado, mas já comi uma fruta. Só um café já está ótimo.",
+          "en": "Thanks, but I've already had a piece of fruit. Just coffee is fine.",
+          "ja": "ありがとう、でも果物はもう食べました。コーヒーだけで大丈夫です。"
         },
-        "romaji": "Arigatō, demo furūtsu wa mō tabemashita. Ichinichi o hajimeru no ni kōhī dake de ī desu."
+        "romaji": "Arigatō, demo kudamono wa mō tabemashita. Kōhī dake de daijōbu desu."
       }
     ],
     "bom-dia-3": [
       {
         "id": "bom-dia-3-example-1",
         "text": {
-          "pt": "Claro, você quer com açúcar ou adoçante?",
-          "en": "Of course, do you want it with sugar or sweetener?",
-          "ja": "もちろん、砂糖にしますか、それとも甘味料にしますか？"
+          "pt": "Claro, com açúcar ou adoçante?",
+          "en": "Of course, with sugar or sweetener?",
+          "ja": "はい、砂糖と甘味料どちらにしますか？"
         },
-        "romaji": "Mochiron, satō ni shimasu ka, soretomo kanmiryō ni shimasu ka?"
+        "romaji": "Hai, satō to kanmiryō dochira ni shimasu ka?"
       },
       {
         "id": "bom-dia-3-example-2",
         "text": {
-          "pt": "Com açúcar, por favor. Quero começar o dia bem doce.",
-          "en": "With sugar, please. I want to start the day very sweet.",
-          "ja": "砂糖でお願いします。甘い一日を始めたいです。"
+          "pt": "Com açúcar, por favor. Quero começar o dia com uma nota doce.",
+          "en": "With sugar, please. I want to start the day on a sweet note.",
+          "ja": "砂糖でお願いします。朝は甘いものが欲しくなるので。"
         },
-        "romaji": "Satō de onegai shimasu. Amai ichinichi o hajimetaidesu."
+        "romaji": "Satō de onegai shimasu. Asa wa amai mono ga hoshiku naru node."
       },
       {
         "id": "bom-dia-3-example-3",
         "text": {
-          "pt": "Prontinho! Seu café está na mesa, quentinho.",
-          "en": "All done! Your coffee is on the table, nice and hot.",
-          "ja": "はい、どうぞ！コーヒーはテーブルにあります、熱々ですよ。"
+          "pt": "Prontinho! Seu café está na mesa, bem quente.",
+          "en": "Here you go! Your coffee is on the table, nice and hot.",
+          "ja": "はい、どうぞ。テーブルに置きました。熱々ですよ。"
         },
-        "romaji": "Hai, dōzo! Kōhī wa tēburu ni arimasu, atsuatsu desu yo."
+        "romaji": "Hai, dōzo. Tēburu ni okimashita. Atsuatsu desu yo."
       }
     ],
     "bom-dia-4": [
       {
         "id": "bom-dia-4-example-1",
         "text": {
-          "pt": "Por que a mudança de horário? Algum compromisso?",
-          "en": "Why the change in schedule? Do you have an appointment?",
-          "ja": "なぜ時間が変わるの？何か予定があるの？"
+          "pt": "Por quê? Tem algum compromisso especial?",
+          "en": "Oh, why is that? Do you have a special appointment?",
+          "ja": "どうしてですか？何か特別な予定でもあるんですか？"
         },
-        "romaji": "Naze jikan ga kawaru no? Nanika yotei ga aru no?"
+        "romaji": "Dōshite desu ka? Nanika tokubetsu na yotei de mo aru n desu ka?"
       },
       {
         "id": "bom-dia-4-example-2",
         "text": {
           "pt": "Sim, tenho que estar no escritório antes das oito.",
-          "en": "Yes, I have to be at the office before eight.",
-          "ja": "ええ、8時前には会社に着かなければなりません。"
+          "en": "Yes, I have to be at the office before eight o'clock.",
+          "ja": "ええ、8時前に出社しないといけないんです。"
         },
-        "romaji": "Ē, hachiji mae ni wa kaisha ni tsukanakereba narimasen."
+        "romaji": "Ē, hachiji mae ni shussha shinai to ikenai n desu."
       },
       {
         "id": "bom-dia-4-example-3",
         "text": {
-          "pt": "Entendi. Espero que você consiga descansar bastante hoje.",
-          "en": "I see. I hope you can get plenty of rest today.",
-          "ja": "なるほど。今日は十分休めるといいですね。"
+          "pt": "Entendi. Então, descanse bem esta noite.",
+          "en": "I see. Well, I hope you get a good rest tonight.",
+          "ja": "なるほど。では、今夜はゆっくり休んでくださいね。"
         },
-        "romaji": "Naruhodo. Kyō wa jūbun yasumeru to ii desu ne."
+        "romaji": "Naruhodo. Dewa, kon'ya wa yukkuri yasunde kudasai ne."
       }
     ],
     "bom-dia-5": [
       {
         "id": "bom-dia-5-example-1",
         "text": {
-          "pt": "Você está certíssimo! Vou desligar tudo e ir para a cama já.",
-          "en": "You are absolutely right! I'm going to turn everything off and go to bed now.",
-          "ja": "全くその通りです！もう全部消して寝ます。"
+          "pt": "Você tem toda a razão! Vou desligar tudo e ir para a cama agora mesmo.",
+          "en": "You're absolutely right! I'll turn everything off and go to bed right now.",
+          "ja": "本当にその通りですね。もう色々やめて寝ることにします。"
         },
-        "romaji": "Mattaku sono tōri desu! Mō zenbu keshite nemasu."
+        "romaji": "Hontō ni sono tōri desu ne. Mō iroiro yamete neru koto ni shimasu."
       },
       {
         "id": "bom-dia-5-example-2",
         "text": {
-          "pt": "É um sacrifício, mas vale a pena para ter energia amanhã.",
-          "en": "It's a sacrifice, but it's worth it to have energy tomorrow.",
-          "ja": "犠牲だけど、明日のためにエネルギーがある価値はあります。"
+          "pt": "É um sacrifício, mas vale a pena para ter energia no dia seguinte.",
+          "en": "It's a sacrifice, but it's worth it to have energy the next day.",
+          "ja": "辛いところですが、明日のためにその価値はありますね。"
         },
-        "romaji": "Gisei dakedo, ashita no tame ni enerugī ga aru kachi wa arimasu."
+        "romaji": "Tsurai tokoro desu ga, ashita no tame ni sono kachi wa arimasu ne."
       },
       {
         "id": "bom-dia-5-example-3",
         "text": {
-          "pt": "Exato. Boa noite e durma bem!",
-          "en": "Exactly. Good night and sleep well!",
-          "ja": "その通り。おやすみなさい、ゆっくり休んでね！"
+          "pt": "Exatamente. Boa noite e tenha bons sonhos!",
+          "en": "Exactly. Good night and sweet dreams!",
+          "ja": "その通りです。おやすみなさい、ゆっくり休んでください。"
         },
-        "romaji": "Sono tōri. Oyasumi nasai, yukkuri yasunde ne!"
+        "romaji": "Sono tōri desu. Oyasuminasai, yukkuri yasunde kudasai."
       }
     ],
     "bom-dia-6": [
       {
         "id": "bom-dia-6-example-1",
         "text": {
-          "pt": "Eu sei! Preciso comprar cortinas mais escuras para o quarto.",
-          "en": "I know! I need to buy darker curtains for the bedroom.",
-          "ja": "分かっています！寝室用にもっと暗いカーテンを買わないと。"
+          "pt": "Pois é! Preciso comprar cortinas blackout para o quarto.",
+          "en": "I know! I need to buy blackout curtains for the bedroom.",
+          "ja": "本当ですね。寝室に遮光カーテンを買わないといけません。"
         },
-        "romaji": "Wakatte imasu! Shinshitsuyō ni motto kurai kāten o kawanai to."
+        "romaji": "Hontō desu ne. Shinshitsu ni shakō kāten o kawanai to ikemasen."
       },
       {
         "id": "bom-dia-6-example-2",
         "text": {
-          "pt": "Acho que o sol já está bem alto no céu.",
-          "en": "I think the sun is already high in the sky.",
+          "pt": "Acho que o sol já está bem alto.",
+          "en": "I think the sun is already quite high up.",
           "ja": "もう太陽はかなり高く昇っているみたいですね。"
         },
-        "romaji": "Mō taiyō wa kanari takaku nobottte iru mitai desu ne."
+        "romaji": "Mō taiyō wa kanari takaku nobotte iru mitai desu ne."
       },
       {
         "id": "bom-dia-6-example-3",
         "text": {
-          "pt": "Verdade. Acho que perdi a hora novamente hoje.",
-          "en": "True. I think I overslept again today.",
+          "pt": "Verdade. Acho que dormi demais de novo.",
+          "en": "True. I think I overslept again.",
           "ja": "本当だ。今日もまた寝過ごしたみたいです。"
         },
         "romaji": "Hontō da. Kyō mo mata nesugoshita mitai desu."
@@ -217,87 +217,87 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "bom-dia-7-example-1",
         "text": {
-          "pt": "Ah, sim! Que bom que você me lembrou. Vou abri-la agora mesmo.",
-          "en": "Oh, yes! Good thing you reminded me. I'll open it right now.",
-          "ja": "あ、そうですね！教えてくれてありがとう。今すぐ開けます。"
+          "pt": "Ah, é mesmo! Que bom que me lembrou. Vou abrir agora.",
+          "en": "Oh, right! I'm glad you reminded me. I'll open it now.",
+          "ja": "あ、そうでした！教えてくれてありがとう。今すぐ開けます。"
         },
-        "romaji": "A, sō desu ne! Oshiete kurete arigatō. Ima sugu akemasu."
+        "romaji": "A, sō deshita! Oshiete kurete arigatō. Ima sugu akemasu."
       },
       {
         "id": "bom-dia-7-example-2",
         "text": {
-          "pt": "Que delícia! Sinto o aroma de flores vindo de fora.",
-          "en": "How lovely! I smell the aroma of flowers coming from outside.",
-          "ja": "なんて素晴らしい！外から花の香りがします。"
+          "pt": "Que delícia! Sinto o cheiro de flores vindo de fora.",
+          "en": "How wonderful! I can smell flowers from outside.",
+          "ja": "気持ちいい！外から花の香りがしますね。"
         },
-        "romaji": "Nante subarashī! Soto kara hana no kaori ga shimasu."
+        "romaji": "Kimochi ii! Soto kara hana no kaori ga shimasu ne."
       },
       {
         "id": "bom-dia-7-example-3",
         "text": {
-          "pt": "É perfeito para começar o dia com essa brisa.",
-          "en": "It's perfect to start the day with this breeze.",
-          "ja": "このそよ風で一日を始めるのは最高ですね。"
+          "pt": "É perfeito para começar o dia com esta brisa fresca.",
+          "en": "It's perfect for starting the day with this cool breeze.",
+          "ja": "この涼しいそよ風で一日を始めるのは最高ですね。"
         },
-        "romaji": "Kono soyokaze de ichinichi o hajimeru no wa saikō desu ne."
+        "romaji": "Kono suzushii soyokaze de ichinichi o hajimeru no wa saikō desu ne."
       }
     ],
     "bom-dia-8": [
       {
         "id": "bom-dia-8-example-1",
         "text": {
-          "pt": "Obrigado! Também espero que seu dia seja produtivo.",
-          "en": "Thanks! I also hope your day is productive.",
+          "pt": "Obrigado! Para você também, que seu dia seja produtivo.",
+          "en": "Thanks! You too, I hope you have a productive day.",
           "ja": "ありがとう！あなたの一日も実り多いものになりますように。"
         },
-        "romaji": "Arigatō! Anata no ichinichi mo minori ōi mono ni narimasu yō ni."
+        "romaji": "Arigatō! Anata no ichinichi mo minoriōi mono ni narimasu yō ni."
       },
       {
         "id": "bom-dia-8-example-2",
         "text": {
-          "pt": "Vou sair agora. Não se atrase para o nosso jantar!",
-          "en": "I'm leaving now. Don't be late for our dinner!",
-          "ja": "今出かけます。夕食に遅れないでね！"
+          "pt": "Estou de saída. Não se atrase para o nosso jantar!",
+          "en": "I'm heading out. Don't be late for our dinner!",
+          "ja": "もう行きますね。夕食に遅れないでください！"
         },
-        "romaji": "Ima dekakemasu. Yūshoku ni okurenai de ne!"
+        "romaji": "Mō ikimasu ne. Yūshoku ni okurenai de kudasai!"
       },
       {
         "id": "bom-dia-8-example-3",
         "text": {
-          "pt": "Fique tranquilo. Estarei em casa na hora combinada.",
-          "en": "Don't worry. I'll be home at the agreed time.",
-          "ja": "心配しないで。約束の時間には家にいます。"
+          "pt": "Pode deixar. Estarei em casa na hora combinada.",
+          "en": "Don't worry. I'll be home at the agreed-upon time.",
+          "ja": "心配しないで。約束の時間には帰りますから。"
         },
-        "romaji": "Shinpai shinai de. Yakusoku no jikan ni wa ie ni imasu."
+        "romaji": "Shinpai shinaide. Yakusoku no jikan ni wa kaerimasu kara."
       }
     ],
     "bom-dia-9": [
       {
         "id": "bom-dia-9-example-1",
         "text": {
-          "pt": "Espera, você esqueceu sua marmita na geladeira!",
+          "pt": "Espere, você esqueceu sua marmita na geladeira!",
           "en": "Wait, you forgot your lunchbox in the fridge!",
-          "ja": "待って、お弁当を冷蔵庫に忘れてるよ！"
+          "ja": "待って、お弁当を冷蔵庫に忘れていますよ！"
         },
-        "romaji": "Matte, obentō o reizōko ni wasureteru yo!"
+        "romaji": "Matte, obentō o reizōko ni wasurete imasu yo!"
       },
       {
         "id": "bom-dia-9-example-2",
         "text": {
-          "pt": "Ai, não! Que distração a minha. Pode pegar para mim?",
-          "en": "Oh, no! How absent-minded of me. Can you grab it for me?",
-          "ja": "ああ、いけない！なんてうっかりしてたんだろう。取ってくれる？"
+          "pt": "Nossa, é mesmo! Que cabeça a minha. Pode pegar para mim?",
+          "en": "Oh, no! How absent-minded of me. Could you grab it for me?",
+          "ja": "あ、しまった！なんてうっかりしてたんだろう。取ってくれる？"
         },
-        "romaji": "A, ikenai! Nante ukkari shiteta n darō. Totte kureru?"
+        "romaji": "A, shimatta! Nante ukkari shitetan darō. Totte kureru?"
       },
       {
         "id": "bom-dia-9-example-3",
         "text": {
-          "pt": "Claro, aqui está. Tenha um bom dia no trabalho!",
-          "en": "Of course, here it is. Have a good day at work!",
-          "ja": "もちろん、どうぞ。仕事、頑張ってね！"
+          "pt": "Claro, aqui está. Tenha um bom dia!",
+          "en": "Of course, here you go. Have a good day!",
+          "ja": "もちろん、はいどうぞ。お仕事頑張ってね！"
         },
-        "romaji": "Mochiron, dōzo. Shigoto, ganbatte ne!"
+        "romaji": "Mochiron, hai dōzo. Oshigoto ganbatte ne!"
       }
     ]
   },
@@ -317,18 +317,18 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Ah, que bom! O que você comeu hoje?",
           "en": "Oh, that's good! What did you eat today?",
-          "ja": "ああ、よかった！今日何を食べましたか？"
+          "ja": "ああ、よかった！今日は何を食べましたか？"
         },
-        "romaji": "Ā, yokatta! Kyō nani o tabemashita ka?"
+        "romaji": "Ā, yokatta! Kyō wa nani o tabemashita ka?"
       },
       {
         "id": "boa-tarde-0-example-3",
         "text": {
           "pt": "Arroz, feijão e um bife delicioso.",
           "en": "Rice, beans, and a delicious steak.",
-          "ja": "ご飯と豆と美味しいステーキでしたよ。"
+          "ja": "ご飯と豆料理と、美味しいステーキでしたよ。"
         },
-        "romaji": "Gohan to mame to oishii sutēki deshita yo."
+        "romaji": "Gohan to mameryōri to, oishii sutēki deshita yo."
       }
     ],
     "boa-tarde-1": [
@@ -337,27 +337,27 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Nem consegui apreciar o sabor direito.",
           "en": "I couldn't even properly enjoy the taste.",
-          "ja": "味をしっかり楽しめませんでした。"
+          "ja": "味をしっかり味わえませんでした。"
         },
-        "romaji": "Aji o shikkari tanoshimemasen deshita."
+        "romaji": "Aji o shikkari ajiwaemasen deshita."
       },
       {
         "id": "boa-tarde-1-example-2",
         "text": {
           "pt": "Que pena! Onde você tinha que ir?",
           "en": "What a shame! Where did you have to go?",
-          "ja": "それは残念！どこへ行く必要がありましたか？"
+          "ja": "それは残念ですね。どこか行く用事があったんですか？"
         },
-        "romaji": "Sore wa zannen! Doko e iku hitsuyō ga arimashita ka?"
+        "romaji": "Sore wa zannen desu ne. Doko ka iku yōji ga attan desu ka?"
       },
       {
         "id": "boa-tarde-1-example-3",
         "text": {
           "pt": "Tinha que entregar uns documentos importantes no escritório.",
           "en": "I had to deliver some important documents to the office.",
-          "ja": "事務所に大切な書類を届けなければなりませんでした。"
+          "ja": "事務所に大事な書類を届けないといけなかったんです。"
         },
-        "romaji": "Jimusho ni taisetsu na shorui o todokenakereba narimasen deshita."
+        "romaji": "Jimusho ni daiji na shorui o todokenai to ikenakattan desu."
       }
     ],
     "boa-tarde-2": [
@@ -365,28 +365,28 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "boa-tarde-2-example-1",
         "text": {
           "pt": "Com quem será que é dessa vez?",
-          "en": "Who do you think it's with this time?",
-          "ja": "今回は誰とのものだと思いますか？"
+          "en": "I wonder who it's with this time.",
+          "ja": "今回は誰となんでしょう？"
         },
-        "romaji": "Konkai wa dare to no mono da to omoimasu ka?"
+        "romaji": "Konkai wa dare to nan deshō?"
       },
       {
         "id": "boa-tarde-2-example-2",
         "text": {
           "pt": "Pelo que soube, é com o pessoal do marketing.",
           "en": "From what I heard, it's with the marketing team.",
-          "ja": "聞いたところによると、マーケティング部の人たちとです。"
+          "ja": "聞いたところによると、マーケティング部の人たちとだそうです。"
         },
-        "romaji": "Kiita tokoro ni yoru to, māketingu-bu no hitotachi to desu."
+        "romaji": "Kiita tokoro ni yoru to, māketingu-bu no hitotachi to da sō desu."
       },
       {
         "id": "boa-tarde-2-example-3",
         "text": {
-          "pt": "Entendi, então boa sorte com os novos planos!",
-          "en": "I see, well good luck with the new plans!",
-          "ja": "なるほど、では新しい計画、頑張ってください！"
+          "pt": "Entendi. Boa sorte com os novos planos!",
+          "en": "I see. Good luck with the new plans!",
+          "ja": "なるほど。では新しい計画、頑張ってください！"
         },
-        "romaji": "Naruhodo, dewa atarashii keikaku, ganbatte kudasai!"
+        "romaji": "Naruhodo. Dewa atarashii keikaku, ganbatte kudasai!"
       }
     ],
     "boa-tarde-3": [
@@ -403,7 +403,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "boa-tarde-3-example-2",
         "text": {
           "pt": "Combinado. Qualquer coisa, me liga.",
-          "en": "Got it. If anything comes up, call me.",
+          "en": "Sounds good. If anything comes up, call me.",
           "ja": "了解です。何かあれば電話してください。"
         },
         "romaji": "Ryōkai desu. Nani ka areba denwa shite kudasai."
@@ -413,9 +413,9 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Ok, pode deixar que eu aviso.",
           "en": "Okay, I'll be sure to let you know.",
-          "ja": "はい、ちゃんと連絡しますね。"
+          "ja": "はい、必ず連絡しますね。"
         },
-        "romaji": "Hai, chanto renraku shimasu ne."
+        "romaji": "Hai, kanarazu renraku shimasu ne."
       }
     ],
     "boa-tarde-4": [
@@ -424,27 +424,27 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Já são quase quatro horas!",
           "en": "It's almost four o'clock already!",
-          "ja": "もうすぐ四時になります！"
+          "ja": "もうすぐ四時ですね！"
         },
-        "romaji": "Mō sugu yoji ni narimasu!"
+        "romaji": "Mō sugu yoji desu ne!"
       },
       {
         "id": "boa-tarde-4-example-2",
         "text": {
           "pt": "Parece que o tempo voa quando estamos ocupados.",
           "en": "Time seems to fly when we're busy.",
-          "ja": "忙しいと時間が経つのが早いですね。"
+          "ja": "忙しいと時間が経つのが早いものですね。"
         },
-        "romaji": "Isogashii to jikan ga tatsu no ga hayai desu ne."
+        "romaji": "Isogashii to jikan ga tatsu no ga hayai mono desu ne."
       },
       {
         "id": "boa-tarde-4-example-3",
         "text": {
-          "pt": "Nem me fale, ainda tenho muita coisa para fazer.",
-          "en": "Don't even get me started, I still have so much to do.",
-          "ja": "本当にそう、まだやることがたくさん残っています。"
+          "pt": "Nem me fale, ainda tenho tanta coisa pra fazer.",
+          "en": "Tell me about it, I still have so much to do.",
+          "ja": "本当ですね、まだやることがたくさん残っています。"
         },
-        "romaji": "Hontō ni sō, mada yaru koto ga takusan nokotte imasu."
+        "romaji": "Hontō desu ne, mada yaru koto ga takusan nokotte imasu."
       }
     ],
     "boa-tarde-5": [
@@ -452,19 +452,19 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "boa-tarde-5-example-1",
         "text": {
           "pt": "Precisamos nos apressar para terminar tudo.",
-          "en": "We need to hurry up to finish everything.",
-          "ja": "全てを終わらせるために急ぐ必要があります。"
+          "en": "We need to hurry to finish everything.",
+          "ja": "全部終わらせるために、急がないとですね。"
         },
-        "romaji": "Subete o owaraseru tame ni isogu hitsuyō ga arimasu."
+        "romaji": "Zenbu owaraseru tame ni, isoganai to desu ne."
       },
       {
         "id": "boa-tarde-5-example-2",
         "text": {
           "pt": "Ainda mais que a semana está no fim.",
-          "en": "Especially since the week is ending.",
-          "ja": "特に週末が近づいていますしね。"
+          "en": "Especially since the week is almost over.",
+          "ja": "特に今週ももう終わりですしね。"
         },
-        "romaji": "Tokuni shūmatsu ga chikazuite imasu shi ne."
+        "romaji": "Tokuni konshū mo mō owari desu shi ne."
       },
       {
         "id": "boa-tarde-5-example-3",
@@ -480,7 +480,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "boa-tarde-6-example-1",
         "text": {
-          "pt": "Não podemos nem pensar em sair agora.",
+          "pt": "Não dá nem para pensar em sair agora.",
           "en": "We can't even think about going out now.",
           "ja": "今は外出なんて考えられませんね。"
         },
@@ -490,19 +490,19 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "boa-tarde-6-example-2",
         "text": {
           "pt": "Seria loucura tentar dar uma caminhada.",
-          "en": "It would be crazy to try and take a walk.",
-          "ja": "散歩しようとするのは無謀でしょう。"
+          "en": "It would be crazy to try to take a walk.",
+          "ja": "散歩に出ようとするなんて無謀ですよ。"
         },
-        "romaji": "Sanpo shiyō to suru no wa mubō deshō."
+        "romaji": "Sanpo ni deyō to suru nante mubō desu yo."
       },
       {
         "id": "boa-tarde-6-example-3",
         "text": {
-          "pt": "Pode deixar para o fim da tarde, quando o sol baixar.",
-          "en": "We can leave it for late afternoon, when the sun goes down.",
-          "ja": "夕方、日が沈んでからにしましょう。"
+          "pt": "Melhor deixar para o fim da tarde, quando o sol baixar.",
+          "en": "Better to leave it for the late afternoon, when the sun is lower.",
+          "ja": "夕方、日差しが和らいでからにしましょうか。"
         },
-        "romaji": "Yūgata, hi ga shizunde kara ni shimashō."
+        "romaji": "Yūgata, hizashi ga yawaraide kara ni shimashō ka."
       }
     ],
     "boa-tarde-7": [
@@ -519,19 +519,19 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "boa-tarde-7-example-2",
         "text": {
           "pt": "Boa ideia, lá parece bem mais fresco.",
-          "en": "Good idea, it looks much cooler there.",
-          "ja": "いいですね、あそこはかなり涼しそうです。"
+          "en": "Good idea, it looks much cooler over there.",
+          "ja": "いいですね、あちらはずっと涼しそうです。"
         },
-        "romaji": "Ii desu ne, asoko wa kanari suzushi sō desu."
+        "romaji": "Ii desu ne, achira wa zutto suzushisō desu."
       },
       {
         "id": "boa-tarde-7-example-3",
         "text": {
           "pt": "Podemos tomar uma água gelada também.",
-          "en": "We can have some cold water too.",
-          "ja": "冷たい水も飲みましょう。"
+          "en": "We could have some cold water, too.",
+          "ja": "冷たいお水も飲めますしね。"
         },
-        "romaji": "Tsumetai mizu mo nomimashō."
+        "romaji": "Tsumetai o-mizu mo nomemasu shi ne."
       }
     ],
     "boa-tarde-8": [
@@ -542,7 +542,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
           "en": "My head is spinning with so much work.",
           "ja": "仕事が多すぎて頭がパンクしそうです。"
         },
-        "romaji": "Shigoto ga ō sugite atama ga panku shi sō desu."
+        "romaji": "Shigoto ga ōsusugite atama ga panku shisō desu."
       },
       {
         "id": "boa-tarde-8-example-2",
@@ -557,7 +557,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "boa-tarde-8-example-3",
         "text": {
           "pt": "Vou tomar um café e respirar um pouco.",
-          "en": "I'm going to grab a coffee and breathe a little.",
+          "en": "I'm going to grab a coffee and take a breather.",
           "ja": "コーヒーを飲んで少し息抜きしてきます。"
         },
         "romaji": "Kōhī o nonde sukoshi ikinuki shite kimasu."
@@ -568,25 +568,25 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "boa-tarde-9-example-1",
         "text": {
           "pt": "Não se preocupe com nada por aqui.",
-          "en": "Don't worry about anything here.",
-          "ja": "ここのことは何も心配いりません。"
+          "en": "Don't worry about a thing here.",
+          "ja": "ここのことは何も心配いりませんよ。"
         },
-        "romaji": "Koko no koto wa nani mo shinpai irimasen."
+        "romaji": "Koko no koto wa nani mo shinpai irimasen yo."
       },
       {
         "id": "boa-tarde-9-example-2",
         "text": {
-          "pt": "Muito obrigado pela sua ajuda!",
-          "en": "Thank you very much for your help!",
-          "ja": "手伝ってくれて本当にありがとう！"
+          "pt": "Muito obrigado pela ajuda!",
+          "en": "Thank you so much for your help!",
+          "ja": "助かります、本当にありがとうございます！"
         },
-        "romaji": "Tetsudatte kurete hontō ni arigatō!"
+        "romaji": "Tasukarimasu, hontō ni arigatō gozaimasu!"
       },
       {
         "id": "boa-tarde-9-example-3",
         "text": {
           "pt": "Disponha! Vá descansar um pouco.",
-          "en": "You're welcome! Go rest a bit.",
+          "en": "You're welcome! Go get some rest.",
           "ja": "どういたしまして！少し休んできてください。"
         },
         "romaji": "Dō itashimashite! Sukoshi yasunde kite kudasai."
@@ -598,156 +598,156 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "boa-noite-0-example-1",
         "text": {
-          "pt": "Sim, não tenho planos para sair hoje.",
-          "en": "Yes, I have no plans to go out today.",
-          "ja": "はい、今日は出かける予定がありません。"
+          "pt": "Sim, não tenho planos para sair hoje à noite.",
+          "en": "Yes, I don't have any plans to go out tonight.",
+          "ja": "はい、今夜は出かける予定はありません。"
         },
-        "romaji": "Hai, kyō wa dekakeru yotei ga arimasen."
+        "romaji": "Hai, kon'ya wa dekakeru yotei wa arimasen."
       },
       {
         "id": "boa-noite-0-example-2",
         "text": {
-          "pt": "Que bom! Podemos pedir uma pizza então.",
-          "en": "Great! We can order a pizza then.",
-          "ja": "よかった！じゃあ、ピザを頼みましょうか。"
+          "pt": "Ótimo! Que tal pedirmos uma pizza então?",
+          "en": "Great! How about we order a pizza then?",
+          "ja": "よかった！じゃあ、ピザでも頼みましょうか。"
         },
-        "romaji": "Yokatta! Jaa, piza o tanomimashō ka."
+        "romaji": "Yokatta! Jaa, piza demo tanomimashō ka."
       },
       {
         "id": "boa-noite-0-example-3",
         "text": {
-          "pt": "Parece uma excelente ideia para a noite.",
-          "en": "That sounds like an excellent idea for the evening.",
-          "ja": "今夜は素晴らしい考えに聞こえます。"
+          "pt": "Parece um ótimo plano para a noite.",
+          "en": "That sounds like a great plan for tonight.",
+          "ja": "それは今夜にぴったりの名案ですね。"
         },
-        "romaji": "Kon'ya wa subarashii kangae ni kikoemasu."
+        "romaji": "Sore wa kon'ya ni pittari no meian desu ne."
       }
     ],
     "boa-noite-1": [
       {
         "id": "boa-noite-1-example-1",
         "text": {
-          "pt": "Entendo perfeitamente, o trabalho foi exaustivo hoje.",
-          "en": "I totally understand, work was exhausting today.",
-          "ja": "よくわかります、今日は仕事が大変でしたね。"
+          "pt": "Eu entendo, o dia no trabalho foi exaustivo.",
+          "en": "I understand, the day at work was exhausting.",
+          "ja": "わかります、今日の仕事は本当に疲れましたね。"
         },
-        "romaji": "Yoku wakarimasu, kyō wa shigoto ga taihen deshita ne."
+        "romaji": "Wakarimasu, kyō no shigoto wa hontō ni tsukaremashita ne."
       },
       {
         "id": "boa-noite-1-example-2",
         "text": {
-          "pt": "Preciso recarregar as energias para amanhã.",
-          "en": "I need to recharge my energy for tomorrow.",
-          "ja": "明日のためにエネルギーを充電しないと。"
+          "pt": "Preciso mesmo recarregar as energias para amanhã.",
+          "en": "I really need to recharge for tomorrow.",
+          "ja": "明日に向けてしっかりエネルギーを充電しないと。"
         },
-        "romaji": "Ashita no tame ni enerugī o jūden shinai to."
+        "romaji": "Ashita ni mukete shikkari enerugī o jūden shinai to."
       },
       {
         "id": "boa-noite-1-example-3",
         "text": {
-          "pt": "Relaxe bastante, você merece esse descanso.",
-          "en": "Relax a lot, you deserve this rest.",
-          "ja": "ゆっくり休んでください、その休息はあなたにふさわしいです。"
+          "pt": "Descanse bem, você merece.",
+          "en": "Get plenty of rest, you deserve it.",
+          "ja": "たくさん休んでください。頑張ったんですから。"
         },
-        "romaji": "Yukkuri yasunde kudasai, sono kyūsoku wa anata ni fusawashii desu."
+        "romaji": "Takusan yasunde kudasai. Ganbattan desu kara."
       }
     ],
     "boa-noite-2": [
       {
         "id": "boa-noite-2-example-1",
         "text": {
-          "pt": "Depois vou colocar um pijama confortável.",
-          "en": "Afterwards I'll put on comfortable pajamas.",
-          "ja": "その後、快適なパジャマを着ます。"
+          "pt": "Depois, vou vestir um pijama bem confortável.",
+          "en": "Afterwards, I'll put on some very comfortable pajamas.",
+          "ja": "その後は、着心地のいいパジャマに着替えます。"
         },
-        "romaji": "Sono ato, kaiteki na pajama o kimasu."
+        "romaji": "Sono ato wa, kigokochi no ii pajama ni kigaemasu."
       },
       {
         "id": "boa-noite-2-example-2",
         "text": {
-          "pt": "Não se esqueça da sua playlist favorita.",
-          "en": "Don't forget your favorite playlist.",
+          "pt": "Não se esqueça da sua playlist de relaxamento.",
+          "en": "Don't forget your relaxation playlist.",
           "ja": "お気に入りのプレイリストを忘れないでね。"
         },
-        "romaji": "O-kiniiri no pureirisuto o wasurenai de ne."
+        "romaji": "Okiniiri no pureirisuto o wasurenai de ne."
       },
       {
         "id": "boa-noite-2-example-3",
         "text": {
-          "pt": "Obrigado pela lembrança, vou colocar agora.",
-          "en": "Thanks for the reminder, I'll put it on now.",
-          "ja": "思い出させてくれてありがとう、今すぐかけます。"
+          "pt": "Obrigado por me lembrar, vou colocá-la agora.",
+          "en": "Thanks for reminding me, I'll put it on now.",
+          "ja": "思い出させてくれてありがとう、今かけますね。"
         },
-        "romaji": "Omoidasasete kurete arigatō, ima sugu kakemasu."
+        "romaji": "Omoidasasete kurete arigatō, ima kakemasu ne."
       }
     ],
     "boa-noite-3": [
       {
         "id": "boa-noite-3-example-1",
         "text": {
-          "pt": "Que maravilha, o chuveiro está pronto.",
-          "en": "How wonderful, the shower is ready.",
-          "ja": "なんて素晴らしい、シャワーの準備ができています。"
+          "pt": "Que ótimo, o banho está pronto.",
+          "en": "How wonderful, the bath is ready.",
+          "ja": "素晴らしい、お風呂の準備ができたんですね。"
         },
-        "romaji": "Nante subarashii, shawā no junbi ga dekite imasu."
+        "romaji": "Subarashii, ofuro no junbi ga dekita n desu ne."
       },
       {
         "id": "boa-noite-3-example-2",
         "text": {
-          "pt": "Assim posso entrar imediatamente no banho.",
-          "en": "So I can get into the bath immediately.",
-          "ja": "これで、すぐに湯船に入れますね。"
+          "pt": "Assim posso entrar na banheira imediatamente.",
+          "en": "This way I can get in the tub immediately.",
+          "ja": "これで、すぐに湯船に浸かれますね。"
         },
-        "romaji": "Kore de, sugu ni yubune ni hairemasu ne."
+        "romaji": "Kore de, sugu ni yubune ni tsukaremasu ne."
       },
       {
         "id": "boa-noite-3-example-3",
         "text": {
-          "pt": "Aproveite bem este momento relaxante.",
-          "en": "Enjoy this relaxing moment to the fullest.",
-          "ja": "このリラックスした時間を存分に楽しんでください。"
+          "pt": "Aproveite este momento de relaxamento.",
+          "en": "Enjoy this relaxing moment.",
+          "ja": "このくつろぎの時間を存分に楽しんでください。"
         },
-        "romaji": "Kono rirakkusu shita jikan o zonbun ni tanoshinde kudasai."
+        "romaji": "Kono kutsurogi no jikan o zonbun ni tanoshinde kudasai."
       }
     ],
     "boa-noite-4": [
       {
         "id": "boa-noite-4-example-1",
         "text": {
-          "pt": "Pensei em um thriller de suspense com reviravoltas.",
-          "en": "I was thinking of a suspense thriller with twists.",
-          "ja": "どんでん返しのあるサスペンススリラーを考えていました。"
+          "pt": "Estava pensando em um suspense com muitas reviravoltas.",
+          "en": "I was thinking of a thriller with a lot of twists.",
+          "ja": "どんでん返しが多いサスペンスものを考えていました。"
         },
-        "romaji": "Donden-gaeshi no aru sasupensu surirā o kangaete imashita."
+        "romaji": "Dondengaeshi ga ōi sasupensu-mono o kangaete imashita."
       },
       {
         "id": "boa-noite-4-example-2",
         "text": {
-          "pt": "Ótima escolha para uma noite de sábado.",
-          "en": "Excellent choice for a Saturday night.",
-          "ja": "土曜の夜にぴったりの選択ですね。"
+          "pt": "É uma excelente escolha para uma noite de sábado.",
+          "en": "That's an excellent choice for a Saturday night.",
+          "ja": "土曜の夜にはうってつけの選択ですね。"
         },
-        "romaji": "Doyō no yoru ni pittari no sentaku desu ne."
+        "romaji": "Doyō no yoru ni wa uttetsuke no sentaku desu ne."
       },
       {
         "id": "boa-noite-4-example-3",
         "text": {
-          "pt": "Pegue a pipoca e um bom refrigerante.",
-          "en": "Grab some popcorn and a good soda.",
-          "ja": "ポップコーンと美味しいソーダを持ってきてください。"
+          "pt": "Vou pegar a pipoca e algo para beber.",
+          "en": "I'll get the popcorn and something to drink.",
+          "ja": "ポップコーンと何か飲み物を用意しますね。"
         },
-        "romaji": "Poppukōn to oishii sōda o motte kite kudasai."
+        "romaji": "Poppukōn to nanika nomimono o yōi shimasu ne."
       }
     ],
     "boa-noite-5": [
       {
         "id": "boa-noite-5-example-1",
         "text": {
-          "pt": "Ah, um clássico! Qual é o título?",
-          "en": "Ah, a classic! What's the title?",
-          "ja": "ああ、名作ですね！タイトルは何ですか？"
+          "pt": "Ah, um clássico! Qual o nome do filme?",
+          "en": "Ah, a classic! What's the name of the film?",
+          "ja": "へえ、名作ですか！タイトルは何というのですか？"
         },
-        "romaji": "Aa, meisaku desu ne! Taitoru wa nan desu ka?"
+        "romaji": "Hee, meisaku desu ka! Taitoru wa nan to iu no desu ka?"
       },
       {
         "id": "boa-noite-5-example-2",
@@ -761,127 +761,127 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "boa-noite-5-example-3",
         "text": {
-          "pt": "Que interessante! Parece uma ótima pedida.",
-          "en": "How interesting! That sounds like a great choice.",
-          "ja": "それは興味深い！良いチョイスのようですね。"
+          "pt": "Que interessante! Parece uma ótima escolha.",
+          "en": "How interesting! Sounds like a great pick.",
+          "ja": "へえ、面白そうですね。観るのが楽しみです。"
         },
-        "romaji": "Sore wa kyōmibukai! Yoi choisu no yō desu ne."
+        "romaji": "Hee, omoshirosō desu ne. Miru no ga tanoshimi desu."
       }
     ],
     "boa-noite-6": [
       {
         "id": "boa-noite-6-example-1",
         "text": {
-          "pt": "Vou deixar a luz da cozinha também.",
-          "en": "I'll leave the kitchen light on too.",
-          "ja": "台所の電気もつけっぱなしにします。"
+          "pt": "Vou deixar a luz da cozinha acesa também.",
+          "en": "I'll leave the kitchen light on as well.",
+          "ja": "台所の電気もつけたままにしておきます。"
         },
-        "romaji": "Daidokoro no denki mo tsukeppanashi ni shimasu."
+        "romaji": "Daidokoro no denki mo tsuketa mama ni shite okimasu."
       },
       {
         "id": "boa-noite-6-example-2",
         "text": {
-          "pt": "Assim não ficamos completamente no escuro.",
-          "en": "That way we won't be completely in the dark.",
-          "ja": "そうすれば、真っ暗にはなりませんね。"
+          "pt": "Dessa forma, a casa não fica totalmente escura.",
+          "en": "That way, the house isn't completely dark.",
+          "ja": "そうすれば、家が真っ暗にはなりませんからね。"
         },
-        "romaji": "Sō sureba, makkura ni wa narimasen ne."
+        "romaji": "Sō sureba, ie ga makkura ni wa narimasen kara ne."
       },
       {
         "id": "boa-noite-6-example-3",
         "text": {
-          "pt": "Perfeito para quando alguém acordar à noite.",
-          "en": "Perfect for when someone wakes up at night.",
-          "ja": "誰かが夜中に起きた時に完璧です。"
+          "pt": "Perfeito, caso alguém acorde durante a noite.",
+          "en": "Perfect, in case someone wakes up during the night.",
+          "ja": "誰かが夜中に起きてもこれなら安心ですね。"
         },
-        "romaji": "Dareka ga yonaka ni okita toki ni kanpeki desu."
+        "romaji": "Dareka ga yonaka ni okite mo kore nara anshin desu ne."
       }
     ],
     "boa-noite-7": [
       {
         "id": "boa-noite-7-example-1",
         "text": {
-          "pt": "Obrigado por sua atenção e cuidado.",
-          "en": "Thank you for your attention and care.",
-          "ja": "あなたの気遣いに感謝します。"
+          "pt": "Obrigado por ser tão cuidadoso.",
+          "en": "Thank you for being so thorough.",
+          "ja": "そこまで気を配ってくれてありがとう。"
         },
-        "romaji": "Anata no kizukai ni kansha shimasu."
+        "romaji": "Soko made ki o kubatte kurete arigatō."
       },
       {
         "id": "boa-noite-7-example-2",
         "text": {
-          "pt": "Verifiquei todas as janelas também.",
-          "en": "I checked all the windows as well.",
-          "ja": "窓も全部確認しましたよ。"
+          "pt": "Eu também verifiquei todas as janelas.",
+          "en": "I checked all the windows, too.",
+          "ja": "窓も全部確認しておきましたよ。"
         },
-        "romaji": "Mado mo zenbu kakunin shimashita yo."
+        "romaji": "Mado mo zenbu kakunin shite okimashita yo."
       },
       {
         "id": "boa-noite-7-example-3",
         "text": {
-          "pt": "Agora podemos dormir em paz, seguros.",
-          "en": "Now we can sleep peacefully, safe.",
-          "ja": "これで安心して眠れますね、安全です。"
+          "pt": "Agora podemos dormir tranquilos e seguros.",
+          "en": "Now we can sleep soundly and safely.",
+          "ja": "これで安心してぐっすり眠れますね。"
         },
-        "romaji": "Kore de anshin shite nemuremasu ne, anzen desu."
+        "romaji": "Kore de anshin shite gussuri nemuremasu ne."
       }
     ],
     "boa-noite-8": [
       {
         "id": "boa-noite-8-example-1",
         "text": {
-          "pt": "Espero que sua noite seja tranquila e repousante.",
-          "en": "I hope your night is peaceful and restful.",
-          "ja": "安らかで穏やかな夜を過ごしてくださいね。"
+          "pt": "Para você também, tenha uma noite tranquila.",
+          "en": "You too, have a peaceful night.",
+          "ja": "あなたも、穏やかな夜を過ごしてください。"
         },
-        "romaji": "Yasukara de odayaka na yoru o sugoshite kudasai ne."
+        "romaji": "Anata mo, odayaka na yoru o sugoshite kudasai."
       },
       {
         "id": "boa-noite-8-example-2",
         "text": {
-          "pt": "Que os anjos zelem pelo seu sono.",
-          "en": "May angels watch over your sleep.",
-          "ja": "天使たちがあなたの眠りを見守りますように。"
+          "pt": "Que você tenha sonhos maravilhosos.",
+          "en": "May you have wonderful dreams.",
+          "ja": "素敵な夢が見られますように。"
         },
-        "romaji": "Tenshi-tachi ga anata no nemuri o mimamorimasu yō ni."
+        "romaji": "Suteki na yume ga miraremasu yō ni."
       },
       {
         "id": "boa-noite-8-example-3",
         "text": {
-          "pt": "Você também, tenha uma noite abençoada.",
-          "en": "You too, have a blessed night.",
-          "ja": "あなたも、恵み多き夜をお過ごしください。"
+          "pt": "Obrigado. Boa noite para você também.",
+          "en": "Thank you. Good night to you too.",
+          "ja": "ありがとう。あなたも、おやすみなさい。"
         },
-        "romaji": "Anata mo, megumi ōki yoru o osugoshi kudasai."
+        "romaji": "Arigatō. Anata mo, oyasuminasai."
       }
     ],
     "boa-noite-9": [
       {
         "id": "boa-noite-9-example-1",
         "text": {
-          "pt": "Certo, já estou debaixo das cobertas.",
-          "en": "Alright, I'm already under the covers.",
-          "ja": "はい、もう布団に入っています。"
+          "pt": "Ok, já estou na cama.",
+          "en": "Okay, I'm already in bed.",
+          "ja": "はい、もうベッドの中です。"
         },
-        "romaji": "Hai, mō futon ni haitte imasu."
+        "romaji": "Hai, mō beddo no naka desu."
       },
       {
         "id": "boa-noite-9-example-2",
         "text": {
-          "pt": "Apague quando sair do quarto, por favor.",
-          "en": "Turn it off when you leave the room, please.",
-          "ja": "部屋を出る時に消してくださいね。"
+          "pt": "Ótimo. A escuridão ajuda a dormir melhor.",
+          "en": "Great. Darkness helps you sleep better.",
+          "ja": "よかった。暗い方がよく眠れますからね。"
         },
-        "romaji": "Heya o deru toki ni keshite kudasai ne."
+        "romaji": "Yokatta. Kurai hō ga yoku nemuremasu kara ne."
       },
       {
         "id": "boa-noite-9-example-3",
         "text": {
-          "pt": "Tudo bem, a escuridão é melhor para dormir.",
-          "en": "Okay, darkness is better for sleeping.",
-          "ja": "わかった、暗い方がよく眠れます。"
+          "pt": "É verdade. Boa noite.",
+          "en": "That's true. Good night.",
+          "ja": "そうですね。おやすみなさい。"
         },
-        "romaji": "Wakatta, kurai hō ga yoku nemuremasu."
+        "romaji": "Sō desu ne. Oyasuminasai."
       }
     ]
   },
@@ -890,78 +890,78 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "cumprimentos-0-example-1",
         "text": {
-          "pt": "Nem acredito que estou te vendo!",
-          "en": "I can't believe I'm seeing you!",
-          "ja": "まさか会えるとは思いませんでした！"
+          "pt": "Nossa, quanto tempo! Nem acredito que é você!",
+          "en": "Wow, long time! I can't believe it's you!",
+          "ja": "わあ、お久しぶりです！あなただなんて信じられません！"
         },
-        "romaji": "Masaka aeru to wa omoimasen deshita!"
+        "romaji": "Wā, ohisashiburi desu! Anata da nante shinjiraremasen!"
       },
       {
         "id": "cumprimentos-0-example-2",
         "text": {
           "pt": "Pois é, a vida nos levou para caminhos diferentes.",
           "en": "I know, life took us on different paths.",
-          "ja": "そうですね、お互い色々なことがありました。"
+          "ja": "本当ですね、お互い色々ありましたから。"
         },
-        "romaji": "Sō desu ne, otagai iroiro na koto ga arimashita."
+        "romaji": "Hontō desu ne, otagai iroiro arimashita kara."
       },
       {
         "id": "cumprimentos-0-example-3",
         "text": {
           "pt": "Mas que bom que nossos caminhos se cruzaram de novo.",
-          "en": "But it's good our paths crossed again.",
-          "ja": "でも、また会えて本当によかった。"
+          "en": "But it's great that our paths have crossed again.",
+          "ja": "でも、またお会いできて本当に嬉しいです。"
         },
-        "romaji": "Demo, mata aete hontō ni yokatta."
+        "romaji": "Demo, mata oai dekite hontō ni ureshī desu."
       }
     ],
     "cumprimentos-1": [
       {
         "id": "cumprimentos-1-example-1",
         "text": {
-          "pt": "Caramba, quanto tempo! Desde a formatura, não é?",
-          "en": "Wow, it's been a while! Since graduation, right?",
-          "ja": "ええ、本当に！卒業以来ですかね？"
+          "pt": "Faz tanto tempo! Desde a formatura, talvez?",
+          "en": "It's been so long! Since graduation, maybe?",
+          "ja": "本当にお久しぶりです！卒業以来でしょうか？"
         },
-        "romaji": "Ē, hontō ni! Sotsugyō irai desu ka ne?"
+        "romaji": "Hontō ni ohisashiburi desu! Sotsugyō irai deshō ka?"
       },
       {
         "id": "cumprimentos-1-example-2",
         "text": {
-          "pt": "Acho que faz até mais, perdi a conta.",
-          "en": "I think it's even longer, I've lost count.",
-          "ja": "もっと経っているような気がします、数えきれません。"
+          "pt": "Acho que faz até mais, já perdi a conta.",
+          "en": "I think it's been even longer, I've lost count.",
+          "ja": "もっと経っている気がします。もう何年か分かりませんね。"
         },
-        "romaji": "Motto tatte iru yō na ki ga shimasu, kazoekiremasen."
+        "romaji": "Motto tatte iru ki ga shimasu. Mō nannen ka wakarimasen ne."
       },
       {
         "id": "cumprimentos-1-example-3",
         "text": {
-          "pt": "O tempo voa mesmo! Como você tem passado?",
-          "en": "Time really flies! How have you been?",
-          "ja": "時間はあっという間ですね！お元気でしたか？"
+          "pt": "O tempo voa mesmo! Como você tem estado?",
+          "en": "Time really does fly! How have you been?",
+          "ja": "月日が経つのは早いものですね。お元気でしたか？"
         },
-        "romaji": "Jikan wa atto iu ma desu ne! Ogenki deshita ka?"
+        "romaji": "Tsukihi ga tatsu no wa hayai mono desu ne. Ogenki deshita ka?"
       }
     ],
     "cumprimentos-2": [
       {
         "id": "cumprimentos-2-example-1",
         "text": {
-          "pt": "Que coincidência incrível te encontrar nesse café!",
-          "en": "What an incredible coincidence to find you in this cafe!",
-          "ja": "このカフェで会うなんて、すごい偶然ですね！"
+          "pt": "Que coincidência incrível te encontrar neste lugar!",
+          "en": "What an incredible coincidence to find you here!",
+          "ja": "こんな所でお会いするなんて、すごい偶然ですね！"
         },
-        "romaji": "Kono kafe de au nante, sugoi gūzen desu ne!"
+        "romaji": "Konna tokoro de oai suru nante, sugoi gūzen desu ne!"
       },
       {
         "id": "cumprimentos-2-example-2",
         "text": {
-          "pt": "Pois é, nunca imaginei que viria aqui.",
-          "en": "I know, I never imagined you'd come here.",
-          "ja": "ええ、まさかあなたも来るとは思ってもみませんでした。"
+          "pt": "Verdade, nunca imaginei que você frequentasse aqui.",
+          "en": "Right, I never imagined you'd come here.",
+          "ja": "ええ、まさかあなたが来るとは思ってもみませんでした。"
         },
-        "romaji": "Ē, masaka anata mo kuru to wa omotte mo mimasen deshita."
+        "romaji": "Ē, masaka anata ga kuru to wa omotte mo mimasen deshita."
       },
       {
         "id": "cumprimentos-2-example-3",
@@ -977,29 +977,29 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "cumprimentos-3-example-1",
         "text": {
-          "pt": "Que bom te ver novamente aqui no parque.",
-          "en": "Good to see you again here in the park.",
-          "ja": "また公園でお会いできて嬉しいです。"
+          "pt": "Olha só quem está aqui! Que bom te ver.",
+          "en": "Look who's here! Good to see you.",
+          "ja": "おや、奇遇ですね！お会いできて嬉しいです。"
         },
-        "romaji": "Mata kōen de oai dekite ureshī desu."
+        "romaji": "Oya, kigū desu ne! Oai dekite ureshī desu."
       },
       {
         "id": "cumprimentos-3-example-2",
         "text": {
-          "pt": "Sim, é o meu lugar favorito para correr.",
-          "en": "Yes, it's my favorite place to run.",
-          "ja": "ええ、ここは私のお気に入りのランニングコースなんです。"
+          "pt": "Eu sempre passo por aqui para caminhar.",
+          "en": "I always come through here for a walk.",
+          "ja": "私はいつも散歩でこの辺りを通るんです。"
         },
-        "romaji": "Ē, koko wa watashi no okiniiri no ran'ningu kōsu nan desu."
+        "romaji": "Watashi wa itsumo sanpo de kono atari o tōru n desu."
       },
       {
         "id": "cumprimentos-3-example-3",
         "text": {
-          "pt": "Talvez nos vejamos mais vezes por aqui então.",
-          "en": "Maybe we'll see each other more often around here then.",
-          "ja": "じゃあ、またここで会う機会が多いかもしれませんね。"
+          "pt": "Então, talvez a gente se encontre mais vezes.",
+          "en": "Then maybe we'll run into each other more often.",
+          "ja": "では、またお会いする機会が増えるかもしれませんね。"
         },
-        "romaji": "Jā, mata koko de au kikai ga ooi kamo shiremasen ne."
+        "romaji": "Dewa, mata oai suru kikai ga fueru kamo shiremasen ne."
       }
     ],
     "cumprimentos-4": [
@@ -1008,114 +1008,114 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Seja muito bem-vindo à nossa casa.",
           "en": "A very warm welcome to our home.",
-          "ja": "どうぞ、私たちの家へようこそ。"
+          "ja": "我が家へようこそお越しくださいました。"
         },
-        "romaji": "Dōzo, watashitachi no ie e yōkoso."
+        "romaji": "Wagaya e yōkoso okoshi kudasaimashita."
       },
       {
         "id": "cumprimentos-4-example-2",
         "text": {
-          "pt": "Obrigado, é um prazer estar aqui.",
-          "en": "Thank you, it's a pleasure to be here.",
-          "ja": "ありがとうございます、来られて光栄です。"
+          "pt": "Com licença, e muito obrigado pelo convite.",
+          "en": "Excuse me, and thank you so much for the invitation.",
+          "ja": "お邪魔します。ご招待いただきありがとうございます。"
         },
-        "romaji": "Arigatō gozaimasu, korarete kōei desu."
+        "romaji": "Ojama shimasu. Goshōtai itadaki arigatō gozaimasu."
       },
       {
         "id": "cumprimentos-4-example-3",
         "text": {
-          "pt": "Sinta-se à vontade, a casa é sua.",
-          "en": "Make yourself at home, the house is yours.",
-          "ja": "どうぞごゆっくり、ご自由にしてください。"
+          "pt": "Fique à vontade, a casa é sua.",
+          "en": "Please make yourself comfortable.",
+          "ja": "どうぞ、おくつろぎください。"
         },
-        "romaji": "Dōzo goyukkuri, gojiyū ni shite kudasai."
+        "romaji": "Dōzo, okutsurogi kudasai."
       }
     ],
     "cumprimentos-5": [
       {
         "id": "cumprimentos-5-example-1",
         "text": {
-          "pt": "Fico feliz que você tenha vindo ao jantar.",
-          "en": "I'm glad you came to dinner.",
-          "ja": "夕食に来てくれて嬉しいです。"
+          "pt": "Que bom que você pôde vir ao nosso jantar.",
+          "en": "I'm so glad you could make it to our dinner.",
+          "ja": "夕食会にお越しいただけて、とても嬉しいです。"
         },
-        "romaji": "Yūshoku ni kite kurete ureshī desu."
+        "romaji": "Yūshokukai ni okoshi itadakete, totemo ureshī desu."
       },
       {
         "id": "cumprimentos-5-example-2",
         "text": {
-          "pt": "É sempre um prazer estar na companhia de vocês.",
-          "en": "It's always a pleasure to be in your company.",
-          "ja": "皆さんとご一緒できていつも楽しいです。"
+          "pt": "Eu que agradeço. É sempre um prazer estar com vocês.",
+          "en": "The pleasure is mine. It's always lovely to be with you all.",
+          "ja": "こちらこそ。皆さんとご一緒できていつも楽しいです。"
         },
-        "romaji": "Minasan to goissho dekite itsumo tanoshī desu."
+        "romaji": "Kochira koso. Minasan to goissho dekite itsumo tanoshī desu."
       },
       {
         "id": "cumprimentos-5-example-3",
         "text": {
-          "pt": "A comida está deliciosa, parabéns!",
-          "en": "The food is delicious, congratulations!",
-          "ja": "料理がとても美味しいです、お見事！"
+          "pt": "A comida está maravilhosa, meus parabéns!",
+          "en": "The food is wonderful, my compliments to the chef!",
+          "ja": "このお料理、本当に美味しいですね。"
         },
-        "romaji": "Ryōri ga totemo oishī desu, omigoto!"
+        "romaji": "Kono oryōri, hontō ni oishii desu ne."
       }
     ],
     "cumprimentos-6": [
       {
         "id": "cumprimentos-6-example-1",
         "text": {
-          "pt": "Estou de saída agora, preciso ir para casa.",
-          "en": "I'm heading out now, I need to go home.",
-          "ja": "もう行きます、家に帰らないと。"
+          "pt": "Bom, eu já vou indo. Preciso ir para casa.",
+          "en": "Well, I'm heading out. I need to get home.",
+          "ja": "では、そろそろ失礼します。家に帰らないと。"
         },
-        "romaji": "Mō ikimasu, ie ni kaeranai to."
+        "romaji": "Dewa, sorosoro shitsurei shimasu. Ie ni kaeranai to."
       },
       {
         "id": "cumprimentos-6-example-2",
         "text": {
-          "pt": "Claro, diga um alô para o seu irmão.",
-          "en": "Of course, say hello to your brother.",
-          "ja": "はい、弟さんによろしくお伝えください。"
+          "pt": "Claro, sem problemas. Diga um oi para o seu irmão.",
+          "en": "Of course, no problem. Say hi to your brother for me.",
+          "ja": "はい、承知しました。弟さんによろしくお伝えください。"
         },
-        "romaji": "Hai, otōto-san ni yoroshiku otsutae kudasai."
+        "romaji": "Hai, shōchi shimashita. Otōto-san ni yoroshiku otsutae kudasai."
       },
       {
         "id": "cumprimentos-6-example-3",
         "text": {
-          "pt": "Pode deixar, ele vai adorar a lembrança.",
-          "en": "Will do, he'll love the thought.",
-          "ja": "分かりました、彼も喜ぶでしょう。"
+          "pt": "Pode deixar, ele vai gostar de saber que você lembrou.",
+          "en": "Will do, he'll be happy you remembered him.",
+          "ja": "承知しました。彼も喜ぶと思います。"
         },
-        "romaji": "Wakarimashita, kare mo yorokobu deshō."
+        "romaji": "Shōchi shimashita. Kare mo yorokobu to omoimasu."
       }
     ],
     "cumprimentos-7": [
       {
         "id": "cumprimentos-7-example-1",
         "text": {
-          "pt": "Falei com a Maria e ela mandou um beijo para você.",
-          "en": "I spoke with Maria and she sent you a kiss.",
-          "ja": "マリアと話して、彼女があなたにキスを送ってきましたよ。"
+          "pt": "Ah, encontrei a Maria e ela te mandou um abraço.",
+          "en": "Oh, I ran into Maria and she sends her regards.",
+          "ja": "ああ、マリアさんに会ったら、あなたによろしくとのことでした。"
         },
-        "romaji": "Maria to hanashite, kanojo ga anata ni kisu o okutte kimashita yo."
+        "romaji": "Ā, Maria-san ni attara, anata ni yoroshiku to no koto deshita."
       },
       {
         "id": "cumprimentos-7-example-2",
         "text": {
-          "pt": "Que fofa! Mande um grande abraço de volta para ela.",
-          "en": "How sweet! Send a big hug back to her.",
-          "ja": "なんて優しい！彼女に大きなハグを返してください。"
+          "pt": "Que legal! Mande um abraço de volta para ela, por favor.",
+          "en": "How nice! Please send my best back to her.",
+          "ja": "まあ、嬉しいです！彼女にもよろしくお伝えください。"
         },
-        "romaji": "Nante yasashī! Kanojo ni ōkina hagu o kaeshite kudasai."
+        "romaji": "Mā, ureshī desu! Kanojo ni mo yoroshiku otsutae kudasai."
       },
       {
         "id": "cumprimentos-7-example-3",
         "text": {
-          "pt": "Pode deixar, farei isso com certeza.",
-          "en": "Consider it done, I'll definitely do that.",
-          "ja": "はい、必ず伝えますね。"
+          "pt": "Com certeza, vou falar com ela.",
+          "en": "Absolutely, I'll be sure to tell her.",
+          "ja": "はい、必ずそう伝えますね。"
         },
-        "romaji": "Hai, kanarazu tsutaemasu ne."
+        "romaji": "Hai, kanarazu sō tsutaemasu ne."
       }
     ],
     "cumprimentos-8": [
@@ -1124,56 +1124,56 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Preciso ir agora, tenho um compromisso.",
           "en": "I have to go now, I have an appointment.",
-          "ja": "もう行かなきゃ、用事があるんです。"
+          "ja": "もう行かなくては。約束があるんです。"
         },
-        "romaji": "Mō ikanakya, yōji ga aru n desu."
+        "romaji": "Mō ikanakute wa. Yakusoku ga aru n desu."
       },
       {
         "id": "cumprimentos-8-example-2",
         "text": {
-          "pt": "Tudo bem, foi um prazer te ver.",
-          "en": "Alright, it was a pleasure seeing you.",
-          "ja": "大丈夫です、お会いできてよかったです。"
+          "pt": "Tudo bem, foi ótimo te ver.",
+          "en": "Alright, it was great seeing you.",
+          "ja": "そうですか。お会いできてよかったです。"
         },
-        "romaji": "Daijōbu desu, o ai dekite yokatta desu."
+        "romaji": "Sō desu ka. Oai dekite yokatta desu."
       },
       {
         "id": "cumprimentos-8-example-3",
         "text": {
-          "pt": "Igualmente, e tenha uma ótima noite.",
-          "en": "Likewise, and have a great evening.",
-          "ja": "こちらこそ、良い夜を過ごしてくださいね。"
+          "pt": "Igualmente! Tenha uma boa noite.",
+          "en": "You too! Have a good night.",
+          "ja": "こちらこそ！良い夜をお過ごしください。"
         },
-        "romaji": "Kochira koso, yoi yoru o sugoshite kudasai ne."
+        "romaji": "Kochira koso! Yoi yoru o osugoshi kudasai."
       }
     ],
     "cumprimentos-9": [
       {
         "id": "cumprimentos-9-example-1",
         "text": {
-          "pt": "Adorei nosso papo, mas preciso ir agora.",
-          "en": "I loved our chat, but I need to go now.",
-          "ja": "話せて楽しかったですが、もう行かないと。"
+          "pt": "Adorei nosso papo, mas preciso mesmo ir.",
+          "en": "I loved our chat, but I really must be going.",
+          "ja": "お話できて楽しかったですけど、そろそろ行かないと。"
         },
-        "romaji": "Hanase te tanoshikatta desu ga, mō ikanai to."
+        "romaji": "Ohanashi dekite tanoshikatta desu kedo, sorosoro ikanai to."
       },
       {
         "id": "cumprimentos-9-example-2",
         "text": {
-          "pt": "Que pena! Mas espero te ver logo de novo.",
-          "en": "What a shame! But I hope to see you again soon.",
-          "ja": "残念！でも、またすぐに会いたいです。"
+          "pt": "Que pena! Espero te ver de novo em breve.",
+          "en": "What a shame! I hope to see you again soon.",
+          "ja": "残念です。また近いうちにお会いしたいですね。"
         },
-        "romaji": "Zannen! Demo, mata sugu ni aitai desu."
+        "romaji": "Zannen desu. Mata chikai uchi ni oai shitai desu ne."
       },
       {
         "id": "cumprimentos-9-example-3",
         "text": {
-          "pt": "Sim, podemos jantar juntos na próxima semana.",
-          "en": "Yes, we could have dinner together next week.",
-          "ja": "ええ、来週一緒に夕食に行きましょう。"
+          "pt": "Com certeza! Que tal um café na próxima semana?",
+          "en": "Definitely! How about coffee next week?",
+          "ja": "ええ、ぜひ！来週、一緒にお茶でもどうですか？"
         },
-        "romaji": "Ē, raishū issho ni yūshoku ni ikimashō."
+        "romaji": "Ē, zehi! Raishū, issho ni ocha demo dō desu ka?"
       }
     ]
   },
@@ -1211,40 +1211,40 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-1-example-1",
         "text": {
-          "pt": "Que bom, Kenji! Bem-vindo ao time.",
-          "en": "That's great, Kenji! Welcome to the team.",
-          "ja": "健二さん、よかった！チームへようこそ。"
+          "pt": "Que bom, Kenji! Bem-vindo à equipe.",
+          "en": "Great, Kenji! Welcome to the team.",
+          "ja": "健二さん、よろしくお願いします。チームへようこそ。"
         },
-        "romaji": "Kenji-san, yokatta! Chīmu e yōkoso."
+        "romaji": "Kenji-san, yoroshiku onegai shimasu. Chīmu e yōkoso."
       },
       {
         "id": "apresentacao-1-example-2",
         "text": {
           "pt": "Estou animado para esta nova colaboração.",
-          "en": "I'm excited about this new collaboration.",
-          "ja": "この新しい共同作業にワクワクしています。"
+          "en": "I'm looking forward to this new collaboration.",
+          "ja": "この新しいコラボレーション、楽しみにしています。"
         },
-        "romaji": "Kono atarashii kyōdō sagyō ni wakuwaku shite imasu."
+        "romaji": "Kono atarashii koraborēshon, tanoshimi ni shite imasu."
       },
       {
         "id": "apresentacao-1-example-3",
         "text": {
-          "pt": "Nós também estamos muito felizes por tê-lo.",
-          "en": "We're also very happy to have you.",
-          "ja": "私たちもあなたに来ていただいてとても嬉しいです。"
+          "pt": "Nós também. O futuro parece promissor.",
+          "en": "Us too. We're looking forward to what's to come.",
+          "ja": "私たちもです。これからが楽しみですね。"
         },
-        "romaji": "Watashitachi mo anata ni kite itadaite totemo ureshii desu."
+        "romaji": "Watashitachi mo desu. Korekara ga tanoshimi desu ne."
       }
     ],
     "apresentacao-2": [
       {
         "id": "apresentacao-2-example-1",
         "text": {
-          "pt": "Ah, Belém! Já ouvi falar de sua culinária maravilhosa.",
-          "en": "Ah, Belém! I've heard about its wonderful cuisine.",
-          "ja": "ああ、ベレン！素晴らしい料理があると聞いたことがあります。"
+          "pt": "Ah, Belém! Ouvi dizer que a culinária daí é maravilhosa.",
+          "en": "Ah, Belém! I hear the food there is wonderful.",
+          "ja": "ああ、ベレン！料理がとても素晴らしいそうですね。"
         },
-        "romaji": "Aa, Beren! Subarashii ryōri ga aru to kiita koto ga arimasu."
+        "romaji": "Aa, Beren! Ryōri ga totemo subarashii sō desu ne."
       },
       {
         "id": "apresentacao-2-example-2",
@@ -1258,22 +1258,22 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-2-example-3",
         "text": {
-          "pt": "Preciso visitar um dia para experimentar.",
-          "en": "I need to visit someday to try it.",
-          "ja": "いつか試食するために訪れる必要がありますね。"
+          "pt": "Um dia preciso ir lá para experimentar.",
+          "en": "Someday I need to go and try it.",
+          "ja": "いつか行って、食べてみたいですね。"
         },
-        "romaji": "Itsuka shishoku suru tame ni otozureru hitsuyō ga arimasu ne."
+        "romaji": "Itsuka itte, tabete mitai desu ne."
       }
     ],
     "apresentacao-3": [
       {
         "id": "apresentacao-3-example-1",
         "text": {
-          "pt": "Com certeza é um lugar com muita natureza.",
-          "en": "It's certainly a place with lots of nature.",
-          "ja": "確かに自然が豊かな場所です。"
+          "pt": "Sim, é um lugar com muita natureza.",
+          "en": "Yes, it's a place with a lot of nature.",
+          "ja": "はい、自然が豊かな場所です。"
         },
-        "romaji": "Tashika ni shizen ga yutaka na basho desu."
+        "romaji": "Hai, shizen ga yutaka na basho desu."
       },
       {
         "id": "apresentacao-3-example-2",
@@ -1287,7 +1287,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-3-example-3",
         "text": {
-          "pt": "Isso me faz querer ir mais ainda!",
+          "pt": "Isso me dá ainda mais vontade de ir!",
           "en": "That makes me want to go even more!",
           "ja": "それを聞くとますます行きたくなりますね！"
         },
@@ -1298,11 +1298,11 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-4-example-1",
         "text": {
-          "pt": "Uau, então você tem bastante experiência na área.",
-          "en": "Wow, so you have a lot of experience in the field.",
-          "ja": "すごい、じゃあその分野ではかなりの経験がありますね。"
+          "pt": "Nossa, então você tem bastante experiência.",
+          "en": "Wow, so you're very experienced.",
+          "ja": "わあ、じゃあ経験豊富なんですね。"
         },
-        "romaji": "Sugoi, jā sono bun'ya de wa kanari no keiken ga arimasu ne."
+        "romaji": "Wā, jā keiken hōfu nan desu ne."
       },
       {
         "id": "apresentacao-4-example-2",
@@ -1316,8 +1316,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-4-example-3",
         "text": {
-          "pt": "Isso é ótimo de ouvir. Que tipo de projetos você costuma fazer?",
-          "en": "That's great to hear. What kind of projects do you usually do?",
+          "pt": "Que ótimo! Que tipo de projetos você costuma fazer?",
+          "en": "That's great! What kind of projects do you usually work on?",
           "ja": "それは素晴らしいですね。普段はどんなプロジェクトを手がけていますか？"
         },
         "romaji": "Sore wa subarashii desu ne. Fudan wa donna purojekuto o tegakete imasu ka?"
@@ -1327,29 +1327,29 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-5-example-1",
         "text": {
-          "pt": "Vim para participar de um projeto colaborativo aqui.",
+          "pt": "Vim para participar de um projeto colaborativo.",
           "en": "I came to participate in a collaborative project here.",
-          "ja": "ここで共同プロジェクトに参加するために来ました。"
+          "ja": "こちらの共同プロジェクトに参加するために参りました。"
         },
-        "romaji": "Koko de kyōdō purojekuto ni sanka suru tame ni kimashita."
+        "romaji": "Kochira no kyōdō purojekuto ni sanka suru tame ni mairimashita."
       },
       {
         "id": "apresentacao-5-example-2",
         "text": {
-          "pt": "Que legal! É algo novo ou já trabalhava com isso?",
-          "en": "How cool! Is it something new or have you worked with this before?",
-          "ja": "それはすごいですね！新しいことですか、それとも以前にも関わっていましたか？"
+          "pt": "Entendi! É a sua primeira vez nesta área?",
+          "en": "I see! Is this field new to you?",
+          "ja": "そうなんですね！この分野は初めてですか？"
         },
-        "romaji": "Sore wa sugoi desu ne! Atarashii koto desu ka, sore tomo izen ni mo kakawatte imashita ka?"
+        "romaji": "Sō nan desu ne! Kono bun'ya wa hajimete desu ka?"
       },
       {
         "id": "apresentacao-5-example-3",
         "text": {
-          "pt": "É uma área nova para mim, então estou muito empolgado.",
-          "en": "It's a new area for me, so I'm very excited.",
+          "pt": "É uma área nova para mim, então estou bem empolgado.",
+          "en": "It's a new field for me, so I'm very excited.",
           "ja": "私にとっては新しい分野なので、とてもワクワクしています。"
         },
-        "romaji": "Watashi ni totte wa atarashii bun'ya nanode, totemo wakuwaku shite imasu."
+        "romaji": "Watashi ni totte wa atarashii bun'ya na node, totemo wakuwaku shite imasu."
       }
     ],
     "apresentacao-6": [
@@ -1365,8 +1365,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-6-example-2",
         "text": {
-          "pt": "É mais fácil assim para todo mundo.",
-          "en": "It's easier that way for everyone.",
+          "pt": "Fica mais fácil para todo mundo assim.",
+          "en": "It's easier for everyone that way.",
           "ja": "その方がみんなにとって楽ですよね。"
         },
         "romaji": "Sono hō ga minna ni totte raku desu yo ne."
@@ -1374,51 +1374,51 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-6-example-3",
         "text": {
-          "pt": "Concordo plenamente. Fico mais à vontade.",
-          "en": "I totally agree. I feel more comfortable.",
-          "ja": "全く同感です。私ももっと気楽になります。"
+          "pt": "Concordo. Também me sinto mais à vontade.",
+          "en": "I agree. I also feel more at ease that way.",
+          "ja": "そうですね。私もその方が気楽です。"
         },
-        "romaji": "Mattaku dōkan desu. Watashi mo motto kiraku ni narimasu."
+        "romaji": "Sō desu ne. Watashi mo sono hō ga kiraku desu."
       }
     ],
     "apresentacao-7": [
       {
         "id": "apresentacao-7-example-1",
         "text": {
-          "pt": "Sim, é melhor assim para a nossa interação.",
-          "en": "Yes, it's better this way for our interaction.",
-          "ja": "ええ、私たちの交流にはその方がいいですね。"
+          "pt": "Sim, assim é mais fácil para interagirmos.",
+          "en": "Yes, it's easier for us to talk to each other this way.",
+          "ja": "ええ、その方がお互い話しやすいですよね。"
         },
-        "romaji": "Ee, watashitachi no kōryū ni wa sono hō ga ii desu ne."
+        "romaji": "Ee, sono hō ga o-tagai hanashi yasui desu yo ne."
       },
       {
         "id": "apresentacao-7-example-2",
         "text": {
-          "pt": "Aprecio a sua abertura para isso.",
-          "en": "I appreciate your openness to that.",
-          "ja": "そのことに関してあなたのオープンさに感謝します。"
+          "pt": "Fico feliz que pense assim.",
+          "en": "I'm glad you think so.",
+          "ja": "そう言っていただけると嬉しいです。"
         },
-        "romaji": "Sono koto ni kanshite anata no ōpun-sa ni kansha shimasu."
+        "romaji": "Sō itte itadakeru to ureshii desu."
       },
       {
         "id": "apresentacao-7-example-3",
         "text": {
-          "pt": "O prazer é meu, quero que todos se sintam à vontade.",
-          "en": "The pleasure is mine, I want everyone to feel comfortable.",
-          "ja": "こちらこそ、皆さんに快適に感じてほしいです。"
+          "pt": "Sim, o melhor é que todos possam conversar com tranquilidade.",
+          "en": "Yes, it's best if everyone can talk casually.",
+          "ja": "ええ、皆さんが気楽に話せるのが一番ですから。"
         },
-        "romaji": "Kochira koso, minasan ni kaiteki ni kanjite hoshii desu."
+        "romaji": "Ee, minasan ga kigaru ni hanaseru no ga ichiban desu kara."
       }
     ],
     "apresentacao-8": [
       {
         "id": "apresentacao-8-example-1",
         "text": {
-          "pt": "Muito obrigado! Vou salvar seus contatos.",
-          "en": "Thank you very much! I'll save your contacts.",
-          "ja": "どうもありがとうございます！連絡先を保存します。"
+          "pt": "Muito obrigado! Já vou adicionar.",
+          "en": "Thank you very much! I'll add you right away.",
+          "ja": "ありがとうございます。早速登録させていただきます。"
         },
-        "romaji": "Dōmo arigatō gozaimasu! Renrakusaki o hozon shimasu."
+        "romaji": "Arigatō gozaimasu. Sassoku tōroku sasete itadakimasu."
       },
       {
         "id": "apresentacao-8-example-2",
@@ -1432,40 +1432,40 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-8-example-3",
         "text": {
-          "pt": "Farei isso! Precisamos manter contato.",
-          "en": "I will! We need to stay in touch.",
-          "ja": "そうします！連絡を取り合いましょう。"
+          "pt": "Com certeza! Manteremos contato.",
+          "en": "Definitely! I look forward to keeping in touch.",
+          "ja": "はい、ぜひ！今後ともよろしくお願いします。"
         },
-        "romaji": "Sō shimasu! Renraku o toriaimashō."
+        "romaji": "Hai, zehi! Kongo tomo yoroshiku onegai shimasu."
       }
     ],
     "apresentacao-9": [
       {
         "id": "apresentacao-9-example-1",
         "text": {
-          "pt": "Foi um prazer conhecê-lo. Tenha um bom dia.",
-          "en": "It was a pleasure meeting you. Have a good day.",
-          "ja": "お会いできて光栄でした。良い一日を。"
+          "pt": "Foi um prazer conhecê-lo. Tenha um ótimo dia.",
+          "en": "It was good to meet you. Have a great day.",
+          "ja": "お会いできてよかったです。良い一日を。"
         },
-        "romaji": "O-ai dekite kōei deshita. Yoi ichinichi o."
+        "romaji": "O-ai dekite yokatta desu. Yoi ichinichi o."
       },
       {
         "id": "apresentacao-9-example-2",
         "text": {
-          "pt": "Igualmente! Nos vemos na próxima reunião.",
-          "en": "You too! See you at the next meeting.",
-          "ja": "あなたもね！次の会議でお会いしましょう。"
+          "pt": "Igualmente! Então, até a próxima reunião.",
+          "en": "You too! Well then, see you at the next meeting.",
+          "ja": "こちらこそ。では、また次の会議で。"
         },
-        "romaji": "Anata mo ne! Tsugi no kaigi de o-ai shimashō."
+        "romaji": "Kochira koso. Dewa, mata tsugi no kaigi de."
       },
       {
         "id": "apresentacao-9-example-3",
         "text": {
-          "pt": "Combinado. Até breve!",
-          "en": "Understood. See you soon!",
-          "ja": "承知しました。また近いうちに！"
+          "pt": "Certo. Até mais!",
+          "en": "Right. See you later!",
+          "ja": "はい。では、また。"
         },
-        "romaji": "Shōchi shimashita. Mata chikauchi ni!"
+        "romaji": "Hai. Dewa, mata."
       }
     ]
   },
@@ -1476,27 +1476,27 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Espero que as coisas estejam indo bem para você.",
           "en": "I hope things are going well for you.",
-          "ja": "うまくやっているといいのですが。"
+          "ja": "万事うまくいっているといいのですが。"
         },
-        "romaji": "Umaku yatte iru to ii no desu ga."
+        "romaji": "Banji umaku itte iru to ii no desu ga."
       },
       {
         "id": "como-esta-0-example-2",
         "text": {
           "pt": "Na verdade, passei por algumas mudanças no trabalho.",
           "en": "Actually, I've had some changes at work.",
-          "ja": "実は、仕事でいくつか変更がありました。"
+          "ja": "実は、仕事でいくつか変化がありました。"
         },
-        "romaji": "Jitsu wa, shigoto de ikutsuka henkō ga arimashita."
+        "romaji": "Jitsu wa, shigoto de ikutsuka henka ga arimashita."
       },
       {
         "id": "como-esta-0-example-3",
         "text": {
           "pt": "Ah, me conte mais sobre isso quando tiver um tempo.",
           "en": "Oh, tell me more about it when you have time.",
-          "ja": "ああ、時間がある時に詳しく教えてください。"
+          "ja": "そうですか。時間がある時に詳しく教えてください。"
         },
-        "romaji": "Ā, jikan ga aru toki ni kuwashiku oshiete kudasai."
+        "romaji": "Sō desu ka. Jikan ga aru toki ni kuwashiku oshiete kudasai."
       }
     ],
     "como-esta-1": [
@@ -1505,96 +1505,96 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Entendo, a vida de estudante pode ser bem exigente.",
           "en": "I understand, student life can be quite demanding.",
-          "ja": "わかります、学生生活はかなり大変なことがあります。"
+          "ja": "わかります。学生生活はかなり大変なこともありますよね。"
         },
-        "romaji": "Wakarimasu, gakusei seikatsu wa kanari taihen na koto ga arimasu."
+        "romaji": "Wakarimasu. Gakusei seikatsu wa kanari taihen na koto mo arimasu yo ne."
       },
       {
         "id": "como-esta-1-example-2",
         "text": {
           "pt": "Sim, tenho muitas provas e trabalhos para entregar.",
           "en": "Yes, I have many exams and assignments due.",
-          "ja": "はい、試験や課題がたくさんあります。"
+          "ja": "はい、試験や提出課題がたくさんあるんです。"
         },
-        "romaji": "Hai, shiken ya kadai ga takusan arimasu."
+        "romaji": "Hai, shiken ya teishutsu kadai ga takusan arun desu."
       },
       {
         "id": "como-esta-1-example-3",
         "text": {
           "pt": "Não se esforce demais, lembre-se de descansar também.",
           "en": "Don't overdo it, remember to rest too.",
-          "ja": "無理しすぎないでくださいね、休むことも忘れないで。"
+          "ja": "無理しすぎず、休むことも忘れないでくださいね。"
         },
-        "romaji": "Muri shisuginai de kudasai ne, yasumu koto mo wasurenai de."
+        "romaji": "Muri shisugizu, yasumu koto mo wasurenai de kudasai ne."
       }
     ],
     "como-esta-2": [
       {
         "id": "como-esta-2-example-1",
         "text": {
-          "pt": "Realmente não consegui pregar o olho a noite toda.",
-          "en": "I really couldn't get any sleep all night.",
-          "ja": "本当に昨夜は一睡もできませんでした。"
+          "pt": "Pois é, não consegui pregar o olho a noite toda.",
+          "en": "I know, I couldn't sleep a wink all night.",
+          "ja": "ええ、昨夜は一睡もできなかったんです。"
         },
-        "romaji": "Hontō ni sakuya wa issui mo dekimasen deshita."
+        "romaji": "Ee, sakuya wa issui mo dekinakattan desu."
       },
       {
         "id": "como-esta-2-example-2",
         "text": {
-          "pt": "Será que você não está precisando de um café bem forte?",
+          "pt": "Talvez você precise de um café bem forte?",
           "en": "Perhaps you're in need of a really strong coffee?",
-          "ja": "もしかして、濃いコーヒーが必要なのでは？"
+          "ja": "もしかして、濃いコーヒーでもいかがですか？"
         },
-        "romaji": "Moshikashite, koi kōhī ga hitsuyō nanode wa?"
+        "romaji": "Moshikashite, koi kōhī demo ikaga desu ka?"
       },
       {
         "id": "como-esta-2-example-3",
         "text": {
           "pt": "Boa ideia, vou pegar um agora mesmo.",
           "en": "Good idea, I'll go get one right now.",
-          "ja": "いい考えですね、今すぐ買いに行きます。"
+          "ja": "いい考えですね。今すぐ買ってきます。"
         },
-        "romaji": "Ii kangae desu ne, ima sugu kai ni ikimasu."
+        "romaji": "Ii kangae desu ne. Ima sugu katte kimasu."
       }
     ],
     "como-esta-3": [
       {
         "id": "como-esta-3-example-1",
         "text": {
-          "pt": "Que bom que se sente melhor! Fico feliz em saber.",
-          "en": "Good that you feel better! I'm happy to hear that.",
-          "ja": "気分が良くなってよかった！それを聞いて嬉しいです。"
+          "pt": "Que bom que você se sente melhor! Fico feliz em saber.",
+          "en": "It's great you're feeling better! I'm happy to hear that.",
+          "ja": "気分が良くなったのなら何よりです！それを聞いて安心しました。"
         },
-        "romaji": "Kibun ga yoku natte yokatta! Sore o kiite ureshii desu."
+        "romaji": "Kibun ga yoku natta no nara nani yori desu! Sore o kiite anshin shimashita."
       },
       {
         "id": "como-esta-3-example-2",
         "text": {
           "pt": "Um banho quente e um bom café da manhã ajudaram bastante.",
           "en": "A warm shower and a good breakfast helped a lot.",
-          "ja": "温かいシャワーと良い朝食がとても効きました。"
+          "ja": "温かいシャワーとちゃんとした朝食がとても効きました。"
         },
-        "romaji": "Atatakai shawā to yoi chōshoku ga totemo kikimashita."
+        "romaji": "Atatakai shawā to chanto shita chōshoku ga totemo kikimashita."
       },
       {
         "id": "como-esta-3-example-3",
         "text": {
           "pt": "Isso é ótimo. Cuide-se para não acontecer de novo.",
           "en": "That's great. Take care so it doesn't happen again.",
-          "ja": "それは素晴らしい。二度とそうならないように気をつけてください。"
+          "ja": "それは良かったですね。またそうならないようにお気をつけください。"
         },
-        "romaji": "Sore wa subarashii. Nido to sō naranai yō ni ki o tsukete kudasai."
+        "romaji": "Sore wa yokatta desu ne. Mata sō naranai yō ni oki o tsuke kudasai."
       }
     ],
     "como-esta-4": [
       {
         "id": "como-esta-4-example-1",
         "text": {
-          "pt": "Sim, todos estão ótimos, obrigado pela consideração.",
+          "pt": "Sim, todos estão ótimos, obrigado pela preocupação.",
           "en": "Yes, everyone is great, thank you for your concern.",
-          "ja": "はい、みんな元気です。お気遣いありがとうございます。"
+          "ja": "はい、おかげさまで皆元気です。お気遣いありがとうございます。"
         },
-        "romaji": "Hai, minna genki desu. Okizukai arigatō gozaimasu."
+        "romaji": "Hai, okagesama de minna genki desu. Okizukai arigatō gozaimasu."
       },
       {
         "id": "como-esta-4-example-2",
@@ -1609,10 +1609,10 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "como-esta-4-example-3",
         "text": {
           "pt": "E a sua, como está? Tudo em ordem por lá?",
-          "en": "And how's yours? Is everything in order there?",
-          "ja": "ご家族は？そちらはすべて順調ですか？"
+          "en": "And your family? Is everything in order on your end?",
+          "ja": "そちらのご家族はいかがですか？皆さんお変わりありませんか？"
         },
-        "romaji": "Gokazoku wa? Sochira wa subete juncho desu ka?"
+        "romaji": "Sochira no gokazoku wa ikaga desu ka? Minasan okawari arimasen ka?"
       }
     ],
     "como-esta-5": [
@@ -1621,9 +1621,9 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Que bom! É sempre bom ouvir notícias positivas.",
           "en": "That's great! It's always good to hear positive news.",
-          "ja": "それは良かった！いつも良い知らせを聞くのは嬉しいです。"
+          "ja": "それは良かったです！良い知らせを聞くと嬉しい気持ちになりますね。"
         },
-        "romaji": "Sore wa yokatta! Itsumo yoi shirase o kiku no wa ureshii desu."
+        "romaji": "Sore wa yokatta desu! Yoi shirase o kiku to ureshii kimochi ni narimasu ne."
       },
       {
         "id": "como-esta-5-example-2",
@@ -1639,38 +1639,38 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Perfeito! Mande meus cumprimentos a todos.",
           "en": "Perfect! Send my regards to everyone.",
-          "ja": "完璧！皆さんによろしくお伝えください。"
+          "ja": "それは何よりです！皆さんによろしくお伝えください。"
         },
-        "romaji": "Kanpeki! Minasan ni yoroshiku otsutae kudasai."
+        "romaji": "Sore wa nani yori desu! Minasan ni yoroshiku otsutae kudasai."
       }
     ],
     "como-esta-6": [
       {
         "id": "como-esta-6-example-1",
         "text": {
-          "pt": "Sinto muito por isso. Há algo que eu possa fazer?",
-          "en": "I'm sorry to hear that. Is there anything I can do?",
-          "ja": "それは大変ですね。何かできることはありますか？"
+          "pt": "Nossa, que chato. Posso ajudar em algo?",
+          "en": "Oh, that's rough. Is there anything I can do?",
+          "ja": "それは大変ですね。何か私にできることはありますか？"
         },
-        "romaji": "Sore wa taihen desu ne. Nani ka dekiru koto wa arimasu ka?"
+        "romaji": "Sore wa taihen desu ne. Nani ka watashi ni dekiru koto wa arimasu ka?"
       },
       {
         "id": "como-esta-6-example-2",
         "text": {
           "pt": "Acho que só preciso de um pouco de descanso.",
           "en": "I think I just need a little rest.",
-          "ja": "少し休む必要があると思います。"
+          "ja": "いえ、少し休めば大丈夫だと思います。"
         },
-        "romaji": "Sukoshi yasumu hitsuyō ga aru to omoimasu."
+        "romaji": "Ie, sukoshi yasumeba daijōbu da to omoimasu."
       },
       {
         "id": "como-esta-6-example-3",
         "text": {
-          "pt": "Por que não tiramos um dia de folga no próximo mês?",
-          "en": "Why don't we take a day off next month?",
-          "ja": "来月、一日休みを取りませんか？"
+          "pt": "Entendi. Tente relaxar um pouco neste fim de semana.",
+          "en": "I see. Try to relax a bit this weekend.",
+          "ja": "そうですか。今週末は少しリラックスしてくださいね。"
         },
-        "romaji": "Raigetsu, ichinichi yasumi o torimasen ka?"
+        "romaji": "Sō desu ka. Konshūmatsu wa sukoshi rirakkusu shite kudasai ne."
       }
     ],
     "como-esta-7": [
@@ -1679,27 +1679,27 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Agradeço muito sua gentileza e preocupação.",
           "en": "I really appreciate your kindness and concern.",
-          "ja": "ご親切とご心配に心から感謝します。"
+          "ja": "そのお気持ちだけで嬉しいです。ありがとうございます。"
         },
-        "romaji": "Goshinsetsu to goshinpai ni kokoro kara kansha shimasu."
+        "romaji": "Sono o-kimochi dake de ureshii desu. Arigatō gozaimasu."
       },
       {
         "id": "como-esta-7-example-2",
         "text": {
-          "pt": "Qualquer coisa que precisar, é só me chamar.",
-          "en": "Anything you need, just call me.",
-          "ja": "何か必要なことがあれば、いつでも声をかけてください。"
+          "pt": "Sério, qualquer coisa que precisar, é só me chamar.",
+          "en": "Seriously, anything you need, just give me a call.",
+          "ja": "本当ですよ。何か必要なことがあれば、いつでも声をかけてください。"
         },
-        "romaji": "Nani ka hitsuyō na koto ga areba, itsudemo koe o kakete kudasai."
+        "romaji": "Hontō desu yo. Nani ka hitsuyō na koto ga areba, itsudemo koe o kakete kudasai."
       },
       {
         "id": "como-esta-7-example-3",
         "text": {
           "pt": "Vou ter isso em mente, obrigado de novo.",
           "en": "I'll keep that in mind, thanks again.",
-          "ja": "覚えておきます、再度ありがとう。"
+          "ja": "心に留めておきます。重ねてありがとうございます。"
         },
-        "romaji": "Oboete okimasu, saido arigatō."
+        "romaji": "Kokoro ni tomete okimasu. Kasanete arigatō gozaimasu."
       }
     ],
     "como-esta-8": [
@@ -1708,15 +1708,15 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Sim, felizmente as coisas se acalmaram bastante.",
           "en": "Yes, thankfully things have calmed down a lot.",
-          "ja": "はい、幸いなことに状況はかなり落ち着きました。"
+          "ja": "はい、幸いなことに、状況はかなり落ち着きました。"
         },
-        "romaji": "Hai, saiwaishiku koto wa kanari ochitsukimashita."
+        "romaji": "Hai, saiwai na koto ni, jōkyō wa kanari ochitsukimashita."
       },
       {
         "id": "como-esta-8-example-2",
         "text": {
-          "pt": "Fico muito feliz em ouvir isso de você.",
-          "en": "I'm very happy to hear that from you.",
+          "pt": "Fico muito feliz em ouvir isso.",
+          "en": "I'm very happy to hear that.",
           "ja": "それを聞いて本当に嬉しいです。"
         },
         "romaji": "Sore o kiite hontō ni ureshii desu."
@@ -1726,29 +1726,29 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "O que você fez para resolver tudo tão rapidamente?",
           "en": "What did you do to resolve everything so quickly?",
-          "ja": "どうやってそんなに早くすべてを解決したのですか？"
+          "ja": "どうやってそんなに早くすべてを解決できたのですか？"
         },
-        "romaji": "Dō yatte sonna ni hayaku subete o kaiketsu shita no desu ka?"
+        "romaji": "Dō yatte sonna ni hayaku subete o kaiketsu dekita no desu ka?"
       }
     ],
     "como-esta-9": [
       {
         "id": "como-esta-9-example-1",
         "text": {
-          "pt": "Uau, isso é um alívio enorme! Parabéns pela agilidade.",
-          "en": "Wow, that's a huge relief! Congratulations on the quick action.",
-          "ja": "うわー、それは大きな安心ですね！素早い対応、おめでとう。"
+          "pt": "Uau, que alívio! Parabéns pela agilidade.",
+          "en": "Wow, what a relief! Congrats on the quick work.",
+          "ja": "わあ、それは何よりです！素早い対応でしたね。"
         },
-        "romaji": "Uā, sore wa ōkina anshin desu ne! Subayai taiō, omedetō."
+        "romaji": "Wā, sore wa nani yori desu! Subayai taiō deshita ne."
       },
       {
         "id": "como-esta-9-example-2",
         "text": {
           "pt": "Foi um período bem intenso, mas valeu a pena o esforço.",
           "en": "It was a very intense period, but the effort was worth it.",
-          "ja": "とても大変な時期でしたが、努力する価値はありました。"
+          "ja": "とても大変な時期でしたが、頑張った甲斐がありました。"
         },
-        "romaji": "Totemo taihen na jiki deshita ga, doryoku suru kachi wa arimashita."
+        "romaji": "Totemo taihen na jiki deshita ga, ganbatta kai ga arimashita."
       },
       {
         "id": "como-esta-9-example-3",
@@ -1757,7 +1757,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
           "en": "Now you can relax and enjoy your free time.",
           "ja": "これでリラックスして自由な時間を楽しめますね。"
         },
-        "romaji": "Kore de rirakkusu shite jiyū na jikan o tanoshime masu ne."
+        "romaji": "Kore de rirakkusu shite jiyū na jikan o tanoshimemasu ne."
       }
     ]
   },
@@ -1766,290 +1766,290 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "cafeteria-0-example-1",
         "text": {
-          "pt": "Bom dia, o que gostaria de pedir hoje?",
-          "en": "Good morning, what would you like to order today?",
-          "ja": "おはようございます、本日のご注文は何になさいますか？"
+          "pt": "Olá, o que vai querer?",
+          "en": "Hi, what can I get for you?",
+          "ja": "こんにちは、ご注文は何になさいますか？"
         },
-        "romaji": "Ohayō gozaimasu, honjitsu no gochūmon wa nani ni nasaimasu ka?"
+        "romaji": "Konnichiwa, gochūmon wa nani ni nasaimasu ka?"
       },
       {
         "id": "cafeteria-0-example-2",
         "text": {
-          "pt": "Poderia ser um café com leite médio, por favor?",
-          "en": "Could I get a medium coffee with milk, please?",
-          "ja": "ミルクコーヒーのMサイズをお願いできますか？"
+          "pt": "Vou querer um café com leite médio, por favor.",
+          "en": "I'll have a medium latte, please.",
+          "ja": "カフェラテをMサイズでお願いします。"
         },
-        "romaji": "Miruku kōhī no emu saizu o onegai dekimasu ka?"
+        "romaji": "Kafe rate o emu saizu de onegai shimasu."
       },
       {
         "id": "cafeteria-0-example-3",
         "text": {
-          "pt": "Claro, mais alguma coisa?",
-          "en": "Certainly, anything else?",
-          "ja": "かしこまりました、他には何かございますか？"
+          "pt": "Um café com leite médio. Algo mais?",
+          "en": "One medium latte. Anything else for you?",
+          "ja": "カフェラテのMサイズですね。他にご注文はございますか？"
         },
-        "romaji": "Kashikomarimashita, hoka ni wa nani ka gozaimasu ka?"
+        "romaji": "Kafe rate no emu saizu desu ne. Hoka ni gochūmon wa gozaimasu ka?"
       }
     ],
     "cafeteria-1": [
       {
         "id": "cafeteria-1-example-1",
         "text": {
-          "pt": "Um espresso duplo, por gentileza.",
-          "en": "A double espresso, please.",
-          "ja": "エスプレッソのダブルを一つお願いします。"
+          "pt": "Um cappuccino, por favor.",
+          "en": "One cappuccino, please.",
+          "ja": "カプチーノを一つお願いします。"
         },
-        "romaji": "Esupuresso no daburu o hitotsu onegai shimasu."
+        "romaji": "Kapuchīno o hitotsu onegai shimasu."
       },
       {
         "id": "cafeteria-1-example-2",
         "text": {
-          "pt": "Vai beber por aqui ou prefere levar?",
-          "en": "Are you drinking it here or would you prefer to take it away?",
-          "ja": "お飲み物はこちらで召し上がりますか、それともお持ち帰りですか？"
+          "pt": "Será para tomar aqui ou para levar?",
+          "en": "Will that be for here or to go?",
+          "ja": "こちらでお召し上がりですか、それともお持ち帰りになさいますか？"
         },
-        "romaji": "Onomimono wa kochira de meshiagarimasu ka, soretomo omochikaeri desu ka?"
+        "romaji": "Kochira de omeshiagarimasu ka, soretomo omochikaeri ni nasaimasu ka?"
       },
       {
         "id": "cafeteria-1-example-3",
         "text": {
-          "pt": "Vou tomar na mesa perto da janela.",
-          "en": "I'll drink it at the table by the window.",
-          "ja": "窓際のテーブルでいただきます。"
+          "pt": "Para levar, por favor.",
+          "en": "To go, please.",
+          "ja": "持ち帰りでお願いします。"
         },
-        "romaji": "Madogiwa no tēburu de itadakimasu."
+        "romaji": "Mochikaeri de onegai shimasu."
       }
     ],
     "cafeteria-2": [
       {
         "id": "cafeteria-2-example-1",
         "text": {
-          "pt": "Gostaria de um chá gelado, por favor.",
-          "en": "I'd like an iced tea, please.",
-          "ja": "アイスティーをお願いします。"
+          "pt": "Que tipo de leite gostaria no seu café?",
+          "en": "What kind of milk would you like in your coffee?",
+          "ja": "コーヒーに入れるミルクはどちらにいたしますか？"
         },
-        "romaji": "Aisu tī o onegai shimasu."
+        "romaji": "Kōhī ni ireru miruku wa dochira ni itashimasu ka?"
       },
       {
         "id": "cafeteria-2-example-2",
         "text": {
-          "pt": "Qual o tipo de leite que vocês oferecem?",
-          "en": "What kind of milk do you offer?",
-          "ja": "どのようなミルクがありますか？"
+          "pt": "Por acaso vocês teriam leite de aveia?",
+          "en": "By any chance, do you have oat milk?",
+          "ja": "もしかして、オーツミルクはありますか？"
         },
-        "romaji": "Donoyō na miruku ga arimasu ka?"
+        "romaji": "Moshikashite, ōtsu miruku wa arimasu ka?"
       },
       {
         "id": "cafeteria-2-example-3",
         "text": {
-          "pt": "Temos leite integral, desnatado e de soja.",
-          "en": "We have whole, skim, and soy milk.",
-          "ja": "普通の牛乳と、低脂肪乳と、豆乳がございます。"
+          "pt": "Sim, temos. Também temos leite de soja e de amêndoas.",
+          "en": "Yes, we do. We also have soy and almond milk.",
+          "ja": "はい、ございます。豆乳やアーモンドミルクもご用意しております。"
         },
-        "romaji": "Futsū no gyūnyū to, teishibōnyū to, tōnyū ga gozaimasu."
+        "romaji": "Hai, gozaimasu. Tōnyū ya āmondo miruku mo goyōi shite orimasu."
       }
     ],
     "cafeteria-3": [
       {
         "id": "cafeteria-3-example-1",
         "text": {
-          "pt": "Posso pedir o meu cappuccino com leite de amêndoas?",
-          "en": "Can I order my cappuccino with almond milk?",
-          "ja": "カプチーノをアーモンドミルクで作ってもらえますか？"
+          "pt": "Posso pedir meu café com leite de aveia em vez do leite normal?",
+          "en": "Can I get my latte with oat milk instead of regular milk?",
+          "ja": "ラテを普通の牛乳の代わりにオーツミルクにできますか？"
         },
-        "romaji": "Kapuchīno o āmondo miruku de tsukutte moraemasu ka?"
+        "romaji": "Rate o futsū no gyūnyū no kawari ni ōtsu miruku ni dekimasu ka?"
       },
       {
         "id": "cafeteria-3-example-2",
         "text": {
-          "pt": "Sim, temos a opção. Há um custo adicional.",
-          "en": "Yes, we have that option. There's an additional charge.",
-          "ja": "はい、可能です。少々追加料金をいただきます。"
+          "pt": "Claro, mas o leite de aveia tem um pequeno custo adicional. Tudo bem?",
+          "en": "Of course, but there's a small extra charge for oat milk. Is that okay?",
+          "ja": "もちろんです。ただ、オーツミルクは少し追加料金がかかりますが、よろしいでしょうか？"
         },
-        "romaji": "Hai, kanō desu. Shōshō tsuika ryōkin o itadakimasu."
+        "romaji": "Mochiron desu. Tada, ōtsu miruku wa sukoshi tsuika ryōkin ga kakarimasu ga, yoroshii deshō ka?"
       },
       {
         "id": "cafeteria-3-example-3",
         "text": {
-          "pt": "Sem problemas, por favor, prepare assim.",
-          "en": "No problem, please prepare it that way.",
-          "ja": "承知しました、それでお願いします。"
+          "pt": "Sem problemas, obrigado.",
+          "en": "That's fine, thank you.",
+          "ja": "はい、大丈夫です。ありがとうございます。"
         },
-        "romaji": "Shōchi shimashita, sore de onegai shimasu."
+        "romaji": "Hai, daijōbu desu. Arigatō gozaimasu."
       }
     ],
     "cafeteria-4": [
       {
         "id": "cafeteria-4-example-1",
         "text": {
-          "pt": "Um chocolate quente, por favor.",
-          "en": "One hot chocolate, please.",
-          "ja": "ホットチョコレートを一つください。"
+          "pt": "Eu gostaria de um Americano gelado, por favor.",
+          "en": "I'd like an iced Americano, please.",
+          "ja": "アイスアメリカーノを一杯お願いします。"
         },
-        "romaji": "Hotto chokorēto o hitotsu kudasai."
+        "romaji": "Aisu amerikāno o ippai onegai shimasu."
       },
       {
         "id": "cafeteria-4-example-2",
         "text": {
-          "pt": "É possível que não coloquem açúcar no meu pedido?",
-          "en": "Is it possible to have my order made without any added sugar?",
-          "ja": "注文の品に砂糖を入れないでいただけますか？"
+          "pt": "Claro. Normalmente adicionamos um pouco de xarope. Você prefere sem?",
+          "en": "Sure. We usually add a pump of syrup. Would you prefer it without?",
+          "ja": "かしこまりました。通常シロップをお入れしますが、なしにしますか？"
         },
-        "romaji": "Chūmon no shina ni satō o irenaide itadakemasu ka?"
+        "romaji": "Kashikomarimashita. Tsūjō shiroppu o oire shimasu ga, nashi ni shimasu ka?"
       },
       {
         "id": "cafeteria-4-example-3",
         "text": {
-          "pt": "Sim, podemos fazer isso para você.",
-          "en": "Yes, we can do that for you.",
-          "ja": "はい、承ります。"
+          "pt": "Sim, por favor, pode fazer sem açúcar nenhum?",
+          "en": "Yes, please, could you make it with no sugar at all?",
+          "ja": "はい、砂糖は全くなしにしてもらえますか？"
         },
-        "romaji": "Hai,承承承ります."
+        "romaji": "Hai, satō wa mattaku nashi ni shite moraemasu ka?"
       }
     ],
     "cafeteria-5": [
       {
         "id": "cafeteria-5-example-1",
         "text": {
-          "pt": "Quero um chá verde sem açúcar, por favor.",
-          "en": "I'd like a green tea without sugar, please.",
-          "ja": "砂糖なしの緑茶をお願いします。"
+          "pt": "Um chá preto, por favor. Sem açúcar.",
+          "en": "A black tea, please. No sugar.",
+          "ja": "紅茶をください。砂糖は入れないでください。"
         },
-        "romaji": "Satō nashi no ryokucha o onegai shimasu."
+        "romaji": "Kōcha o kudasai. Satō wa irenaide kudasai."
       },
       {
         "id": "cafeteria-5-example-2",
         "text": {
-          "pt": "Entendido, chá verde puro.",
-          "en": "Got it, plain green tea.",
-          "ja": "かしこまりました、プレーンな緑茶ですね。"
+          "pt": "Ok, um chá preto, sem açúcar. Anotado.",
+          "en": "Okay, one black tea, no sugar. Got it.",
+          "ja": "はい、紅茶お一つ、砂糖なしですね。承知いたしました。"
         },
-        "romaji": "Kashikomarimashita, purēn na ryokucha desu ne."
+        "romaji": "Hai, kōcha o hitotsu, satō nashi desu ne. Shōchi itashimashita."
       },
       {
         "id": "cafeteria-5-example-3",
         "text": {
-          "pt": "Exatamente, sem nenhum adoçante.",
-          "en": "Exactly, no sweeteners at all.",
-          "ja": "その通りです、甘味料は一切なしで。"
+          "pt": "Perfeito, muito obrigado.",
+          "en": "Perfect, thank you very much.",
+          "ja": "はい、それでお願いします。"
         },
-        "romaji": "Sono tōri desu, kanmiryō wa issai nashi de."
+        "romaji": "Hai, sore de onegai shimasu."
       }
     ],
     "cafeteria-6": [
       {
         "id": "cafeteria-6-example-1",
         "text": {
-          "pt": "Estou com vontade de comer algo doce.",
-          "en": "I'm craving something sweet.",
-          "ja": "何か甘いものが食べたい気分です。"
+          "pt": "Estou procurando algo para acompanhar meu café.",
+          "en": "I'm looking for a little something to go with my coffee.",
+          "ja": "コーヒーに合うちょっとしたものを探しています。"
         },
-        "romaji": "Nani ka amai mono ga tabetai kibun desu."
+        "romaji": "Kōhī ni au chottoshita mono o sagashite imasu."
       },
       {
         "id": "cafeteria-6-example-2",
         "text": {
-          "pt": "Nossa, aquele bolo de chocolate está com uma aparência maravilhosa!",
-          "en": "Wow, that chocolate cake looks absolutely amazing!",
-          "ja": "うわー、あのチョコレートケーキ、すごく美味しそうに見えますね！"
+          "pt": "Olha só. Aquele bolo de limão na vitrine parece delicioso.",
+          "en": "Oh, look. That lemon cake in the display looks delicious.",
+          "ja": "あ、見て。ショーケースのあのレモンケーキ、おいしそう。"
         },
-        "romaji": "Uwā, ano chokorēto kēki, sugoku oishisō ni miemasu ne!"
+        "romaji": "A, mite. Shōkēsu no ano remon kēki, oishisō."
       },
       {
         "id": "cafeteria-6-example-3",
         "text": {
-          "pt": "Sim, é um dos nossos preferidos.",
-          "en": "Yes, it's one of our favorites.",
-          "ja": "はい、当店のお気に入りです。"
+          "pt": "Ele foi assado hoje de manhã!",
+          "en": "It was freshly baked this morning!",
+          "ja": "今朝焼きたてですよ！"
         },
-        "romaji": "Hai, tōten no okiniiri desu."
+        "romaji": "Kesa yakitate desu yo!"
       }
     ],
     "cafeteria-7": [
       {
         "id": "cafeteria-7-example-1",
         "text": {
-          "pt": "Qual sobremesa você recomendaria hoje?",
-          "en": "Which dessert would you recommend today?",
-          "ja": "今日のおすすめのデザートは何ですか？"
+          "pt": "Tudo parece tão bom! O que você recomenda?",
+          "en": "Everything looks so good! What do you recommend?",
+          "ja": "どれも美味しそうですね。おすすめは何ですか？"
         },
-        "romaji": "Kyō no osusume no dezāto wa nan desu ka?"
+        "romaji": "Dore mo oishisō desu ne. Osusume wa nan desu ka?"
       },
       {
         "id": "cafeteria-7-example-2",
         "text": {
-          "pt": "O pudim de caramelo é o mais popular entre os clientes.",
-          "en": "The caramel pudding is the most popular among our customers.",
-          "ja": "キャラメルプリンがお客様に一番人気です。"
+          "pt": "O cheesecake é o nosso item mais popular. Os clientes adoram.",
+          "en": "The cheesecake is our most popular item. Customers love it.",
+          "ja": "チーズケーキが一番の人気商品です。お客様に大変好評ですよ。"
         },
-        "romaji": "Kyarameru purin ga okyakusama ni ichiban ninki desu."
+        "romaji": "Chīzukēki ga ichiban no ninki shōhin desu. Okyakusama ni taihen kōhyō desu yo."
       },
       {
         "id": "cafeteria-7-example-3",
         "text": {
-          "pt": "Ah, então vou querer um desse, por favor.",
-          "en": "Oh, in that case, I'll have one of those, please.",
-          "ja": "じゃあ、それを一つお願いします。"
+          "pt": "Nesse caso, vou querer uma fatia do cheesecake.",
+          "en": "In that case, I'll have a slice of the cheesecake.",
+          "ja": "それでしたら、チーズケーキを一切れお願いします。"
         },
-        "romaji": "Jā, sore o hitotsu onegai shimasu."
+        "romaji": "Sore deshitara, chīzukēki o hitokire onegai shimasu."
       }
     ],
     "cafeteria-8": [
       {
         "id": "cafeteria-8-example-1",
         "text": {
-          "pt": "Com licença, vocês têm internet sem fio aqui?",
-          "en": "Excuse me, do you have wireless internet here?",
-          "ja": "すみません、ここで無線インターネットは使えますか？"
+          "pt": "Com licença, vocês oferecem Wi-Fi gratuito para os clientes?",
+          "en": "Excuse me, do you offer free Wi-Fi for customers?",
+          "ja": "すみません、お客さん用に無料のWi-Fiはありますか？"
         },
-        "romaji": "Sumimasen, koko de musen intānetto wa tsukaemasu ka?"
+        "romaji": "Sumimasen, okyakusan-yō ni muryō no Waifai wa arimasu ka?"
       },
       {
         "id": "cafeteria-8-example-2",
         "text": {
-          "pt": "Sim, temos. O código de acesso está visível em algum lugar?",
-          "en": "Yes, we do. Is the access code visible somewhere?",
-          "ja": "はい、あります。アクセスコードはどこかに表示されていますか？"
+          "pt": "Sim, oferecemos. O nome da rede é 'CafeNet'.",
+          "en": "Yes, we do. The network name is 'CafeNet'.",
+          "ja": "はい、ございます。ネットワーク名は「CafeNet」です。"
         },
-        "romaji": "Hai, arimasu. Akusesu kōdo wa dokoka ni hyōji sarete imasu ka?"
+        "romaji": "Hai, gozaimasu. Nettowāku-mei wa 'CafeNet' desu."
       },
       {
         "id": "cafeteria-8-example-3",
         "text": {
-          "pt": "Está logo ali, junto com o menu.",
-          "en": "It's right over there, next to the menu.",
-          "ja": "メニューと一緒に、そちらにあります。"
+          "pt": "Ótimo, obrigado. E a senha está afixada no balcão?",
+          "en": "Great, thanks. And is the password posted at the counter?",
+          "ja": "ありがとうございます。それで、パスワードはカウンターに貼ってありますか？"
         },
-        "romaji": "Menyū to issho ni, sochira ni arimasu."
+        "romaji": "Arigatō gozaimasu. Sorede, pasuwādo wa kauntā ni hatte arimasu ka?"
       }
     ],
     "cafeteria-9": [
       {
         "id": "cafeteria-9-example-1",
         "text": {
-          "pt": "Onde consigo ver o código para conectar ao Wi-Fi?",
-          "en": "Where can I find the code to connect to the Wi-Fi?",
-          "ja": "Wi-Fiに接続するためのコードはどこで確認できますか？"
+          "pt": "Estou tentando me conectar ao Wi-Fi. Qual é a senha?",
+          "en": "I'm trying to connect to the Wi-Fi. What's the password?",
+          "ja": "Wi-Fiに接続しようとしているのですが、パスワードは何ですか？"
         },
-        "romaji": "Waifai ni setsuzoku suru tame no kōdo wa doko de kakunin dekimasu ka?"
+        "romaji": "Waifai ni setsuzoku shiyō to shite iru no desu ga, pasuwādo wa nan desu ka?"
       },
       {
         "id": "cafeteria-9-example-2",
         "text": {
-          "pt": "Ele está detalhado no seu comprovante de compra.",
-          "en": "It's detailed on your proof of purchase.",
-          "ja": "お買い上げの領収書に記載されています。"
+          "pt": "Você pode encontrar a senha do Wi-Fi impressa na parte inferior do seu recibo.",
+          "en": "You can find the Wi-Fi password printed at the bottom of your receipt.",
+          "ja": "Wi-Fiのパスワードはレシートの下部に印刷されています。"
         },
-        "romaji": "Okaiage no ryōshūsho ni kisai sarete imasu."
+        "romaji": "Waifai no pasuwādo wa reshīto no kabu ni insatsu sarete imasu."
       },
       {
         "id": "cafeteria-9-example-3",
         "text": {
-          "pt": "Ah, entendi! Vou verificar agora mesmo.",
-          "en": "Oh, I see! I'll check it right away.",
-          "ja": "ああ、分かりました！今すぐ確認します。"
+          "pt": "Ah, estou vendo agora. Obrigado!",
+          "en": "Oh, I see it now. Thank you!",
+          "ja": "ああ、今見つけました。どうもありがとう！"
         },
-        "romaji": "Ā, wakarimashita! Ima sugu kakunin shimasu."
+        "romaji": "Ā, ima mitsukemashita. Dōmo arigatō!"
       }
     ]
   },
@@ -2058,65 +2058,65 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "restaurante-0-example-1",
         "text": {
-          "pt": "Bom dia, tenho uma mesa reservada em nome de Silva.",
-          "en": "Good morning, I have a table reserved under the name Silva.",
-          "ja": "おはようございます。シルバで席を予約しています。"
+          "pt": "Boa noite, tenho uma mesa reservada em nome de Silva.",
+          "en": "Good evening, I have a table reserved under the name Silva.",
+          "ja": "こんばんは。シルバの名で席を予約しています。"
         },
-        "romaji": "Ohayō gozaimasu. Shiruba de seki o yoyaku shite imasu."
+        "romaji": "Konbanwa. Shiruba no na de seki o yoyaku shite imasu."
       },
       {
         "id": "restaurante-0-example-2",
         "text": {
           "pt": "Qual o horário da sua reserva?",
           "en": "What time is your reservation for?",
-          "ja": "何時のご予約でしょうか？"
+          "ja": "ご予約は何時でいらっしゃいますか？"
         },
-        "romaji": "Nanji no goyoyaku deshō ka?"
+        "romaji": "Goyoyaku wa nanji de irasshaimasu ka?"
       },
       {
         "id": "restaurante-0-example-3",
         "text": {
-          "pt": "Está para as sete da noite, por favor.",
-          "en": "It's for seven o'clock this evening, please.",
-          "ja": "夜7時の予約です。"
+          "pt": "A reserva é para as sete da noite.",
+          "en": "The reservation is for seven o'clock this evening.",
+          "ja": "夜7時で予約をお願いしています。"
         },
-        "romaji": "Yoru shichiji no yoyaku desu."
+        "romaji": "Yoru shichiji de yoyaku o onegai shite imasu."
       }
     ],
     "restaurante-1": [
       {
         "id": "restaurante-1-example-1",
         "text": {
-          "pt": "Sua mesa já está pronta, me sigam, por favor.",
-          "en": "Your table is ready, please follow me.",
-          "ja": "お席の準備ができました。どうぞ、こちらへ。"
+          "pt": "Sua mesa já está pronta. Acompanhem-me, por favor.",
+          "en": "Your table is ready. Please follow me.",
+          "ja": "お席の準備ができました。ご案内いたします。"
         },
-        "romaji": "Oseki no junbi ga dekimashita. Dōzo, kochira e."
+        "romaji": "Oseki no junbi ga dekimashita. Goannai itashimasu."
       },
       {
         "id": "restaurante-1-example-2",
         "text": {
           "pt": "É um ótimo lugar, muito obrigada!",
           "en": "This is a great spot, thank you very much!",
-          "ja": "最高の場所ですね、本当にありがとうございます！"
+          "ja": "素敵な席ですね、どうもありがとうございます。"
         },
-        "romaji": "Saikō no basho desu ne, hontō ni arigatō gozaimasu!"
+        "romaji": "Suteki na seki desu ne, dōmo arigatō gozaimasu."
       },
       {
         "id": "restaurante-1-example-3",
         "text": {
           "pt": "De nada, espero que aproveitem a refeição.",
-          "en": "You're welcome, I hope you enjoy your meal.",
-          "ja": "どういたしまして。お食事をお楽しみください。"
+          "en": "You're welcome. I hope you enjoy your meal.",
+          "ja": "どういたしまして。どうぞごゆっくりお食事をお楽しみください。"
         },
-        "romaji": "Dō itashimashite. Oshokuji o o-tanoshimi kudasai."
+        "romaji": "Dō itashimashite. Dōzo goyukkuri oshokuji o otanoshimi kudasai."
       }
     ],
     "restaurante-2": [
       {
         "id": "restaurante-2-example-1",
         "text": {
-          "pt": "Poderia nos informar sobre as sugestões do dia?",
+          "pt": "Poderia nos falar sobre as sugestões do dia?",
           "en": "Could you tell us about today's specials?",
           "ja": "本日の特別料理について教えていただけますか？"
         },
@@ -2125,95 +2125,95 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "restaurante-2-example-2",
         "text": {
-          "pt": "Nosso cozinheiro preparou um risoto de cogumelos selvagens.",
+          "pt": "Nosso chef preparou um risoto de cogumelos selvagens.",
           "en": "Our chef has prepared a wild mushroom risotto.",
-          "ja": "シェフは本日は天然きのこのリゾットをご用意しております。"
+          "ja": "本日は、シェフ特製の天然きのこのリゾットをご用意しております。"
         },
-        "romaji": "Shefu wa honjitsu wa ten'nen kinoko no rizotto o goyōi shite orimasu."
+        "romaji": "Honjitsu wa, shefu tokusei no ten'nen kinoko no rizotto o goyōi shite orimasu."
       },
       {
         "id": "restaurante-2-example-3",
         "text": {
-          "pt": "Que interessante! Parece ser uma excelente escolha.",
+          "pt": "Que interessante! Parece uma excelente escolha.",
           "en": "How interesting! That sounds like an excellent choice.",
-          "ja": "それは魅力的ですね！素晴らしい選択肢のようです。"
+          "ja": "それは魅力的ですね。とても美味しそうです。"
         },
-        "romaji": "Sore wa miryoku-teki desu ne! Subarashii sentakushi no yō desu."
+        "romaji": "Sore wa miryokuteki desu ne. Totemo oishisō desu."
       }
     ],
     "restaurante-3": [
       {
         "id": "restaurante-3-example-1",
         "text": {
-          "pt": "Este prato de salmão grelhado está perfeitamente temperado.",
-          "en": "This grilled salmon dish is seasoned perfectly.",
-          "ja": "この鮭のグリルは完璧に味付けされています。"
+          "pt": "Este salmão grelhado está perfeitamente temperado.",
+          "en": "This grilled salmon is seasoned perfectly.",
+          "ja": "この鮭のグリル、味付けが完璧ですね。"
         },
-        "romaji": "Kono sake no guriru wa kanpeki ni ajitsuke sarete imasu."
+        "romaji": "Kono sake no guriru, ajitsuke ga kanpeki desu ne."
       },
       {
         "id": "restaurante-3-example-2",
         "text": {
-          "pt": "Concordo, a carne está suculenta e bem passada.",
-          "en": "I agree, the meat is juicy and well-cooked.",
-          "ja": "ええ、肉がジューシーでよく焼けています。"
+          "pt": "Concordo, o peixe está suculento e no ponto certo.",
+          "en": "I agree, the fish is juicy and cooked just right.",
+          "ja": "ええ、身がジューシーで焼き加減も絶妙です。"
         },
-        "romaji": "Ē, niku ga jūshī de yoku yakete imasu."
+        "romaji": "Ee, mi ga jūshī de yakikagen mo zetsumyō desu."
       },
       {
         "id": "restaurante-3-example-3",
         "text": {
-          "pt": "Definitivamente um dos melhores que já provei.",
-          "en": "Definitely one of the best I've ever tasted.",
-          "ja": "間違いなく今までで一番おいしいものの一つです。"
+          "pt": "Definitivamente um dos melhores que já comi.",
+          "en": "Definitely one of the best I've ever had.",
+          "ja": "間違いなく、今まで食べた中で一番美味しいです。"
         },
-        "romaji": "Machigainaku ima made de ichiban oishī mono no hitotsu desu."
+        "romaji": "Machigainaku, ima made tabeta naka de ichiban oishii desu."
       }
     ],
     "restaurante-4": [
       {
         "id": "restaurante-4-example-1",
         "text": {
-          "pt": "Existe alguma opção sem frutos do mar?",
-          "en": "Are there any options without seafood?",
-          "ja": "魚介類が入っていないメニューはありますか？"
+          "pt": "Existe alguma opção sem frutos do mar no cardápio?",
+          "en": "Are there any options without seafood on the menu?",
+          "ja": "魚介類が入っていない料理はありますか？"
         },
-        "romaji": "Gyokairui ga haitte inai menyū wa arimasu ka?"
+        "romaji": "Gyokairui ga haitte inai ryōri wa arimasu ka?"
       },
       {
         "id": "restaurante-4-example-2",
         "text": {
           "pt": "Sim, temos várias alternativas, como o bife ou a massa vegetariana.",
           "en": "Yes, we have several alternatives, such as the steak or the vegetarian pasta.",
-          "ja": "はい、ステーキや野菜パスタなど、いくつか代わりのものがございます。"
+          "ja": "はい、ステーキやベジタリアン向けのパスタなど、いくつか選択肢がございます。"
         },
-        "romaji": "Hai, sutēki ya yasai pasuta nado, ikutsuka kawari no mono ga gozaimasu."
+        "romaji": "Hai, sutēki ya bejitarian-muke no pasuta nado, ikutsuka sentakushi ga gozaimasu."
       },
       {
         "id": "restaurante-4-example-3",
         "text": {
           "pt": "Ótimo, preciso ter certeza de que não há nenhum traço de frutos do mar.",
           "en": "Great, I need to be sure there's no trace of seafood.",
-          "ja": "良かったです。魚介類が一切入っていないか確認が必要です。"
+          "ja": "良かったです。魚介類が一切含まれていないか、ご確認をお願いします。"
         },
-        "romaji": "Yokatta desu. Gyokairui ga issai haitte inai ka kakunin ga hitsuyō desu."
+        "romaji": "Yokatta desu. Gyokairui ga issai fukumarete inai ka, go-kakunin o onegai shimasu."
       }
     ],
     "restaurante-5": [
       {
         "id": "restaurante-5-example-1",
         "text": {
-          "pt": "Posso pedir para prepararem o meu prato sem glúten?",
-          "en": "Can I ask them to prepare my dish gluten-free?",
-          "ja": "私の料理をグルテンフリーにできますか？"
+          "pt": "Posso pedir para prepararem meu prato sem glúten?",
+          "en": "Can I ask for my dish to be prepared gluten-free?",
+          "ja": "私の料理をグルテンフリーにしてもらうことは可能ですか？"
         },
-        "romaji": "Watashi no ryōri o guruten furī ni dekimasu ka?"
+        "romaji": "Watashi no ryōri o guruten furī ni shite morau koto wa kanō desu ka?"
       },
       {
         "id": "restaurante-5-example-2",
         "text": {
-          "pt": "Com certeza, vou comunicar o pedido ao chefe imediatamente.",
-          "en": "Certainly, I will convey the request to the chef right away.",
+          "pt": "Com certeza, vou comunicar seu pedido ao chef imediatamente.",
+          "en": "Certainly, I'll pass your request to the chef right away.",
           "ja": "もちろんです。すぐにシェフにそのご要望を伝えます。"
         },
         "romaji": "Mochiron desu. Sugu ni shefu ni sono goyōbō o tsutaemasu."
@@ -2221,8 +2221,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "restaurante-5-example-3",
         "text": {
-          "pt": "Agradeço muito pela sua atenção.",
-          "en": "I really appreciate your attention.",
+          "pt": "Agradeço muito sua consideração.",
+          "en": "I really appreciate you being so accommodating.",
           "ja": "ご配慮いただき大変感謝いたします。"
         },
         "romaji": "Gohairyō itadaki taihen kansha itashimasu."
@@ -2232,40 +2232,40 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "restaurante-6-example-1",
         "text": {
-          "pt": "Desculpe, o nosso jarro está quase vazio.",
-          "en": "Excuse me, our pitcher is almost empty.",
-          "ja": "すみません、ピッチャーがほとんど空です。"
+          "pt": "Com licença, nossa jarra de água está quase vazia.",
+          "en": "Excuse me, our water pitcher is almost empty.",
+          "ja": "すみません、お水のピッチャーがほとんど空です。"
         },
-        "romaji": "Sumimasen, picchā ga hotondo kara desu."
+        "romaji": "Sumimasen, omizu no picchā ga hotondo kara desu."
       },
       {
         "id": "restaurante-6-example-2",
         "text": {
-          "pt": "Gostaríamos de beber mais um pouco, por favor.",
-          "en": "We'd like a little more to drink, please.",
-          "ja": "もう少し飲みたいのですが、お願いします。"
+          "pt": "Gostaríamos de um pouco mais de água, por favor.",
+          "en": "We'd like a little more water, please.",
+          "ja": "お水のお代わりをお願いできますか？"
         },
-        "romaji": "Mō sukoshi nomitai no desu ga, onegai shimasu."
+        "romaji": "Omizu no okawari o onegai dekimasu ka?"
       },
       {
         "id": "restaurante-6-example-3",
         "text": {
-          "pt": "Seria possível reabastecer o nosso copo?",
-          "en": "Would it be possible to refill our glass?",
-          "ja": "私たちのコップを満たしていただけますか？"
+          "pt": "Seria possível encher nossos copos novamente?",
+          "en": "Would it be possible to refill our glasses?",
+          "ja": "グラスにお水を注ぎ足していただけますか？"
         },
-        "romaji": "Watashitachi no koppu o mitashite itadakemasu ka?"
+        "romaji": "Gurasu ni omizu o sosogitashite itadakemasu ka?"
       }
     ],
     "restaurante-7": [
       {
         "id": "restaurante-7-example-1",
         "text": {
-          "pt": "Posso trazer mais pão para a mesa?",
-          "en": "Can I bring more bread for the table?",
-          "ja": "テーブルにもっとパンをお持ちしましょうか？"
+          "pt": "Gostariam de mais pão para a mesa?",
+          "en": "Would you like more bread for the table?",
+          "ja": "パンのお代わりはいかがですか？"
         },
-        "romaji": "Tēburu ni motto pan o omochi shimashō ka?"
+        "romaji": "Pan no okawari wa ikaga desu ka?"
       },
       {
         "id": "restaurante-7-example-2",
@@ -2279,40 +2279,40 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "restaurante-7-example-3",
         "text": {
-          "pt": "O pedido já está a caminho, não se preocupem.",
+          "pt": "Seu pedido já está a caminho, não se preocupe.",
           "en": "Your request is on its way, don't worry.",
-          "ja": "ご注文の品はもうすぐ参りますので、ご心配なく。"
+          "ja": "ただいまお持ちしますので、ご安心ください。"
         },
-        "romaji": "Gochūmon no shina wa mō sugu mairimasu node, goshinpai naku."
+        "romaji": "Tadaima omochi shimasu node, goanshin kudasai."
       }
     ],
     "restaurante-8": [
       {
         "id": "restaurante-8-example-1",
         "text": {
-          "pt": "Poderíamos ter o total da mesa, por favor?",
-          "en": "Could we have the total for the table, please?",
-          "ja": "お会計をお願いできますか？"
+          "pt": "Poderia nos trazer a conta, por favor?",
+          "en": "Could you bring us the check, please?",
+          "ja": "お勘定をお願いできますか？"
         },
-        "romaji": "Okaikei o onegai dekimasu ka?"
+        "romaji": "Okanjō o onegai dekimasu ka?"
       },
       {
         "id": "restaurante-8-example-2",
         "text": {
           "pt": "Cada um de nós vai pagar a sua parte.",
           "en": "Each of us will pay our own share.",
-          "ja": "各自自分の分を支払います。"
+          "ja": "支払いは、それぞれ個別でお願いします。"
         },
-        "romaji": "Kakuji jibun no bun o shiharaimasu."
+        "romaji": "Shiharai wa, sorezore kobetsu de onegai shimasu."
       },
       {
         "id": "restaurante-8-example-3",
         "text": {
-          "pt": "Poderia dividir em três pagamentos separados?",
-          "en": "Could you split it into three separate payments?",
-          "ja": "3つの別々の支払いに分けられますか？"
+          "pt": "Você poderia dividir a conta em três?",
+          "en": "Could you split the bill three ways?",
+          "ja": "お会計を3つに分けていただけますか？"
         },
-        "romaji": "Mittsu no betsubetsu no shiharai ni wakeraremasu ka?"
+        "romaji": "Okaikei o mittsu ni wakete itadakemasu ka?"
       }
     ],
     "restaurante-9": [
@@ -2321,27 +2321,27 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Nossa refeição foi excelente, muito obrigado.",
           "en": "Our meal was excellent, thank you very much.",
-          "ja": "お食事は最高でした、どうもありがとう。"
+          "ja": "食事がとても素晴らしかったです。ありがとうございました。"
         },
-        "romaji": "Oshokuji wa saikō deshita, dōmo arigatō."
+        "romaji": "Shokuji ga totemo subarashikatta desu. Arigatō gozaimashita."
       },
       {
         "id": "restaurante-9-example-2",
         "text": {
           "pt": "Transmitirei seus elogios à equipe da cozinha.",
           "en": "I will pass your compliments on to the kitchen staff.",
-          "ja": "お客様の賛辞を厨房スタッフに伝えます。"
+          "ja": "お客様からのお褒めの言葉、厨房に伝えておきます。"
         },
-        "romaji": "Okyaku-sama no sanji o chūbō sutaffu ni tsutaemasu."
+        "romaji": "Okyakusama kara no ohome no kotoba, chūbō ni tsutaete okimasu."
       },
       {
         "id": "restaurante-9-example-3",
         "text": {
-          "pt": "Teremos o prazer de voltar em breve.",
-          "en": "We will be pleased to come back soon.",
-          "ja": "また近いうちに喜んで戻ってまいります。"
+          "pt": "Com certeza voltaremos em breve.",
+          "en": "We'll definitely be back soon.",
+          "ja": "また近いうちに是非お伺いしたいと思います。"
         },
-        "romaji": "Mata chikauchi ni yorokonde modotte mairimasu."
+        "romaji": "Mata chikauchi ni zehi oukagai shitai to omoimasu."
       }
     ]
   },
@@ -2350,8 +2350,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-0-example-1",
         "text": {
-          "pt": "Achei essa peça linda, mas está um pouco apertada.",
-          "en": "I found this piece beautiful, but it's a bit tight.",
+          "pt": "Achei esta peça linda, mas está um pouco apertada.",
+          "en": "This piece is lovely, but it's a bit tight.",
           "ja": "この服は素敵ですが、少しきついです。"
         },
         "romaji": "Kono fuku wa suteki desu ga, sukoshi kitsui desu."
@@ -2359,16 +2359,16 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-0-example-2",
         "text": {
-          "pt": "Hum, então você gostaria de um tamanho G, talvez?",
+          "pt": "Hum, então a senhora gostaria de um tamanho G, talvez?",
           "en": "Hmm, so you'd like a size Large, perhaps?",
           "ja": "ええと、では、Lサイズをご希望ですか？"
         },
-        "romaji": "Ēto, de wa, Eru-saizu o kiboō desu ka?"
+        "romaji": "Ēto, de wa, Eru-saizu o go-kibō desu ka?"
       },
       {
         "id": "compras-0-example-3",
         "text": {
-          "pt": "Sim, por favor! Seria perfeito se coubesse.",
+          "pt": "Isso, por favor! Seria perfeito se coubesse.",
           "en": "Yes, please! It would be perfect if it fit.",
           "ja": "はい、お願いします！ぴったりだったら最高です。"
         },
@@ -2379,16 +2379,16 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-1-example-1",
         "text": {
-          "pt": "Oh, essa cor não está na prateleira.",
+          "pt": "Ah, essa cor não está na prateleira.",
           "en": "Oh, that color isn't on the shelf.",
           "ja": "あっ、その色は棚にありませんね。"
         },
-        "romaji": "A', sono iro wa tana ni arimasen ne."
+        "romaji": "Ā, sono iro wa tana ni arimasen ne."
       },
       {
         "id": "compras-1-example-2",
         "text": {
-          "pt": "Pode esperar um instante? O estoque fica lá nos fundos.",
+          "pt": "Poderia esperar um momento? O estoque fica lá nos fundos.",
           "en": "Could you wait a moment? The stockroom is in the back.",
           "ja": "少々お待ちいただけますか？倉庫は奥にありますので。"
         },
@@ -2417,11 +2417,11 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-2-example-2",
         "text": {
-          "pt": "Gostaria de ver como ele fica no corpo.",
-          "en": "I'd like to see how it looks on.",
-          "ja": "体がどのように見えるか確認したいです。"
+          "pt": "Gostaria de ver como ele fica em mim.",
+          "en": "I'd like to see how it looks on me.",
+          "ja": "着た感じを見てみたいです。"
         },
-        "romaji": "Karada ga dono yō ni mieru ka kakunin shitai desu."
+        "romaji": "Kita kanji o mite mitai desu."
       },
       {
         "id": "compras-2-example-3",
@@ -2437,40 +2437,40 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-3-example-1",
         "text": {
-          "pt": "Onde posso provar as calças?",
-          "en": "Where can I try on the pants?",
-          "ja": "ズボンはどこで試せますか？"
+          "pt": "Onde posso provar estas calças?",
+          "en": "Where can I try on these pants?",
+          "ja": "このズボンはどこで試着できますか？"
         },
-        "romaji": "Zubon wa doko de tamesemasu ka?"
+        "romaji": "Kono zubon wa doko de shichaku dekimasu ka?"
       },
       {
         "id": "compras-3-example-2",
         "text": {
-          "pt": "Siga reto até o final da loja e vire à direita.",
-          "en": "Go straight to the end of the store and turn right.",
-          "ja": "店の奥までまっすぐ進んで、右に曲がってください。"
+          "pt": "Siga reto até o final do corredor e vire à direita.",
+          "en": "Go straight to the end of the aisle and turn right.",
+          "ja": "通路の奥までまっすぐ進んで、右に曲がってください。"
         },
-        "romaji": "Mise no oku made massugu susunde, migi ni magatte kudasai."
+        "romaji": "Tsūro no oku made massugu susunde, migi ni magatte kudasai."
       },
       {
         "id": "compras-3-example-3",
         "text": {
-          "pt": "Ah, entendi! Obrigada pela informação.",
-          "en": "Ah, I see! Thank you for the information.",
-          "ja": "ああ、分かりました！情報ありがとうございます。"
+          "pt": "Ah, entendi! Obrigada.",
+          "en": "Ah, I see! Thank you.",
+          "ja": "ああ、分かりました！ありがとうございます。"
         },
-        "romaji": "Ā, wakarimashita! Jōhō arigatō gozaimasu."
+        "romaji": "Ā, wakarimashita! Arigatō gozaimasu."
       }
     ],
     "compras-4": [
       {
         "id": "compras-4-example-1",
         "text": {
-          "pt": "Estou interessado neste relógio.",
-          "en": "I'm interested in this watch.",
-          "ja": "この時計に興味があります。"
+          "pt": "Estou de olho neste relógio.",
+          "en": "I've got my eye on this watch.",
+          "ja": "この時計が気になっています。"
         },
-        "romaji": "Kono tokei ni kyōmi ga arimasu."
+        "romaji": "Kono tokei ga ki ni natte imasu."
       },
       {
         "id": "compras-4-example-2",
@@ -2484,8 +2484,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-4-example-3",
         "text": {
-          "pt": "Sim, exceto se houver um aviso de desconto.",
-          "en": "Yes, unless there's a discount notice.",
+          "pt": "Sim, a menos que haja uma etiqueta de desconto.",
+          "en": "Yes, unless there's a discount sticker.",
           "ja": "はい、割引の表示がなければそうです。"
         },
         "romaji": "Hai, waribiki no hyōji ga nakereba sō desu."
@@ -2495,11 +2495,11 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-5-example-1",
         "text": {
-          "pt": "Que ótimo! Então o preço original foi reduzido.",
-          "en": "That's great! So the original price was reduced.",
-          "ja": "それは素晴らしい！元の価格から値引きされたんですね。"
+          "pt": "Que ótimo! Então o preço original foi remarcado.",
+          "en": "That's great! So the original price has been marked down.",
+          "ja": "それはいいですね！元の価格から値引きされたんですね。"
         },
-        "romaji": "Sore wa subarashii! Moto no kakaku kara nebiki sareta n desu ne."
+        "romaji": "Sore wa ii desu ne! Moto no kakaku kara nebiki sareta n desu ne."
       },
       {
         "id": "compras-5-example-2",
@@ -2513,22 +2513,22 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-5-example-3",
         "text": {
-          "pt": "Excelente, vou levar! É uma ótima oportunidade.",
-          "en": "Excellent, I'll take it! It's a great opportunity.",
-          "ja": "やった、買います！とても良い機会です。"
+          "pt": "Excelente, vou levar! É um ótimo negócio.",
+          "en": "Excellent, I'll take it! It's a great deal.",
+          "ja": "では、これにします！良い買い物ですね。"
         },
-        "romaji": "Yatta, kaimasu! Totemo yoi kikai desu."
+        "romaji": "De wa, kore ni shimasu! Yoi kaimono desu ne."
       }
     ],
     "compras-6": [
       {
         "id": "compras-6-example-1",
         "text": {
-          "pt": "Como posso pagar esta compra?",
-          "en": "How can I pay for this purchase?",
-          "ja": "このお会計はどのように支払えますか？"
+          "pt": "Quais são as formas de pagamento?",
+          "en": "What are the payment options?",
+          "ja": "お支払い方法は何がありますか？"
         },
-        "romaji": "Kono okaikei wa dono yō ni haraemasu ka?"
+        "romaji": "O-shiharai hōhō wa nani ga arimasu ka?"
       },
       {
         "id": "compras-6-example-2",
@@ -2542,22 +2542,22 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-6-example-3",
         "text": {
-          "pt": "Sim, aceitamos todas as principais bandeiras.",
-          "en": "Yes, we accept all major cards.",
-          "ja": "はい、主要なブランドはすべてご利用いただけます。"
+          "pt": "Sim, aceitamos as principais bandeiras de cartão.",
+          "en": "Yes, we accept all major card brands.",
+          "ja": "はい、主要なカード会社はほとんど使えますよ。"
         },
-        "romaji": "Hai, shuyō na burando wa subete go-riyō itadakemasu."
+        "romaji": "Hai, shuyō na kādo-gaisha wa hotondo tsukaemasu yo."
       }
     ],
     "compras-7": [
       {
         "id": "compras-7-example-1",
         "text": {
-          "pt": "Qual o método de pagamento preferencial?",
-          "en": "What's the preferred payment method?",
-          "ja": "どの支払い方法がおすすめですか？"
+          "pt": "Além de dinheiro, que outras formas de pagamento vocês têm?",
+          "en": "Besides cash, what other forms of payment do you take?",
+          "ja": "現金以外に、どんな支払い方法がありますか？"
         },
-        "romaji": "Dono shiharai hōhō ga osusume desu ka?"
+        "romaji": "Genkin igai ni, donna shiharai hōhō ga arimasu ka?"
       },
       {
         "id": "compras-7-example-2",
@@ -2571,37 +2571,37 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-7-example-3",
         "text": {
-          "pt": "Que moderno! Vou usar meu celular, então.",
-          "en": "How modern! I'll use my phone then.",
-          "ja": "なんてモダンなんでしょう！それではスマホで支払います。"
+          "pt": "Que prático! Vou usar meu celular, então.",
+          "en": "How convenient! I'll use my phone then.",
+          "ja": "へえ、そうなんですね！じゃあ、スマホでお願いします。"
         },
-        "romaji": "Nante modan nan deshō! Sore de wa sumaho de shiharaimasu."
+        "romaji": "Hē, sō nan desu ne! Jā, sumaho de onegai shimasu."
       }
     ],
     "compras-8": [
       {
         "id": "compras-8-example-1",
         "text": {
-          "pt": "Comprei esta caneca para o aniversário da minha irmã.",
-          "en": "I bought this mug for my sister's birthday.",
-          "ja": "妹の誕生日プレゼントにこのマグカップを買いました。"
+          "pt": "Estou comprando esta caneca para o aniversário da minha irmã.",
+          "en": "I'm buying this mug for my sister's birthday.",
+          "ja": "妹の誕生日プレゼントにこのマグカップを買います。"
         },
-        "romaji": "Imōto no tanjōbi purezento ni kono magukappu o kaimashita."
+        "romaji": "Imōto no tanjōbi purezento ni kono magukappu o kaimasu."
       },
       {
         "id": "compras-8-example-2",
         "text": {
-          "pt": "Ela ficaria muito feliz se viesse em um pacote especial.",
-          "en": "She would be very happy if it came in special packaging.",
-          "ja": "特別な包装だったら、彼女はきっと喜ぶでしょう。"
+          "pt": "Gostaria que viesse em um embrulho de presente.",
+          "en": "I'd like it to be gift-wrapped.",
+          "ja": "プレゼント用にきれいに包んでほしいのですが。"
         },
-        "romaji": "Tokubetsu na hōsō dattara, kanojo wa kitto yorokobu deshō."
+        "romaji": "Purezento-yō ni kirei ni tsutsunde hoshii no desu ga."
       },
       {
         "id": "compras-8-example-3",
         "text": {
-          "pt": "Claro, temos vários papéis e fitas aqui.",
-          "en": "Certainly, we have various papers and ribbons here.",
+          "pt": "Claro, temos vários papéis de presente e fitas aqui.",
+          "en": "Of course, we have various wrapping papers and ribbons here.",
           "ja": "もちろんです、こちらに色々な包装紙とリボンがございます。"
         },
         "romaji": "Mochiron desu, kochira ni iroiro na hōsōshi to ribon ga gozaimasu."
@@ -2611,29 +2611,29 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "compras-9-example-1",
         "text": {
-          "pt": "O que eu faço se precisar trocar o produto depois?",
-          "en": "What should I do if I need to exchange the product later?",
-          "ja": "後で商品を交換する必要がある場合、どうすればいいですか？"
+          "pt": "E se eu precisar trocar o produto depois?",
+          "en": "What if I need to exchange the product later?",
+          "ja": "もし後で交換したくなったら、どうすればいいですか？"
         },
-        "romaji": "Ato de shōhin o kōkan suru hitsuyō ga aru baai, dō sureba ii desu ka?"
+        "romaji": "Moshi ato de kōkan shitaku nattara, dō sureba ii desu ka?"
       },
       {
         "id": "compras-9-example-2",
         "text": {
-          "pt": "É importante apresentar o comprovante da compra.",
-          "en": "It's important to present proof of purchase.",
-          "ja": "購入の証明を提示することが重要です。"
+          "pt": "Você vai precisar apresentar a nota fiscal.",
+          "en": "You will need to present the receipt.",
+          "ja": "交換にはレシートが必要になります。"
         },
-        "romaji": "Kōnyū no shōmei o teiji suru koto ga jūyō desu."
+        "romaji": "Kōkan ni wa reshīto ga hitsuyō ni narimasu."
       },
       {
         "id": "compras-9-example-3",
         "text": {
-          "pt": "Entendi, vou guardar com cuidado para qualquer eventualidade.",
-          "en": "Got it, I'll keep it carefully for any eventuality.",
-          "ja": "分かりました、万が一のために大切に保管しておきます。"
+          "pt": "Entendi, vou guardar com cuidado, por via das dúvidas.",
+          "en": "Got it, I'll keep it safe, just in case.",
+          "ja": "分かりました、念のため、ちゃんと取っておきます。"
         },
-        "romaji": "Wakarimashita, man'ichi no tame ni taisetsu ni hokan shite okimasu."
+        "romaji": "Wakarimashita, nen no tame, chanto totte okimasu."
       }
     ]
   },
@@ -2643,28 +2643,28 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "transporte-0-example-1",
         "text": {
           "pt": "Para o centro da cidade, qual via devo pegar?",
-          "en": "To the city center, which track should I take?",
-          "ja": "市街地へ行くには、どの線路に乗ればいいですか？"
+          "en": "To get to the city center, which track should I take?",
+          "ja": "市街地へ行くには、何番線に乗ればいいですか？"
         },
-        "romaji": "Shigai-chi e iku ni wa, dono senro ni noreba ii desu ka?"
+        "romaji": "Shigai-chi e iku ni wa, nanban-sen ni noreba ii desu ka?"
       },
       {
         "id": "transporte-0-example-2",
         "text": {
-          "pt": "Você precisa ir para o lado oposto.",
-          "en": "You need to go to the opposite side.",
-          "ja": "あなたは反対側へ行く必要があります。"
+          "pt": "É no lado oposto. Aquela plataforma ali.",
+          "en": "It's on the opposite side. That platform over there.",
+          "ja": "反対側ですね。あちらのホームです。"
         },
-        "romaji": "Anata wa hantai-gawa e iku hitsuyō ga arimasu."
+        "romaji": "Hantai-gawa desu ne. Achira no hōmu desu."
       },
       {
         "id": "transporte-0-example-3",
         "text": {
           "pt": "Ah, entendi! Então é aquela com os letreiros verdes?",
           "en": "Oh, I see! So it's the one with the green signs?",
-          "ja": "ああ、分かりました！では、緑の表示がある方ですか？"
+          "ja": "ああ、分かりました！では、緑の案内表示がある方ですね？"
         },
-        "romaji": "Aa, wakarimashita! Dewa, midori no hyōji ga aru hō desu ka?"
+        "romaji": "Aa, wakarimashita! Dewa, midori no annai hyōji ga aru hō desu ne?"
       }
     ],
     "transporte-1": [
@@ -2673,24 +2673,24 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "O trem para o aeroporto sairá em breve?",
           "en": "Will the train to the airport depart soon?",
-          "ja": "空港行きの電車はすぐに出ますか？"
+          "ja": "空港行きの電車はまもなく出発しますか？"
         },
-        "romaji": "Kūkō-yuki no densha wa sugu ni demasu ka?"
+        "romaji": "Kūkō-yuki no densha wa mamonaku shuppatsu shimasu ka?"
       },
       {
         "id": "transporte-1-example-2",
         "text": {
-          "pt": "Ele está no trilho dois e parte em sete minutos.",
+          "pt": "Está na linha dois e parte em sete minutos.",
           "en": "It's on track two and leaves in seven minutes.",
-          "ja": "二番線にいます、七分後に出発します。"
+          "ja": "二番線です。七分後に出発します。"
         },
-        "romaji": "Niban-sen ni imasu, nanafun-go ni shuppatsu shimasu."
+        "romaji": "Niban-sen desu. Nanafun-go ni shuppatsu shimasu."
       },
       {
         "id": "transporte-1-example-3",
         "text": {
           "pt": "Ótimo, tenho tempo de comprar um café.",
-          "en": "Great, I have time to buy a coffee.",
+          "en": "Great, I have time to grab a coffee.",
           "ja": "良かった、コーヒーを買う時間がありますね。"
         },
         "romaji": "Yokatta, kōhī o kau jikan ga arimasu ne."
@@ -2700,26 +2700,26 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "transporte-2-example-1",
         "text": {
-          "pt": "Para chegar à praia, preciso pegar outro transporte?",
-          "en": "To get to the beach, do I need to take another transport?",
-          "ja": "ビーチに行くには、別の交通手段に乗る必要がありますか？"
+          "pt": "Para chegar à praia, preciso fazer baldeação?",
+          "en": "To get to the beach, do I need to transfer?",
+          "ja": "ビーチに行くには、乗り換えが必要ですか？"
         },
-        "romaji": "Bīchi ni iku ni wa, betsu no kōtsū shudan ni noru hitsuyō ga arimasu ka?"
+        "romaji": "Bīchi ni iku ni wa, norikae ga hitsuyō desu ka?"
       },
       {
         "id": "transporte-2-example-2",
         "text": {
-          "pt": "Sim, você deve mudar de ônibus depois de três paradas.",
-          "en": "Yes, you should change buses after three stops.",
-          "ja": "はい、三つ目の停留所の後でバスを乗り換えるべきです。"
+          "pt": "Sim, você precisa trocar de ônibus depois de três paradas.",
+          "en": "Yes, you need to change buses after three stops.",
+          "ja": "はい、三つ目の停留所でバスを乗り換えてください。"
         },
-        "romaji": "Hai, mittsume no teiryūjo no ato de basu o norikaeru beki desu."
+        "romaji": "Hai, mittsume no teiryūjo de basu o norikaete kudasai."
       },
       {
         "id": "transporte-2-example-3",
         "text": {
-          "pt": "Entendi, então não é direto, obrigado.",
-          "en": "Got it, so it's not direct, thanks.",
+          "pt": "Entendi, então não é uma linha direta. Obrigado.",
+          "en": "Got it, so it's not a direct line. Thanks.",
           "ja": "分かりました、直通ではないんですね、ありがとう。"
         },
         "romaji": "Wakarimashita, chokutsū de wa nai n desu ne, arigatō."
@@ -2740,102 +2740,102 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Desça na estação do parque e pegue a linha azul.",
           "en": "Get off at the park station and take the blue line.",
-          "ja": "公園駅で降りて、青い路線に乗ってください。"
+          "ja": "公園駅で降りて、ブルーラインに乗り換えてください。"
         },
-        "romaji": "Kōen eki de orite, aoi rosen ni notte kudasai."
+        "romaji": "Kōen eki de orite, burū rain ni norikaete kudasai."
       },
       {
         "id": "transporte-3-example-3",
         "text": {
-          "pt": "Ah, então o metrô não vai direto, obrigado pela dica.",
-          "en": "Oh, so the subway doesn't go direct, thanks for the tip.",
-          "ja": "ああ、地下鉄は直通じゃないんですね、ヒントありがとう。"
+          "pt": "Ah, então o metrô não vai direto. Obrigado pela informação.",
+          "en": "Oh, so the subway doesn't go direct. Thanks for the information.",
+          "ja": "ああ、地下鉄は直通じゃないんですね。教えてくれてありがとう。"
         },
-        "romaji": "Aa, chikatetsu wa chokutsū ja nai n desu ne, hinto arigatō."
+        "romaji": "Aa, chikatetsu wa chokutsū ja nai n desu ne. Oshiete kurete arigatō."
       }
     ],
     "transporte-4": [
       {
         "id": "transporte-4-example-1",
         "text": {
-          "pt": "Meu passe de ônibus está sem crédito, onde posso colocar mais?",
-          "en": "My bus pass is out of credit, where can I put more on?",
-          "ja": "私のバスパスは残高がありません、どこで追加できますか？"
+          "pt": "Meu passe de ônibus está sem crédito. Onde posso recarregar?",
+          "en": "My bus pass has no credit. Where can I top it up?",
+          "ja": "バスカードの残高がなくなりました。どこでチャージできますか？"
         },
-        "romaji": "Watashi no basu pasu wa zandaka ga arimasen, doko de tsuika dekimasu ka?"
+        "romaji": "Basu kādo no zandaka ga naku narimashita. Doko de chāji dekimasu ka?"
       },
       {
         "id": "transporte-4-example-2",
         "text": {
-          "pt": "Há uma máquina de vendas na entrada.",
-          "en": "There's a vending machine at the entrance.",
-          "ja": "入り口に自動販売機があります。"
+          "pt": "Há uma máquina de recarga na entrada.",
+          "en": "There's a top-up machine at the entrance.",
+          "ja": "入り口にチャージ機がありますよ。"
         },
-        "romaji": "Iriguchi ni jidōhanbaiki ga arimasu."
+        "romaji": "Iriguchi ni chāji-ki ga arimasu yo."
       },
       {
         "id": "transporte-4-example-3",
         "text": {
           "pt": "Perfeito, vou lá antes de embarcar.",
           "en": "Perfect, I'll go there before boarding.",
-          "ja": "完璧です、乗車する前に行ってきます。"
+          "ja": "分かりました。乗車する前に行ってきます。"
         },
-        "romaji": "Kanpeki desu, jōsha suru mae ni itte kimasu."
+        "romaji": "Wakarimashita. Jōsha suru mae ni itte kimasu."
       }
     ],
     "transporte-5": [
       {
         "id": "transporte-5-example-1",
         "text": {
-          "pt": "Onde posso carregar meu bilhete único?",
-          "en": "Where can I load money onto my single ticket?",
-          "ja": "私の共通乗車券はどこでチャージできますか？"
+          "pt": "Onde posso recarregar meu bilhete único?",
+          "en": "Where can I add money to my transit pass?",
+          "ja": "このICカードはどこでチャージできますか？"
         },
-        "romaji": "Watashi no kyōtsū jōshaken wa doko de chāji dekimasu ka?"
+        "romaji": "Kono IC kādo wa doko de chāji dekimasu ka?"
       },
       {
         "id": "transporte-5-example-2",
         "text": {
           "pt": "Use os totens de autoatendimento perto da bilheteria.",
           "en": "Use the self-service kiosks near the ticket office.",
-          "ja": "切符売り場の近くのセルフサービス端末を使ってください。"
+          "ja": "切符売り場の近くにあるチャージ機をご利用ください。"
         },
-        "romaji": "Kippu uriba no chikaku no serufu sābisu tanmatsu o tsukatte kudasai."
+        "romaji": "Kippu-uriba no chikaku ni aru chāji-ki o go-riyō kudasai."
       },
       {
         "id": "transporte-5-example-3",
         "text": {
-          "pt": "Obrigado, estava procurando um caixa.",
-          "en": "Thanks, I was looking for a cashier.",
-          "ja": "ありがとう、レジを探していました。"
+          "pt": "Obrigado, eu estava procurando um guichê.",
+          "en": "Thanks, I was looking for a ticket window.",
+          "ja": "ありがとう、窓口を探していました。"
         },
-        "romaji": "Arigatō, reji o sagashite imashita."
+        "romaji": "Arigatō, madoguchi o sagashite imashita."
       }
     ],
     "transporte-6": [
       {
         "id": "transporte-6-example-1",
         "text": {
-          "pt": "Posso me sentar aqui, por favor?",
-          "en": "May I sit here, please?",
-          "ja": "ここに座ってもいいですか？"
+          "pt": "Com licença, posso me sentar aqui?",
+          "en": "Excuse me, may I sit here?",
+          "ja": "ここに座ってもよろしいですか？"
         },
-        "romaji": "Koko ni suwatte mo ii desu ka?"
+        "romaji": "Koko ni suwatte mo yoroshii desu ka?"
       },
       {
         "id": "transporte-6-example-2",
         "text": {
-          "pt": "Claro, não tem ninguém.",
-          "en": "Sure, no one is here.",
-          "ja": "もちろん、誰もいません。"
+          "pt": "Claro, fique à vontade.",
+          "en": "Of course, be my guest.",
+          "ja": "ええ、どうぞお座りください。"
         },
-        "romaji": "Mochiron, dare mo imasen."
+        "romaji": "Ee, dōzo o-suwari kudasai."
       },
       {
         "id": "transporte-6-example-3",
         "text": {
-          "pt": "Muito obrigado, meus pés estão doendo.",
-          "en": "Thank you very much, my feet are hurting.",
+          "pt": "Muito obrigado, meus pés estão me matando.",
+          "en": "Thank you so much, my feet are killing me.",
           "ja": "どうもありがとう、足が痛いんです。"
         },
         "romaji": "Dōmo arigatō, ashi ga itai n desu."
@@ -2847,24 +2847,24 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "text": {
           "pt": "Este lugar está ocupado?",
           "en": "Is this spot taken?",
-          "ja": "この場所は占有されていますか？"
+          "ja": "すみません、ここ誰かいますか？"
         },
-        "romaji": "Kono basho wa sen'yū sarete imasu ka?"
+        "romaji": "Sumimasen, koko dareka imasu ka?"
       },
       {
         "id": "transporte-7-example-2",
         "text": {
-          "pt": "Não, pode ocupar sem problemas.",
-          "en": "No, you can take it without issues.",
-          "ja": "いいえ、問題なく使えますよ。"
+          "pt": "Não, pode sentar.",
+          "en": "No, it's free.",
+          "ja": "いいえ、空いてますよ。どうぞ。"
         },
-        "romaji": "Iie, mondai naku tsukaemasu yo."
+        "romaji": "Iie, aitemasu yo. Dōzo."
       },
       {
         "id": "transporte-7-example-3",
         "text": {
           "pt": "Que bom, já estava cansado de ficar em pé.",
-          "en": "That's good, I was already tired of standing.",
+          "en": "That's good, I was tired of standing.",
           "ja": "良かった、もう立ちっぱなしで疲れていました。"
         },
         "romaji": "Yokatta, mō tachi-ppanashi de tsukarete imashita."
@@ -2874,29 +2874,29 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "transporte-8-example-1",
         "text": {
-          "pt": "Esse trem deveria ter passado há meia hora.",
-          "en": "This train should have passed half an hour ago.",
-          "ja": "この電車はもう30分前に通過しているはずです。"
+          "pt": "Este trem deveria ter chegado há meia hora.",
+          "en": "This train was supposed to arrive half an hour ago.",
+          "ja": "この電車、30分以上も遅れてますね。"
         },
-        "romaji": "Kono densha wa mō sanjū-pun mae ni tsūka shite iru hazu desu."
+        "romaji": "Kono densha, sanjuppun ijō mo okuretemasu ne."
       },
       {
         "id": "transporte-8-example-2",
         "text": {
-          "pt": "Sim, e nem sequer um aviso sobre o atraso.",
-          "en": "Yes, and not even a notice about the delay.",
-          "ja": "ええ、しかも遅延に関するアナウンスもありません。"
+          "pt": "Sim, e não houve nenhum aviso sobre o atraso.",
+          "en": "Yes, and there was no announcement about the delay.",
+          "ja": "ええ、しかも遅延に関するアナウンスもありませんね。"
         },
-        "romaji": "Ee, shikamo chien ni kansuru anaunsu mo arimasen."
+        "romaji": "Ee, shikamo chien ni kansuru anaunsu mo arimasen ne."
       },
       {
         "id": "transporte-8-example-3",
         "text": {
-          "pt": "Que frustração, vou chegar atrasado ao trabalho.",
-          "en": "How frustrating, I'll be late for work.",
-          "ja": "なんてイライラする、仕事に遅れてしまいます。"
+          "pt": "Que frustrante, vou me atrasar para o trabalho.",
+          "en": "How frustrating, I'm going to be late for work.",
+          "ja": "困りますね、これでは仕事に遅刻してしまいます。"
         },
-        "romaji": "Nante iraira suru, shigoto ni okurete shimaimasu."
+        "romaji": "Komarimasu ne, kore de wa shigoto ni chikoku shite shimaimasu."
       }
     ],
     "transporte-9": [
@@ -2904,7 +2904,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
         "id": "transporte-9-example-1",
         "text": {
           "pt": "Por que o trânsito está tão parado hoje?",
-          "en": "Why is traffic so stalled today?",
+          "en": "Why is traffic at a standstill today?",
           "ja": "今日はどうしてこんなに渋滞しているのですか？"
         },
         "romaji": "Kyō wa dōshite konna ni jūtai shite iru no desu ka?"
@@ -2912,17 +2912,17 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "transporte-9-example-2",
         "text": {
-          "pt": "Disseram que um carro bateu perto do viaduto.",
-          "en": "They said a car crashed near the overpass.",
-          "ja": "高架橋の近くで車が衝突したそうです。"
+          "pt": "Parece que um carro bateu perto do viaduto.",
+          "en": "Apparently, a car crashed near the overpass.",
+          "ja": "陸橋の近くで事故があったみたいですよ。"
         },
-        "romaji": "Kōkakyō no chikaku de kuruma ga shōtotsu shita sō desu."
+        "romaji": "Rikkyō no chikaku de jiko ga atta mitai desu yo."
       },
       {
         "id": "transporte-9-example-3",
         "text": {
-          "pt": "Ah, entendi. Por isso os engarrafamentos.",
-          "en": "Ah, I see. That's why the traffic jams.",
+          "pt": "Ah, entendi. É por isso que está este engarrafamento.",
+          "en": "Ah, I see. That explains the traffic jam.",
           "ja": "ああ、なるほど。それで渋滞しているんですね。"
         },
         "romaji": "Aa, naruhodo. Sore de jūtai shite iru n desu ne."
@@ -2934,11 +2934,11 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-0-example-1",
         "text": {
-          "pt": "Que destino você vai visitar depois?",
-          "en": "What destination will you visit next?",
-          "ja": "そのあと、どの目的地に行かれるんですか？"
+          "pt": "Qual será o seu próximo destino?",
+          "en": "What will be your next destination?",
+          "ja": "この後はどちらへ行かれるのですか？"
         },
-        "romaji": "Sono ato, dono mokutekichi ni ikareru n desu ka?"
+        "romaji": "Kono ato wa dochira e ikareru no desu ka?"
       },
       {
         "id": "viagem-0-example-2",
@@ -2952,8 +2952,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-0-example-3",
         "text": {
-          "pt": "Ah, entendi. Uma longa viagem!",
-          "en": "Ah, I see. A long journey!",
+          "pt": "Entendi. É uma longa jornada!",
+          "en": "I see. That's a long journey!",
           "ja": "なるほど。長い旅ですね！"
         },
         "romaji": "Naruhodo. Nagai tabi desu ne!"
@@ -2972,7 +2972,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-1-example-2",
         "text": {
-          "pt": "Então dá para passear um pouco na cidade.",
+          "pt": "Então você pode dar uma volta na cidade.",
           "en": "So you can go sightseeing in the city for a bit.",
           "ja": "では、少し街を観光できますね。"
         },
@@ -2981,19 +2981,19 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-1-example-3",
         "text": {
-          "pt": "Sim, pretendo fazer um tour rápido.",
-          "en": "Yes, I plan to do a quick tour.",
-          "ja": "はい、短いツアーをしようと思っています。"
+          "pt": "Sim, pretendo dar uma olhada rápida nos arredores.",
+          "en": "Yes, I'm planning to have a quick look around.",
+          "ja": "はい、手早く見て回ろうと思っています。"
         },
-        "romaji": "Hai, mijikai tsuā o shiyō to omotte imasu."
+        "romaji": "Hai, tebayaku mite mawarō to omotte imasu."
       }
     ],
     "viagem-2": [
       {
         "id": "viagem-2-example-1",
         "text": {
-          "pt": "É uma mochila grande. Será que passa?",
-          "en": "It's a large backpack. Will it pass?",
+          "pt": "É uma mochila bem grande. Será que pode?",
+          "en": "It's a rather large backpack. Will it be allowed?",
           "ja": "これは大きめのリュックサックですね。大丈夫でしょうか？"
         },
         "romaji": "Kore wa ōkime no ryukkusakku desu ne. Daijōbu deshō ka?"
@@ -3001,7 +3001,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-2-example-2",
         "text": {
-          "pt": "Sim, desde que caiba no compartimento superior.",
+          "pt": "Sim, contanto que caiba no compartimento superior.",
           "en": "Yes, as long as it fits in the overhead compartment.",
           "ja": "はい、頭上の収納棚に収まれば問題ありません。"
         },
@@ -3010,28 +3010,28 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-2-example-3",
         "text": {
-          "pt": "Ótimo, então não preciso despachar.",
-          "en": "Great, then I don't need to check it.",
-          "ja": "良かったです、預けなくてもいいですね。"
+          "pt": "Ótimo, assim não preciso despachá-la.",
+          "en": "Great, so I don't need to check it in.",
+          "ja": "良かったです。それなら預けなくて済みますね。"
         },
-        "romaji": "Yokatta desu, azukenakute mo ii desu ne."
+        "romaji": "Yokatta desu. Sore nara azukenakute sumimasu ne."
       }
     ],
     "viagem-3": [
       {
         "id": "viagem-3-example-1",
         "text": {
-          "pt": "Esta caixa parece um pouco volumosa.",
+          "pt": "Esta caixa parece um pouco grande.",
           "en": "This box looks a bit bulky.",
-          "ja": "この箱は少し大きいように見えます。"
+          "ja": "この箱は少しかさばるように見えますね。"
         },
-        "romaji": "Kono hako wa sukoshi ōkii yō ni miemasu."
+        "romaji": "Kono hako wa sukoshi kasabaru yō ni miemasu ne."
       },
       {
         "id": "viagem-3-example-2",
         "text": {
-          "pt": "Por favor, teste ali para confirmar.",
-          "en": "Please test it there to confirm.",
+          "pt": "Por favor, teste no medidor para confirmar.",
+          "en": "Please test it in the sizer to confirm.",
           "ja": "確認のため、そちらで試してみてください。"
         },
         "romaji": "Kakunin no tame, sochira de tameshite mite kudasai."
@@ -3039,8 +3039,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-3-example-3",
         "text": {
-          "pt": "Ah, não serviu. Terei que pagar extra.",
-          "en": "Oh, it didn't fit. I'll have to pay extra.",
+          "pt": "Ah, não coube. Terei que pagar uma taxa extra.",
+          "en": "Oh, it didn't fit. I'll have to pay an extra fee.",
           "ja": "あ、入りませんでした。追加料金を払う必要がありますね。"
         },
         "romaji": "A, hairimasen deshita. Tsuika ryōkin o harau hitsuyō ga arimasu ne."
@@ -3050,17 +3050,17 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-4-example-1",
         "text": {
-          "pt": "Que legal! Tem algum roteiro em mente?",
+          "pt": "Que legal! Já tem algum roteiro?",
           "en": "How nice! Do you have an itinerary in mind?",
-          "ja": "いいですね！何か旅程はお決まりですか？"
+          "ja": "いいですね！何かご予定はありますか？"
         },
-        "romaji": "Ii desu ne! Nanika ryotei wa okimari desu ka?"
+        "romaji": "Ii desu ne! Nanika goyotei wa arimasu ka?"
       },
       {
         "id": "viagem-4-example-2",
         "text": {
-          "pt": "Vou conhecer as praias e alguns museus.",
-          "en": "I'm going to see the beaches and some museums.",
+          "pt": "Vou visitar as praias e alguns museus.",
+          "en": "I'm going to visit the beaches and some museums.",
           "ja": "ビーチといくつかの美術館を訪れる予定です。"
         },
         "romaji": "Bīchi to ikutsuka no bijutsukan o otozureru yotei desu."
@@ -3068,37 +3068,37 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-4-example-3",
         "text": {
-          "pt": "Espero que aproveite bastante sua visita!",
-          "en": "I hope you enjoy your visit very much!",
-          "ja": "訪問を存分に楽しんでくださいね！"
+          "pt": "Espero que aproveite muito sua visita!",
+          "en": "I hope you really enjoy your visit!",
+          "ja": "ご旅行を存分に楽しんでくださいね！"
         },
-        "romaji": "Hōmon o zonbun ni tanoshinde kudasai ne!"
+        "romaji": "Goryokō o zonbun ni tanoshinde kudasai ne!"
       }
     ],
     "viagem-5": [
       {
         "id": "viagem-5-example-1",
         "text": {
-          "pt": "Muito obrigado! Estou ansioso para explorar.",
+          "pt": "Muito obrigado! Estou ansioso para conhecer o lugar.",
           "en": "Thank you very much! I'm looking forward to exploring.",
-          "ja": "どうもありがとうございます！探検するのが楽しみです。"
+          "ja": "ありがとうございます。見て回るのが楽しみです。"
         },
-        "romaji": "Dōmo arigatō gozaimasu! Tanken suru no ga tanoshimi desu."
+        "romaji": "Arigatō gozaimasu. Mite mawaru no ga tanoshimi desu."
       },
       {
         "id": "viagem-5-example-2",
         "text": {
-          "pt": "Se precisar de algo, é só perguntar.",
-          "en": "If you need anything, just ask.",
-          "ja": "何か必要なことがあれば、お尋ねください。"
+          "pt": "Se tiver qualquer problema, não hesite em perguntar.",
+          "en": "If you have any trouble, please don't hesitate to ask.",
+          "ja": "何かお困りのことがあれば、遠慮なく聞いてください。"
         },
-        "romaji": "Nanika hitsuyō na koto ga areba, otazune kudasai."
+        "romaji": "Nanika okomari no koto ga areba, enryo naku kiite kudasai."
       },
       {
         "id": "viagem-5-example-3",
         "text": {
-          "pt": "Certo, agradeço a gentileza.",
-          "en": "Understood, I appreciate your kindness.",
+          "pt": "Entendido, agradeço sua gentileza.",
+          "en": "Okay, I appreciate the kindness.",
           "ja": "分かりました、ご親切に感謝します。"
         },
         "romaji": "Wakarimashita, goshinsetsu ni kansha shimasu."
@@ -3108,16 +3108,16 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-6-example-1",
         "text": {
-          "pt": "Acabei de desembarcar e não vejo minha mala.",
-          "en": "I just disembarked and I don't see my suitcase.",
-          "ja": "ちょうど降りたばかりで、スーツケースが見当たりません。"
+          "pt": "Acabei de desembarcar e não encontro minha mala.",
+          "en": "I just disembarked and I can't find my suitcase.",
+          "ja": "ちょうど飛行機を降りたのですが、スーツケースが見当たりません。"
         },
-        "romaji": "Chōdo orita bakari de, sūtsukēsu ga miatarimasen."
+        "romaji": "Chōdo hikōki o orita no desu ga, sūtsukēsu ga miatarimasen."
       },
       {
         "id": "viagem-6-example-2",
         "text": {
-          "pt": "Está no térreo, próximo à saída.",
+          "pt": "Fica no térreo, perto da saída.",
           "en": "It's on the ground floor, near the exit.",
           "ja": "一階、出口の近くにありますよ。"
         },
@@ -3126,7 +3126,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-6-example-3",
         "text": {
-          "pt": "Ah, obrigado! Vou procurar lá.",
+          "pt": "Ah, obrigado! Vou procurar por lá.",
           "en": "Oh, thanks! I'll look there.",
           "ja": "ああ、ありがとうございます！そちらを探してみます。"
         },
@@ -3137,8 +3137,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-7-example-1",
         "text": {
-          "pt": "Então é para o andar de baixo?",
-          "en": "So it's to the floor below?",
+          "pt": "Então é no andar de baixo?",
+          "en": "So, it's on the floor below?",
           "ja": "では、下の階ですね？"
         },
         "romaji": "Dewa, shita no kai desu ne?"
@@ -3146,8 +3146,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-7-example-2",
         "text": {
-          "pt": "Exato. Você não vai errar.",
-          "en": "Exactly. You won't miss it.",
+          "pt": "Exato. Não tem como errar.",
+          "en": "Exactly. You can't miss it.",
           "ja": "その通りです。迷うことはないでしょう。"
         },
         "romaji": "Sono tōri desu. Mayou koto wa nai deshō."
@@ -3155,28 +3155,28 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-7-example-3",
         "text": {
-          "pt": "Perfeito, muito obrigado pela informação.",
-          "en": "Perfect, thank you very much for the information.",
-          "ja": "完璧です、情報ありがとうございます。"
+          "pt": "Perfeito, muito obrigado pela ajuda.",
+          "en": "Perfect, thank you very much for the help.",
+          "ja": "よく分かりました、情報ありがとうございます。"
         },
-        "romaji": "Kanpeki desu, jōhō arigatō gozaimasu."
+        "romaji": "Yoku wakarimashita, jōhō arigatō gozaimasu."
       }
     ],
     "viagem-8": [
       {
         "id": "viagem-8-example-1",
         "text": {
-          "pt": "Onde consigo fazer isso antes de sair?",
-          "en": "Where can I do that before leaving?",
-          "ja": "出発する前にどこでできますか？"
+          "pt": "Onde posso fazer isso antes de sair do aeroporto?",
+          "en": "Where can I do that before leaving the airport?",
+          "ja": "空港を出る前にどこで両替できますか？"
         },
-        "romaji": "Shuppatsu suru mae ni doko de dekimasu ka?"
+        "romaji": "Kūkō o deru mae ni doko de ryōgae dekimasu ka?"
       },
       {
         "id": "viagem-8-example-2",
         "text": {
-          "pt": "Tem uma agência de câmbio no saguão principal.",
-          "en": "There's an exchange agency in the main lobby.",
+          "pt": "Há um guichê de câmbio no saguão principal.",
+          "en": "There's a currency exchange counter in the main lobby.",
           "ja": "メインロビーに両替所がありますよ。"
         },
         "romaji": "Mein robī ni ryōgaejo ga arimasu yo."
@@ -3184,19 +3184,19 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-8-example-3",
         "text": {
-          "pt": "Vou procurar por lá então.",
-          "en": "I'll look for it there then.",
-          "ja": "では、そちらを探してみます。"
+          "pt": "Vou até lá então.",
+          "en": "I'll head over there then.",
+          "ja": "では、そちらへ行ってみます。"
         },
-        "romaji": "Dewa, sochira o sagashite mimasu."
+        "romaji": "Dewa, sochira e itte mimasu."
       }
     ],
     "viagem-9": [
       {
         "id": "viagem-9-example-1",
         "text": {
-          "pt": "É um pouco cedo para chegar lá, não é?",
-          "en": "It's a bit early to get there, isn't it?",
+          "pt": "É um pouco cedo para ir lá agora, não é?",
+          "en": "It's a bit early to go there now, isn't it?",
           "ja": "そこに着くには少し早いですよね？"
         },
         "romaji": "Soko ni tsuku ni wa sukoshi hayai desu yo ne?"
@@ -3204,8 +3204,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-9-example-2",
         "text": {
-          "pt": "Sim, só às sete da manhã.",
-          "en": "Yes, only at seven in the morning.",
+          "pt": "Sim, somente às sete da manhã.",
+          "en": "Yes, not until seven in the morning.",
           "ja": "はい、朝の七時からです。"
         },
         "romaji": "Hai, asa no shichiji kara desu."
@@ -3213,8 +3213,8 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "viagem-9-example-3",
         "text": {
-          "pt": "Vou esperar na cafeteria então.",
-          "en": "I'll wait in the coffee shop then.",
+          "pt": "Vou esperar em uma cafeteria, então.",
+          "en": "I'll wait in a coffee shop, then.",
           "ja": "では、カフェで待つことにします。"
         },
         "romaji": "Dewa, kafe de matsu koto ni shimasu."
@@ -3235,11 +3235,11 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "hotel-0-example-2",
         "text": {
-          "pt": "Poderia preencher este formulário, por favor?",
-          "en": "Could you please fill out this form?",
-          "ja": "この書類にご記入いただけますか？"
+          "pt": "Poderia preencher este formulário de registro, por favor?",
+          "en": "Could you please fill out this registration form?",
+          "ja": "こちらの登録用紙にご記入いただけますか？"
         },
-        "romaji": "Kono shorui ni gokinyū itadakemasu ka?"
+        "romaji": "Kochira no tōroku yōshi ni gokinyū itadakemasu ka?"
       },
       {
         "id": "hotel-0-example-3",
@@ -3268,12 +3268,12 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
           "en": "Here it is. Does my driver's license also work?",
           "ja": "はい、どうぞ。運転免許証でもいいですか？"
         },
-        "romaji": "Hai, dōzo. Unten menkyo-shō demo ii desu ka?"
+        "romaji": "Hai, dōzo. Unten menkyoshō demo ii desu ka?"
       },
       {
         "id": "hotel-1-example-3",
         "text": {
-          "pt": "Sim, um dos dois é suficiente para o registro.",
+          "pt": "Sim, qualquer um dos dois é suficiente para o registro.",
           "en": "Yes, either one is sufficient for registration.",
           "ja": "はい、どちらか一方で登録できます。"
         },
@@ -3293,7 +3293,7 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "hotel-2-example-2",
         "text": {
-          "pt": "O meu quarto já inclui o desjejum?",
+          "pt": "A tarifa do meu quarto já inclui o café da manhã?",
           "en": "Does my room rate already include breakfast?",
           "ja": "私の部屋の料金に朝食は含まれていますか？"
         },
@@ -3302,19 +3302,19 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "hotel-2-example-3",
         "text": {
-          "pt": "Vou verificar sua reserva agora.",
-          "en": "I'll check your reservation now.",
-          "ja": "今すぐお客様のご予約を確認いたします。"
+          "pt": "Vou verificar os detalhes da sua reserva agora.",
+          "en": "I'll check your reservation details now.",
+          "ja": "今すぐお客様のご予約内容を確認いたします。"
         },
-        "romaji": "Ima sugu okyaku-sama no goyoyaku o kakunin itashimasu."
+        "romaji": "Ima sugu okyakusama no goyoyaku naiyō o kakunin itashimasu."
       }
     ],
     "hotel-3": [
       {
         "id": "hotel-3-example-1",
         "text": {
-          "pt": "Onde é servido o bufê matinal?",
-          "en": "Where is the morning buffet served?",
+          "pt": "Onde é servido o buffet de café da manhã?",
+          "en": "Where is the breakfast buffet served?",
           "ja": "朝食のビュッフェはどこで提供されますか？"
         },
         "romaji": "Chōshoku no byuffe wa doko de teikyō saremasu ka?"
@@ -3322,16 +3322,16 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "hotel-3-example-2",
         "text": {
-          "pt": "No restaurante principal. Funciona das 7h às 10h.",
-          "en": "In the main restaurant. It operates from 7 AM to 10 AM.",
-          "ja": "メインレストランです。午前7時から10時までです。"
+          "pt": "No restaurante principal. Fica aberto das 7h às 10h.",
+          "en": "In the main restaurant. It's open from 7 AM to 10 AM.",
+          "ja": "メインレストランです。午前7時から10時まで営業しております。"
         },
-        "romaji": "Mein resutoran desu. Gozen shichiji kara jūji made desu."
+        "romaji": "Mein resutoran desu. Gozen shichiji kara jūji made eigyō shite orimasu."
       },
       {
         "id": "hotel-3-example-3",
         "text": {
-          "pt": "Ótimo, muito obrigado pelas informações.",
+          "pt": "Ótimo, muito obrigado pela informação.",
           "en": "Great, thank you very much for the information.",
           "ja": "分かりました、情報ありがとうございます。"
         },
@@ -3342,46 +3342,46 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "hotel-4-example-1",
         "text": {
-          "pt": "Estou com problemas com o aparelho de resfriamento do quarto 305.",
-          "en": "I'm having trouble with the cooling unit in room 305.",
-          "ja": "305号室の冷房装置が故障しています。"
+          "pt": "O ar-condicionado do quarto 305 não está funcionando.",
+          "en": "The air conditioner in room 305 isn't working.",
+          "ja": "305号室のエアコンが動きません。"
         },
-        "romaji": "Sanbyakugogōshitsu no reibō sōchi ga koshō shite imasu."
+        "romaji": "Sanbyakugogōshitsu no eakon ga ugokimasen."
       },
       {
         "id": "hotel-4-example-2",
         "text": {
-          "pt": "Ele não está respondendo aos controles.",
-          "en": "It's not responding to the controls.",
-          "ja": "操作しても反応がありません。"
+          "pt": "Ele não está respondendo ao controle remoto.",
+          "en": "It's not responding to the remote control.",
+          "ja": "リモコンを操作しても反応がありません。"
         },
-        "romaji": "Sōsa shite mo hannō ga arimasen."
+        "romaji": "Rimokon o sōsa shite mo hannō ga arimasen."
       },
       {
         "id": "hotel-4-example-3",
         "text": {
-          "pt": "Anotado. Enviaremos alguém para verificar.",
-          "en": "Noted. We'll send someone to check it out.",
-          "ja": "承知いたしました。確認のため担当者を送ります。"
+          "pt": "Entendido. Enviaremos alguém para verificar imediatamente.",
+          "en": "Understood. We'll send someone to check it right away.",
+          "ja": "承知いたしました。すぐに確認のため係の者を伺わせます。"
         },
-        "romaji": "Shōchi itashimashita. Kakunin no tame tantōsha o okurimasu."
+        "romaji": "Shōchi itashimashita. Sugu ni kakunin no tame kakari no mono o ukagawasemasu."
       }
     ],
     "hotel-5": [
       {
         "id": "hotel-5-example-1",
         "text": {
-          "pt": "Meu chuveiro está com um vazamento na torneira.",
-          "en": "My shower has a leaky faucet.",
-          "ja": "シャワーの蛇口から水漏れしています。"
+          "pt": "Meu chuveiro está com um vazamento.",
+          "en": "My shower is leaking.",
+          "ja": "シャワーから水漏れしています。"
         },
-        "romaji": "Shawā no jaguchi kara mizumore shite imasu."
+        "romaji": "Shawā kara mizumore shite imasu."
       },
       {
         "id": "hotel-5-example-2",
         "text": {
           "pt": "Um técnico irá ao seu quarto em instantes.",
-          "en": "A technician will come to your room shortly.",
+          "en": "A technician will be at your room shortly.",
           "ja": "すぐに技術者がお部屋に伺います。"
         },
         "romaji": "Sugu ni gijutsusha ga oheya ni ukagaimasu."
@@ -3400,11 +3400,11 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "hotel-6-example-1",
         "text": {
-          "pt": "Meu voo só sai à noite, posso deixar a bagagem aqui?",
-          "en": "My flight isn't until evening, can I leave my luggage here?",
-          "ja": "私のフライトは夜なので、荷物をここに置かせてもらえますか？"
+          "pt": "Meu voo é só à noite, posso deixar minha bagagem aqui?",
+          "en": "My flight isn't until tonight; can I leave my luggage here?",
+          "ja": "フライトが夜なので、荷物を預かってもらえますか？"
         },
-        "romaji": "Watashi no furaito wa yoru nanode, nimotsu o koko ni okasete moraemasu ka?"
+        "romaji": "Furaito ga yoru nanode, nimotsu o azukatte moraemasu ka?"
       },
       {
         "id": "hotel-6-example-2",
@@ -3418,57 +3418,57 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "hotel-6-example-3",
         "text": {
-          "pt": "Sim, temos um serviço de guarda-volumes.",
-          "en": "Yes, we have a luggage storage service.",
-          "ja": "はい、手荷物預かりサービスがございます。"
+          "pt": "Sim, temos um serviço de guarda-volumes gratuito.",
+          "en": "Yes, we have a complimentary luggage storage service.",
+          "ja": "はい、無料の手荷物預かりサービスがございます。"
         },
-        "romaji": "Hai, tenimotsu azukari sābisu ga gozaimasu."
+        "romaji": "Hai, muryō no tenimotsu azukari sābisu ga gozaimasu."
       }
     ],
     "hotel-7": [
       {
         "id": "hotel-7-example-1",
         "text": {
-          "pt": "É possível deixar minhas compras aqui por algumas horas?",
+          "pt": "É possível deixar minhas sacolas de compras aqui por algumas hours?",
           "en": "Is it possible to leave my shopping bags here for a few hours?",
-          "ja": "買い物袋を数時間ここに置いておくことは可能ですか？"
+          "ja": "この買い物袋を数時間預かっていただくことは可能ですか？"
         },
-        "romaji": "Kaimono-bukuro o sūjikan koko ni oite oku koto wa kanō desu ka?"
+        "romaji": "Kono kaimono-bukuro o sūjikan azukatte itadaku koto wa kanō desu ka?"
       },
       {
         "id": "hotel-7-example-2",
         "text": {
-          "pt": "Claro, por favor, retire este comprovante ao pegar.",
-          "en": "Certainly, please present this receipt when you pick them up.",
-          "ja": "かしこまりました、引き取りの際にこの控えをご提示ください。"
+          "pt": "Claro. Por favor, apresente este comprovante na retirada.",
+          "en": "Certainly. Please present this receipt upon pickup.",
+          "ja": "かしこまりました。お引き取りの際にこの控えをご提示ください。"
         },
-        "romaji": "Kashikomarimashita, hikitori no sai ni kono hikae o goteiji kudasai."
+        "romaji": "Kashikomarimashita. Ohikitori no sai ni kono hikae o goteiji kudasai."
       },
       {
         "id": "hotel-7-example-3",
         "text": {
           "pt": "Entendido. Muito obrigado pela ajuda.",
-          "en": "Understood. Thank you very much for your help.",
-          "ja": "分かりました。大変助かります。"
+          "en": "Understood. Thank you so much for your help.",
+          "ja": "承知しました。大変助かります。"
         },
-        "romaji": "Wakarimashita. Taihen tasukarimasu."
+        "romaji": "Shōchi shimashita. Taihen tasukarimasu."
       }
     ],
     "hotel-8": [
       {
         "id": "hotel-8-example-1",
         "text": {
-          "pt": "Qual o horário limite para desocupar o apartamento amanhã?",
-          "en": "What's the deadline for vacating the room tomorrow?",
-          "ja": "明日、部屋を空ける時間の制限は何時ですか？"
+          "pt": "Qual é o horário para desocupar o quarto amanhã?",
+          "en": "What time do I need to vacate the room by tomorrow?",
+          "ja": "明日は何時までに部屋を空ける必要がありますか？"
         },
-        "romaji": "Ashita, heya o akeru jikan no seigen wa nanji desu ka?"
+        "romaji": "Ashita wa nanji made ni heya o akeru hitsuyō ga arimasu ka?"
       },
       {
         "id": "hotel-8-example-2",
         "text": {
-          "pt": "Terei de deixar a chave antes do meio-dia?",
-          "en": "Will I have to return the key before noon?",
+          "pt": "Preciso devolver a chave antes do meio-dia?",
+          "en": "Do I have to return the key before noon?",
           "ja": "正午までに鍵を返却する必要がありますか？"
         },
         "romaji": "Shōgo made ni kagi o henkyaku suru hitsuyō ga arimasu ka?"
@@ -3476,40 +3476,40 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "hotel-8-example-3",
         "text": {
-          "pt": "Sim, é o horário padrão de saída.",
-          "en": "Yes, that's the standard departure time.",
-          "ja": "はい、それが標準の出発時間です。"
+          "pt": "Sim, esse é o nosso horário de check-out padrão.",
+          "en": "Yes, that's our standard checkout time.",
+          "ja": "はい、それが通常のチェックアウト時間でございます。"
         },
-        "romaji": "Hai, sore ga hyōjun no shuppatsu jikan desu."
+        "romaji": "Hai, sore ga tsūjō no chekkuauto jikan de gozaimasu."
       }
     ],
     "hotel-9": [
       {
         "id": "hotel-9-example-1",
         "text": {
-          "pt": "O prazo máximo para a devolução das chaves é às 10h?",
-          "en": "Is the maximum time for returning the keys 10 AM?",
-          "ja": "鍵の返却期限は午前10時ですか？"
+          "pt": "Posso fazer o check-out um pouco mais tarde?",
+          "en": "Is it possible to check out a little later?",
+          "ja": "チェックアウトを少し遅らせることはできますか？"
         },
-        "romaji": "Kagi no henkyaku kigen wa gozen jūji desu ka?"
+        "romaji": "Chekkuauto o sukoshi okuraseru koto wa dekimasu ka?"
       },
       {
         "id": "hotel-9-example-2",
         "text": {
-          "pt": "Se precisar sair mais tarde, há custos adicionais.",
-          "en": "If you need to leave later, there are additional charges.",
-          "ja": "もし出発が遅れる場合は追加料金がかかります。"
+          "pt": "Se precisar de uma saída tardia, haverá custos adicionais.",
+          "en": "If you need a late checkout, there are additional charges.",
+          "ja": "もしチェックアウトが遅れる場合は、追加料金が発生します。"
         },
-        "romaji": "Moshi shuppatsu ga okureru baai wa tsuika ryōkin ga kakarimasu."
+        "romaji": "Moshi chekkuauto ga okureru baai wa, tsuika ryōkin ga hassei shimasu."
       },
       {
         "id": "hotel-9-example-3",
         "text": {
           "pt": "Entendi, vou me programar para sair no horário.",
-          "en": "Understood, I'll plan to leave on time.",
-          "ja": "分かりました、時間通りに出発するよう計画します。"
+          "en": "I see, I'll plan to leave on time then.",
+          "ja": "承知しました。では、時間通りにチェックアウトするようにします。"
         },
-        "romaji": "Wakarimashita, jikan dōri ni shuppatsu suru yō keikaku shimasu."
+        "romaji": "Shōchi shimashita. Dewa, jikan dōri ni chekkuauto suru yō ni shimasu."
       }
     ]
   },
