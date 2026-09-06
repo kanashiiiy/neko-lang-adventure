@@ -184,13 +184,13 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
         <div className="space-y-2 pb-4">
           {category.phrases.map((p) => (
             <button key={p.id} onClick={() => openPhrase(p)}
-              className="flex w-full items-center justify-between gap-3 rounded-2xl bg-card p-4 text-left shadow-card">
-              <span className="min-w-0">
-                <span className="block truncate font-bold">{p.text[learnLang]}</span>
-                {learnLang === "ja" && <span className="block truncate text-xs italic text-muted-foreground">{p.romaji}</span>}
-                <span className="block truncate text-xs text-muted-foreground">{translationFor(p, uiLang)}</span>
+              className="flex w-full items-start justify-between gap-3 rounded-2xl bg-card p-4 text-left shadow-card">
+              <span className="min-w-0 flex-1">
+                <span className="block break-words font-bold leading-snug">{p.text[learnLang]}</span>
+                {learnLang === "ja" && <span className="block break-words text-xs italic leading-snug text-muted-foreground">{p.romaji}</span>}
+                <span className="block break-words text-xs leading-snug text-muted-foreground">{translationFor(p, uiLang)}</span>
               </span>
-              <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+              <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
             </button>
           ))}
         </div>
@@ -211,7 +211,7 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
             </span>
             <span className="min-w-0 flex-1">
               <span className="block font-black leading-tight">{t(c.name)}</span>
-              <span className="block truncate text-xs text-muted-foreground">
+              <span className="block break-words text-xs leading-snug text-muted-foreground">
                 {c.phrases[0] ? translationFor(c.phrases[0], uiLang) : `${c.phrases.length} ${t("frases")}`}
               </span>
             </span>
