@@ -88,7 +88,7 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted">
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <h2 className="flex-1 truncate text-center text-lg font-black">{t(category.name)}</h2>
+          <h2 className="flex-1 break-words text-center text-lg font-black">{t(category.name)}</h2>
           <button onClick={() => toggleFav(phrase.id)} aria-label={t("Favoritar")}
             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
               fav ? "bg-gold text-gold-foreground" : "bg-muted text-muted-foreground"
@@ -101,18 +101,18 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
         <div className="relative flex h-44 items-center justify-center rounded-3xl bg-gradient-primary shadow-soft">
           <span aria-hidden className="text-7xl">{category.emoji}</span>
           <div className="absolute bottom-3 right-3 max-w-[60%] rounded-2xl bg-card px-3 py-2 shadow-card">
-            <div className="text-sm font-black leading-tight">{phrase.text[learnLang]}</div>
-            {learnLang === "ja" && <div className="text-xs italic text-primary">{phrase.romaji}</div>}
+            <div className="break-words text-sm font-black leading-tight">{phrase.text[learnLang]}</div>
+            {learnLang === "ja" && <div className="break-words text-xs italic leading-snug text-primary">{phrase.romaji}</div>}
           </div>
         </div>
 
         {/* Cartão principal */}
         <div className="mt-4 rounded-3xl bg-card p-5 shadow-card">
           <div className="flex items-start gap-3">
-            <div className="flex-1">
-              <div className="text-2xl font-black leading-snug">{phrase.text[learnLang]}</div>
-              {learnLang === "ja" && <div className="mt-1 text-base italic text-primary">{phrase.romaji}</div>}
-              <div className="mt-1 text-base text-muted-foreground">{translationFor(phrase, uiLang)}</div>
+            <div className="min-w-0 flex-1">
+              <div className="break-words text-2xl font-black leading-snug">{phrase.text[learnLang]}</div>
+              {learnLang === "ja" && <div className="mt-1 break-words text-base italic leading-snug text-primary">{phrase.romaji}</div>}
+              <div className="mt-1 break-words text-base leading-snug text-muted-foreground">{translationFor(phrase, uiLang)}</div>
             </div>
             <button onClick={() => speakForLang(phrase.text[learnLang], learnLang)} aria-label={t("Ouvir")}
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -124,7 +124,7 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
             <div className="flex items-center gap-2 text-sm font-bold text-primary">
               <Lightbulb className="h-4 w-4" /> {t("Quando usar")}
             </div>
-            <p className="mt-1 text-sm text-muted-foreground">{t(USE_TEXT[phrase.use])}</p>
+            <p className="mt-1 break-words text-sm leading-snug text-muted-foreground">{t(USE_TEXT[phrase.use])}</p>
           </div>
 
           <div className="mt-4 grid grid-cols-3 gap-2">
