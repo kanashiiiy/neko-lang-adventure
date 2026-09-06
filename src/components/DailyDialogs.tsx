@@ -152,11 +152,11 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
           <h3 className="mb-2 text-lg font-black">{t("Exemplo em diálogo")}</h3>
           <div className="space-y-2">
             {phrase.examples.map((ex) => (
-              <div key={ex.id} className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card">
+              <div key={ex.id} className="flex items-start gap-3 rounded-2xl bg-card p-4 shadow-card">
                 <div className="min-w-0 flex-1">
-                  <div className="truncate font-bold">{ex.text[learnLang]}</div>
-                  {learnLang === "ja" && <div className="truncate text-xs italic text-muted-foreground">{ex.romaji}</div>}
-                  <div className="truncate text-sm text-muted-foreground">{translationFor(ex, uiLang)}</div>
+                  <div className="break-words font-bold leading-snug">{ex.text[learnLang]}</div>
+                  {learnLang === "ja" && <div className="break-words text-xs italic leading-snug text-muted-foreground">{ex.romaji}</div>}
+                  <div className="break-words text-sm leading-snug text-muted-foreground">{translationFor(ex, uiLang)}</div>
                 </div>
                 <button onClick={() => speakForLang(ex.text[learnLang], learnLang)} aria-label={t("Ouvir")}
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
