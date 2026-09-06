@@ -16,7 +16,7 @@ function readFavs(): string[] {
 }
 
 /** Tradução da frase: idioma da interface quando disponível, senão inglês. */
-function translationFor(phrase: Phrase, uiLang: UiLang) {
+function translationFor(phrase: Pick<Phrase, "text">, uiLang: UiLang) {
   if (uiLang === "pt" || uiLang === "en" || uiLang === "ja") return phrase.text[uiLang];
   return phrase.text.en;
 }
