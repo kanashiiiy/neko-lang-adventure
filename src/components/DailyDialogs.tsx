@@ -16,7 +16,7 @@ function readFavs(): string[] {
 }
 
 /** Tradução da frase: idioma da interface quando disponível, senão inglês. */
-function translationFor(phrase: Phrase, uiLang: UiLang) {
+function translationFor(phrase: Pick<Phrase, "text">, uiLang: UiLang) {
   if (uiLang === "pt" || uiLang === "en" || uiLang === "ja") return phrase.text[uiLang];
   return phrase.text.en;
 }
@@ -56,8 +56,6 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
 
   // ---------- Tela da frase ----------
   if (category && phrase) {
-    const reply = category.phrases[phrase.reply] ?? category.phrases[0];
-    const examples = [reply, ...category.phrases.filter((p) => p.id !== phrase.id && p.id !== reply.id).slice(0, 2)];
     const fav = favs.includes(phrase.id);
 
     function practice() {
@@ -153,7 +151,7 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
         <div className="mt-5 mb-6">
           <h3 className="mb-2 text-lg font-black">{t("Exemplo em diálogo")}</h3>
           <div className="space-y-2">
-            {examples.map((ex) => (
+            {phrase.examples.map((ex) => (
               <div key={ex.id} className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card">
                 <div className="min-w-0 flex-1">
                   <div className="truncate font-bold">{ex.text[learnLang]}</div>

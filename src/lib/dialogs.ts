@@ -1,8 +1,10 @@
 // Diálogos do Dia a Dia — conteúdo Premium Plus.
 // Cada frase guarda o texto nos três idiomas de aprendizado (pt/en/ja) + romaji.
 // A interface (categorias, botões, explicações) é traduzida pelo i18n normal.
-// REGRA: nenhuma frase se repete entre categorias; cada par (0-1, 2-3, ...) forma
-// um mini-diálogo exclusivo da situação da categoria.
+// REGRA: nenhuma frase se repete entre categorias. Cada opção recebe seu próprio
+// conjunto explícito de três falas em dialog-examples.ts.
+
+import { DIALOG_EXAMPLES, type DialogueExample } from "@/lib/dialog-examples";
 
 export type LearnLang = "pt" | "en" | "ja";
 
@@ -39,7 +41,7 @@ export interface Phrase {
   text: Record<LearnLang, string>;
   romaji: string;
   use: UseKey;
-  reply: number;
+  examples: DialogueExample[];
 }
 
 export interface DialogCategory {
@@ -357,13 +359,20 @@ export const DIALOG_CATEGORIES: DialogCategory[] = CATS.map((c) => ({
   id: c.id,
   emoji: c.emoji,
   name: c.name,
-  phrases: c.rows.map((r, i) => ({
-    id: `${c.id}-${i}`,
-    text: { pt: r[0], en: r[1], ja: r[2] },
-    romaji: r[3],
-    use: r[4],
-    reply: r[5],
-  })),
+  phrases: c.rows.map((r, i) => {
+    const phraseId = `${c.id}-${i}`;
+    const examples = DIALOG_EXAMPLES[c.id]?.[phraseId];
+    if (!examples || examples.length !== 3) {
+      throw new Error(`Invalid dialogue examples for ${phraseId}`);
+    }
+    return {
+      id: phraseId,
+      text: { pt: r[0], en: r[1], ja: r[2] },
+      romaji: r[3],
+      use: r[4],
+      examples,
+    };
+  }),
 }));
 
 export function categoryById(id: string) {
