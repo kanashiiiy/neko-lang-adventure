@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.photo_analysis_status(uuid) TO service_role;
