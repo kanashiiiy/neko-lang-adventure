@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Send } from "lucide-react";
+import { Send, ImagePlus, X } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { DailyDialogs } from "@/components/DailyDialogs";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, isPremiumPlusActive } from "@/lib/profile";
+import { fetchProfile, isPremiumPlusActive, isPremiumActive } from "@/lib/profile";
 import { normalizeLanguage } from "@/lib/lessons";
 import { useT, useUiLang } from "@/lib/i18n";
 
@@ -15,7 +15,46 @@ export const Route = createFileRoute("/_authenticated/neko-ai")({
   ssr: false,
 });
 
-interface Msg { role: "user" | "assistant"; content: string }
+interface Msg { role: "user" | "assistant"; content: string; image?: string }
+
+interface PhotoUsage {
+  plan: string;
+  unlimited: boolean;
+  used: number;
+  limit: number | null;
+  remaining: number | null;
+}
+
+async function authHeaders() {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+// Reduz a foto para no máximo 1024px e converte para JPEG (envio leve)
+function fileToCompressedDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("read-error"));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("img-error"));
+      img.onload = () => {
+        const max = 1024;
+        const scale = Math.min(1, max / Math.max(img.width, img.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return reject(new Error("ctx-error"));
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.82));
+      };
+      img.src = String(reader.result);
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 function NekoAIPage() {
   const t = useT();
@@ -30,17 +69,86 @@ function NekoAIPage() {
     },
   });
   const hasPlus = isPremiumPlusActive(profile);
+  const hasPremium = isPremiumActive(profile);
   const [messages, setMessages] = useState<Msg[]>([
     { role: "assistant", content: "Oi! Eu sou o Neko 🐾 Posso explicar palavras, traduzir frases, corrigir sua gramática e te ajudar com as lições. Como posso ajudar hoje?" },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [photo, setPhoto] = useState<string | null>(null);
+  const [usage, setUsage] = useState<PhotoUsage | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const loadUsage = useCallback(async () => {
+    try {
+      const res = await fetch("/api/neko-vision", { headers: await authHeaders() });
+      if (res.ok) setUsage((await res.json()) as PhotoUsage);
+    } catch {
+      /* ignora */
+    }
+  }, []);
+
+  useEffect(() => {
+    if (hasPremium || hasPlus) void loadUsage();
+  }, [hasPremium, hasPlus, loadUsage]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
+
+  async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    try {
+      setPhoto(await fileToCompressedDataUrl(file));
+    } catch {
+      setPhoto(null);
+    }
+  }
+
+  async function sendPhoto() {
+    if (!photo || loading) return;
+    const note = input.trim();
+    const image = photo;
+    setPhoto(null);
+    setInput("");
+    const next: Msg[] = [...messages, { role: "user", content: note || t("Analise esta foto do meu estudo"), image }];
+    setMessages(next);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/neko-vision", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(await authHeaders()) },
+        body: JSON.stringify({
+          image,
+          note,
+          uiLang,
+          learnLang: normalizeLanguage(profile?.language),
+        }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = (await res.json()) as { reply?: string; blocked?: boolean; usage?: PhotoUsage };
+      if (data.usage) setUsage(data.usage);
+      if (data.blocked) {
+        setMessages([
+          ...next,
+          {
+            role: "assistant",
+            content: t("Você já usou suas 10 análises de fotos de hoje 🐾 Novas análises estarão disponíveis amanhã!"),
+          },
+        ]);
+      } else {
+        setMessages([...next, { role: "assistant", content: data.reply ?? "Miau!" }]);
+      }
+    } catch {
+      setMessages([...next, { role: "assistant", content: t("Não consegui responder agora. Tente de novo em instantes 🐾") }]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   async function send() {
     const text = input.trim();
