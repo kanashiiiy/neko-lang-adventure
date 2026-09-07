@@ -15,6 +15,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiNekoVisionRouteImport } from './routes/api/neko-vision'
 import { Route as ApiNekoAiRouteImport } from './routes/api/neko-ai'
 import { Route as AuthenticatedStoreRouteImport } from './routes/_authenticated/store'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -58,6 +59,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNekoVisionRoute = ApiNekoVisionRouteImport.update({
+  id: '/api/neko-vision',
+  path: '/api/neko-vision',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiNekoAiRoute = ApiNekoAiRouteImport.update({
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
+  '/api/neko-vision': typeof ApiNekoVisionRoute
   '/alfabeto-en/$section': typeof AuthenticatedAlfabetoEnSectionRoute
   '/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
@@ -177,6 +184,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
+  '/api/neko-vision': typeof ApiNekoVisionRoute
   '/alfabeto-en/$section': typeof AuthenticatedAlfabetoEnSectionRoute
   '/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
@@ -201,6 +209,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/store': typeof AuthenticatedStoreRoute
   '/api/neko-ai': typeof ApiNekoAiRoute
+  '/api/neko-vision': typeof ApiNekoVisionRoute
   '/_authenticated/alfabeto-en/$section': typeof AuthenticatedAlfabetoEnSectionRoute
   '/_authenticated/alfabeto-pt/$section': typeof AuthenticatedAlfabetoPtSectionRoute
   '/_authenticated/alfabeto/$system': typeof AuthenticatedAlfabetoSystemRoute
@@ -225,6 +234,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/store'
     | '/api/neko-ai'
+    | '/api/neko-vision'
     | '/alfabeto-en/$section'
     | '/alfabeto-pt/$section'
     | '/alfabeto/$system'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/store'
     | '/api/neko-ai'
+    | '/api/neko-vision'
     | '/alfabeto-en/$section'
     | '/alfabeto-pt/$section'
     | '/alfabeto/$system'
@@ -269,6 +280,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/store'
     | '/api/neko-ai'
+    | '/api/neko-vision'
     | '/_authenticated/alfabeto-en/$section'
     | '/_authenticated/alfabeto-pt/$section'
     | '/_authenticated/alfabeto/$system'
@@ -284,6 +296,7 @@ export interface RootRouteChildren {
   StartRoute: typeof StartRoute
   WelcomeRoute: typeof WelcomeRoute
   ApiNekoAiRoute: typeof ApiNekoAiRoute
+  ApiNekoVisionRoute: typeof ApiNekoVisionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -328,6 +341,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/neko-vision': {
+      id: '/api/neko-vision'
+      path: '/api/neko-vision'
+      fullPath: '/api/neko-vision'
+      preLoaderRoute: typeof ApiNekoVisionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/neko-ai': {
@@ -494,6 +514,7 @@ const rootRouteChildren: RootRouteChildren = {
   StartRoute: StartRoute,
   WelcomeRoute: WelcomeRoute,
   ApiNekoAiRoute: ApiNekoAiRoute,
+  ApiNekoVisionRoute: ApiNekoVisionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
