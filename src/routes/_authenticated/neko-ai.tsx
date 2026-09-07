@@ -210,13 +210,18 @@ function NekoAIPage() {
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
+            <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap ${
               m.role === "user" ? "bg-primary text-primary-foreground" : "bg-card shadow-card"
             }`}>
+              {m.image && (
+                <img src={m.image} alt={t("Foto enviada para o Neko AI")}
+                  className="mb-2 max-h-56 w-full rounded-xl object-cover" />
+              )}
               {m.role === "assistant" ? t(m.content) : m.content}
             </div>
           </div>
         ))}
+
         {loading && (
           <div className="flex justify-start">
             <div className="rounded-2xl bg-card px-4 py-2.5 text-sm shadow-card">
