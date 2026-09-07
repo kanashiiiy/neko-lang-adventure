@@ -108,6 +108,31 @@ function NekoAIPage() {
     }
   }
 
+  function openPhotoPicker() {
+    if (!hasPremium && !hasPlus) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: t("A análise de fotos é exclusiva do Premium e do Premium Plus 🐾 Assine para eu corrigir suas anotações!"),
+        },
+      ]);
+      return;
+    }
+    if (usage && !usage.unlimited && (usage.remaining ?? 0) <= 0) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: t("Você já usou suas 10 análises de fotos de hoje 🐾 Novas análises estarão disponíveis amanhã!"),
+        },
+      ]);
+      return;
+    }
+    fileRef.current?.click();
+  }
+
+
   async function sendPhoto() {
     if (!photo || loading) return;
     const note = input.trim();
