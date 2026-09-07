@@ -37,7 +37,7 @@ export const Route = createFileRoute("/api/neko-vision")({
         const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
         if (!token) return new Response("Unauthorized", { status: 401 });
         const supabase = userClient(token);
-        const { data, error } = await supabase.rpc("photo_analysis_status", {});
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }>)("photo_analysis_status", {});
         if (error) return new Response(error.message, { status: 400 });
         return Response.json(data);
       },
@@ -57,7 +57,7 @@ export const Route = createFileRoute("/api/neko-vision")({
         }
 
         const supabase = userClient(token);
-        const { data: consumed, error: rpcError } = await supabase.rpc("consume_photo_analysis", {});
+        const { data: consumed, error: rpcError } = await (supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }>)("consume_photo_analysis", {});
         if (rpcError) return new Response(rpcError.message, { status: 400 });
         const usage = consumed as unknown as {
           allowed: boolean;
