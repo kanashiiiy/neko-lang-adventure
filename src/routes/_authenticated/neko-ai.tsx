@@ -236,16 +236,41 @@ function NekoAIPage() {
       </div>
 
       <div className="border-t-2 border-border bg-card px-3 py-2">
-        <form onSubmit={(e) => { e.preventDefault(); send(); }} className="flex items-center gap-2">
+        {(hasPlus || hasPremium) && usage && (
+          <div className="mb-1.5 px-1 text-[11px] font-bold text-muted-foreground">
+            {usage.unlimited
+              ? `♾️ ${t("Análises de fotos ilimitadas")}`
+              : `📷 ${t("Análises de fotos")}: ${usage.remaining ?? 0}/${usage.limit ?? 10} ${t("disponíveis hoje")}`}
+          </div>
+        )}
+
+        {photo && (
+          <div className="relative mb-2 inline-block">
+            <img src={photo} alt={t("Foto selecionada")}
+              className="max-h-32 rounded-xl border-2 border-border object-cover" />
+            <button type="button" onClick={() => setPhoto(null)}
+              className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-foreground text-background">
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
+
+        <form onSubmit={(e) => { e.preventDefault(); if (photo) void sendPhoto(); else void send(); }} className="flex items-center gap-2">
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPickFile} />
+          <button type="button" aria-label={t("Analisar foto")} onClick={openPhotoPicker} disabled={loading}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-border bg-background text-primary disabled:opacity-50">
+            <ImagePlus className="h-5 w-5" />
+          </button>
           <input value={input} onChange={(e) => setInput(e.target.value)}
-            placeholder={t("Pergunte algo ao Neko...")}
+            placeholder={photo ? t("Escreva algo sobre a foto (opcional)") : t("Pergunte algo ao Neko...")}
             className="flex-1 rounded-full border-2 border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary" />
-          <button type="submit" disabled={!input.trim() || loading}
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground disabled:opacity-50">
+          <button type="submit" disabled={(!input.trim() && !photo) || loading}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground disabled:opacity-50">
             <Send className="h-5 w-5" />
           </button>
         </form>
       </div>
+
       <BottomNav />
       </>
       )}
