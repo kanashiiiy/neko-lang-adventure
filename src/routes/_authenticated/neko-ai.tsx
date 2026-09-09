@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Send, ImagePlus, X } from "lucide-react";
+import { Send, ImagePlus, X, Menu, Plus, Trash2 } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { DailyDialogs } from "@/components/DailyDialogs";
@@ -90,6 +90,45 @@ function fileToCompressedDataUrl(file: File): Promise<string> {
   });
 }
 
+const GREETING: Msg = {
+  role: "assistant",
+  content: "Oi! Eu sou o Neko 🐾 Posso explicar palavras, traduzir frases, corrigir sua gramática e te ajudar com as lições. Como posso ajudar hoje?",
+};
+
+interface Thread { id: string; title: string; updatedAt: number; messages: Msg[] }
+
+const THREADS_KEY = "nekoteach:neko-threads";
+const ACTIVE_KEY = "nekoteach:neko-thread-active";
+
+function newThread(): Thread {
+  return { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, title: "", updatedAt: Date.now(), messages: [GREETING] };
+}
+
+function autoTitle(messages: Msg[]): string {
+  const first = messages.find((m) => m.role === "user");
+  if (!first) return "";
+  const text = first.content.replace(/\s+/g, " ").trim();
+  return text.length > 38 ? `${text.slice(0, 38)}…` : text;
+}
+
+function loadThreads(): Thread[] {
+  try {
+    const raw = localStorage.getItem(THREADS_KEY);
+    const parsed = raw ? (JSON.parse(raw) as Thread[]) : [];
+    return Array.isArray(parsed) ? parsed.filter((t) => t && Array.isArray(t.messages)) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveThreads(threads: Thread[]) {
+  try {
+    localStorage.setItem(THREADS_KEY, JSON.stringify(threads.slice(0, 60)));
+  } catch {
+    /* ignora */
+  }
+}
+
 function NekoAIPage() {
   const t = useT();
   const uiLang = useUiLang();
@@ -104,9 +143,12 @@ function NekoAIPage() {
   });
   const hasPlus = isPremiumPlusActive(profile);
   const hasPremium = isPremiumActive(profile);
-  const [messages, setMessages] = useState<Msg[]>([
-    { role: "assistant", content: "Oi! Eu sou o Neko 🐾 Posso explicar palavras, traduzir frases, corrigir sua gramática e te ajudar com as lições. Como posso ajudar hoje?" },
-  ]);
+  const [messages, setMessages] = useState<Msg[]>([GREETING]);
+  const [threads, setThreads] = useState<Thread[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const hydrated = useRef(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState<string | null>(null);
@@ -130,6 +172,73 @@ function NekoAIPage() {
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
+
+  // Carrega o histórico salvo e reabre a última conversa usada
+  useEffect(() => {
+    if (hydrated.current) return;
+    const saved = loadThreads();
+    const storedActive = localStorage.getItem(ACTIVE_KEY);
+    const list = saved.length > 0 ? saved : [newThread()];
+    const active = list.find((thread) => thread.id === storedActive) ?? list[0]!;
+    setThreads(list);
+    setActiveId(active.id);
+    setMessages(active.messages.length > 0 ? active.messages : [GREETING]);
+    saveThreads(list);
+    localStorage.setItem(ACTIVE_KEY, active.id);
+    hydrated.current = true;
+  }, []);
+
+  // Salva automaticamente a conversa atual
+  useEffect(() => {
+    if (!hydrated.current || !activeId) return;
+    setThreads((prev) => {
+      const next = prev.map((thread) =>
+        thread.id === activeId
+          ? { ...thread, messages, updatedAt: Date.now(), title: thread.title || autoTitle(messages) }
+          : thread,
+      );
+      saveThreads(next);
+      return next;
+    });
+    localStorage.setItem(ACTIVE_KEY, activeId);
+  }, [messages, activeId]);
+
+  function openThread(id: string) {
+    const thread = threads.find((item) => item.id === id);
+    if (!thread) return;
+    setActiveId(id);
+    setMessages(thread.messages.length > 0 ? thread.messages : [GREETING]);
+    setPhoto(null);
+    setInput("");
+    setMenuOpen(false);
+  }
+
+  function startNewThread() {
+    const thread = newThread();
+    const next = [thread, ...threads];
+    setThreads(next);
+    saveThreads(next);
+    setActiveId(thread.id);
+    setMessages(thread.messages);
+    setPhoto(null);
+    setInput("");
+    setMenuOpen(false);
+  }
+
+  function confirmDelete() {
+    if (!deleteId) return;
+    const remaining = threads.filter((thread) => thread.id !== deleteId);
+    const list = remaining.length > 0 ? remaining : [newThread()];
+    setThreads(list);
+    saveThreads(list);
+    if (deleteId === activeId) {
+      const next = list[0]!;
+      setActiveId(next.id);
+      setMessages(next.messages.length > 0 ? next.messages : [GREETING]);
+      localStorage.setItem(ACTIVE_KEY, next.id);
+    }
+    setDeleteId(null);
+  }
 
   async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -235,12 +344,79 @@ function NekoAIPage() {
   return (
     <div className="mobile-shell">
       <header className="flex items-center gap-3 border-b-2 border-border bg-card px-4 py-3">
+        <button type="button" aria-label={t("Conversas")} onClick={() => setMenuOpen(true)}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-border bg-background text-primary">
+          <Menu className="h-5 w-5" />
+        </button>
         <NekoMascot size={44} float={false} />
         <div>
           <div className="font-black">Neko AI</div>
           <div className="text-xs text-muted-foreground">{t("Seu tutor inteligente")}</div>
         </div>
       </header>
+
+      {menuOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div className="absolute inset-0 bg-foreground/40" onClick={() => setMenuOpen(false)} />
+          <aside className="relative flex h-full w-[82%] max-w-xs flex-col border-r-2 border-border bg-card shadow-xl">
+            <div className="flex items-center justify-between border-b-2 border-border px-4 py-3">
+              <div className="font-black">💬 {t("Conversas")}</div>
+              <button type="button" aria-label={t("Fechar")} onClick={() => setMenuOpen(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="px-3 py-3">
+              <button type="button" onClick={startNewThread}
+                className="flex w-full items-center gap-2 rounded-2xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground">
+                <Plus className="h-4 w-4" /> {t("Nova conversa")}
+              </button>
+            </div>
+
+            <div className="px-4 pb-1 text-[11px] font-extrabold uppercase tracking-wide text-muted-foreground">
+              📚 {t("Conversas recentes")}
+            </div>
+
+            <div className="flex-1 space-y-2 overflow-y-auto px-3 py-2">
+              {[...threads].sort((a, b) => b.updatedAt - a.updatedAt).map((thread) => (
+                <div key={thread.id}
+                  className={`flex items-center gap-2 rounded-2xl border-2 px-3 py-2.5 ${
+                    thread.id === activeId ? "border-primary bg-primary/10" : "border-border bg-background"
+                  }`}>
+                  <button type="button" onClick={() => openThread(thread.id)}
+                    className="min-w-0 flex-1 text-left text-sm font-bold break-words">
+                    {thread.title || autoTitle(thread.messages) || t("Nova conversa")}
+                  </button>
+                  <button type="button" aria-label={t("Excluir conversa")} onClick={() => setDeleteId(thread.id)}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-muted-foreground">
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {deleteId && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center px-6">
+          <div className="absolute inset-0 bg-foreground/50" onClick={() => setDeleteId(null)} />
+          <div className="relative w-full max-w-xs rounded-3xl border-2 border-border bg-card p-5 text-center shadow-xl">
+            <div className="mb-4 text-sm font-bold">{t("Tem certeza que deseja excluir esta conversa?")}</div>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setDeleteId(null)}
+                className="flex-1 rounded-full bg-muted px-4 py-2.5 text-sm font-bold text-muted-foreground">
+                {t("Cancelar")}
+              </button>
+              <button type="button" onClick={confirmDelete}
+                className="flex-1 rounded-full bg-destructive px-4 py-2.5 text-sm font-bold text-destructive-foreground">
+                {t("Excluir")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {hasPlus && (
         <div className="flex gap-2 border-b-2 border-border bg-card px-3 py-2">
