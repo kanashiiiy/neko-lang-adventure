@@ -437,7 +437,7 @@ function NekoAIPage() {
 
       {hasPlus && tab === "dialogs" ? (
         <>
-          <DailyDialogs learnLang={normalizeLanguage(profile?.language)} />
+          <DailyDialogs learnLang={normalizeLanguage(profile?.language)} country={profile?.country ?? null} />
           <BottomNav />
         </>
       ) : (
