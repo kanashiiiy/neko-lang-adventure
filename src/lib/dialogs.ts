@@ -118,7 +118,7 @@ const CATS: { id: string; emoji: string; name: string; rows: Row[] }[] = [
     rows: [
       ["Meu nome é Ana, prazer.", "My name is Ana, nice to meet you.", "アナと申します。よろしくお願いします。", "Ana to mōshimasu. Yoroshiku onegai shimasu.", "apresentar", 1],
       ["O prazer é meu, sou o Kenji.", "The pleasure is mine, I'm Kenji.", "こちらこそ、健二です。", "Kochira koso, Kenji desu.", "apresentar", 0],
-      ["Sou do Brasil, da cidade de Belém.", "I'm from Brazil, from the city of Belém.", "ブラジルのベレン出身です。", "Burajiru no Beren shusshin desu.", "apresentar", 3],
+      ["Sou {PAIS_DE}.", "I'm from {PAIS}.", "私は{PAIS}出身です。", "Watashi wa {PAIS_ROMAJI} shusshin desu.", "apresentar", 3],
       ["Nunca estive lá, deve ser lindo.", "I've never been there, it must be beautiful.", "行ったことがありません。きれいでしょうね。", "Itta koto ga arimasen. Kirei deshō ne.", "informal", 2],
       ["Trabalho como designer há cinco anos.", "I've worked as a designer for five years.", "デザイナーとして五年働いています。", "Dezainā to shite gonen hataraite imasu.", "apresentar", 5],
       ["Interessante, e o que te trouxe aqui?", "Interesting, and what brought you here?", "面白いですね。何がきっかけで来たんですか？", "Omoshiroi desu ne. Nani ga kikkake de kita n desu ka?", "informacao", 4],
