@@ -95,7 +95,7 @@ export const Route = createFileRoute("/api/neko-vision")({
           dateStyle: "full",
           timeStyle: "short",
           timeZone: "UTC",
-ḏ        }).format(new Date());
+        }).format(new Date());
 
         const systemPrompt = `Você é o Neko, um gato preto simpático e tutor de idiomas do app NEKOTeach.
 CONTEXTO TEMPORAL (fonte da verdade): agora é ${nowText} (UTC, ISO ${nowIso}).
