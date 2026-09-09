@@ -143,9 +143,12 @@ function NekoAIPage() {
   });
   const hasPlus = isPremiumPlusActive(profile);
   const hasPremium = isPremiumActive(profile);
-  const [messages, setMessages] = useState<Msg[]>([
-    { role: "assistant", content: "Oi! Eu sou o Neko 🐾 Posso explicar palavras, traduzir frases, corrigir sua gramática e te ajudar com as lições. Como posso ajudar hoje?" },
-  ]);
+  const [messages, setMessages] = useState<Msg[]>([GREETING]);
+  const [threads, setThreads] = useState<Thread[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const hydrated = useRef(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState<string | null>(null);
