@@ -5,6 +5,7 @@
 // conjunto explícito de três falas em dialog-examples.ts.
 
 import { DIALOG_EXAMPLES, type DialogueExample } from "@/lib/dialog-examples";
+import { DIALOG_ILLUSTRATIONS } from "@/lib/dialog-illustrations";
 
 export type LearnLang = "pt" | "en" | "ja";
 
@@ -42,6 +43,7 @@ export interface Phrase {
   romaji: string;
   use: UseKey;
   examples: DialogueExample[];
+  illustration: { src: string; scene: number };
 }
 
 export interface DialogCategory {
@@ -49,6 +51,7 @@ export interface DialogCategory {
   emoji: string;
   /** Nome em português — passa pelo i18n para virar o idioma da interface. */
   name: string;
+  illustration: string;
   phrases: Phrase[];
 }
 
@@ -359,6 +362,7 @@ export const DIALOG_CATEGORIES: DialogCategory[] = CATS.map((c) => ({
   id: c.id,
   emoji: c.emoji,
   name: c.name,
+  illustration: DIALOG_ILLUSTRATIONS[c.id] ?? "",
   phrases: c.rows.map((r, i) => {
     const phraseId = `${c.id}-${i}`;
     const examples = DIALOG_EXAMPLES[c.id]?.[phraseId];
@@ -371,6 +375,10 @@ export const DIALOG_CATEGORIES: DialogCategory[] = CATS.map((c) => ({
       romaji: r[3],
       use: r[4],
       examples,
+      illustration: {
+        src: DIALOG_ILLUSTRATIONS[c.id] ?? "",
+        scene: Math.floor(i / 2),
+      },
     };
   }),
 }));
