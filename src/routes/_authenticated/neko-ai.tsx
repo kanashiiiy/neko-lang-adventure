@@ -173,6 +173,73 @@ function NekoAIPage() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
+  // Carrega o histórico salvo e reabre a última conversa usada
+  useEffect(() => {
+    if (hydrated.current) return;
+    const saved = loadThreads();
+    const storedActive = localStorage.getItem(ACTIVE_KEY);
+    const list = saved.length > 0 ? saved : [newThread()];
+    const active = list.find((thread) => thread.id === storedActive) ?? list[0]!;
+    setThreads(list);
+    setActiveId(active.id);
+    setMessages(active.messages.length > 0 ? active.messages : [GREETING]);
+    saveThreads(list);
+    localStorage.setItem(ACTIVE_KEY, active.id);
+    hydrated.current = true;
+  }, []);
+
+  // Salva automaticamente a conversa atual
+  useEffect(() => {
+    if (!hydrated.current || !activeId) return;
+    setThreads((prev) => {
+      const next = prev.map((thread) =>
+        thread.id === activeId
+          ? { ...thread, messages, updatedAt: Date.now(), title: thread.title || autoTitle(messages) }
+          : thread,
+      );
+      saveThreads(next);
+      return next;
+    });
+    localStorage.setItem(ACTIVE_KEY, activeId);
+  }, [messages, activeId]);
+
+  function openThread(id: string) {
+    const thread = threads.find((item) => item.id === id);
+    if (!thread) return;
+    setActiveId(id);
+    setMessages(thread.messages.length > 0 ? thread.messages : [GREETING]);
+    setPhoto(null);
+    setInput("");
+    setMenuOpen(false);
+  }
+
+  function startNewThread() {
+    const thread = newThread();
+    const next = [thread, ...threads];
+    setThreads(next);
+    saveThreads(next);
+    setActiveId(thread.id);
+    setMessages(thread.messages);
+    setPhoto(null);
+    setInput("");
+    setMenuOpen(false);
+  }
+
+  function confirmDelete() {
+    if (!deleteId) return;
+    const remaining = threads.filter((thread) => thread.id !== deleteId);
+    const list = remaining.length > 0 ? remaining : [newThread()];
+    setThreads(list);
+    saveThreads(list);
+    if (deleteId === activeId) {
+      const next = list[0]!;
+      setActiveId(next.id);
+      setMessages(next.messages.length > 0 ? next.messages : [GREETING]);
+      localStorage.setItem(ACTIVE_KEY, next.id);
+    }
+    setDeleteId(null);
+  }
+
   async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     e.target.value = "";
