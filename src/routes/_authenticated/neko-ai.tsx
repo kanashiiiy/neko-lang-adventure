@@ -344,12 +344,79 @@ function NekoAIPage() {
   return (
     <div className="mobile-shell">
       <header className="flex items-center gap-3 border-b-2 border-border bg-card px-4 py-3">
+        <button type="button" aria-label={t("Conversas")} onClick={() => setMenuOpen(true)}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-border bg-background text-primary">
+          <Menu className="h-5 w-5" />
+        </button>
         <NekoMascot size={44} float={false} />
         <div>
           <div className="font-black">Neko AI</div>
           <div className="text-xs text-muted-foreground">{t("Seu tutor inteligente")}</div>
         </div>
       </header>
+
+      {menuOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div className="absolute inset-0 bg-foreground/40" onClick={() => setMenuOpen(false)} />
+          <aside className="relative flex h-full w-[82%] max-w-xs flex-col border-r-2 border-border bg-card shadow-xl">
+            <div className="flex items-center justify-between border-b-2 border-border px-4 py-3">
+              <div className="font-black">💬 {t("Conversas")}</div>
+              <button type="button" aria-label={t("Fechar")} onClick={() => setMenuOpen(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="px-3 py-3">
+              <button type="button" onClick={startNewThread}
+                className="flex w-full items-center gap-2 rounded-2xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground">
+                <Plus className="h-4 w-4" /> {t("Nova conversa")}
+              </button>
+            </div>
+
+            <div className="px-4 pb-1 text-[11px] font-extrabold uppercase tracking-wide text-muted-foreground">
+              📚 {t("Conversas recentes")}
+            </div>
+
+            <div className="flex-1 space-y-2 overflow-y-auto px-3 py-2">
+              {[...threads].sort((a, b) => b.updatedAt - a.updatedAt).map((thread) => (
+                <div key={thread.id}
+                  className={`flex items-center gap-2 rounded-2xl border-2 px-3 py-2.5 ${
+                    thread.id === activeId ? "border-primary bg-primary/10" : "border-border bg-background"
+                  }`}>
+                  <button type="button" onClick={() => openThread(thread.id)}
+                    className="min-w-0 flex-1 text-left text-sm font-bold break-words">
+                    {thread.title || autoTitle(thread.messages) || t("Nova conversa")}
+                  </button>
+                  <button type="button" aria-label={t("Excluir conversa")} onClick={() => setDeleteId(thread.id)}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-muted-foreground">
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {deleteId && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center px-6">
+          <div className="absolute inset-0 bg-foreground/50" onClick={() => setDeleteId(null)} />
+          <div className="relative w-full max-w-xs rounded-3xl border-2 border-border bg-card p-5 text-center shadow-xl">
+            <div className="mb-4 text-sm font-bold">{t("Tem certeza que deseja excluir esta conversa?")}</div>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setDeleteId(null)}
+                className="flex-1 rounded-full bg-muted px-4 py-2.5 text-sm font-bold text-muted-foreground">
+                {t("Cancelar")}
+              </button>
+              <button type="button" onClick={confirmDelete}
+                className="flex-1 rounded-full bg-destructive px-4 py-2.5 text-sm font-bold text-destructive-foreground">
+                {t("Excluir")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {hasPlus && (
         <div className="flex gap-2 border-b-2 border-border bg-card px-3 py-2">
