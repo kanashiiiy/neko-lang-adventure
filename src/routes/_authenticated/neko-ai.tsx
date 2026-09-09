@@ -90,6 +90,45 @@ function fileToCompressedDataUrl(file: File): Promise<string> {
   });
 }
 
+const GREETING: Msg = {
+  role: "assistant",
+  content: "Oi! Eu sou o Neko 🐾 Posso explicar palavras, traduzir frases, corrigir sua gramática e te ajudar com as lições. Como posso ajudar hoje?",
+};
+
+interface Thread { id: string; title: string; updatedAt: number; messages: Msg[] }
+
+const THREADS_KEY = "nekoteach:neko-threads";
+const ACTIVE_KEY = "nekoteach:neko-thread-active";
+
+function newThread(): Thread {
+  return { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, title: "", updatedAt: Date.now(), messages: [GREETING] };
+}
+
+function autoTitle(messages: Msg[]): string {
+  const first = messages.find((m) => m.role === "user");
+  if (!first) return "";
+  const text = first.content.replace(/\s+/g, " ").trim();
+  return text.length > 38 ? `${text.slice(0, 38)}…` : text;
+}
+
+function loadThreads(): Thread[] {
+  try {
+    const raw = localStorage.getItem(THREADS_KEY);
+    const parsed = raw ? (JSON.parse(raw) as Thread[]) : [];
+    return Array.isArray(parsed) ? parsed.filter((t) => t && Array.isArray(t.messages)) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveThreads(threads: Thread[]) {
+  try {
+    localStorage.setItem(THREADS_KEY, JSON.stringify(threads.slice(0, 60)));
+  } catch {
+    /* ignora */
+  }
+}
+
 function NekoAIPage() {
   const t = useT();
   const uiLang = useUiLang();
