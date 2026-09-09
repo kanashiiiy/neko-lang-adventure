@@ -25,6 +25,40 @@ interface PhotoUsage {
   remaining: number | null;
 }
 
+const SECTION_PREFIXES = ["📖", "📚", "📝", "✅", "⚠️", "💡"];
+
+function AssistantReply({ content }: { content: string }) {
+  const clean = content
+    .replace(/^\s{0,3}#{1,6}\s*/gm, "")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/__([^_]+)__/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/^\s*[-*]\s+/gm, "• ")
+    .trim();
+  const lines = clean.split("\n");
+
+  return (
+    <div className="space-y-2.5 break-words leading-relaxed">
+      {lines.map((line, index) => {
+        const text = line.trim();
+        if (!text) return <div key={index} className="h-1" aria-hidden="true" />;
+        const isSection = SECTION_PREFIXES.some((prefix) => text.startsWith(prefix));
+        const isLabel = /^(Pronúncia|Pronunciation|発音|Prononciation|Pronunciación|발음)$/i.test(text);
+        if (isSection) {
+          return <div key={index} className="pt-1 text-[15px] font-black text-foreground">{text}</div>;
+        }
+        if (isLabel) {
+          return <div key={index} className="text-xs font-extrabold text-muted-foreground">{text}</div>;
+        }
+        if (text.startsWith("•")) {
+          return <div key={index} className="pl-1">{text}</div>;
+        }
+        return <p key={index}>{text}</p>;
+      })}
+    </div>
+  );
+}
+
 async function authHeaders(): Promise<Record<string, string>> {
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
@@ -186,7 +220,7 @@ function NekoAIPage() {
       const res = await fetch("/api/neko-ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next, uiLang }),
+          body: JSON.stringify({ messages: next, uiLang, learnLang: normalizeLanguage(profile?.language) }),
       });
       if (!res.ok) throw new Error(await res.text());
       const data = await res.json();
@@ -242,7 +276,7 @@ function NekoAIPage() {
                 <img src={m.image} alt={t("Foto enviada para o Neko AI")}
                   className="mb-2 max-h-56 w-full rounded-xl object-cover" />
               )}
-              {m.role === "assistant" ? t(m.content) : m.content}
+              {m.role === "assistant" ? <AssistantReply content={t(m.content)} /> : m.content}
             </div>
           </div>
         ))}
