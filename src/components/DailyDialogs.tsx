@@ -10,8 +10,8 @@ const SCENE_POSITION = [
   "left-0 top-0",
   "left-[-100%] top-0",
   "left-[-200%] top-0",
-  "left-0 top-[-100%]",
-  "left-[-100%] top-[-100%]",
+  "left-0 top-0 -translate-y-1/2",
+  "left-[-100%] top-0 -translate-y-1/2",
 ] as const;
 
 function SceneIllustration({
@@ -34,7 +34,7 @@ function SceneIllustration({
       width={1920}
       height={1280}
       loading={eager ? "eager" : "lazy"}
-      className={`absolute h-[200%] w-[300%] max-w-none object-fill ${position}`}
+      className={`absolute h-auto w-[300%] max-w-none ${position}`}
     />
   );
 }
