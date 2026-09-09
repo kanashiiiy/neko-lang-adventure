@@ -20,6 +20,19 @@ const LEARN_NAME: Record<string, string> = {
   ko: "coreano",
 };
 
+function cleanReply(value: string) {
+  return value
+    .replace(/```[a-z]*\n?/gi, "")
+    .replace(/```/g, "")
+    .replace(/^\s{0,3}#{1,6}\s*/gm, "")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/__([^_]+)__/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/^\s*[-*]\s+/gm, "• ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 function userClient(token: string) {
   const url = process.env["SUPABASE_URL"]!;
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
@@ -82,18 +95,35 @@ O usuário enviou uma FOTO com anotações, exercícios, palavras ou frases do e
 Responda SEMPRE no idioma da interface: ${ui}.
 Analise a imagem e ajude: verifique a escrita das palavras, avalie as frases, aponte erros, explique de forma simples e amigável, mostre como corrigir, explique o significado das palavras e dê sugestões de melhoria.
 Seja positivo e incentivador. Se a imagem não tiver conteúdo de idioma legível, diga isso com gentileza.
-Responda EXATAMENTE neste formato (traduzido para o idioma da interface):
+Nunca use Markdown nem mostre símbolos de formatação como **, ##, #, __ ou crases.
+Use títulos curtos, linhas em branco e listas com o caractere •. Evite blocos longos.
+Cada palavra, correção ou conceito deve ficar em seu próprio item ou parágrafo.
+Responda neste formato, adaptando e traduzindo os rótulos para o idioma da interface:
 
 [uma frase curta de incentivo]
 
-✅ Correto:
-- ...
+📖 Frase
+[frase identificada]
 
-⚠️ Pode melhorar:
-- ...
+Pronúncia
+[pronúncia ou romanização]
 
-💡 Sugestão:
-- ...`;
+🇧🇷 Tradução
+[tradução; troque a bandeira quando o idioma da interface não for português]
+
+✅ Correto
+• ...
+
+⚠️ Pode melhorar
+• ...
+
+📚 Explicação
+• [palavra ou parte]: [explicação curta]
+
+📝 Resumo
+[conclusão simples]
+
+Não inclua seções vazias ou irrelevantes.`;
 
         const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
           method: "POST",
@@ -127,7 +157,7 @@ Responda EXATAMENTE neste formato (traduzido para o idioma da interface):
         }
 
         const data = await res.json();
-        const reply = data?.choices?.[0]?.message?.content ?? "Miau!";
+        const reply = cleanReply(data?.choices?.[0]?.message?.content ?? "Miau!");
         return Response.json({ reply, usage });
       },
     },
