@@ -131,14 +131,14 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
         </div>
 
         {/* Ilustração da situação */}
-        <div className="relative flex h-44 items-center justify-center overflow-hidden rounded-3xl bg-gradient-primary shadow-soft">
+        <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-gradient-primary shadow-soft">
           <SceneIllustration
             src={phrase.illustration.src}
             scene={phrase.illustration.scene}
             alt={`${t(category.name)}: ${phrase.text[learnLang]}`}
             eager
           />
-          <div className="absolute bottom-3 right-3 max-w-[60%] rounded-2xl bg-card px-3 py-2 shadow-card">
+          <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-card/95 px-3 py-2 shadow-card">
             <div className="break-words text-sm font-black leading-tight">{phrase.text[learnLang]}</div>
             {learnLang === "ja" && <div className="break-words text-xs italic leading-snug text-primary">{phrase.romaji}</div>}
           </div>
