@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Send, ImagePlus, X } from "lucide-react";
+import { Send, ImagePlus, X, Menu, Plus, Trash2 } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { DailyDialogs } from "@/components/DailyDialogs";
