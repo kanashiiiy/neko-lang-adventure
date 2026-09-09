@@ -3,6 +3,7 @@ import { ArrowLeft, Volume2, Mic, Heart, ChevronRight, Lightbulb } from "lucide-
 import { DIALOG_CATEGORIES, USE_TEXT, categoryById, type LearnLang, type Phrase } from "@/lib/dialogs";
 import { useT, useUiLang, type UiLang } from "@/lib/i18n";
 import { speakForLang, getRecognition, matchSpeech, isRecognitionSupported } from "@/lib/speech";
+import { applyCountry, applyCountryRomaji } from "@/lib/countries";
 
 const FAV_KEY = "nekoteach:dialog-favs";
 
@@ -16,14 +17,17 @@ function readFavs(): string[] {
 }
 
 /** Tradução da frase: idioma da interface quando disponível, senão inglês. */
-function translationFor(phrase: Pick<Phrase, "text">, uiLang: UiLang) {
-  if (uiLang === "pt" || uiLang === "en" || uiLang === "ja") return phrase.text[uiLang];
-  return phrase.text.en;
+function translationFor(phrase: Pick<Phrase, "text">, uiLang: UiLang, country?: string | null) {
+  const lang: LearnLang = uiLang === "pt" || uiLang === "en" || uiLang === "ja" ? uiLang : "en";
+  return applyCountry(phrase.text[lang], lang, country);
 }
 
-export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
+export function DailyDialogs({ learnLang, country }: { learnLang: LearnLang; country?: string | null }) {
   const t = useT();
   const uiLang = useUiLang();
+  /** Textos podem conter marcadores de país, resolvidos com o país do perfil. */
+  const say = (text: string, lang: LearnLang = learnLang) => applyCountry(text, lang, country);
+  const romajiOf = (text: string) => applyCountryRomaji(text, country);
   const [catId, setCatId] = useState<string | null>(null);
   const [phraseId, setPhraseId] = useState<string | null>(null);
   const [favs, setFavs] = useState<string[]>([]);
@@ -48,7 +52,7 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
   function openPhrase(p: Phrase) {
     setPhraseId(p.id);
     setFeedback(null);
-    speakForLang(p.text[learnLang], learnLang);
+    speakForLang(applyCountry(p.text[learnLang], learnLang, country), learnLang);
   }
 
   const category = catId ? categoryById(catId) : null;
@@ -73,7 +77,7 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
           transcript: r.transcript,
           confidence: r.confidence,
         }));
-        setFeedback(matchSpeech(phrase!.text[learnLang], alts) ? t("Muito bem! 🎉") : t("Quase lá, tente de novo."));
+        setFeedback(matchSpeech(applyCountry(phrase!.text[learnLang], learnLang, country), alts) ? t("Muito bem! 🎉") : t("Quase lá, tente de novo."));
       };
       rec.onerror = () => setFeedback(t("Quase lá, tente de novo."));
       rec.onend = () => setListening(false);
@@ -103,8 +107,8 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
             <span className="text-8xl drop-shadow-sm">{category.emoji}</span>
           </div>
           <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-card/95 px-3 py-2 shadow-card">
-            <div className="break-words text-sm font-black leading-tight">{phrase.text[learnLang]}</div>
-            {learnLang === "ja" && <div className="break-words text-xs italic leading-snug text-primary">{phrase.romaji}</div>}
+            <div className="break-words text-sm font-black leading-tight">{say(phrase.text[learnLang])}</div>
+            {learnLang === "ja" && <div className="break-words text-xs italic leading-snug text-primary">{romajiOf(phrase.romaji)}</div>}
           </div>
         </div>
 
@@ -112,11 +116,11 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
         <div className="mt-4 rounded-3xl bg-card p-5 shadow-card">
           <div className="flex items-start gap-3">
             <div className="min-w-0 flex-1">
-              <div className="break-words text-2xl font-black leading-snug">{phrase.text[learnLang]}</div>
-              {learnLang === "ja" && <div className="mt-1 break-words text-base italic leading-snug text-primary">{phrase.romaji}</div>}
-              <div className="mt-1 break-words text-base leading-snug text-muted-foreground">{translationFor(phrase, uiLang)}</div>
+              <div className="break-words text-2xl font-black leading-snug">{say(phrase.text[learnLang])}</div>
+              {learnLang === "ja" && <div className="mt-1 break-words text-base italic leading-snug text-primary">{romajiOf(phrase.romaji)}</div>}
+              <div className="mt-1 break-words text-base leading-snug text-muted-foreground">{translationFor(phrase, uiLang, country)}</div>
             </div>
-            <button onClick={() => speakForLang(phrase.text[learnLang], learnLang)} aria-label={t("Ouvir")}
+            <button onClick={() => speakForLang(say(phrase.text[learnLang]), learnLang)} aria-label={t("Ouvir")}
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
               <Volume2 className="h-5 w-5" />
             </button>
@@ -130,7 +134,7 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
           </div>
 
           <div className="mt-4 grid grid-cols-3 gap-2">
-            <button onClick={() => speakForLang(phrase.text[learnLang], learnLang)}
+            <button onClick={() => speakForLang(say(phrase.text[learnLang]), learnLang)}
               className="flex items-center justify-center gap-1.5 rounded-2xl border-2 border-border bg-background px-2 py-2.5 text-sm font-bold">
               <Volume2 className="h-4 w-4 text-primary" /> {t("Ouvir")}
             </button>
@@ -156,11 +160,11 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
             {phrase.examples.map((ex) => (
               <div key={ex.id} className="flex items-start gap-3 rounded-2xl bg-card p-4 shadow-card">
                 <div className="min-w-0 flex-1">
-                  <div className="break-words font-bold leading-snug">{ex.text[learnLang]}</div>
-                  {learnLang === "ja" && <div className="break-words text-xs italic leading-snug text-muted-foreground">{ex.romaji}</div>}
-                  <div className="break-words text-sm leading-snug text-muted-foreground">{translationFor(ex, uiLang)}</div>
+                  <div className="break-words font-bold leading-snug">{say(ex.text[learnLang])}</div>
+                  {learnLang === "ja" && <div className="break-words text-xs italic leading-snug text-muted-foreground">{romajiOf(ex.romaji)}</div>}
+                  <div className="break-words text-sm leading-snug text-muted-foreground">{translationFor(ex, uiLang, country)}</div>
                 </div>
-                <button onClick={() => speakForLang(ex.text[learnLang], learnLang)} aria-label={t("Ouvir")}
+                <button onClick={() => speakForLang(say(ex.text[learnLang]), learnLang)} aria-label={t("Ouvir")}
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <Volume2 className="h-4 w-4" />
                 </button>
@@ -191,9 +195,9 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
                 {category.emoji}
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block break-words font-bold leading-snug">{p.text[learnLang]}</span>
-                {learnLang === "ja" && <span className="block break-words text-xs italic leading-snug text-muted-foreground">{p.romaji}</span>}
-                <span className="block break-words text-xs leading-snug text-muted-foreground">{translationFor(p, uiLang)}</span>
+                <span className="block break-words font-bold leading-snug">{say(p.text[learnLang])}</span>
+                {learnLang === "ja" && <span className="block break-words text-xs italic leading-snug text-muted-foreground">{romajiOf(p.romaji)}</span>}
+                <span className="block break-words text-xs leading-snug text-muted-foreground">{translationFor(p, uiLang, country)}</span>
               </span>
               <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
             </button>
@@ -217,7 +221,7 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
             <span className="min-w-0 flex-1">
               <span className="block font-black leading-tight">{t(c.name)}</span>
               <span className="block break-words text-xs leading-snug text-muted-foreground">
-                {c.phrases[0] ? translationFor(c.phrases[0], uiLang) : `${c.phrases.length} ${t("frases")}`}
+                {c.phrases[0] ? translationFor(c.phrases[0], uiLang, country) : `${c.phrases.length} ${t("frases")}`}
               </span>
             </span>
             <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
