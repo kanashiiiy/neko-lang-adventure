@@ -63,25 +63,49 @@ export function getUiLang(): UiLang {
   return DEFAULT_UI_LANG;
 }
 
-export function setUiLang(lang: UiLang, chosen = true) {
-  if (typeof window === "undefined") return;
-  let stored: string | null = null;
+/** Evento da transição visual (fade) ao trocar o idioma. */
+export const UI_LANG_FADE_EVENT = "nekoteach:ui-lang-fade";
+const FADE_MS = 160;
+
+function writeLang(lang: UiLang, chosen: boolean) {
   try {
-    stored = localStorage.getItem(UI_LANG_KEY);
     localStorage.setItem(UI_LANG_KEY, lang);
     localStorage.setItem(UI_LANG_VERSION_KEY, UI_LANG_VERSION);
     if (chosen) localStorage.setItem(UI_LANG_CHOSEN_KEY, "1");
   } catch {
     /* ignore */
   }
-  if (stored === lang) return;
-  window.dispatchEvent(new CustomEvent(UI_LANG_EVENT));
+}
+
+export function setUiLang(lang: UiLang, chosen = true) {
+  if (typeof window === "undefined") return;
+  let stored: string | null = null;
+  try {
+    stored = localStorage.getItem(UI_LANG_KEY);
+  } catch {
+    /* ignore */
+  }
+  if (stored === lang) {
+    writeLang(lang, chosen);
+    return;
+  }
+  // Piscada suave: escurece, troca todos os textos de uma vez, volta.
+  window.dispatchEvent(new CustomEvent(UI_LANG_FADE_EVENT, { detail: { active: true } }));
+  window.setTimeout(() => {
+    writeLang(lang, chosen);
+    window.dispatchEvent(new CustomEvent(UI_LANG_EVENT));
+    window.setTimeout(
+      () => window.dispatchEvent(new CustomEvent(UI_LANG_FADE_EVENT, { detail: { active: false } })),
+      40,
+    );
+  }, FADE_MS);
 }
 
 export function setUiLangFromCountry(country?: string | null) {
   if (!country) return;
   setUiLang(uiLangForCountry(country));
 }
+
 
 /** Restaura o idioma salvo na conta (país do perfil) ao abrir o app logado. */
 export function syncUiLangFromAccount(country?: string | null) {
