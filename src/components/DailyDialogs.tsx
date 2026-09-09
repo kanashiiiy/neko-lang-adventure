@@ -6,39 +6,6 @@ import { speakForLang, getRecognition, matchSpeech, isRecognitionSupported } fro
 
 const FAV_KEY = "nekoteach:dialog-favs";
 
-const SCENE_POSITION = [
-  "left-0 top-0",
-  "left-[-100%] top-0",
-  "left-[-200%] top-0",
-  "left-0 top-0 -translate-y-1/2",
-  "left-[-100%] top-0 -translate-y-1/2",
-] as const;
-
-function SceneIllustration({
-  src,
-  scene,
-  alt,
-  eager = false,
-}: {
-  src: string;
-  scene: number;
-  alt: string;
-  eager?: boolean;
-}) {
-  const position = SCENE_POSITION[scene] ?? SCENE_POSITION[0];
-  if (!src) return null;
-  return (
-    <img
-      src={src}
-      alt={alt}
-      width={1920}
-      height={1280}
-      loading={eager ? "eager" : "lazy"}
-      className={`absolute h-auto w-[300%] max-w-none ${position}`}
-    />
-  );
-}
-
 function readFavs(): string[] {
   if (typeof window === "undefined") return [];
   try {
@@ -130,14 +97,11 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
           </button>
         </div>
 
-        {/* Ilustração da situação */}
+        {/* Destaque visual da situação */}
         <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-gradient-primary shadow-soft">
-          <SceneIllustration
-            src={phrase.illustration.src}
-            scene={phrase.illustration.scene}
-            alt={`${t(category.name)}: ${phrase.text[learnLang]}`}
-            eager
-          />
+          <div className="absolute inset-0 flex items-center justify-center" aria-hidden>
+            <span className="text-8xl drop-shadow-sm">{category.emoji}</span>
+          </div>
           <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-card/95 px-3 py-2 shadow-card">
             <div className="break-words text-sm font-black leading-tight">{phrase.text[learnLang]}</div>
             {learnLang === "ja" && <div className="break-words text-xs italic leading-snug text-primary">{phrase.romaji}</div>}
@@ -223,8 +187,8 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
           {category.phrases.map((p) => (
             <button key={p.id} onClick={() => openPhrase(p)}
               className="flex w-full items-start justify-between gap-3 rounded-2xl bg-card p-4 text-left shadow-card">
-              <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-muted" aria-hidden>
-                <SceneIllustration src={p.illustration.src} scene={p.illustration.scene} alt="" />
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-muted text-2xl" aria-hidden>
+                {category.emoji}
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block break-words font-bold leading-snug">{p.text[learnLang]}</span>
@@ -247,8 +211,8 @@ export function DailyDialogs({ learnLang }: { learnLang: LearnLang }) {
         {DIALOG_CATEGORIES.map((c) => (
           <button key={c.id} onClick={() => setCatId(c.id)}
             className="flex w-full items-center gap-3 rounded-2xl bg-card p-4 text-left shadow-card">
-            <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-2xl bg-muted" aria-hidden>
-              <SceneIllustration src={c.illustration} scene={0} alt="" />
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-muted text-2xl" aria-hidden>
+              {c.emoji}
             </span>
             <span className="min-w-0 flex-1">
               <span className="block font-black leading-tight">{t(c.name)}</span>
