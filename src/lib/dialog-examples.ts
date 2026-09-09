@@ -1240,11 +1240,11 @@ export const DIALOG_EXAMPLES: Record<string, Record<string, DialogueExample[]>> 
       {
         "id": "apresentacao-2-example-1",
         "text": {
-          "pt": "Ah, Belém! Ouvi dizer que a culinária daí é maravilhosa.",
-          "en": "Ah, Belém! I hear the food there is wonderful.",
-          "ja": "ああ、ベレン！料理がとても素晴らしいそうですね。"
+          "pt": "Ah, {PAIS}! Ouvi dizer que a culinária de lá é maravilhosa.",
+          "en": "Ah, {PAIS}! I hear the food there is wonderful.",
+          "ja": "ああ、{PAIS}ですか！料理がとても素晴らしいそうですね。"
         },
-        "romaji": "Aa, Beren! Ryōri ga totemo subarashii sō desu ne."
+        "romaji": "Ā, {PAIS_ROMAJI} desu ka! Ryōri ga totemo subarashii sō desu ne."
       },
       {
         "id": "apresentacao-2-example-2",
