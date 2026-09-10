@@ -44,6 +44,25 @@ function AuthPage() {
   }).refine((d) => d.password === d.confirm, { message: t("As senhas não coincidem"), path: ["confirm"] })
     .refine((d) => d.accept, { message: t("Aceite os termos para continuar"), path: ["accept"] });
 
+  // Mensagens amigáveis: nunca mostrar "Failed to fetch" ao usuário.
+  function friendlyError(message: string) {
+    const m = (message || "").toLowerCase();
+    if (m.includes("failed to fetch") || m.includes("network") || m.includes("fetch")) {
+      return t("Sem conexão com o servidor. Verifique sua internet e tente de novo.");
+    }
+    if (m.includes("invalid login credentials")) return t("E-mail ou senha incorretos.");
+    return message;
+  }
+
+  async function withNetworkGuard<T>(fn: () => Promise<T>): Promise<T | null> {
+    try {
+      return await fn();
+    } catch (err) {
+      toast.error(friendlyError(err instanceof Error ? err.message : ""));
+      return null;
+    }
+  }
+
   const loginSchema = z.object({
     email: z.string().trim().email(t("E-mail inválido")),
     password: z.string().min(1, t("Digite sua senha")),
@@ -55,9 +74,10 @@ function AuthPage() {
     const parsed = loginSchema.safeParse({ email: fd.get("email"), password: fd.get("password") });
     if (!parsed.success) return toast.error(parsed.error.issues[0].message);
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword(parsed.data);
+    const res = await withNetworkGuard(() => supabase.auth.signInWithPassword(parsed.data));
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (!res) return;
+    if (res.error) return toast.error(friendlyError(res.error.message));
     toast.success(t("Bem-vindo de volta!"));
     navigate({ to: "/", replace: true });
   }
@@ -73,19 +93,23 @@ function AuthPage() {
     });
     if (!parsed.success) return toast.error(parsed.error.issues[0].message);
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
-      email: parsed.data.email,
-      password: parsed.data.password,
-      options: { emailRedirectTo: `${window.location.origin}/` },
-    });
+    const res = await withNetworkGuard(() =>
+      supabase.auth.signUp({
+        email: parsed.data.email,
+        password: parsed.data.password,
+        options: { emailRedirectTo: `${window.location.origin}/` },
+      }),
+    );
     setLoading(false);
+    if (!res) return;
+    const { data, error } = res;
     if (error) {
       if (error.message.toLowerCase().includes("already registered")) {
         toast.error(t("Este e-mail já tem conta. Faça login."));
         setMode("login");
         return;
       }
-      return toast.error(error.message);
+      return toast.error(friendlyError(error.message));
     }
     if (!data.session) {
       toast.success(t("Enviamos um link para o seu e-mail."));
@@ -102,11 +126,14 @@ function AuthPage() {
     const email = String(fd.get("email") ?? "");
     if (!z.string().email().safeParse(email).success) return toast.error(t("E-mail inválido"));
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
+    const res = await withNetworkGuard(() =>
+      supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      }),
+    );
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (!res) return;
+    if (res.error) return toast.error(friendlyError(res.error.message));
     toast.success(t("Enviamos um link para o seu e-mail."));
     setMode("login");
   }
