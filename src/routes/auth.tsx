@@ -126,11 +126,14 @@ function AuthPage() {
     const email = String(fd.get("email") ?? "");
     if (!z.string().email().safeParse(email).success) return toast.error(t("E-mail inválido"));
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
+    const res = await withNetworkGuard(() =>
+      supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      }),
+    );
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (!res) return;
+    if (res.error) return toast.error(friendlyError(res.error.message));
     toast.success(t("Enviamos um link para o seu e-mail."));
     setMode("login");
   }
