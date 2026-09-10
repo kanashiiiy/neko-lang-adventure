@@ -13,6 +13,7 @@ import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "@/integrations/supabase/client";
+import { UiLangTransition } from "@/components/UiLangTransition";
 
 function NotFoundComponent() {
   return (
@@ -107,6 +108,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <UiLangTransition />
       <Toaster position="top-center" richColors closeButton />
     </QueryClientProvider>
   );
