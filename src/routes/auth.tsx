@@ -74,9 +74,10 @@ function AuthPage() {
     const parsed = loginSchema.safeParse({ email: fd.get("email"), password: fd.get("password") });
     if (!parsed.success) return toast.error(parsed.error.issues[0].message);
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword(parsed.data);
+    const res = await withNetworkGuard(() => supabase.auth.signInWithPassword(parsed.data));
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (!res) return;
+    if (res.error) return toast.error(friendlyError(res.error.message));
     toast.success(t("Bem-vindo de volta!"));
     navigate({ to: "/", replace: true });
   }
