@@ -44,6 +44,25 @@ function AuthPage() {
   }).refine((d) => d.password === d.confirm, { message: t("As senhas não coincidem"), path: ["confirm"] })
     .refine((d) => d.accept, { message: t("Aceite os termos para continuar"), path: ["accept"] });
 
+  // Mensagens amigáveis: nunca mostrar "Failed to fetch" ao usuário.
+  function friendlyError(message: string) {
+    const m = (message || "").toLowerCase();
+    if (m.includes("failed to fetch") || m.includes("network") || m.includes("fetch")) {
+      return t("Sem conexão com o servidor. Verifique sua internet e tente de novo.");
+    }
+    if (m.includes("invalid login credentials")) return t("E-mail ou senha incorretos.");
+    return message;
+  }
+
+  async function withNetworkGuard<T>(fn: () => Promise<T>): Promise<T | null> {
+    try {
+      return await fn();
+    } catch (err) {
+      toast.error(friendlyError(err instanceof Error ? err.message : ""));
+      return null;
+    }
+  }
+
   const loginSchema = z.object({
     email: z.string().trim().email(t("E-mail inválido")),
     password: z.string().min(1, t("Digite sua senha")),
