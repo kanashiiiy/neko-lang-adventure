@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, isPremiumActive } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
-import { useT, useTf } from "@/lib/i18n";
+import { useT, useTf, setUiLangFromCountry } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
