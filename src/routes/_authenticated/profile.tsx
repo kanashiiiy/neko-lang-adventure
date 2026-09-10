@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, isPremiumActive } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
-import { useT, useTf } from "@/lib/i18n";
+import { useT, useTf, setUiLangFromCountry } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
@@ -218,7 +218,7 @@ function ProfilePage() {
                 <h2 className="text-xl font-black">{t("País")}</h2>
                 <div className="mt-4 flex max-h-80 flex-col gap-2 overflow-y-auto">
                   {COUNTRIES.map((c) => (
-                    <button key={c} onClick={async () => { await save({ country: c }); setModal(null); }}
+                    <button key={c} onClick={async () => { await save({ country: c }); setUiLangFromCountry(c); setModal(null); }}
                       className={`flex items-center gap-3 rounded-2xl border-2 p-3 text-left ${profile.country === c ? "border-primary bg-accent" : "border-border"}`}>
                       <span className="flex-1 font-bold">{t(c)}</span>
                       {profile.country === c && <span className="text-primary">✓</span>}
