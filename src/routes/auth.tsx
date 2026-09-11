@@ -48,7 +48,7 @@ function AuthPage() {
   function friendlyError(message: string) {
     const m = (message || "").toLowerCase();
     if (m.includes("failed to fetch") || m.includes("network") || m.includes("fetch")) {
-      return t("Sem conexão com o servidor. Verifique sua internet e tente de novo.");
+      return t("O servidor do NEKOTeach está temporariamente indisponível. Tente novamente em instantes.");
     }
     if (m.includes("invalid login credentials")) return t("E-mail ou senha incorretos.");
     return message;
@@ -58,7 +58,9 @@ function AuthPage() {
     try {
       return await fn();
     } catch (err) {
-      toast.error(friendlyError(err instanceof Error ? err.message : ""));
+      const message = err instanceof Error ? err.message : String(err ?? "Erro desconhecido");
+      console.error("[NEKOTeach Auth] Falha na requisição de autenticação:", err);
+      toast.error(friendlyError(message));
       return null;
     }
   }
