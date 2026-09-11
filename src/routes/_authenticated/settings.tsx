@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
+import { toast } from "@/lib/neko-toast";
 import { ChevronRight, Moon, Sun, Bell, Lock, Info, HelpCircle, Globe } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile } from "@/lib/profile";

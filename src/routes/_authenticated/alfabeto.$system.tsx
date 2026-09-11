@@ -6,7 +6,7 @@ import { CATEGORIES, ALPHABET_META, categoriesForLevel, type AlphabetSystem, typ
 import { speak } from "@/lib/speech";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile } from "@/lib/profile";
-import { toast } from "sonner";
+import { toast } from "@/lib/neko-toast";
 import { useT, useTf } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_authenticated/alfabeto/$system")({

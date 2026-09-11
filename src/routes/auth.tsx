@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { toast } from "sonner";
+import { toast } from "@/lib/neko-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT } from "@/lib/i18n";

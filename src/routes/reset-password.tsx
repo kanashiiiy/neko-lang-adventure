@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/lib/neko-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { NekoMascot } from "@/components/NekoMascot";

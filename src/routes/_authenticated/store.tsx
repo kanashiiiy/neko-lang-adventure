@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@/lib/neko-toast";
 import { Check, Sparkles, Brain, Gem } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, buyFocus, isPremiumPlusActive } from "@/lib/profile";
