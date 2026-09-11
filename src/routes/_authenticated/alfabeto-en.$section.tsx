@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Volume2, RotateCcw, Check } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "@/lib/neko-toast";
 import { speakForLang } from "@/lib/speech";
 import { EN_ALPHABET, EN_TO_BE, EN_PHRASES, EN_TENSES, EN_SECTION_META, type EnSection } from "@/lib/en-content";
 import { useT, useTf } from "@/lib/i18n";
