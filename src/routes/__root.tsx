@@ -115,7 +115,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
       <UiLangTransition />
-      <Toaster position="top-center" richColors closeButton />
+      <Toaster position="top-center" offset={12} gap={8} />
     </QueryClientProvider>
   );
 }
