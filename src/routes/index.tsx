@@ -20,25 +20,32 @@ function SplashScreen() {
   useEffect(() => {
     let cancelled = false;
     const timer = setTimeout(() => setReady(true), 1400);
+
     (async () => {
-      // Sessão persistida: tenta algumas vezes, pois o backend pode demorar a responder
-      // logo após o app abrir — sem isso o usuário logado cairia na tela de boas-vindas.
+      // A recuperação da sessão nunca pode bloquear a entrada no app para sempre.
+      // Isso é especialmente importante no preview do Lovable, onde o storage de
+      // autenticação pode depender de uma resposta assíncrona do editor.
       let session = null;
-      for (let i = 0; i < 3 && !session; i++) {
-        try {
-          const { data } = await supabase.auth.getSession();
-          session = data.session;
-        } catch {
-          /* rede instável: tenta de novo */
-        }
-        if (!session && i < 2) await new Promise((r) => setTimeout(r, 700));
+      try {
+        const result = await Promise.race([
+          supabase.auth.getSession(),
+          new Promise<never>((_, reject) =>
+            window.setTimeout(() => reject(new Error("SESSION_RECOVERY_TIMEOUT")), 6000),
+          ),
+        ]);
+        session = result.data.session;
+      } catch (error) {
+        console.error("[NEKOTeach] Falha ao recuperar a sessão inicial:", error);
       }
+
       await new Promise((r) => setTimeout(r, 1400));
       if (cancelled) return;
+
       if (!session) {
         navigate({ to: "/welcome", replace: true });
         return;
       }
+
       try {
         const profile = await fetchProfile(session.user.id);
         if (!profile?.onboarding_complete || !profile?.name) {
@@ -46,11 +53,16 @@ function SplashScreen() {
         } else {
           navigate({ to: "/home", replace: true });
         }
-      } catch {
+      } catch (error) {
+        console.error("[NEKOTeach] Falha ao carregar o perfil inicial:", error);
         navigate({ to: "/onboarding", replace: true });
       }
     })();
-    return () => { cancelled = true; clearTimeout(timer); };
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [navigate]);
 
   return (
