@@ -2,7 +2,6 @@
 import { goalWordsFor } from "@/lib/goals";
 import { translate, translateVars, type UiLang } from "@/lib/i18n";
 
-
 export type Language = "pt" | "ja" | "en";
 export type Level = "iniciante" | "basico" | "intermediario" | "avancado";
 
@@ -14,18 +13,21 @@ export const LANGUAGES: { code: Language; name: string; flag: string; nativeName
 
 export type TaskKind = "choose" | "listen" | "complete" | "speak";
 
+export interface VisualOption { label: string; emoji: string; }
 export interface Question {
   kind: TaskKind;
   prompt: string;
   audio?: string;
   answer: string;
   options?: string[];
+  visualOptions?: VisualOption[];
   hint?: string;
   translation?: string;
   romaji?: string;
   japanese?: string;
+  kana?: string;
+  kanji?: string;
 }
-
 
 export interface Phase {
   id: string;
@@ -35,7 +37,6 @@ export interface Phase {
   questions: Question[];
 }
 
-// Base words (target, translationPt, romajiOrEmpty)
 const JA_CORE: [string, string, string][] = [
   ["こんにちは", "Olá", "konnichiwa"], ["おはよう", "Bom dia", "ohayou"],
   ["こんばんは", "Boa noite", "konbanwa"], ["ありがとう", "Obrigado", "arigatou"],
@@ -44,7 +45,6 @@ const JA_CORE: [string, string, string][] = [
   ["ねこ", "Gato", "neko"], ["いぬ", "Cachorro", "inu"],
   ["みず", "Água", "mizu"], ["ほん", "Livro", "hon"],
 ];
-
 const EN_CORE: [string, string, string][] = [
   ["Hello", "Olá", ""], ["Good morning", "Bom dia", ""],
   ["Thank you", "Obrigado", ""], ["Goodbye", "Tchau", ""],
@@ -52,7 +52,6 @@ const EN_CORE: [string, string, string][] = [
   ["Cat", "Gato", ""], ["Dog", "Cachorro", ""],
   ["Water", "Água", ""], ["Book", "Livro", ""],
 ];
-
 const PT_CORE: [string, string, string][] = [
   ["Olá", "Olá", ""], ["Bom dia", "Bom dia", ""],
   ["Obrigado", "Obrigado", ""], ["Tchau", "Tchau", ""],
@@ -60,10 +59,21 @@ const PT_CORE: [string, string, string][] = [
   ["Gato", "Gato", ""], ["Cachorro", "Cachorro", ""],
   ["Água", "Água", ""], ["Livro", "Livro", ""],
 ];
-
-
 const CORE: Record<Language, [string, string, string][]> = { ja: JA_CORE, en: EN_CORE, pt: PT_CORE };
 
+const JA_KANJI: Record<string, string> = {
+  "みず": "水", "ほん": "本", "ねこ": "猫", "いぬ": "犬",
+};
+const VISUALS: Record<string, VisualOption[]> = {
+  "Água": [{label:"Água",emoji:"🥛"},{label:"Leite",emoji:"🍼"},{label:"Café",emoji:"☕"},{label:"Chá",emoji:"🍵"}],
+  "Gato": [{label:"Gato",emoji:"🐱"},{label:"Cachorro",emoji:"🐶"},{label:"Peixe",emoji:"🐟"},{label:"Pássaro",emoji:"🐦"}],
+  "Cachorro": [{label:"Cachorro",emoji:"🐶"},{label:"Gato",emoji:"🐱"},{label:"Coelho",emoji:"🐰"},{label:"Raposa",emoji:"🦊"}],
+  "Livro": [{label:"Livro",emoji:"📖"},{label:"Caneta",emoji:"🖊️"},{label:"Celular",emoji:"📱"},{label:"Caderno",emoji:"📓"}],
+  "Café": [{label:"Café",emoji:"☕"},{label:"Chá",emoji:"🍵"},{label:"Água",emoji:"🥛"},{label:"Suco",emoji:"🧃"}],
+  "Chá": [{label:"Chá",emoji:"🍵"},{label:"Café",emoji:"☕"},{label:"Leite",emoji:"🍼"},{label:"Água",emoji:"🥛"}],
+  "Carro": [{label:"Carro",emoji:"🚗"},{label:"Bicicleta",emoji:"🚲"},{label:"Trem",emoji:"🚆"},{label:"Avião",emoji:"✈️"}],
+  "Comida": [{label:"Comida",emoji:"🍱"},{label:"Bebida",emoji:"🥤"},{label:"Livro",emoji:"📖"},{label:"Casa",emoji:"🏠"}],
+};
 const ICONS: Record<Language, string[]> = {
   ja: ["🌸","⛩️","🍣","🗾","🎋","🍜","🎌","🌊","🗻","🎎"],
   en: ["👋","🏫","🍔","🎬","⚽","🌎","🗽","🎵","🚀","🏆"],
@@ -75,7 +85,6 @@ function pickOptions<T>(correct: T, all: T[], n = 4): T[] {
   const pool = all.filter((x) => x !== correct);
   return shuffle([correct, ...shuffle(pool).slice(0, n - 1)]);
 }
-
 function kindsForLevel(level: Level): TaskKind[] {
   switch (level) {
     case "iniciante": return ["choose", "listen", "choose", "choose"];
@@ -84,16 +93,21 @@ function kindsForLevel(level: Level): TaskKind[] {
     case "avancado": return ["complete", "speak", "listen", "speak"];
   }
 }
+function japaneseForms(target: string, romaji: string, level: Level) {
+  const kanji = JA_KANJI[target];
+  if (level === "iniciante") return { displayRomaji: romaji, displayKana: target, displayKanji: undefined };
+  if (level === "basico") return { displayRomaji: romaji, displayKana: target, displayKanji: undefined };
+  if (level === "intermediario") return { displayRomaji: romaji, displayKana: target, displayKanji: kanji };
+  return { displayRomaji: romaji, displayKana: target, displayKanji: kanji };
+}
 
 function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string, ui: UiLang): Phase {
   const goalWords = goalWordsFor(lang, goal);
   const core = CORE[lang];
-  // Blend: 60% goal words + 40% core basics
   const mixed = [...goalWords, ...core];
   const start = (phaseIdx * 2) % mixed.length;
   const words = Array.from({ length: 10 }, (_, i) => mixed[(start + i) % mixed.length]);
   const isJa = lang === "ja";
-  // For Japanese, answers/options must always be in romaji (never kana/kanji).
   const allAnswers = mixed.map((w) => (isJa ? (w[2] || w[0]) : w[0]));
   const kinds = kindsForLevel(level);
   const uiLangName = translate(langName(lang), ui);
@@ -102,20 +116,24 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
     const [target, ptTr, romaji] = w;
     const meaning = translate(ptTr, ui);
     const answerText = isJa ? (romaji || target) : target;
+    const forms = isJa ? japaneseForms(target, romaji, level) : null;
     const kind = kinds[(phaseIdx + i) % kinds.length];
     const base: Partial<Question> = {
-      audio: target,
-      translation: meaning,
-      romaji: romaji || undefined,
-      japanese: isJa ? target : undefined,
+      audio: target, translation: meaning, romaji: romaji || undefined,
+      japanese: isJa ? target : undefined, kana: isJa ? forms?.displayKana : undefined,
+      kanji: isJa ? forms?.displayKanji : undefined,
     };
 
     if (kind === "choose") {
-      // Always meaning → target-language (romaji for JA) to keep alternatives readable for beginners.
+      const visual = phaseIdx < 2 ? VISUALS[ptTr] : undefined;
       return { ...base, kind: "choose",
-        prompt: translateVars('Como se diz "{w}" em {lang}?', { w: meaning, lang: uiLangName }, ui),
+        prompt: visual
+          ? translate("Ouça o Neko e escolha a imagem correta", ui)
+          : translateVars('Como se diz "{w}" em {lang}?', { w: meaning, lang: uiLangName }, ui),
         answer: answerText,
-        options: pickOptions(answerText, allAnswers) } as Question;
+        options: pickOptions(answerText, allAnswers),
+        visualOptions: visual,
+      } as Question;
     }
     if (kind === "listen") {
       return { ...base, kind: "listen", prompt: translate("Ouça e escolha", ui), answer: answerText,
@@ -125,10 +143,8 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
       const label = isJa ? translate("romaji", ui) : uiLangName;
       return { ...base, kind: "complete",
         prompt: translateVars('Escreva em {lang}: "{w}"', { lang: label, w: meaning }, ui),
-        answer: answerText,
-        hint: level === "iniciante" ? answerText : undefined } as Question;
+        answer: answerText, hint: level === "iniciante" ? answerText : undefined } as Question;
     }
-    // speak: match against native pronunciation (kana for JA), but display romaji as reference.
     return { ...base, kind: "speak", prompt: translateVars('Fale: "{w}"', { w: target }, ui), answer: target } as Question;
   });
 
@@ -140,11 +156,7 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
     questions,
   };
 }
-
-function langName(l: Language) {
-  return l === "ja" ? "japonês" : l === "en" ? "inglês" : "português";
-}
-
+function langName(l: Language) { return l === "ja" ? "japonês" : l === "en" ? "inglês" : "português"; }
 function normalizeLevel(l: string | null | undefined): Level {
   const v = (l ?? "iniciante").toLowerCase();
   if (v.startsWith("bás") || v === "basico") return "basico";
@@ -152,41 +164,19 @@ function normalizeLevel(l: string | null | undefined): Level {
   if (v.startsWith("av")) return "avancado";
   return "iniciante";
 }
-
-// Perfis antigos podem ter idiomas que não existem mais (ko, fr, es).
-// Sem essa normalização os bancos indexados por idioma retornam undefined.
 export function normalizeLanguage(lang: string | null | undefined): Language {
   return lang === "ja" || lang === "en" || lang === "pt" ? lang : "en";
 }
-
-export function buildPhases(
-  langInput: Language | string | null | undefined,
-  level: string | null | undefined,
-  goal: string | null | undefined,
-  ui: UiLang = "pt",
-): Phase[] {
-  const lang = normalizeLanguage(langInput);
-  const lv = normalizeLevel(level);
+export function buildPhases(langInput: Language | string | null | undefined, level: string | null | undefined, goal: string | null | undefined, ui: UiLang = "pt"): Phase[] {
+  const lang = normalizeLanguage(langInput); const lv = normalizeLevel(level);
   return Array.from({ length: 10 }, (_, i) => buildPhase(lang, i, lv, goal ?? "outro", ui));
 }
-
-// Default banks (used when no profile info yet — objetivo "outro", nível iniciante).
 export const PHASES: Record<Language, Phase[]> = {
   ja: buildPhases("ja", "iniciante", "outro"),
   en: buildPhases("en", "iniciante", "outro"),
   pt: buildPhases("pt", "iniciante", "outro"),
 };
-
 export const LESSONS = PHASES;
-
-export function getLesson(
-  lang: Language | string | null | undefined,
-  id: string,
-  level?: string | null,
-  goal?: string | null,
-  ui: UiLang = "pt",
-): Phase | undefined {
-  const phases = buildPhases(lang, level, goal, ui);
-  return phases?.find((l) => l.id === id);
+export function getLesson(lang: Language | string | null | undefined, id: string, level?: string | null, goal?: string | null, ui: UiLang = "pt"): Phase | undefined {
+  return buildPhases(lang, level, goal, ui).find((l) => l.id === id);
 }
-
