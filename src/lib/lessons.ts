@@ -27,6 +27,14 @@ export interface Question {
   japanese?: string;
   kana?: string;
   kanji?: string;
+  /** Informações liberadas somente depois que uma missão de áudio for respondida. */
+  reveal?: {
+    translation?: string;
+    romaji?: string;
+    japanese?: string;
+    kana?: string;
+    kanji?: string;
+  };
 }
 
 export interface Phase {
@@ -165,12 +173,24 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
       } as Question;
     }
     if (kind === "listen") {
-      // A tarefa de áudio usa o significado como resposta/opções.
-      // Assim, nem o romaji nem a palavra japonesa ficam entre as opções
-      // antes da resposta. Os dados japoneses ficam disponíveis apenas
-      // para a tela de correção/aprendizado após o usuário responder.
-      return { ...base, kind: "listen", prompt: translate("Ouça e escolha a resposta correta", ui), answer: meaning,
-        options: pickOptions(meaning, allMeanings) } as Question;
+      // MISSÃO DE ÁUDIO:
+      // Não colocamos tradução, romaji, japonês, kana ou kanji nos campos
+      // normais da pergunta. Eles ficam exclusivamente em "reveal", que a
+      // tela só renderiza depois da resposta.
+      return {
+        kind: "listen",
+        prompt: translate("Ouça a palavra e escolha a resposta correta", ui),
+        audio: target,
+        answer: meaning,
+        options: pickOptions(meaning, allMeanings),
+        reveal: {
+          translation: meaning,
+          romaji: romaji || undefined,
+          japanese: isJa ? target : undefined,
+          kana: isJa ? forms?.displayKana : undefined,
+          kanji: isJa ? forms?.displayKanji : undefined,
+        },
+      } as Question;
     }
     if (kind === "complete") {
       const label = isJa ? translate("romaji", ui) : uiLangName;
