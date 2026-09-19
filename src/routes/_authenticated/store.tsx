@@ -82,7 +82,8 @@ function StorePage() {
     <div className="mobile-shell">
       <header className="border-b-2 border-border bg-card px-6 py-4 flex items-center justify-between">
         <h1 className="text-2xl font-black">{t("Premium")}</h1>
-        <div data-reward-counter="gems" className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-sm font-bold text-primary">
+        <div className="flex items-center gap-2">
+          <div data-reward-counter="gems" className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-sm font-bold text-primary">
           <Gem className="h-4 w-4" /> {profile?.gems ?? 0}
         </div>
       </header>
