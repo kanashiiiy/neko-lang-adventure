@@ -444,7 +444,8 @@ function buildPhase(
     if (kind === "listen") {
       // Listening tasks stay beginner-friendly: only individual words or
       // short two-word expressions already unlocked in the cumulative pool.
-      const shortPool = pool.filter((entry) => isShortListenItem(lang, entry));
+      const learnedPool = phaseIdx > 0 ? cumulativePool(lang, phaseIdx - 1) : pool;
+      const shortPool = learnedPool.filter((entry) => isShortListenItem(lang, entry));
       const listenItem = shortPool.length > 0
         ? shortPool[index % shortPool.length]
         : item;
