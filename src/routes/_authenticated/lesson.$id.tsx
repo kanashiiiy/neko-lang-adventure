@@ -128,7 +128,7 @@ function LessonPlayer() {
         const next = s + 1;
         if (next % 7 === 0) {
           setBonusFocus((b) => b + 2);
-          toast.success(t("🔥 7 acertos seguidos! +2 Foco"));
+          // O bônus de Foco é incluído na recompensa final da lição e coletado visualmente.
         }
         return next;
       });
