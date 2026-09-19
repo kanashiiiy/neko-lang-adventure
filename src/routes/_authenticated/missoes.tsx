@@ -76,7 +76,15 @@ function MissoesPage() {
   const p: MissionCtx | null = profile ? { xp: profile.xp, streak: profile.streak, focus: profile.focus, gems: profile.gems, xpToday: Math.max(0, profile.xp - dayBaselineXp(profile.xp)), loggedToday: true } : null;
   return (
     <div className="mobile-shell">
-      <header className="border-b-2 border-border bg-card px-6 py-4 flex items-center gap-3"><Target className="h-6 w-6 text-primary" /><h1 className="text-2xl font-black">{t("Missões")}</h1></header>
+      <header className="border-b-2 border-border bg-card px-4 py-4 flex items-center gap-3">
+        <Target className="h-6 w-6 shrink-0 text-primary" />
+        <h1 className="flex-1 text-2xl font-black">{t("Missões")}</h1>
+        <div className="flex items-center gap-1.5 text-xs font-bold">
+          <span data-reward-counter="gems" className="flex items-center gap-0.5 rounded-full bg-muted px-2 py-1"><Gem className="h-3.5 w-3.5 text-primary" />{profile?.gems ?? 0}</span>
+          <span data-reward-counter="xp" className="flex items-center gap-0.5 rounded-full bg-muted px-2 py-1"><Trophy className="h-3.5 w-3.5 text-gold" />{profile?.xp ?? 0}</span>
+          <span data-reward-counter="focus" className="flex items-center gap-0.5 rounded-full bg-muted px-2 py-1"><Brain className="h-3.5 w-3.5 text-yellow-500" />{profile?.focus ?? 0}</span>
+        </div>
+      </header>
       <main className="flex-1 px-4 py-5 space-y-4">
         <div className="rounded-3xl bg-gradient-primary p-5 text-primary-foreground shadow-soft flex items-center gap-3"><NekoMascot size={72} float /><div><div className="text-lg font-black">{t("Complete missões e ganhe recompensas!")}</div><div className="text-xs opacity-90">{t("Diamantes, XP e Foco te esperam")}</div></div></div>
         {p && missions.map((m) => {
