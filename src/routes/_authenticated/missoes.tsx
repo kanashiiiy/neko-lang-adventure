@@ -7,6 +7,7 @@ import { fetchProfile, updateProfile } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT } from "@/lib/i18n";
+import { useRewardAnimation } from "@/components/RewardAnimation";
 
 
 export const Route = createFileRoute("/_authenticated/missoes")({
@@ -112,6 +113,7 @@ function dayBaselineXp(xp: number) {
 function MissoesPage() {
   const qc = useQueryClient();
   const t = useT();
+  const { collectRewards } = useRewardAnimation();
   const { data: profile } = useQuery({
 
     queryKey: ["profile"],
