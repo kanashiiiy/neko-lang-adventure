@@ -194,3 +194,50 @@ export async function fetchCompletedLessons(userId: string, language: string) {
   if (error) throw error;
   return new Set((data ?? []).map((r) => r.lesson_id));
 }
+
+
+// Progressão de nível baseada no MESMO XP já armazenado no perfil.
+export function xpRequiredForLevel(level: number): number {
+  if (level <= 3) return 100;
+  if (level <= 6) return 200;
+  if (level <= 9) return 250;
+  if (level <= 12) return 300;
+  if (level <= 15) return 350;
+  if (level <= 18) return 400;
+  if (level <= 21) return 450;
+  return 450 + Math.floor((level - 21) / 3) * 50;
+}
+
+export function getLevelProgress(xp: number) {
+  const total = Math.max(0, Math.floor(xp));
+  let level = 1;
+  let remaining = total;
+  while (remaining >= xpRequiredForLevel(level)) {
+    remaining -= xpRequiredForLevel(level);
+    level += 1;
+    if (level >= 1000) break;
+  }
+  const needed = xpRequiredForLevel(level);
+  return {
+    level,
+    totalXp: total,
+    xpIntoLevel: remaining,
+    xpForNextLevel: needed,
+    remainingXp: Math.max(0, needed - remaining),
+    progressPercent: Math.min(100, Math.round((remaining / needed) * 100)),
+  };
+}
+
+export function getLevelsCrossed(beforeXp: number, afterXp: number) {
+  const before = getLevelProgress(beforeXp).level;
+  const after = getLevelProgress(afterXp).level;
+  return after > before ? Array.from({ length: after - before }, (_, i) => before + i + 1) : [];
+}
+
+export function getLevelChestKey(userId: string, level: number) {
+  return `nekoteach:level-chest:${userId}:level-${level}`;
+}
+
+export function rollLevelChestFocus() {
+  return Math.floor(Math.random() * 15) + 1;
+}
