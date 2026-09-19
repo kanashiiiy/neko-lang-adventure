@@ -79,24 +79,46 @@ Pronúncia
 
 Adapte a estrutura ao pedido: não inclua seções vazias ou irrelevantes.`;
 
-        const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
-          body: JSON.stringify({
-            model: "google/gemini-2.5-flash",
-            messages: [{ role: "system", content: systemPrompt }, ...userMessages],
-          }),
-        });
+        const systemMessage = userMessages.find((message) => message.role === "system")?.content;
+        const contents = userMessages
+          .filter((message) => message.role !== "system")
+          .map((message) => ({
+            role: message.role === "assistant" ? "model" : "user",
+            parts: [{ text: message.content }],
+          }));
+
+        const res = await fetch(
+          "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-goog-api-key": key,
+            },
+            body: JSON.stringify({
+              system_instruction: {
+                parts: [{ text: systemPrompt }],
+              },
+              contents,
+            }),
+          },
+        );
 
         if (!res.ok) {
           const t = await res.text();
-          console.error("AI gateway error", res.status, t);
-          if (res.status === 429) return Response.json({ reply: "Muitas mensagens! Espere um pouco 🐾" });
-          if (res.status === 402) return Response.json({ reply: "Créditos de IA esgotados." });
+          console.error("Gemini API error", res.status, t);
+          if (res.status === 429) {
+            return Response.json({ reply: "Muitas mensagens! Espere um pouco 🐾" });
+          }
           return Response.json({ reply: "Deu um probleminha. Tente de novo!" });
         }
+
         const data = await res.json();
-        const reply = cleanReply(data?.choices?.[0]?.message?.content ?? "Miau!");
+        const reply = cleanReply(
+          data?.candidates?.[0]?.content?.parts
+            ?.map((part: { text?: string }) => part.text ?? "")
+            .join("") || "Miau!",
+        );
         return Response.json({ reply });
       },
     },
