@@ -264,7 +264,6 @@ function buildOptionsFromLearnedPool(
   target: string,
   pool: LessonItem[],
   lang: Language,
-  phaseIdx: number,
 ): string[] {
   const answerTokens = tokenizeBuild(target);
   if (answerTokens.length === 0 || answerTokens.length > 5) return [];
