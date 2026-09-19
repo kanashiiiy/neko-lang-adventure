@@ -74,16 +74,16 @@ const EN_EXTRA: [string, string, string][] = [
   ["Sorry", "Desculpe", ""], ["Good night", "Boa noite", ""],
 ];
 const PT_CORE: [string, string, string][] = [
-  ["Olá", "Olá", ""], ["Bom dia", "Bom dia", ""],
-  ["Obrigado", "Obrigado", ""], ["Tchau", "Tchau", ""],
-  ["Sim", "Sim", ""], ["Não", "Não", ""],
-  ["Gato", "Gato", ""], ["Cachorro", "Cachorro", ""],
-  ["Água", "Água", ""], ["Café", "Café", ""],
-  ["Chá", "Chá", ""], ["Leite", "Leite", ""],
-  ["Por favor", "Por favor", ""], ["Livro", "Livro", ""],
+  ["Olá", "Hello", ""], ["Bom dia", "Good morning", ""],
+  ["Obrigado", "Thank you", ""], ["Tchau", "Goodbye", ""],
+  ["Sim", "Yes", ""], ["Não", "No", ""],
+  ["Gato", "Cat", ""], ["Cachorro", "Dog", ""],
+  ["Água", "Water", ""], ["Café", "Coffee", ""],
+  ["Chá", "Tea", ""], ["Leite", "Milk", ""],
+  ["Por favor", "Please", ""], ["Livro", "Book", ""],
 ];
 const PT_EXTRA: [string, string, string][] = [
-  ["Desculpe", "Desculpe", ""], ["Boa noite", "Boa noite", ""],
+  ["Desculpe", "Sorry", ""], ["Boa noite", "Good night", ""],
 ];
 const CORE: Record<Language, [string, string, string][]> = { ja: JA_CORE, en: EN_CORE, pt: PT_CORE };
 const EXTRA_CORE: Record<Language, [string, string, string][]> = {
