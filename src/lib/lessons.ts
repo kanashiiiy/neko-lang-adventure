@@ -429,7 +429,7 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
     id: "ja-phase-" + (phaseIdx + 1),
     title: translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
     icon: ICONS.ja[phaseIdx],
-    xp: [24,26,28,30,32,35,38][phaseIdx - 3] ?? 38,
+    xp: [18,20,22,24,26,28,30,32,35,38][phaseIdx] ?? 38,
     questions,
   };
 }
