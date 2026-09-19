@@ -224,7 +224,7 @@ function targetText(lang: Language, item: LessonItem): string {
   return lang === "ja" ? (item[2] ?? item[0]) : item[0];
 }
 
-function meaningText(lang: Language, item: LessonItem, ui: UiLang): string {
+function meaningText(item: LessonItem, ui: UiLang): string {
   return translate(item[1], ui);
 }
 
@@ -290,7 +290,7 @@ function makeBuildQuestion(
 ): Question {
   const target = targetText(lang, item);
   const words = tokenizeBuild(target);
-  const options = buildOptionsFromLearnedPool(target, pool, lang, phaseIdx);
+  const options = buildOptionsFromLearnedPool(target, pool, lang);
   return {
     kind: "build",
     prompt: translate(
@@ -306,7 +306,7 @@ function makeBuildQuestion(
     options,
     buildOptions: options,
     buildAnswer: words,
-    translation: meaningText(lang, item, ui),
+    translation: meaningText(item, ui),
   };
 }
 
@@ -320,10 +320,10 @@ function makeQuestion(
   index: number,
 ): Question {
   const target = targetText(lang, item);
-  const meaning = meaningText(lang, item, ui);
+  const meaning = meaningText(item, ui);
   const optionsCount = maxOptionsForPhase(phaseIdx);
   const targetPool = pool.map((entry) => targetText(lang, entry));
-  const meaningPool = pool.map((entry) => meaningText(lang, entry, ui));
+  const meaningPool = pool.map((entry) => meaningText(entry, ui));
   const japanese = lang === "ja" ? item[0] : undefined;
   const romaji = lang === "ja" ? item[2] : undefined;
 
@@ -347,9 +347,9 @@ function makeQuestion(
     const group = pool.slice(start, start + size);
     const safe = group.length >= 2 ? group : pool.slice(0, Math.min(optionsCount, pool.length));
     const left = safe.map((entry) => targetText(lang, entry));
-    const right = shuffle(safe.map((entry) => meaningText(lang, entry, ui)));
+    const right = shuffle(safe.map((entry) => meaningText(entry, ui)));
     const pairs: Record<string, string> = {};
-    safe.forEach((entry) => { pairs[targetText(lang, entry)] = meaningText(lang, entry, ui); });
+    safe.forEach((entry) => { pairs[targetText(lang, entry)] = meaningText(entry, ui); });
 
     return {
       kind: "match",
