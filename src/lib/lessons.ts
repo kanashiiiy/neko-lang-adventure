@@ -650,9 +650,10 @@ function normalizeTextToken(value: string) {
 }
 
 function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string, ui: UiLang): Phase {
-  if (phaseIdx < 3) return buildLegacyPhase(lang, phaseIdx, level, goal, ui);
+  // As três línguas usam a mesma estrutura moderna de tarefas.
+  // O conteúdo e a forma de montagem continuam específicos de cada idioma.
   if (lang === "ja") return buildVariedJapanesePhase(phaseIdx, ui);
-  return buildLegacyPhase(lang, phaseIdx, level, goal, ui);
+  return buildVariedTextPhase(lang, phaseIdx, ui);
 }
 
 function langName(l: Language) { return l === "ja" ? "japonês" : l === "en" ? "inglês" : "português"; }
