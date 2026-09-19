@@ -190,17 +190,12 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
       } as Question;
     }
     if (kind === "listen") {
-      // MISSÃO DE ÁUDIO:
-      // Não colocamos tradução, romaji, japonês, kana ou kanji nos campos
-      // normais da pergunta. Eles ficam exclusivamente em "reveal", que a
-      // tela só renderiza depois da resposta.
       return {
         kind: "listen",
         prompt: translate("Ouça a palavra e escolha a resposta correta", ui),
         audio: target,
         answer: meaning,
         options: pickOptions(meaning, allMeanings),
-        // Na missão de áudio, o único conteúdo da palavra liberado antes da resposta é o japonês em kana.
         japanese: isJa ? forms?.displayKana : undefined,
         reveal: {
           translation: meaning,
@@ -220,11 +215,15 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
     return { ...base, kind: "speak", prompt: translateVars('Fale: "{w}"', { w: target }, ui), answer: target } as Question;
   });
 
+  // XP de conclusão é deliberadamente moderado e cresce apenas um pouco
+  // conforme a fase avança, para evitar acúmulo rápido sem deixar a recompensa baixa.
+  const phaseXp = [18, 20, 22, 24, 26, 28, 30, 32, 35, 38][phaseIdx] ?? 38;
+
   return {
     id: `${lang}-phase-${phaseIdx + 1}`,
     title: translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
     icon: ICONS[lang][phaseIdx],
-    xp: 20 + phaseIdx * 5,
+    xp: phaseXp,
     questions,
   };
 }
