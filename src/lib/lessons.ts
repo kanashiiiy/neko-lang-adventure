@@ -183,10 +183,12 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
         audio: target,
         answer: meaning,
         options: pickOptions(meaning, allMeanings),
+        // Na missão de áudio, o único conteúdo da palavra liberado antes da resposta é o japonês em kana.
+        japanese: isJa ? forms?.displayKana : undefined,
         reveal: {
           translation: meaning,
           romaji: romaji || undefined,
-          japanese: isJa ? target : undefined,
+          japanese: isJa ? forms?.displayKana : undefined,
           kana: isJa ? forms?.displayKana : undefined,
           kanji: isJa ? forms?.displayKanji : undefined,
         },
