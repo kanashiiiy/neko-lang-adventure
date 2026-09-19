@@ -236,13 +236,13 @@ function isShortListenItem(lang: Language, item: LessonItem): boolean {
 }
 
 function phaseKinds(phaseIdx: number): TaskKind[] {
-  // Keep every phase mixed: normal recognition is the main exercise, while
-  // listening, matching, writing and building are distributed progressively.
-  if (phaseIdx === 0) return ["choose", "choose", "choose", "choose", "listen", "match"];
-  if (phaseIdx === 1) return ["choose", "choose", "match", "choose", "listen", "complete"];
-  if (phaseIdx === 2) return ["choose", "listen", "choose", "match", "complete", "choose"];
-  if (phaseIdx === 3) return ["choose", "choose", "listen", "match", "complete", "choose"];
-  if (phaseIdx === 4) return ["choose", "listen", "match", "complete", "choose", "choose"];
+  // Japanese phases 1-5 (indexes 0-4) stay visual/written: no audio-response
+  // tasks. Audio listening starts in phase 6 as review/practice.
+  if (phaseIdx === 0) return ["choose", "choose", "choose", "choose", "match", "complete"];
+  if (phaseIdx === 1) return ["choose", "choose", "match", "choose", "complete", "choose"];
+  if (phaseIdx === 2) return ["choose", "choose", "choose", "match", "complete", "choose"];
+  if (phaseIdx === 3) return ["choose", "choose", "match", "complete", "choose", "choose"];
+  if (phaseIdx === 4) return ["choose", "match", "complete", "choose", "choose", "choose"];
   if (phaseIdx === 5) return ["choose", "match", "listen", "complete", "build", "choose"];
   if (phaseIdx === 6) return ["choose", "listen", "match", "build", "complete", "choose"];
   if (phaseIdx === 7) return ["choose", "match", "listen", "complete", "build", "choose"];
