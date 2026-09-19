@@ -328,6 +328,7 @@ function LessonPlayer() {
   }
 
   const progressionOverlay = (
+    <>
     {levelUp !== null && !chestReward && (
       <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-5">
         <div className="w-full max-w-sm rounded-3xl bg-card p-6 text-center shadow-card animate-bounce-in">
@@ -363,8 +364,7 @@ function LessonPlayer() {
         </div>
       </div>
     )}
-
-
+    </>
   );
 
   if (reviewIntro && !done) {
