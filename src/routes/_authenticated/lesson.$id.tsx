@@ -5,7 +5,7 @@ import { toast } from "@/lib/neko-toast";
 import { X, Brain, Volume2, Mic } from "lucide-react";
 import { getLesson, normalizeLanguage } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchCurrentProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive, getLevelProgress, getLevelsCrossed, getLevelChestKey, rollLevelChestFocus, updateProfile } from "@/lib/profile";
+import { fetchCurrentProfile, fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive, getLevelProgress, getLevelsCrossed, getLevelChestKey, rollLevelChestFocus, updateProfile } from "@/lib/profile";
 import { speakForLang, prepareSpeech, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
