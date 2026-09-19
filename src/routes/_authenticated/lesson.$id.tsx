@@ -6,7 +6,7 @@ import { X, Brain, Volume2, Mic } from "lucide-react";
 import { getLesson, normalizeLanguage } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive } from "@/lib/profile";
-import { speakForLang, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
+import { speakForLang, prepareSpeech, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
 import { useRewardAnimation, type RewardAmount } from "@/components/RewardAnimation";
@@ -57,13 +57,18 @@ function LessonPlayer() {
   const restoredRef = useRef(false);
   const progressKey = `nekoteach:lesson-progress:${id}`;
 
+  useEffect(() => { prepareSpeech(); }, []);
+
   // Retomar progresso salvo da lição
   useEffect(() => {
     if (restoredRef.current) return;
     restoredRef.current = true;
     try {
       const raw = localStorage.getItem(progressKey);
-      if (!raw) return;
+      if (!raw) {
+        try { localStorage.removeItem(`nekoteach:lesson-errors:${id}`); } catch {}
+        return;
+      }
       const saved = JSON.parse(raw) as {
         idx?: number; rights?: number; streakInLesson?: number; bonusFocus?: number;
       };
