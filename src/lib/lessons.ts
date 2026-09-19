@@ -152,6 +152,51 @@ function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | 
   return uniqueByTarget(unlocked);
 }
 
+
+function japaneseHiragana(item: LessonItem): string {
+  const romaji = item[2] ?? item[0];
+  const digraphs: Record<string, string> = {
+    kya: "きゃ", kyu: "きゅ", kyo: "きょ", sha: "しゃ", shu: "しゅ", sho: "しょ",
+    cha: "ちゃ", chu: "ちゅ", cho: "ちょ", nya: "にゃ", nyu: "にゅ", nyo: "にょ",
+    hya: "ひゃ", hyu: "ひゅ", hyo: "ひょ", mya: "みゃ", myu: "みゅ", myo: "みょ",
+    rya: "りゃ", ryu: "りゅ", ryo: "りょ", gya: "ぎゃ", gyu: "ぎゅ", gyo: "ぎょ",
+    bya: "びゃ", byu: "びゅ", byo: "びょ", pya: "ぴゃ", pyu: "ぴゅ", pyo: "ぴょ",
+    ja: "じゃ", ju: "じゅ", jo: "じょ", che: "ちぇ", she: "しぇ", je: "じぇ",
+    wi: "うぃ", we: "うぇ", wo: "を",
+  };
+  const syllables: Record<string, string> = {
+    a:"あ", i:"い", u:"う", e:"え", o:"お",
+    ka:"か",ki:"き",ku:"く",ke:"け",ko:"こ", ga:"が",gi:"ぎ",gu:"ぐ",ge:"げ",go:"ご",
+    sa:"さ",shi:"し",su:"す",se:"せ",so:"そ", za:"ざ",ji:"じ",zu:"ず",ze:"ぜ",zo:"ぞ",
+    ta:"た",chi:"ち",tsu:"つ",te:"て",to:"と", da:"だ",de:"で",do:"ど",
+    na:"な",ni:"に",nu:"ぬ",ne:"ね",no:"の", ha:"は",hi:"ひ",fu:"ふ",he:"へ",ho:"ほ",
+    ba:"ば",bi:"び",bu:"ぶ",be:"べ",bo:"ぼ", pa:"ぱ",pi:"ぴ",pu:"ぷ",pe:"ぺ",po:"ぽ",
+    ma:"ま",mi:"み",mu:"む",me:"め",mo:"も", ya:"や",yu:"ゆ",yo:"よ",
+    ra:"ら",ri:"り",ru:"る",re:"れ",ro:"ろ", wa:"わ", n:"ん",
+  };
+  const text = romaji.toLowerCase().trim();
+  let out = "";
+  for (let i = 0; i < text.length;) {
+    if (text[i] === " ") { out += " "; i++; continue; }
+    if (i + 1 < text.length && text[i] === text[i + 1] && /[bcdfghjklmpqrstvwxyz]/.test(text[i])) {
+      out += "っ"; i++; continue;
+    }
+    if (text[i] === "n" && (i + 1 === text.length || !/[aiueoyn]/.test(text[i + 1]))) {
+      out += "ん"; i++; continue;
+    }
+    let matched = false;
+    for (const key of Object.keys(digraphs).sort((a, b) => b.length - a.length)) {
+      if (text.startsWith(key, i)) { out += digraphs[key]; i += key.length; matched = true; break; }
+    }
+    if (matched) continue;
+    for (const key of Object.keys(syllables).sort((a, b) => b.length - a.length)) {
+      if (text.startsWith(key, i)) { out += syllables[key]; i += key.length; matched = true; break; }
+    }
+    if (!matched) { out += text[i]; i++; }
+  }
+  return out;
+}
+
 function targetText(lang: Language, item: LessonItem): string {
   return lang === "ja" ? (item[2] ?? item[0]) : item[0];
 }
@@ -268,7 +313,7 @@ function makeQuestion(
   const optionsCount = maxOptionsForPhase(phaseIdx);
   const targetPool = pool.map((entry) => targetText(lang, entry));
   const meaningPool = pool.map((entry) => meaningText(entry, ui));
-  const japanese = lang === "ja" ? item[0] : undefined;
+  const japanese = lang === "ja" && phaseIdx < 10 ? japaneseHiragana(item) : lang === "ja" ? item[0] : undefined;
   const romaji = lang === "ja" ? item[2] : undefined;
 
   if (kind === "listen") {
