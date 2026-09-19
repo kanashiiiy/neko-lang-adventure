@@ -39,11 +39,11 @@ export interface Phase {
 
 const JA_CORE: [string, string, string][] = [
   ["こんにちは", "Olá", "konnichiwa"], ["おはよう", "Bom dia", "ohayou"],
-  ["こんばんは", "Boa noite", "konbanwa"], ["ありがとう", "Obrigado", "arigatou"],
-  ["さようなら", "Tchau", "sayounara"], ["すみません", "Desculpe", "sumimasen"],
-  ["はい", "Sim", "hai"], ["いいえ", "Não", "iie"],
-  ["ねこ", "Gato", "neko"], ["いぬ", "Cachorro", "inu"],
-  ["みず", "Água", "mizu"], ["ほん", "Livro", "hon"],
+  ["みず", "Água", "mizu"], ["こんばんは", "Boa noite", "konbanwa"],
+  ["ありがとう", "Obrigado", "arigatou"], ["さようなら", "Tchau", "sayounara"],
+  ["すみません", "Desculpe", "sumimasen"], ["はい", "Sim", "hai"],
+  ["いいえ", "Não", "iie"], ["ねこ", "Gato", "neko"],
+  ["いぬ", "Cachorro", "inu"], ["ほん", "Livro", "hon"],
 ];
 const EN_CORE: [string, string, string][] = [
   ["Hello", "Olá", ""], ["Good morning", "Bom dia", ""],
@@ -97,7 +97,7 @@ function japaneseForms(target: string, romaji: string, level: Level) {
   const kanji = JA_KANJI[target];
   if (level === "iniciante") return { displayRomaji: romaji, displayKana: target, displayKanji: undefined };
   if (level === "basico") return { displayRomaji: romaji, displayKana: target, displayKanji: undefined };
-  if (level === "intermediario") return { displayRomaji: romaji, displayKana: target, displayKanji: kanji };
+  if (level === "intermediario") return { displayRomaji: romaji, displayKana: target, displayKanji: undefined };
   return { displayRomaji: romaji, displayKana: target, displayKanji: kanji };
 }
 
