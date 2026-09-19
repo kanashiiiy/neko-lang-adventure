@@ -473,11 +473,13 @@ function LessonPlayer() {
         })}
       </div>
       <h2 className="mt-2 text-2xl font-black">{q.prompt}</h2>
-      {!isAudioMission && (q.japanese || q.kana || q.kanji || q.romaji || q.translation) && (
+      {/* Dados da resposta correta ficam ocultos até a tentativa ser verificada. */}
+      {correct !== null && !isAudioMission && (q.japanese || q.kana || q.kanji || q.romaji || q.translation || q.audio) && (
         <div className="mt-4 rounded-3xl bg-card p-5 text-center shadow-card">
           {q.kanji && <div className="text-5xl font-black">{q.kanji}</div>}
           {q.romaji && <div className="mt-1 text-lg font-bold text-primary">{q.romaji}</div>}
           {q.kana && <div className={q.kanji ? "mt-1 text-2xl font-black" : "mt-1 text-4xl font-black"}>{q.kana}</div>}
+          {q.japanese && !q.kana && <div className="mt-1 text-4xl font-black">{q.japanese}</div>}
           {q.translation && <div className="mt-1 text-base text-muted-foreground">{q.translation}</div>}
           {q.audio && <button onClick={() => speakForLang(q.audio!, lang)} className="mt-3 text-primary" aria-label={t("Ouvir")}><Volume2 className="h-6 w-6" /></button>}
         </div>
@@ -531,7 +533,7 @@ function LessonPlayer() {
         </div>
       )}
 
-      {q.kind === "choose" && (
+      {q.kind === "choose" && correct === null && (
         <div className="mt-6 flex items-center justify-center rounded-3xl bg-card p-8 shadow-card">
           <div className="flex flex-col items-center gap-2 text-center">
             <span className="text-5xl font-black">{q.prompt.match(/"([^"]+)"/)?.[1] ?? ""}</span>
@@ -594,7 +596,7 @@ function LessonPlayer() {
         ) : (
           <div className={`rounded-2xl p-4 ${correct ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
             <div className="text-sm font-black">{correct ? t("Muito bem! 🎉") : `${t("Resposta certa:")} ${q.answer}`}</div>
-            {((isAudioMission && audioAnswered && q.reveal) || (!isAudioMission && (q.translation || q.japanese || q.romaji))) && (
+            {((isAudioMission && audioAnswered && q.reveal) || (!isAudioMission && (q.translation || q.japanese || q.kana || q.kanji || q.romaji || q.audio))) && (
               <div className="mt-2 space-y-1 rounded-xl bg-background/60 p-3 text-left">
                 {isAudioMission && audioAnswered && q.reveal ? (
                   <>
