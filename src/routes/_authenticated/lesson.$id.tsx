@@ -181,6 +181,8 @@ function LessonPlayer() {
   const activeIndex = reviewQueue.length > 0 ? reviewQueue[reviewIdx] ?? 0 : idx;
   const safeIdx = Math.min(activeIndex, total - 1);
   const q = lesson.questions[safeIdx];
+  const phaseNumber = Number(lesson.id.match(/-phase-(\\d+)$/)?.[1] ?? 1);
+  const isFirstTenJapanese = lang === "ja" && phaseNumber <= 10;
   const isAudioMission = q.kind === "listen";
   const audioAnswered = isAudioMission && correct !== null;
   const inReview = reviewQueue.length > 0 && !done;
@@ -678,29 +680,57 @@ function LessonPlayer() {
             ) : ((isAudioMission && audioAnswered && q.reveal) || (!isAudioMission && (q.translation || q.japanese || q.kana || q.kanji || q.romaji || q.audio))) && (
               <div className="mt-2 space-y-1 rounded-xl bg-background/60 p-3 text-left">
                 {isAudioMission && audioAnswered && q.reveal ? (
-                  <>
-                    {q.reveal.translation && (
-                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.reveal.translation}</span></div>
-                    )}
-                    {(q.reveal.japanese || q.reveal.kana) && (
-                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{lang === "ja" ? (q.reveal.kana ?? q.reveal.japanese) : q.reveal.japanese}</span></div>
-                    )}
-                    {q.reveal.romaji && (
-                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.reveal.romaji}</span></div>
-                    )}
-                  </>
+                  isFirstTenJapanese ? (
+                    <>
+                      {(q.reveal.japanese || q.reveal.kana) && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{q.reveal.kana ?? q.reveal.japanese}</span></div>
+                      )}
+                      {q.reveal.romaji && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.reveal.romaji}</span></div>
+                      )}
+                      {q.reveal.translation && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.reveal.translation}</span></div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {q.reveal.translation && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.reveal.translation}</span></div>
+                      )}
+                      {(q.reveal.japanese || q.reveal.kana) && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{lang === "ja" ? (q.reveal.kana ?? q.reveal.japanese) : q.reveal.japanese}</span></div>
+                      )}
+                      {q.reveal.romaji && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.reveal.romaji}</span></div>
+                      )}
+                    </>
+                  )
                 ) : (
-                  <>
-                    {q.translation && (
-                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.translation}</span></div>
-                    )}
-                    {(q.japanese || q.kana) && (
-                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{lang === "ja" ? (q.kana ?? q.japanese) : q.japanese}</span></div>
-                    )}
-                    {q.romaji && (
-                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
-                    )}
-                  </>
+                  isFirstTenJapanese ? (
+                    <>
+                      {(q.japanese || q.kana) && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{q.kana ?? q.japanese}</span></div>
+                      )}
+                      {q.romaji && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
+                      )}
+                      {q.translation && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.translation}</span></div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {q.translation && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.translation}</span></div>
+                      )}
+                      {(q.japanese || q.kana) && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{lang === "ja" ? (q.kana ?? q.japanese) : q.japanese}</span></div>
+                      )}
+                      {q.romaji && (
+                        <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
+                      )}
+                    </>
+                  )
                 )}
               </div>
             )}
