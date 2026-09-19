@@ -63,6 +63,32 @@ const CORE: Record<Language, [string, string, string][]> = { ja: JA_CORE, en: EN
 
 const JA_KANJI: Record<string, string> = {
   "みず": "水", "ほん": "本", "ねこ": "猫", "いぬ": "犬",
+  "本": "本", "水": "水",
+  "空港": "空港", "ホテル": "ホテル", "レストラン": "レストラン", "電車": "電車",
+  "切符": "切符", "地図": "地図", "タクシー": "タクシー", "買い物": "買い物",
+  "会議": "会議", "面接": "面接", "メール": "メール", "会社": "会社",
+  "同僚": "同僚", "契約": "契約", "締切": "締切", "名刺": "名刺",
+  "学校": "学校", "大学": "大学", "先生": "先生", "宿題": "宿題", "試験": "試験",
+  "文法": "文法", "作文": "作文", "スーパー": "スーパー", "病院": "病院",
+  "銀行": "銀行", "家賃": "家賃", "電気": "電気", "バス": "バス", "郵便": "郵便", "鍵": "鍵",
+  "アニメ": "アニメ", "漫画": "漫画", "映画": "映画", "音楽": "音楽", "ゲーム": "ゲーム",
+  "文化": "文化", "祭り": "祭り", "歌": "歌", "家族": "家族", "友達": "友達",
+  "時間": "時間", "日本": "日本", "食べ物": "食べ物",
+};
+
+const JA_KANA: Record<string, string> = {
+  "空港": "くうこう", "ホテル": "ホテル", "レストラン": "レストラン", "電車": "でんしゃ",
+  "切符": "きっぷ", "地図": "ちず", "タクシー": "タクシー", "買い物": "かいもの",
+  "会議": "かいぎ", "面接": "めんせつ", "メール": "メール", "会社": "かいしゃ",
+  "同僚": "どうりょう", "契約": "けいやく", "締切": "しめきり", "名刺": "めいし",
+  "学校": "がっこう", "大学": "だいがく", "先生": "せんせい", "宿題": "しゅくだい",
+  "本": "ほん", "試験": "しけん", "文法": "ぶんぽう", "作文": "さくぶん",
+  "スーパー": "スーパー", "病院": "びょういん", "銀行": "ぎんこう", "家賃": "やちん",
+  "電気": "でんき", "バス": "バス", "郵便": "ゆうびん", "鍵": "かぎ",
+  "アニメ": "アニメ", "漫画": "まんが", "映画": "えいが", "音楽": "おんがく",
+  "ゲーム": "ゲーム", "文化": "ぶんか", "祭り": "まつり", "歌": "うた",
+  "家族": "かぞく", "友達": "ともだち", "時間": "じかん", "日本": "にほん",
+  "食べ物": "たべもの", "水": "みず",
 };
 const VISUALS: Record<string, VisualOption[]> = {
   "Água": [{label:"Água",emoji:"🥛"},{label:"Leite",emoji:"🍼"},{label:"Café",emoji:"☕"},{label:"Chá",emoji:"🍵"}],
@@ -94,11 +120,12 @@ function kindsForLevel(level: Level): TaskKind[] {
   }
 }
 function japaneseForms(target: string, romaji: string, level: Level) {
-  const kanji = JA_KANJI[target];
-  if (level === "iniciante") return { displayRomaji: romaji, displayKana: target, displayKanji: undefined };
-  if (level === "basico") return { displayRomaji: romaji, displayKana: target, displayKanji: undefined };
-  if (level === "intermediario") return { displayRomaji: romaji, displayKana: target, displayKanji: undefined };
-  return { displayRomaji: romaji, displayKana: target, displayKanji: kanji };
+  const displayKana = JA_KANA[target] ?? target;
+  const kanji = JA_KANJI[target] ?? (JA_KANA[target] ? target : undefined);
+  if (level === "iniciante") return { displayRomaji: romaji, displayKana, displayKanji: undefined };
+  if (level === "basico") return { displayRomaji: romaji, displayKana, displayKanji: undefined };
+  if (level === "intermediario") return { displayRomaji: romaji, displayKana, displayKanji: undefined };
+  return { displayRomaji: romaji, displayKana, displayKanji: kanji };
 }
 
 function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string, ui: UiLang): Phase {
