@@ -11,7 +11,7 @@ export const LANGUAGES: { code: Language; name: string; flag: string; nativeName
   { code: "en", name: "Inglês", nativeName: "English", flag: "🇺🇸" },
 ];
 
-export type TaskKind = "choose" | "listen" | "complete" | "speak" | "build";
+export type TaskKind = "choose" | "listen" | "complete" | "speak" | "build" | "match";
 
 export interface VisualOption { label: string; emoji: string; }
 export interface Question {
@@ -28,6 +28,9 @@ export interface Question {
   kana?: string;
   buildOptions?: string[];
   buildAnswer?: string[];
+  matchLeft?: string[];
+  matchRight?: string[];
+  matchPairs?: Record<string, string>;
   nekoMessage?: string;
   kanji?: string;
   /** Informações liberadas somente depois que uma missão de áudio for respondida. */
