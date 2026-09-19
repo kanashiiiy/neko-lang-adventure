@@ -241,3 +241,24 @@ export function getLevelChestKey(userId: string, level: number) {
 export function rollLevelChestFocus() {
   return Math.floor(Math.random() * 15) + 1;
 }
+
+/**
+ * Ferramenta de teste do painel Admin.
+ * A autorização vem do mesmo papel admin já existente no backend (has_role).
+ * Não usa nome, e-mail ou identificador visível como critério.
+ */
+export async function addAdminTestXp(userId: string, xpDelta: number) {
+  const amount = Math.max(0, Math.floor(xpDelta));
+  if (!amount) return null;
+  if (!(await isAdmin(userId))) return null;
+
+  const profile = await fetchProfile(userId);
+  if (!profile) return null;
+
+  const beforeXp = profile.xp;
+  const afterXp = beforeXp + amount;
+  const crossedLevels = getLevelsCrossed(beforeXp, afterXp);
+  const updated = await updateProfile(userId, { xp: afterXp });
+  return { profile: updated, crossedLevels };
+}
+
