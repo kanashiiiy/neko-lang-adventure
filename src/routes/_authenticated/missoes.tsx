@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Target, Gem, Trophy, Brain, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, updateProfile } from "@/lib/profile";
+import { fetchCurrentProfile, updateProfile } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT } from "@/lib/i18n";
@@ -66,7 +66,7 @@ function dayBaselineXp(xp: number) {
 }
 function MissoesPage() {
   const qc = useQueryClient(); const t = useT(); const { collectRewards } = useRewardAnimation();
-  const { data: profile } = useQuery({ queryKey: ["profile"], queryFn: async () => { const { data } = await supabase.auth.getUser(); return data.user ? fetchProfile(data.user.id) : null; } });
+  const { data: profile } = useQuery({ queryKey: ["profile"], queryFn: async () => { return fetchCurrentProfile(); } });
 
   async function claim(m: Mission) {
     if (!profile) return;
