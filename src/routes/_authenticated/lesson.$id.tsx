@@ -63,9 +63,11 @@ function LessonPlayer() {
   useEffect(() => {
     if (!lesson) return;
     const active = reviewQueue.length > 0 ? reviewQueue[reviewIdx] ?? 0 : idx;
-    const audio = lesson.questions[active]?.audio;
-    if (!audio) return;
-    const timer = window.setTimeout(() => speakForLang(audio, lang), 60);
+    const current = lesson.questions[active];
+    // Em tarefas "ouvir e escolher", o áudio só toca quando o usuário
+    // apertar o botão. Isso evita entregar a palavra visualmente/automaticamente.
+    if (!current?.audio || current.kind === "listen") return;
+    const timer = window.setTimeout(() => speakForLang(current.audio!, lang), 60);
     return () => window.clearTimeout(timer);
   }, [lesson, idx, reviewIdx, reviewQueue, lang]);
 
@@ -333,7 +335,7 @@ function LessonPlayer() {
         })}
       </div>
       <h2 className="mt-2 text-2xl font-black">{q.prompt}</h2>
-      {(q.japanese || q.kana || q.kanji || q.romaji || q.translation) && (
+      {q.kind !== "listen" && (q.japanese || q.kana || q.kanji || q.romaji || q.translation) && (
         <div className="mt-4 rounded-3xl bg-card p-5 text-center shadow-card">
           {q.kanji && <div className="text-5xl font-black">{q.kanji}</div>}
           {q.romaji && <div className="mt-1 text-lg font-bold text-primary">{q.romaji}</div>}
