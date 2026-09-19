@@ -84,7 +84,11 @@ function StorePage() {
         <h1 className="text-2xl font-black">{t("Premium")}</h1>
         <div className="flex items-center gap-2">
           <div data-reward-counter="gems" className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-sm font-bold text-primary">
-          <Gem className="h-4 w-4" /> {profile?.gems ?? 0}
+            <Gem className="h-4 w-4" /> {profile?.gems ?? 0}
+          </div>
+          <div data-reward-counter="focus" className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-sm font-bold text-yellow-600">
+            <Brain className="h-4 w-4" /> {profile?.focus ?? 0}
+          </div>
         </div>
       </header>
       <main className="flex-1 px-4 py-5 space-y-5">
