@@ -5,7 +5,7 @@ import { toast } from "@/lib/neko-toast";
 import { Flame, Gem, Trophy, Brain, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut, ChevronRight, Award, Camera } from "lucide-react";
 import { ProfileAvatar, fileToAvatarDataUrl } from "@/components/ProfileAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, updateProfile, isPremiumActive } from "@/lib/profile";
+import { fetchCurrentProfile, updateProfile, isPremiumActive } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { useT, useTf, setUiLangFromCountry } from "@/lib/i18n";
@@ -24,9 +24,7 @@ function ProfilePage() {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
-      return fetchProfile(data.user.id);
+      return fetchCurrentProfile();
     },
   });
 
