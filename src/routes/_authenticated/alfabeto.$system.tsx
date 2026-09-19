@@ -5,7 +5,7 @@ import { ArrowLeft, Volume2, RotateCcw, Check, ChevronRight } from "lucide-react
 import { CATEGORIES, ALPHABET_META, categoriesForLevel, type AlphabetSystem, type Category, type Letter } from "@/lib/alphabet";
 import { speak } from "@/lib/speech";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile } from "@/lib/profile";
+import { fetchCurrentProfile } from "@/lib/profile";
 import { toast } from "@/lib/neko-toast";
 import { useT, useTf } from "@/lib/i18n";
 
@@ -27,9 +27,7 @@ function AlfabetoSystem() {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
-      return fetchProfile(data.user.id);
+      return fetchCurrentProfile();
     },
   });
 
