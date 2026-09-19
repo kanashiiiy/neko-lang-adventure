@@ -506,8 +506,8 @@ export function buildPhases(
   ui: UiLang = "pt",
 ): Phase[] {
   const lang = normalizeLanguage(langInput);
-  const level = normalizeLevel(level);
-  return Array.from({ length: 10 }, (_, index) => buildPhase(lang, index, level, goal ?? "outro", ui));
+  const normalizedLevel = normalizeLevel(level);
+  return Array.from({ length: 10 }, (_, index) => buildPhase(lang, index, normalizedLevel, goal ?? "outro", ui));
 }
 
 // Lazy cache prevents lesson generation from affecting startup/login rendering.
