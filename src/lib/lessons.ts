@@ -236,46 +236,136 @@ function buildLegacyPhase(lang: Language, phaseIdx: number, level: Level, goal: 
 
 const NEW_JA_PHRASES: [string,string,string][] = [["コーヒーをください。","koohii o kudasai","Quero café, por favor."],["水をください。","mizu o kudasai","Quero água, por favor."],["お茶をください。","ocha o kudasai","Quero chá, por favor."],["駅はどこですか。","eki wa doko desu ka","Onde fica a estação?"],["ホテルはどこですか。","hoteru wa doko desu ka","Onde fica o hotel?"],["トイレはどこですか。","toire wa doko desu ka","Onde fica o banheiro?"],["これはいくらですか。","kore wa ikura desu ka","Quanto custa isto?"],["これをお願いします。","kore o onegaishimasu","Quero este, por favor."],["メニューを見せてください。","menyuu o misete kudasai","Mostre o menu, por favor."],["英語を話せますか。","eigo o hanasemasu ka","Você fala inglês?"],["日本語を話します。","nihongo o hanashimasu","Eu falo japonês."],["ゆっくり話してください。","yukkuri hanashite kudasai","Fale devagar, por favor."],["もう一度お願いします。","mou ichido onegaishimasu","Mais uma vez, por favor."],["写真を撮ってもいいですか。","shashin o totte mo ii desu ka","Posso tirar uma foto?"],["ここに座ってもいいですか。","koko ni suwatte mo ii desu ka","Posso sentar aqui?"],["カードで払えますか。","kaado de haraemasu ka","Posso pagar com cartão?"],["現金を持っています。","genkin o motteimasu","Eu tenho dinheiro em espécie."],["駅まで歩きます。","eki made arukimasu","Vou andando até a estação."],["明日ホテルに行きます。","ashita hoteru ni ikimasu","Amanhã vou ao hotel."],["今日は家で休みます。","kyou wa ie de yasumimasu","Hoje vou descansar em casa."],["朝にコーヒーを飲みます。","asa ni koohii o nomimasu","Bebo café de manhã."],["毎日水を飲みます。","mainichi mizu o nomimasu","Bebo água todos os dias."],["昼にご飯を食べます。","hiru ni gohan o tabemasu","Como arroz no almoço."],["夜に映画を見ます。","yoru ni eiga o mimasu","Vejo um filme à noite."],["友達と映画を見ます。","tomodachi to eiga o mimasu","Vejo um filme com um amigo."],["家族と旅行します。","kazoku to ryokou shimasu","Viajo com a família."],["日本へ旅行したいです。","nihon e ryokou shitai desu","Quero viajar para o Japão."],["東京に行きたいです。","toukyou ni ikitai desu","Quero ir para Tóquio."],["電車に乗ります。","densha ni norimasu","Vou de trem."],["切符を買います。","kippu o kaimasu","Compro a passagem."],["地図を見ます。","chizu o mimasu","Olho o mapa."],["タクシーを呼びます。","takushii o yobimasu","Chamo um táxi."],["ホテルを予約します。","hoteru o yoyaku shimasu","Reservo um hotel."],["部屋を確認します。","heya o kakunin shimasu","Confiro o quarto."],["荷物を持っています。","nimotsu o motteimasu","Estou com a bagagem."],["空港へ行きます。","kuukou e ikimasu","Vou para o aeroporto."],["飛行機に乗ります。","hikouki ni norimasu","Vou de avião."],["出口はあちらです。","deguchi wa achira desu","A saída é ali."],["入口はここです。","iriguchi wa koko desu","A entrada é aqui."],["道を教えてください。","michi o oshiete kudasai","Mostre o caminho, por favor."],["今日は忙しいです。","kyou wa isogashii desu","Hoje estou ocupado."],["今日は暇です。","kyou wa hima desu","Hoje estou livre."],["少し疲れています。","sukoshi tsukareteimasu","Estou um pouco cansado."],["元気です。","genki desu","Estou bem."],["お腹がすいています。","onaka ga suiteimasu","Estou com fome."],["喉が渇いています。","nodo ga kawaiteimasu","Estou com sede."],["この料理はおいしいです。","kono ryouri wa oishii desu","Esta comida está deliciosa."],["この店は静かです。","kono mise wa shizuka desu","Esta loja é tranquila."],["この場所はきれいです。","kono basho wa kirei desu","Este lugar é bonito."],["今日は暑いです。","kyou wa atsui desu","Hoje está quente."],["今日は寒いです。","kyou wa samui desu","Hoje está frio."],["雨が降っています。","ame ga futteimasu","Está chovendo."],["明日は晴れます。","ashita wa haremasu","Amanhã fará sol."],["今何時ですか。","ima nanji desu ka","Que horas são agora?"],["今は三時です。","ima wa sanji desu","Agora são três horas."],["今日は月曜日です。","kyou wa getsuyoubi desu","Hoje é segunda-feira."],["明日は休みです。","ashita wa yasumi desu","Amanhã é folga."],["週末に買い物します。","shuumatsu ni kaimono shimasu","Faço compras no fim de semana."],["新しい本を買います。","atarashii hon o kaimasu","Compro um livro novo."],["音楽を聞くのが好きです。","ongaku o kiku no ga suki desu","Gosto de ouvir música."],["学校へ行きます。","gakkou e ikimasu","Vou para a escola."],["先生に質問します。","sensei ni shitsumon shimasu","Faço uma pergunta ao professor."],["宿題をします。","shukudai o shimasu","Faço a lição de casa."],["日本語を勉強しています。","nihongo o benkyou shiteimasu","Estou estudando japonês."],["新しい言葉を覚えます。","atarashii kotoba o oboemasu","Aprendo palavras novas."],["毎朝早く起きます。","maiasa hayaku okimasu","Acordo cedo todas as manhãs."],["夜は本を読みます。","yoru wa hon o yomimasu","Leio um livro à noite."],["週末は友達に会います。","shuumatsu wa tomodachi ni aimasu","Encontro um amigo no fim de semana."],["一緒に昼ご飯を食べませんか。","issho ni hirugohan o tabemasen ka","Vamos almoçar juntos?"],["明日一緒に行きませんか。","ashita issho ni ikimasen ka","Vamos juntos amanhã?"],["少し待ってください。","sukoshi matte kudasai","Espere um pouco, por favor."],["ここで待ちます。","koko de machimasu","Vou esperar aqui."],["電話をかけます。","denwa o kakemasu","Vou telefonar."],["メールを送ります。","meeru o okurimasu","Vou enviar um e-mail."],["仕事が終わりました。","shigoto ga owarimashita","O trabalho terminou."],["明日の予定があります。","ashita no yotei ga arimasu","Tenho planos para amanhã."],["一緒に写真を撮りましょう。","issho ni shashin o torimashou","Vamos tirar uma foto juntos."],["ここで写真を撮ります。","koko de shashin o torimasu","Vou tirar uma foto aqui."],["この道をまっすぐ行きます。","kono michi o massugu ikimasu","Sigo reto por esta rua."],["右に曲がってください。","migi ni magatte kudasai","Vire à direita, por favor."]];
 
-function buildNewJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
+function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
   const start = (phaseIdx - 3) * 20;
   const slice = NEW_JA_PHRASES.slice(start, start + 20);
   const meanings = slice.map((x) => translate(x[2], ui));
-  const answers = slice.map((x) => x[1]);
-  const questions: Question[] = slice.map((w, i) => {
-    const [target, romaji, pt] = w;
-    const base = { audio: target, translation: translate(pt, ui), romaji, japanese: target };
-    const mode = i % 5;
-    if (mode === 0) return { ...base, kind: "choose", prompt: translate("Escolha a tradução correta", ui), answer: translate(pt, ui), options: pickOptions(translate(pt, ui), meanings) } as Question;
-    if (mode === 1) return { ...base, kind: "choose", prompt: translate("Escolha a frase correta em Romaji", ui), answer: romaji, options: pickOptions(romaji, answers) } as Question;
-    if (mode === 2) return { kind: "listen", prompt: translate("Ouça o áudio e identifique o que foi falado", ui), audio: target, answer: translate(pt, ui), options: pickOptions(translate(pt, ui), meanings), japanese: target, reveal: { translation: translate(pt, ui), romaji, japanese: target } } as Question;
-    if (mode === 3) return { ...base, kind: "complete", prompt: translate("Complete a resposta usando o Romaji aprendido", ui), answer: romaji } as Question;
-    return { ...base, kind: "choose", prompt: translate("Qual frase corresponde à situação?", ui), answer: romaji, options: pickOptions(romaji, answers), nekoMessage: i === 4 ? translate("Boa! Agora vamos para uma situação diferente.", ui) : undefined } as Question;
-  });
-  return { id: "ja-phase-" + (phaseIdx + 1), title: translateVars("Fase {n}", { n: phaseIdx + 1 }, ui), icon: ICONS.ja[phaseIdx], xp: [24,26,28,30][phaseIdx - 4] ?? 30, questions };
-}
+  const phasePatterns: TaskKind[][] = [
+    ["choose","listen","choose","choose","complete","listen","choose","match","choose","complete","listen","choose","choose","match","listen","choose","complete","choose","listen","choose"],
+    ["listen","choose","complete","choose","listen","match","choose","complete","listen","choose","match","choose","listen","complete","choose","listen","choose","match","complete","choose"],
+    ["choose","listen","match","complete","choose","listen","build","choose","complete","match","listen","choose","build","listen","choose","complete","match","choose","listen","build"],
+    ["listen","choose","build","match","listen","complete","build","choose","listen","build","match","choose","complete","build","listen","choose","match","build","listen","complete"],
+    ["build","listen","choose","match","build","choose","listen","build","complete","match","listen","choose","build","listen","match","choose","build","complete","listen","build"],
+    ["choose","build","listen","match","build","listen","choose","build","match","complete","listen","build","choose","match","listen","build","complete","choose","build","listen"],
+    ["build","listen","match","choose","build","complete","listen","build","choose","match","listen","build","complete","choose","build","listen","match","build","choose","listen"],
+  ];
+  const pattern = phasePatterns[Math.min(phaseIdx - 3, phasePatterns.length - 1)];
 
-function buildSentenceJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
-  const start = (phaseIdx - 7) * 20;
-  const slice = NEW_JA_PHRASES.slice(start, start + 20);
+  const makeBuild = (i: number, target: string, romaji: string): Question => {
+    const words = romaji.trim().split(/\s+/).filter(Boolean);
+    const other = NEW_JA_PHRASES[(start + i + 7) % NEW_JA_PHRASES.length][1].split(/\s+/).filter(Boolean);
+    const distractors = other.filter((word) => !words.includes(word)).slice(0, Math.max(1, 5 - words.length));
+    const options = shuffle(Array.from(new Set([...words, ...distractors])));
+    return {
+      kind: "build",
+      prompt: translate("Ouça com atenção e monte a frase com as palavras em Romaji", ui),
+      audio: target,
+      answer: words.join(" "),
+      options,
+      buildOptions: options,
+      buildAnswer: words,
+      nekoMessage: i === 0 || i === 8
+        ? translate("Escuta com atenção! 👂 Agora monte o que você ouviu.", ui)
+        : undefined,
+    };
+  };
+
   const questions: Question[] = slice.map((w, i) => {
     const [target, romaji, pt] = w;
-    const words = romaji.split(/\\s+/);
-    const distractorSource = NEW_JA_PHRASES[(start + i + 7) % NEW_JA_PHRASES.length][1].split(/\\s+/).slice(0, 2);
-    if (i % 4 === 0) {
-      const options = shuffle(Array.from(new Set([...words, ...distractorSource])));
-      return { kind: "build", prompt: translate("Escute com atenção e monte a frase com as palavras em Romaji", ui), audio: target, answer: words.join(" "), options, buildOptions: options, buildAnswer: words, nekoMessage: i === 0 ? translate("Escuta com atenção! 👂 Agora monte o que você ouviu.", ui) : i === 4 ? translate("Boa! Agora vamos tentar montar outra frase.", ui) : undefined } as Question;
+    const meaning = translate(pt, ui);
+    const kind = pattern[i];
+    const otherMeanings = meanings.filter((_, n) => n !== i);
+    const base = {
+      audio: target,
+      translation: meaning,
+      romaji,
+      japanese: target,
+    };
+
+    if (kind === "build") {
+      const words = romaji.trim().split(/\s+/).filter(Boolean);
+      if (words.length <= 5) return makeBuild(i, target, romaji);
+      const fallback = words.slice(0, 5).join(" ");
+      return makeBuild(i, target, fallback);
     }
-    if (i % 3 === 1) return { kind: "listen", prompt: translate("Ouça e escolha o significado", ui), audio: target, answer: translate(pt, ui), options: pickOptions(translate(pt, ui), slice.map((x) => translate(x[2], ui))), japanese: target, reveal: { translation: translate(pt, ui), romaji, japanese: target } } as Question;
-    if (i % 3 === 2) return { kind: "choose", prompt: translate("Escolha a frase correta", ui), audio: target, answer: romaji, options: pickOptions(romaji, slice.map((x) => x[1])), translation: translate(pt, ui), romaji, japanese: target } as Question;
-    return { kind: "complete", prompt: translate("Complete a frase ouvida", ui), audio: target, answer: romaji, translation: translate(pt, ui), romaji, japanese: target } as Question;
+
+    if (kind === "listen") {
+      return {
+        kind: "listen",
+        prompt: translate("Ouça o áudio e escolha o significado", ui),
+        audio: target,
+        answer: meaning,
+        options: pickOptions(meaning, meanings),
+        reveal: { translation: meaning, romaji, japanese: target },
+        nekoMessage: i === 0 ? translate("Ouça com atenção! 👂", ui) : undefined,
+      } as Question;
+    }
+
+    if (kind === "match") {
+      const group = Array.from({ length: 4 }, (_, offset) => {
+        const n = (i + offset) % slice.length;
+        return slice[n];
+      });
+      const left = group.map((x) => x[1]);
+      const right = shuffle(group.map((x) => translate(x[2], ui)));
+      const pairs: Record<string,string> = {};
+      group.forEach((x) => { pairs[x[1]] = translate(x[2], ui); });
+      return {
+        kind: "match",
+        prompt: translate("Associe cada expressão ao significado correto", ui),
+        answer: JSON.stringify(pairs),
+        matchLeft: left,
+        matchRight: right,
+        matchPairs: pairs,
+        nekoMessage: i % 2 === 0 ? translate("Combine os pares! 🧩", ui) : undefined,
+      } as Question;
+    }
+
+    if (kind === "complete") {
+      return {
+        ...base,
+        kind: "complete",
+        prompt: translate("Complete a frase usando o Romaji aprendido", ui),
+        answer: romaji,
+      } as Question;
+    }
+
+    if (kind === "choose") {
+      const useTranslation = i % 2 === 0;
+      return {
+        ...base,
+        kind: "choose",
+        prompt: useTranslation
+          ? translate("Escolha a tradução correta", ui)
+          : translate("Escolha a frase correta em Romaji", ui),
+        answer: useTranslation ? meaning : romaji,
+        options: useTranslation
+          ? pickOptions(meaning, meanings)
+          : pickOptions(romaji, slice.map((x) => x[1])),
+      } as Question;
+    }
+
+    return {
+      ...base,
+      kind: "choose",
+      prompt: translate("Qual opção corresponde à situação?", ui),
+      answer: meaning,
+      options: pickOptions(meaning, [meaning, ...otherMeanings]),
+    } as Question;
   });
-  return { id: "ja-phase-" + (phaseIdx + 1), title: translateVars("Fase {n}", { n: phaseIdx + 1 }, ui), icon: ICONS.ja[phaseIdx], xp: [32,35,38][phaseIdx - 7] ?? 38, questions };
+
+  return {
+    id: "ja-phase-" + (phaseIdx + 1),
+    title: translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
+    icon: ICONS.ja[phaseIdx],
+    xp: [24,26,28,30,32,35,38][phaseIdx - 3] ?? 38,
+    questions,
+  };
 }
 
 function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string, ui: UiLang): Phase {
   if (phaseIdx < 3) return buildLegacyPhase(lang, phaseIdx, level, goal, ui);
-  if (lang === "ja" && phaseIdx < 7) return buildNewJapanesePhase(phaseIdx, ui);
-  if (lang === "ja") return buildSentenceJapanesePhase(phaseIdx, ui);
+  if (lang === "ja") return buildVariedJapanesePhase(phaseIdx, ui);
   return buildLegacyPhase(lang, phaseIdx, level, goal, ui);
 }
 
