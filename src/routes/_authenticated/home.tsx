@@ -24,7 +24,7 @@ function HomePage() {
   const langMeta = LANGUAGES.find((l) => l.code === lang);
   const { data: completed } = useQuery({
     queryKey: ["completed", lang], enabled: !!profile,
-    queryFn: async () => { const { data } = await supabase.auth.getUser(); return data.user ? fetchCompletedLessons(data.user.id, lang) : new Set<string>(); },
+    queryFn: async () => { const { data } = await supabase.auth.getSession(); return data.session?.user ? fetchCompletedLessons(data.session.user.id, lang) : new Set<string>(); },
   });
   return (
     <div className="mobile-shell bg-background">
