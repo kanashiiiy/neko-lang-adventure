@@ -126,6 +126,8 @@ function LessonPlayer() {
   const activeIndex = reviewQueue.length > 0 ? reviewQueue[reviewIdx] ?? 0 : idx;
   const safeIdx = Math.min(activeIndex, total - 1);
   const q = lesson.questions[safeIdx];
+  const isAudioMission = q.kind === "listen";
+  const audioAnswered = isAudioMission && correct !== null;
   const inReview = reviewQueue.length > 0 && !done;
 
   async function ensureFocusSpent() {
@@ -335,7 +337,7 @@ function LessonPlayer() {
         })}
       </div>
       <h2 className="mt-2 text-2xl font-black">{q.prompt}</h2>
-      {q.kind !== "listen" && (q.japanese || q.kana || q.kanji || q.romaji || q.translation) && (
+      {!isAudioMission && (q.japanese || q.kana || q.kanji || q.romaji || q.translation) && (
         <div className="mt-4 rounded-3xl bg-card p-5 text-center shadow-card">
           {q.kanji && <div className="text-5xl font-black">{q.kanji}</div>}
           {q.romaji && <div className="mt-1 text-lg font-bold text-primary">{q.romaji}</div>}
@@ -345,12 +347,14 @@ function LessonPlayer() {
         </div>
       )}
 
-      {(q.kind === "listen") && (
-        <button onClick={() => q.audio && speakForLang(q.audio, lang)}
-          className="mt-6 flex w-full items-center justify-center gap-3 rounded-3xl bg-primary py-8 text-primary-foreground shadow-soft">
-          <Volume2 className="h-8 w-8" />
-          <span className="text-lg font-black">{t("Tocar áudio")}</span>
-        </button>
+      {isAudioMission && !audioAnswered && (
+        <div className="mt-6">
+          <button onClick={() => q.audio && speakForLang(q.audio, lang)}
+            className="flex w-full items-center justify-center gap-3 rounded-3xl bg-primary py-8 text-primary-foreground shadow-soft">
+            <Volume2 className="h-8 w-8" />
+            <span className="text-lg font-black">{t("Ouvir")}</span>
+          </button>
+        </div>
       )}
 
       {q.kind === "choose" && (
@@ -416,16 +420,32 @@ function LessonPlayer() {
         ) : (
           <div className={`rounded-2xl p-4 ${correct ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
             <div className="text-sm font-black">{correct ? t("Muito bem! 🎉") : `${t("Resposta certa:")} ${q.answer}`}</div>
-            {(q.translation || q.japanese || q.romaji) && (
+            {((isAudioMission && audioAnswered && q.reveal) || (!isAudioMission && (q.translation || q.japanese || q.romaji))) && (
               <div className="mt-2 space-y-1 rounded-xl bg-background/60 p-3 text-left">
-                {q.translation && (
-                  <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.translation}</span></div>
-                )}
-                {(q.japanese || q.kana) && (
-                  <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{lang === "ja" ? (q.kana ?? q.japanese) : q.japanese}</span></div>
-                )}
-                {q.romaji && (
-                  <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
+                {isAudioMission && audioAnswered && q.reveal ? (
+                  <>
+                    {q.reveal.translation && (
+                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.reveal.translation}</span></div>
+                    )}
+                    {(q.reveal.japanese || q.reveal.kana) && (
+                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{lang === "ja" ? (q.reveal.kana ?? q.reveal.japanese) : q.reveal.japanese}</span></div>
+                    )}
+                    {q.reveal.romaji && (
+                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.reveal.romaji}</span></div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {q.translation && (
+                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.translation}</span></div>
+                    )}
+                    {(q.japanese || q.kana) && (
+                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{lang === "ja" ? (q.kana ?? q.japanese) : q.japanese}</span></div>
+                    )}
+                    {q.romaji && (
+                      <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
+                    )}
+                  </>
                 )}
               </div>
             )}
