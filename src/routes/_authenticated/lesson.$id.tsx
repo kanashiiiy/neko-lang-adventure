@@ -9,7 +9,7 @@ import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremium
 import { speakForLang, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
-import { useRewardAnimation } from "@/components/RewardAnimation";
+import { useRewardAnimation, type RewardAmount } from "@/components/RewardAnimation";
 
 export const Route = createFileRoute("/_authenticated/lesson/$id")({
   component: LessonPlayer,
