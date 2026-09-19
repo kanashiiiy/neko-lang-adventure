@@ -434,6 +434,213 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
   };
 }
 
+
+const EN_VARIED_PHRASES: [string,string,string][] = [
+  ["Hello, how are you?","Olá, como você está?","cumprimentos"],
+  ["I am fine, thank you.","Estou bem, obrigado.","cumprimentos"],
+  ["What is your name?","Qual é o seu nome?","apresentação"],
+  ["My name is Neko.","Meu nome é Neko.","apresentação"],
+  ["Nice to meet you.","Prazer em conhecer você.","apresentação"],
+  ["Where is the station?","Onde fica a estação?","direções"],
+  ["Where is the hotel?","Onde fica o hotel?","direções"],
+  ["How much is this?","Quanto custa isto?","compras"],
+  ["I would like some water.","Eu gostaria de água.","pedido"],
+  ["Can I have a coffee, please?","Posso pedir um café, por favor?","pedido"],
+  ["Please show me the menu.","Por favor, mostre o menu.","restaurante"],
+  ["I would like some food.","Eu gostaria de comida.","restaurante"],
+  ["The food is delicious.","A comida está deliciosa.","restaurante"],
+  ["Can I pay by card?","Posso pagar com cartão?","pagamento"],
+  ["I have a reservation.","Eu tenho uma reserva.","hotel"],
+  ["I need a room for one night.","Preciso de um quarto por uma noite.","hotel"],
+  ["What time is the train?","Que horas é o trem?","transporte"],
+  ["I am going to the airport.","Vou para o aeroporto.","transporte"],
+  ["Please call a taxi.","Por favor, chame um táxi.","transporte"],
+  ["Turn right here.","Vire à direita aqui.","direções"],
+  ["Go straight ahead.","Siga em frente.","direções"],
+  ["Please wait a moment.","Por favor, espere um momento.","pedido"],
+  ["Could you speak slowly?","Você poderia falar devagar?","conversa"],
+  ["Could you repeat that?","Você poderia repetir isso?","conversa"],
+  ["I do not understand.","Eu não entendo.","conversa"],
+  ["I understand now.","Agora eu entendo.","conversa"],
+  ["I speak a little English.","Eu falo um pouco de inglês.","idioma"],
+  ["I am studying English.","Estou estudando inglês.","idioma"],
+  ["What does this mean?","O que isto significa?","idioma"],
+  ["Can you help me?","Você pode me ajudar?","ajuda"],
+  ["I am a little tired.","Estou um pouco cansado.","estado"],
+  ["I am hungry.","Estou com fome.","estado"],
+  ["I am thirsty.","Estou com sede.","estado"],
+  ["It is very hot today.","Está muito quente hoje.","tempo"],
+  ["It is cold today.","Está frio hoje.","tempo"],
+  ["It is raining now.","Está chovendo agora.","tempo"],
+  ["I like this place.","Eu gosto deste lugar.","opinião"],
+  ["I like listening to music.","Eu gosto de ouvir música.","preferência"],
+  ["I want to travel.","Eu quero viajar.","viagem"],
+  ["I am going home.","Estou indo para casa.","rotina"],
+];
+
+const PT_VARIED_PHRASES: [string,string,string][] = [
+  ["Olá, como você está?","saudação"],
+  ["Eu estou bem, obrigado.","resposta"],
+  ["Qual é o seu nome?","apresentação"],
+  ["Meu nome é Neko.","apresentação"],
+  ["Prazer em conhecer você.","cumprimento"],
+  ["Onde fica a estação?","direções"],
+  ["Onde fica o hotel?","direções"],
+  ["Quanto custa isto?","compras"],
+  ["Eu quero água, por favor.","pedido"],
+  ["Eu gostaria de um café.","pedido"],
+  ["Mostre o menu, por favor.","restaurante"],
+  ["Eu gostaria de comida.","restaurante"],
+  ["A comida está deliciosa.","restaurante"],
+  ["Posso pagar com cartão?","pagamento"],
+  ["Eu tenho uma reserva.","hotel"],
+  ["Preciso de um quarto por uma noite.","hotel"],
+  ["Que horas é o trem?","transporte"],
+  ["Vou para o aeroporto.","transporte"],
+  ["Por favor, chame um táxi.","transporte"],
+  ["Vire à direita aqui.","direções"],
+  ["Siga em frente.","direções"],
+  ["Por favor, espere um momento.","pedido"],
+  ["Você pode falar devagar?","conversa"],
+  ["Você pode repetir isso?","conversa"],
+  ["Eu não entendo.","conversa"],
+  ["Agora eu entendo.","conversa"],
+  ["Eu falo um pouco de português.","idioma"],
+  ["Estou estudando português.","idioma"],
+  ["O que isto significa?","idioma"],
+  ["Você pode me ajudar?","ajuda"],
+  ["Estou um pouco cansado.","estado"],
+  ["Estou com fome.","estado"],
+  ["Estou com sede.","estado"],
+  ["Está muito quente hoje.","tempo"],
+  ["Está frio hoje.","tempo"],
+  ["Está chovendo agora.","tempo"],
+  ["Eu gosto deste lugar.","opinião"],
+  ["Eu gosto de ouvir música.","preferência"],
+  ["Eu quero viajar.","viagem"],
+  ["Estou indo para casa.","rotina"],
+];
+
+const VARIED_PATTERNS: TaskKind[][] = [
+  ["choose","listen","choose","complete","choose","listen","choose","complete","listen","choose","match","choose","complete","listen","choose","match","listen","choose","complete","choose"],
+  ["listen","choose","complete","choose","listen","match","choose","complete","choose","listen","choose","match","complete","choose","listen","choose","complete","listen","match","choose"],
+  ["choose","listen","match","complete","choose","listen","build","choose","complete","match","listen","choose","build","listen","choose","complete","match","choose","listen","build"],
+  ["listen","choose","build","match","listen","complete","build","choose","listen","build","match","choose","complete","build","listen","choose","match","build","listen","complete"],
+  ["build","listen","choose","match","build","choose","listen","build","complete","match","listen","choose","build","listen","match","choose","build","complete","listen","build"],
+  ["choose","build","listen","match","build","listen","choose","build","match","complete","listen","build","choose","match","listen","build","complete","choose","build","listen"],
+  ["build","listen","match","choose","build","complete","listen","build","choose","match","listen","build","complete","choose","build","listen","match","build","choose","listen"],
+];
+
+function buildVariedTextPhase(lang: "en" | "pt", phaseIdx: number, ui: UiLang): Phase {
+  const bank = lang === "en" ? EN_VARIED_PHRASES : PT_VARIED_PHRASES;
+  const start = (phaseIdx * 7) % bank.length;
+  const slice = Array.from({ length: 20 }, (_, i) => bank[(start + i) % bank.length]);
+  const pattern = VARIED_PATTERNS[phaseIdx % VARIED_PATTERNS.length];
+
+  const tokenize = (text: string) => text
+    .replace(/[.,!?;:]/g, "")
+    .trim()
+    .split(/\\s+/)
+    .filter(Boolean);
+
+  const makeBuild = (i: number, source: [string,string,string]): Question => {
+    const [target] = source;
+    const words = tokenize(target);
+    const other = tokenize(bank[(start + i + 11) % bank.length][0]);
+    const distractors = other.filter((word) => !words.some((w) => normalizeTextToken(w) === normalizeTextToken(word))).slice(0, Math.max(2, 5 - Math.min(words.length, 3)));
+    const options = shuffle([...words, ...distractors]);
+    const answer = words.join(" ");
+    return {
+      kind: "build",
+      prompt: translate(lang === "en" ? "Ouça com atenção e monte a frase com as palavras em inglês" : "Ouça com atenção e monte a frase com as palavras em português", ui),
+      audio: target,
+      answer,
+      options,
+      buildOptions: options,
+      buildAnswer: words,
+      nekoMessage: i === 0 || i === 8 ? translate("Escuta com atenção! 👂 Agora monte o que você ouviu.", ui) : undefined,
+    };
+  };
+
+  const questions: Question[] = slice.map((entry, i) => {
+    const [target, meaning] = entry;
+    const kind = pattern[i];
+    const translatedMeaning = lang === "en" ? translate(meaning, ui) : translate(meaning, ui);
+
+    if (kind === "build") return makeBuild(i, entry);
+
+    if (kind === "listen") {
+      return {
+        kind: "listen",
+        prompt: translate("Ouça o áudio e escolha a resposta correta", ui),
+        audio: target,
+        answer: translatedMeaning,
+        options: pickOptions(translatedMeaning, slice.map((x) => translate(x[1], ui))),
+        reveal: lang === "en" ? { translation: translatedMeaning } : undefined,
+        nekoMessage: i === 0 ? translate("Ouça com atenção! 👂", ui) : undefined,
+      } as Question;
+    }
+
+    if (kind === "match") {
+      const group = Array.from({ length: 4 }, (_, offset) => slice[(i + offset) % slice.length]);
+      const left = group.map((x) => x[0]);
+      const right = shuffle(group.map((x) => translate(x[1], ui)));
+      const pairs: Record<string, string> = {};
+      group.forEach((x) => { pairs[x[0]] = translate(x[1], ui); });
+      return {
+        kind: "match",
+        prompt: translate("Associe cada frase ao significado correto", ui),
+        answer: JSON.stringify(pairs),
+        matchLeft: left,
+        matchRight: right,
+        matchPairs: pairs,
+        nekoMessage: i % 2 === 0 ? translate("Combine os pares! 🧩", ui) : undefined,
+      } as Question;
+    }
+
+    if (kind === "complete") {
+      return {
+        kind: "complete",
+        prompt: translate(lang === "en" ? "Ouça e escreva a frase em inglês" : "Ouça e escreva a frase em português", ui),
+        audio: target,
+        answer: tokenize(target).join(" "),
+      } as Question;
+    }
+
+    if (kind === "choose") {
+      const useMeaning = i % 2 === 0;
+      const meanings = slice.map((x) => translate(x[1], ui));
+      return {
+        kind: "choose",
+        prompt: translate(useMeaning ? "Ouça e escolha o significado correto" : (lang === "en" ? "Ouça e escolha a frase correta em inglês" : "Ouça e escolha a frase correta em português"), ui),
+        audio: target,
+        answer: useMeaning ? translatedMeaning : target,
+        options: useMeaning ? pickOptions(translatedMeaning, meanings) : pickOptions(target, slice.map((x) => x[0])),
+      } as Question;
+    }
+
+    return {
+      kind: "choose",
+      prompt: translate(lang === "en" ? "Ouça e escolha a resposta correta em inglês" : "Ouça e escolha a resposta correta em português", ui),
+      audio: target,
+      answer: target,
+      options: pickOptions(target, slice.map((x) => x[0])),
+    } as Question;
+  });
+
+  return {
+    id: `${lang}-phase-${phaseIdx + 1}`,
+    title: translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
+    icon: ICONS[lang][phaseIdx],
+    xp: [18,20,22,24,26,28,30,32,35,38][phaseIdx] ?? 38,
+    questions,
+  };
+}
+
+function normalizeTextToken(value: string) {
+  return value.toLowerCase().normalize("NFC").replace(/[.,!?;:]/g, "");
+}
+
 function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string, ui: UiLang): Phase {
   if (phaseIdx < 3) return buildLegacyPhase(lang, phaseIdx, level, goal, ui);
   if (lang === "ja") return buildVariedJapanesePhase(phaseIdx, ui);
