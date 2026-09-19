@@ -1,11 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/lib/neko-toast";
 import { ArrowLeft, Users, Activity, Crown, Sparkles, UserPlus, BookOpen, Brain, Gem, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, addAdminTestXp, getLevelChestKey } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
-import { useT } from "@/lib/i18n";
+import { useT, useTf } from "@/lib/i18n";
 import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -28,6 +29,7 @@ type Stats = {
 
 function AdminPage() {
   const t = useT();
+  const tf = useTf();
   const qc = useQueryClient();
   const navigate = useNavigate();
 
