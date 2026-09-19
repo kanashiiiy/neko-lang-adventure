@@ -5,7 +5,7 @@ import { toast } from "@/lib/neko-toast";
 import { X, Brain, Volume2, Mic } from "lucide-react";
 import { getLesson, normalizeLanguage } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive } from "@/lib/profile";
+import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive, getLevelProgress, getLevelsCrossed, getLevelChestKey, rollLevelChestFocus, updateProfile } from "@/lib/profile";
 import { speakForLang, prepareSpeech, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
@@ -52,6 +52,10 @@ function LessonPlayer() {
   const [outOfFocus, setOutOfFocus] = useState(false);
   const [listening, setListening] = useState(false);
   const [heard, setHeard] = useState<string | null>(null);
+  const [levelUp, setLevelUp] = useState<number | null>(null);
+  const [chestLevel, setChestLevel] = useState<number | null>(null);
+  const [chestReward, setChestReward] = useState<number | null>(null);
+  const [chestOpening, setChestOpening] = useState(false);
   const spentRef = useRef(false);
   const [resumed, setResumed] = useState(false);
   const restoredRef = useRef(false);
@@ -105,6 +109,56 @@ function LessonPlayer() {
       }
     } catch { /* armazenamento indisponível */ }
   }, [progressKey, idx, rights, streakInLesson, bonusFocus, done]);
+
+  // Baús de nível ficam persistidos localmente até serem abertos.
+  useEffect(() => {
+    if (!profile?.id) return;
+    try {
+      const raw = localStorage.getItem(`nekoteach:level-chests:${profile.id}`);
+      const queue = raw ? JSON.parse(raw) as number[] : [];
+      const next = queue.find((level) => localStorage.getItem(getLevelChestKey(profile.id, level)) !== "opened");
+      if (typeof next === "number") setChestLevel(next);
+    } catch {}
+  }, [profile?.id]);
+
+  function queueLevelChests(userId: string, levels: number[]) {
+    try {
+      const key = `nekoteach:level-chests:${userId}`;
+      const current = JSON.parse(localStorage.getItem(key) ?? "[]") as number[];
+      const merged = Array.from(new Set([...current, ...levels])).sort((a, b) => a - b);
+      localStorage.setItem(key, JSON.stringify(merged));
+    } catch {}
+  }
+
+  function markChestOpened(userId: string, level: number) {
+    try {
+      localStorage.setItem(getLevelChestKey(userId, level), "opened");
+      const key = `nekoteach:level-chests:${userId}`;
+      const current = JSON.parse(localStorage.getItem(key) ?? "[]") as number[];
+      localStorage.setItem(key, JSON.stringify(current.filter((v) => v !== level)));
+    } catch {}
+  }
+
+  async function openLevelChest() {
+    if (!profile?.id || chestLevel === null || chestOpening || chestReward !== null) return;
+    const level = chestLevel;
+    const reward = rollLevelChestFocus();
+    setChestOpening(true);
+    setChestReward(reward);
+    // Marca antes de creditar para impedir duplicação ao tocar várias vezes.
+    markChestOpened(profile.id, level);
+    try {
+      const latest = await fetchProfile(profile.id);
+      if (!latest) throw new Error("profile");
+      await updateProfile(profile.id, { focus: latest.focus + reward });
+      await collectRewards([{ type: "focus", amount: reward }]);
+      qc.invalidateQueries({ queryKey: ["profile"] });
+    } catch {
+      // Se o crédito falhar, mantém a recompensa visual já definida e o baú não volta a duplicar.
+      toast.error(t("Não conseguimos salvar a recompensa."));
+    }
+    setChestOpening(false);
+  }
 
   // Check focus before starting
   useEffect(() => {
@@ -242,8 +296,19 @@ function LessonPlayer() {
         gemsEarned > 0 ? { type: "gems", amount: gemsEarned } : null,
         bonusFocus > 0 ? { type: "focus", amount: bonusFocus } : null,
       ].filter((r): r is RewardAmount => Boolean(r));
+      const beforeXp = profile.xp;
+      const afterXp = beforeXp + xpEarned;
+      const crossedLevels = getLevelsCrossed(beforeXp, afterXp);
       await collectRewards(rewards);
       await addXpAndGems(profile.id, xpEarned, gemsEarned, bonusFocus);
+      if (crossedLevels.length > 0) {
+        queueLevelChests(profile.id, crossedLevels);
+        setLevelUp(crossedLevels[0]);
+        setTimeout(() => {
+          setLevelUp(null);
+          setChestLevel(crossedLevels[0]);
+        }, 1200);
+      }
       qc.invalidateQueries({ queryKey: ["profile"] });
       qc.invalidateQueries({ queryKey: ["completed", lang] });
       setFirstAttemptFinished(true);
@@ -261,6 +326,42 @@ function LessonPlayer() {
     setSaving(false);
     try { localStorage.removeItem(progressKey); } catch {}
   }
+
+  {levelUp !== null && !chestReward && (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-5">
+      <div className="w-full max-w-sm rounded-3xl bg-card p-6 text-center shadow-card animate-bounce-in">
+        <NekoMascot size={150} bounce float entrance />
+        <div className="mt-2 text-3xl font-black">✨ NÍVEL {levelUp}! ✨</div>
+        <p className="mt-2 text-sm font-semibold text-muted-foreground">{t("Você desbloqueou um baú de recompensa!")}</p>
+      </div>
+    </div>
+  )}
+
+  {chestLevel !== null && !levelUp && (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-5">
+      <div className="w-full max-w-sm rounded-3xl bg-card p-6 text-center shadow-card">
+        {chestReward === null ? (
+          <>
+            <div className={`text-8xl transition-transform duration-500 ${chestOpening ? "scale-125 rotate-6" : "animate-bounce"}`}>🎁</div>
+            <h2 className="mt-3 text-2xl font-black">🎁 {t("Baú de recompensa")}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{tf("Recompensa do Nível {n}", { n: chestLevel })}</p>
+            <button onClick={openLevelChest} disabled={chestOpening} className="btn-3d mt-5 w-full rounded-2xl bg-gradient-gold py-3.5 font-black text-gold-foreground">
+              {t("Abrir baú")}
+            </button>
+          </>
+        ) : (
+          <>
+            <div className="text-7xl animate-bounce">⚡</div>
+            <h2 className="mt-3 text-2xl font-black">⚡ +{chestReward} {t("Foco")}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{t("Recompensa adicionada ao seu Foco.")}</p>
+            <button onClick={() => { setChestReward(null); setChestLevel(null); }} className="btn-3d mt-5 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
+              {t("Continuar")}
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  )}
 
   if (reviewIntro && !done) {
     return (
