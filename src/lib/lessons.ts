@@ -540,7 +540,7 @@ function buildVariedTextPhase(lang: "en" | "pt", phaseIdx: number, ui: UiLang): 
   const tokenize = (text: string) => text
     .replace(/[.,!?;:]/g, "")
     .trim()
-    .split(/\\s+/)
+    .split(/\s+/)
     .filter(Boolean);
 
   const makeBuild = (i: number, source: [string,string,string]): Question => {
