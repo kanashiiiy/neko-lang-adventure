@@ -53,149 +53,78 @@ export interface Phase {
 type LessonItem = [target: string, meaning: string, romaji?: string];
 type Curriculum = LessonItem[][];
 
-const JA_WORDS: LessonItem[] = [
-  ["こんにちは", "Olá", "konnichiwa"],
-  ["おはよう", "Bom dia", "ohayou"],
-  ["みず", "Água", "mizu"],
-  ["おちゃ", "Chá", "ocha"],
-  ["コーヒー", "Café", "koohii"],
-  ["ぎゅうにゅう", "Leite", "gyuu nyuu"],
-  ["ください", "Por favor", "kudasai"],
-  ["ありがとう", "Obrigado", "arigatou"],
-  ["さようなら", "Tchau", "sayounara"],
-  ["はい", "Sim", "hai"],
-  ["いいえ", "Não", "iie"],
-  ["ねこ", "Gato", "neko"],
-  ["いぬ", "Cachorro", "inu"],
-  ["ほん", "Livro", "hon"],
-  ["すみません", "Desculpe", "sumimasen"],
-  ["こんばんは", "Boa noite", "konbanwa"],
-];
+type GoalFamily = "travel" | "live" | "work" | "general";
+type GoalRow = [en: string, pt: string, ja: string, romaji: string];
 
-const JA_PHRASES: LessonItem[] = [
-  ["みず ください", "Água, por favor.", "mizu kudasai"],
-  ["おちゃ ください", "Chá, por favor.", "ocha kudasai"],
-  ["コーヒー ください", "Café, por favor.", "koohii kudasai"],
-  ["ぎゅうにゅう ください", "Leite, por favor.", "gyuu nyuu kudasai"],
-  ["こんにちは ありがとう", "Olá, obrigado.", "konnichiwa arigatou"],
-  ["おはよう ありがとう", "Bom dia, obrigado.", "ohayou arigatou"],
-  ["はい ください", "Sim, por favor.", "hai kudasai"],
-  ["いいえ ありがとう", "Não, obrigado.", "iie arigatou"],
-  ["さようなら ありがとう", "Tchau, obrigado.", "sayounara arigatou"],
-  ["こんにちは おはよう", "Olá, bom dia.", "konnichiwa ohayou"],
-  ["ねこ ください", "Gato, por favor.", "neko kudasai"],
-  ["ほん ください", "Livro, por favor.", "hon kudasai"],
-];
+const GOAL_ROWS: Record<Exclude<GoalFamily, "general">, GoalRow[]> = {
+  travel: [
+    ["Hello","Olá","こんにちは","konnichiwa"],["Thank you","Obrigado","ありがとう","arigatou"],["Sorry","Desculpe","すみません","sumimasen"],["Please","Por favor","お願いします","onegaishimasu"],
+    ["Good morning","Bom dia","おはようございます","ohayou gozaimasu"],["Good afternoon","Boa tarde","こんにちは","konnichiwa"],["Good evening","Boa noite","こんばんは","konbanwa"],["Yes","Sim","はい","hai"],
+    ["No","Não","いいえ","iie"],["Water","Água","水","mizu"],["Food","Comida","食べ物","tabemono"],["Bathroom","Banheiro","トイレ","toire"],
+    ["Airport","Aeroporto","空港","kuukou"],["Hotel","Hotel","ホテル","hoteru"],["Train","Trem","電車","densha"],["Bus","Ônibus","バス","basu"],
+    ["Where is it?","Onde fica?","どこですか","doko desu ka"],["How much is it?","Quanto custa?","いくらですか","ikura desu ka"],["Here","Aqui","ここです","koko desu"],["Help, please.","Ajuda, por favor.","助けてください","tasukete kudasai"],
+    ["Water, please.","Água, por favor.","水をください","mizu o kudasai"],["The menu, please.","O cardápio, por favor.","メニューをください","menyuu o kudasai"],["A taxi, please.","Um táxi, por favor.","タクシーをお願いします","takushii o onegaishimasu"],["Check-in, please.","Check-in, por favor.","チェックインをお願いします","chekkuin o onegaishimasu"],
+    ["Where is the bathroom?","Onde fica o banheiro?","トイレはどこですか","toire wa doko desu ka"],["Where is the station?","Onde fica a estação?","駅はどこですか","eki wa doko desu ka"],["Where is the airport?","Onde fica o aeroporto?","空港はどこですか","kuukou wa doko desu ka"],["Where is the hotel?","Onde fica o hotel?","ホテルはどこですか","hoteru wa doko desu ka"],
+    ["How much is this?","Quanto custa isto?","これはいくらですか","kore wa ikura desu ka"],["I'll take this, please.","Quero este, por favor.","これをください","kore o kudasai"],["Can I pay by card?","Posso pagar com cartão?","カードで払えますか","kaado de haraemasu ka"],["What do you recommend?","O que você recomenda?","おすすめは何ですか","osusume wa nan desu ka"],
+    ["I have a reservation.","Tenho uma reserva.","予約があります","yoyaku ga arimasu"],["I have luggage.","Tenho uma bagagem.","荷物があります","nimotsu ga arimasu"],["Do you speak English?","Você fala inglês?","英語を話せますか","eigo o hanasemasu ka"],["Please show me the way.","Pode me mostrar o caminho.","道を教えてください","michi o oshiete kudasai"],
+    ["I don't understand.","Não entendo.","わかりません","wakarimasen"],["One more time, please.","Mais uma vez, por favor.","もう一度お願いします","mou ichido onegaishimasu"],["Please wait a moment.","Espere um pouco, por favor.","ちょっと待ってください","chotto matte kudasai"],["It's okay.","Tudo bem.","大丈夫です","daijoubu desu"],
+  ],
+  live: [
+    ["Hello","Olá","こんにちは","konnichiwa"],["Thank you","Obrigado","ありがとう","arigatou"],["Sorry","Desculpe","すみません","sumimasen"],["Please","Por favor","お願いします","onegaishimasu"],
+    ["Good morning","Bom dia","おはようございます","ohayou gozaimasu"],["Good evening","Boa noite","こんばんは","konbanwa"],["How are you?","Como você está?","元気ですか","genki desu ka"],["I'm fine.","Estou bem.","元気です","genki desu"],
+    ["Yes","Sim","はい","hai"],["No","Não","いいえ","iie"],["Water","Água","水","mizu"],["Food","Comida","食べ物","tabemono"],
+    ["Home","Casa","家","ie"],["Room","Quarto","部屋","heya"],["Supermarket","Supermercado","スーパー","suupaa"],["Station","Estação","駅","eki"],
+    ["Bathroom","Banheiro","トイレ","toire"],["School","Escola","学校","gakkou"],["Hospital","Hospital","病院","byouin"],["How much is it?","Quanto custa?","いくらですか","ikura desu ka"],
+    ["Water, please.","Água, por favor.","水をください","mizu o kudasai"],["I'll take this, please.","Quero este, por favor.","これをください","kore o kudasai"],["Can I pay by card?","Posso pagar com cartão?","カードで払えますか","kaado de haraemasu ka"],["Please help me.","Ajude-me, por favor.","助けてください","tasukete kudasai"],
+    ["Where is the station?","Onde fica a estação?","駅はどこですか","eki wa doko desu ka"],["Where is the school?","Onde fica a escola?","学校はどこですか","gakkou wa doko desu ka"],["Where is the hospital?","Onde fica o hospital?","病院はどこですか","byouin wa doko desu ka"],["Where is the supermarket?","Onde fica o supermercado?","スーパーはどこですか","suupaa wa doko desu ka"],
+    ["I live here.","Eu moro aqui.","ここに住んでいます","koko ni sunde imasu"],["I live nearby.","Eu moro perto daqui.","近くに住んでいます","chikaku ni sunde imasu"],["I have an appointment.","Tenho um compromisso.","予約があります","yoyaku ga arimasu"],["I need help.","Preciso de ajuda.","助けが必要です","tasuke ga hitsuyou desu"],
+    ["I don't understand.","Não entendo.","わかりません","wakarimasen"],["One more time, please.","Mais uma vez, por favor.","もう一度お願いします","mou ichido onegaishimasu"],["I understand.","Entendi.","わかりました","wakarimashita"],["It's okay.","Tudo bem.","大丈夫です","daijoubu desu"],
+  ],
+  work: [
+    ["Hello","Olá","こんにちは","konnichiwa"],["Good morning","Bom dia","おはようございます","ohayou gozaimasu"],["Thank you","Obrigado","ありがとうございます","arigatou gozaimasu"],["Excuse me","Com licença","すみません","sumimasen"],
+    ["Nice to meet you.","Prazer em conhecer você.","はじめまして","hajimemashite"],["My name is...","Meu nome é...","私は___です","watashi wa ___ desu"],["I work here.","Eu trabalho aqui.","ここで働いています","koko de hataraite imasu"],["Yes","Sim","はい","hai"],
+    ["No","Não","いいえ","iie"],["Today","Hoje","今日","kyou"],["Tomorrow","Amanhã","明日","ashita"],["Now","Agora","今","ima"],
+    ["Work","Trabalho","仕事","shigoto"],["Company","Empresa","会社","kaisha"],["Meeting","Reunião","会議","kaigi"],["Schedule","Agenda","予定","yotei"],
+    ["What time is it?","Que horas são?","何時ですか","nanji desu ka"],["What time does it start?","A partir de que horas?","何時からですか","nanji kara desu ka"],["Is now okay?","Agora pode ser?","今いいですか","ima ii desu ka"],["I understand.","Entendi.","わかりました","wakarimashita"],
+    ["Please.","Por favor.","お願いします","onegaishimasu"],["One more time, please.","Mais uma vez, por favor.","もう一度お願いします","mou ichido onegaishimasu"],["Please help me.","Ajude-me, por favor.","手伝ってください","tetsudatte kudasai"],["Please wait a moment.","Espere um pouco, por favor.","ちょっと待ってください","chotto matte kudasai"],
+    ["What is this?","O que é isto?","これは何ですか","kore wa nan desu ka"],["Where is it?","Onde é?","どこですか","doko desu ka"],["When is it?","Quando é?","いつですか","itsu desu ka"],["Who is it?","Quem é?","誰ですか","dare desu ka"],
+    ["What time is the meeting?","Que horas é a reunião?","会議は何時ですか","kaigi wa nanji desu ka"],["I'll check the schedule.","Vou confirmar a agenda.","予定を確認します","yotei o kakunin shimasu"],["I'll check the email.","Vou verificar o e-mail.","メールを確認します","meeru o kakunin shimasu"],["Later, please.","Mais tarde, por favor.","後でお願いします","ato de onegaishimasu"],
+    ["I can do it today.","Posso fazer hoje.","今日できます","kyou dekimasu"],["I can do it tomorrow.","Posso fazer amanhã.","明日できます","ashita dekimasu"],["I'm finished.","Terminei.","終わりました","owarimashita"],["Please check.","Por favor, verifique.","確認してください","kakunin shite kudasai"],
+  ],
+};
 
-const EN_WORDS: LessonItem[] = [
-  ["Hello", "Olá"],
-  ["Good morning", "Bom dia"],
-  ["Water", "Água"],
-  ["Tea", "Chá"],
-  ["Coffee", "Café"],
-  ["Milk", "Leite"],
-  ["Please", "Por favor"],
-  ["Thank you", "Obrigado"],
-  ["Goodbye", "Tchau"],
-  ["Yes", "Sim"],
-  ["No", "Não"],
-  ["Cat", "Gato"],
-  ["Dog", "Cachorro"],
-  ["Book", "Livro"],
-  ["Sorry", "Desculpe"],
-  ["Good night", "Boa noite"],
-];
+function rowsToCurriculum(rows: GoalRow[], lang: Language): Curriculum {
+  const items = rows.map(([en, pt, ja, romaji]) =>
+    lang === "ja" ? [romaji, pt, romaji] : lang === "en" ? [en, pt] : [pt, en],
+  ) as LessonItem[];
+  return Array.from({ length: 10 }, (_, phaseIdx) => items.slice(phaseIdx * 4, phaseIdx * 4 + 4));
+}
 
-const EN_PHRASES: LessonItem[] = [
-  ["Water, please.", "Água, por favor."],
-  ["Coffee, please.", "Café, por favor."],
-  ["Tea, please.", "Chá, por favor."],
-  ["Milk, please.", "Leite, por favor."],
-  ["Hello, thank you.", "Olá, obrigado."],
-  ["Good morning, thank you.", "Bom dia, obrigado."],
-  ["Yes, please.", "Sim, por favor."],
-  ["No, thank you.", "Não, obrigado."],
-  ["Goodbye, thank you.", "Tchau, obrigado."],
-  ["Hello, good morning.", "Olá, bom dia."],
-  ["Cat, please.", "Gato, por favor."],
-  ["Book, please.", "Livro, por favor."],
-  ["Hello, good morning, thank you.", "Olá, bom dia, obrigado."],
-  ["Good morning, thank you, please.", "Bom dia, obrigado, por favor."],
-];
+const GOAL_CURRICULUM: Record<Language, Record<GoalFamily, Curriculum>> = {
+  ja: { travel: rowsToCurriculum(GOAL_ROWS.travel, "ja"), live: rowsToCurriculum(GOAL_ROWS.live, "ja"), work: rowsToCurriculum(GOAL_ROWS.work, "ja"), general: rowsToCurriculum(GOAL_ROWS.live, "ja") },
+  en: { travel: rowsToCurriculum(GOAL_ROWS.travel, "en"), live: rowsToCurriculum(GOAL_ROWS.live, "en"), work: rowsToCurriculum(GOAL_ROWS.work, "en"), general: rowsToCurriculum(GOAL_ROWS.live, "en") },
+  pt: { travel: rowsToCurriculum(GOAL_ROWS.travel, "pt"), live: rowsToCurriculum(GOAL_ROWS.live, "pt"), work: rowsToCurriculum(GOAL_ROWS.work, "pt"), general: rowsToCurriculum(GOAL_ROWS.live, "pt") },
+};
 
-const PT_WORDS: LessonItem[] = [
-  ["Olá", "Hello"],
-  ["Bom dia", "Good morning"],
-  ["Água", "Water"],
-  ["Chá", "Tea"],
-  ["Café", "Coffee"],
-  ["Leite", "Milk"],
-  ["Por favor", "Please"],
-  ["Obrigado", "Thank you"],
-  ["Tchau", "Goodbye"],
-  ["Sim", "Yes"],
-  ["Não", "No"],
-  ["Gato", "Cat"],
-  ["Cachorro", "Dog"],
-  ["Livro", "Book"],
-  ["Desculpe", "Sorry"],
-  ["Boa noite", "Good night"],
-];
+function normalizeGoal(value: string | null | undefined): GoalFamily {
+  const v = (value ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (v.includes("trabalh") || v.includes("profiss")) return "work";
+  if (v.includes("mor") || v.includes("viver") || v.includes("resid")) return "live";
+  if (v.includes("viaj") || v.includes("turis") || v.includes("passeio") || v.includes("ferias")) return "travel";
+  return "general";
+}
 
-const PT_PHRASES: LessonItem[] = [
-  ["Água, por favor.", "Water, please."],
-  ["Café, por favor.", "Coffee, please."],
-  ["Chá, por favor.", "Tea, please."],
-  ["Leite, por favor.", "Milk, please."],
-  ["Olá, obrigado.", "Hello, thank you."],
-  ["Bom dia, obrigado.", "Good morning, thank you."],
-  ["Sim, por favor.", "Yes, please."],
-  ["Não, obrigado.", "No, thank you."],
-  ["Tchau, obrigado.", "Goodbye, thank you."],
-  ["Olá, bom dia.", "Hello, good morning."],
-  ["Gato, por favor.", "Cat, please."],
-  ["Livro, por favor.", "Book, please."],
-  ["Olá, bom dia, obrigado.", "Hello, good morning, thank you."],
-  ["Bom dia, obrigado, por favor.", "Good morning, thank you, please."],
-];
+function levelOffset(level: Level): number {
+  if (level === "basico") return 1;
+  if (level === "intermediario") return 2;
+  if (level === "avancado") return 3;
+  return 0;
+}
 
 const CURRICULUM: Record<Language, Curriculum> = {
-  ja: [
-    JA_WORDS.slice(0, 4),
-    JA_WORDS.slice(4, 8),
-    JA_WORDS.slice(8, 12),
-    JA_WORDS.slice(12, 16),
-    JA_PHRASES.slice(0, 4),
-    JA_PHRASES.slice(4, 8),
-    JA_PHRASES.slice(8, 10),
-    JA_PHRASES.slice(10, 12),
-    [],
-    [],
-  ],
-  en: [
-    EN_WORDS.slice(0, 4),
-    EN_WORDS.slice(4, 8),
-    EN_WORDS.slice(8, 12),
-    EN_WORDS.slice(12, 16),
-    EN_PHRASES.slice(0, 4),
-    EN_PHRASES.slice(4, 8),
-    EN_PHRASES.slice(8, 10),
-    EN_PHRASES.slice(10, 12),
-    EN_PHRASES.slice(12, 14),
-    [],
-  ],
-  pt: [
-    PT_WORDS.slice(0, 4),
-    PT_WORDS.slice(4, 8),
-    PT_WORDS.slice(8, 12),
-    PT_WORDS.slice(12, 16),
-    PT_PHRASES.slice(0, 4),
-    PT_PHRASES.slice(4, 8),
-    PT_PHRASES.slice(8, 10),
-    PT_PHRASES.slice(10, 12),
-    PT_PHRASES.slice(12, 14),
-    [],
-  ],
+  ja: GOAL_CURRICULUM.ja.general,
+  en: GOAL_CURRICULUM.en.general,
+  pt: GOAL_CURRICULUM.pt.general,
 };
 
 const ICONS: Record<Language, string[]> = {
@@ -214,9 +143,12 @@ function uniqueByTarget(items: LessonItem[]): LessonItem[] {
   return Array.from(new Map(items.map((item) => [item[0], item])).values());
 }
 
-function cumulativePool(lang: Language, phaseIdx: number): LessonItem[] {
-  const curriculum = CURRICULUM[lang];
-  const unlocked = curriculum.slice(0, phaseIdx + 1).flat();
+function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | undefined, level: Level = "iniciante"): LessonItem[] {
+  const family = normalizeGoal(goal);
+  const curriculum = GOAL_CURRICULUM[lang][family];
+  const offset = levelOffset(level);
+  const unlockedThrough = Math.min(curriculum.length - 1, phaseIdx + offset);
+  const unlocked = curriculum.slice(0, unlockedThrough + 1).flat();
   return uniqueByTarget(unlocked);
 }
 
@@ -425,16 +357,16 @@ function buildPhase(
   lang: Language,
   phaseIdx: number,
   _level: Level,
-  _goal: string,
+  goal: string,
   ui: UiLang,
 ): Phase {
-  const pool = cumulativePool(lang, phaseIdx);
+  const pool = cumulativePool(lang, phaseIdx, goal, _level);
 
   // Keep lesson generation safe even if a future curriculum phase is empty.
   // Falling back to the last unlocked content prevents an invalid question
   // from reaching the lesson route and breaking the preview at runtime.
   if (pool.length === 0) {
-    return buildPhase(lang, Math.max(0, phaseIdx - 1), _level, _goal, ui);
+    return buildPhase(lang, Math.max(0, phaseIdx - 1), _level, goal, ui);
   }
 
   // The current phase may only draw from content unlocked up to this phase.
@@ -449,7 +381,7 @@ function buildPhase(
     if (kind === "listen") {
       // Listening tasks stay beginner-friendly: only individual words or
       // short two-word expressions already unlocked in the cumulative pool.
-      const learnedPool = phaseIdx > 0 ? cumulativePool(lang, phaseIdx - 1) : pool;
+      const learnedPool = phaseIdx > 0 ? cumulativePool(lang, phaseIdx - 1, goal, _level) : pool;
       const shortPool = learnedPool.filter((entry) => isShortListenItem(lang, entry));
       const listenItem = shortPool.length > 0
         ? shortPool[index % shortPool.length]
