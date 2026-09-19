@@ -252,6 +252,10 @@ function normalizeToken(value: string): string {
   return value.toLowerCase().normalize("NFC").replace(/[.,!?;:]/g, "").trim();
 }
 
+function isShortListenItem(lang: Language, item: LessonItem): boolean {
+  return tokenizeBuild(targetText(lang, item)).length <= 2;
+}
+
 function phaseKinds(phaseIdx: number): TaskKind[] {
   if (phaseIdx === 0) return ["choose", "listen", "choose", "listen"];
   if (phaseIdx === 1) return ["choose", "listen", "choose", "match"];
@@ -437,6 +441,16 @@ function buildPhase(
 
     // Build only after short expressions have been unlocked. Earlier phases
     // stay focused on individual words and very small recognition tasks.
+    if (kind === "listen") {
+      // Listening tasks stay beginner-friendly: only individual words or
+      // short two-word expressions already unlocked in the cumulative pool.
+      const shortPool = pool.filter((entry) => isShortListenItem(lang, entry));
+      const listenItem = shortPool.length > 0
+        ? shortPool[index % shortPool.length]
+        : item;
+      return makeQuestion(lang, listenItem, "listen", phaseIdx, pool, ui, index);
+    }
+
     if (kind === "build" && phaseIdx < 4) {
       return makeQuestion(lang, item, "choose", phaseIdx, pool, ui, index);
     }
