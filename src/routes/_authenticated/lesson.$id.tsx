@@ -527,8 +527,14 @@ function LessonPlayer() {
                     <button key={right} disabled={!!pairedLeft || !matchLeftPicked}
                       onClick={() => {
                         if (!matchLeftPicked) return;
-                        setMatchPairsPicked((current) => ({ ...current, [matchLeftPicked]: right }));
-                        setMatchLeftPicked(null);
+                        const expected = q.matchPairs?.[matchLeftPicked];
+                        if (expected === right) {
+                          setMatchPairsPicked((current) => ({ ...current, [matchLeftPicked]: right }));
+                          setMatchLeftPicked(null);
+                        } else {
+                          toast.error(t("Esse par não corresponde. Tente novamente."));
+                          setMatchLeftPicked(null);
+                        }
                       }}
                       className={`w-full rounded-2xl border-2 p-3 text-sm font-bold transition ${pairedLeft ? "border-success/40 bg-success/10 opacity-60" : matchLeftPicked ? "border-primary/40 bg-card" : "border-border bg-background opacity-70"}`}>
                       {right}
@@ -635,9 +641,19 @@ function LessonPlayer() {
       )}
 
       {q.kind === "complete" && (
-        <input value={typed} onChange={(e) => setTyped(e.target.value)} disabled={correct !== null}
-          placeholder={t("Digite sua resposta")}
-          className="mt-6 w-full rounded-2xl border-2 border-border bg-card px-4 py-3.5 text-lg outline-none focus:border-primary" />
+        <div className="mt-6 space-y-3">
+          <button
+            onClick={() => q.audio && speakForLang(q.audio, lang)}
+            className="flex w-full items-center justify-center gap-3 rounded-3xl bg-primary py-6 text-primary-foreground shadow-soft"
+            aria-label={t("Ouvir")}
+          >
+            <Volume2 className="h-7 w-7" />
+            <span className="font-black">{t("Ouvir novamente")}</span>
+          </button>
+          <input value={typed} onChange={(e) => setTyped(e.target.value)} disabled={correct !== null}
+            placeholder={t("Digite sua resposta")}
+            className="w-full rounded-2xl border-2 border-border bg-card px-4 py-3.5 text-lg outline-none focus:border-primary" />
+        </div>
       )}
 
       <div className="mt-auto pt-6">
