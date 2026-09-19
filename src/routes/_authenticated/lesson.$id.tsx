@@ -242,7 +242,7 @@ function LessonPlayer() {
           <div className="h-full bg-gradient-primary transition-all duration-500"
             style={{ width: `${((safeIdx + 1) / total) * 100}%` }} />
         </div>
-        <div className="flex items-center gap-1 font-bold text-yellow-600">
+        <div data-reward-counter="focus" className="flex items-center gap-1 font-bold text-yellow-600">
           <Brain className="h-5 w-5" /> {isPremiumActive(profile) ? "∞" : (profile?.focus ?? 0)}
         </div>
       </header>
