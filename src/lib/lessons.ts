@@ -53,7 +53,9 @@ export interface Phase {
 
 const JA_CORE: [string, string, string][] = [
   ["こんにちは", "Olá", "konnichiwa"], ["おはよう", "Bom dia", "ohayou"],
-  ["みず", "Água", "mizu"], ["こんばんは", "Boa noite", "konbanwa"],
+  ["みず", "Água", "mizu"], ["おちゃ", "Chá", "ocha"],
+  ["コーヒー", "Café", "koohii"], ["ぎゅうにゅう", "Leite", "gyuu nyuu"],
+  ["ください", "Por favor", "kudasai"], ["こんばんは", "Boa noite", "konbanwa"],
   ["ありがとう", "Obrigado", "arigatou"], ["さようなら", "Tchau", "sayounara"],
   ["すみません", "Desculpe", "sumimasen"], ["はい", "Sim", "hai"],
   ["いいえ", "Não", "iie"], ["ねこ", "Gato", "neko"],
@@ -64,20 +66,24 @@ const EN_CORE: [string, string, string][] = [
   ["Thank you", "Obrigado", ""], ["Goodbye", "Tchau", ""],
   ["Yes", "Sim", ""], ["No", "Não", ""],
   ["Cat", "Gato", ""], ["Dog", "Cachorro", ""],
-  ["Water", "Água", ""], ["Book", "Livro", ""],
+  ["Water", "Água", ""], ["Coffee", "Café", ""],
+  ["Tea", "Chá", ""], ["Milk", "Leite", ""],
+  ["Please", "Por favor", ""], ["Book", "Livro", ""],
 ];
 const EN_EXTRA: [string, string, string][] = [
-  ["Please", "Por favor", ""], ["Sorry", "Desculpe", ""],
+  ["Sorry", "Desculpe", ""], ["Good night", "Boa noite", ""],
 ];
 const PT_CORE: [string, string, string][] = [
   ["Olá", "Olá", ""], ["Bom dia", "Bom dia", ""],
   ["Obrigado", "Obrigado", ""], ["Tchau", "Tchau", ""],
   ["Sim", "Sim", ""], ["Não", "Não", ""],
   ["Gato", "Gato", ""], ["Cachorro", "Cachorro", ""],
-  ["Água", "Água", ""], ["Livro", "Livro", ""],
+  ["Água", "Água", ""], ["Café", "Café", ""],
+  ["Chá", "Chá", ""], ["Leite", "Leite", ""],
+  ["Por favor", "Por favor", ""], ["Livro", "Livro", ""],
 ];
 const PT_EXTRA: [string, string, string][] = [
-  ["Por favor", "Por favor", ""], ["Desculpe", "Desculpe", ""],
+  ["Desculpe", "Desculpe", ""], ["Boa noite", "Boa noite", ""],
 ];
 const CORE: Record<Language, [string, string, string][]> = { ja: JA_CORE, en: EN_CORE, pt: PT_CORE };
 const EXTRA_CORE: Record<Language, [string, string, string][]> = {
@@ -300,11 +306,28 @@ const JA_MORE_PHRASES: [string,string,string][] = [
   ["名前を書きます。","namae o kakimasu","Escrevo o nome."],
   ["日本語で話してください。","nihongo de hanashite kudasai","Fale em japonês, por favor."]
 ];
-const ALL_JA_PHRASES: [string,string,string][] = [...NEW_JA_PHRASES, ...JA_MORE_PHRASES];
+const JA_LEARNED_COMBINATIONS: [string,string,string][] = [
+  ["みずをください。","mizu o kudasai","Água, por favor."],
+  ["おちゃをください。","ocha o kudasai","Chá, por favor."],
+  ["コーヒーをください。","koohii o kudasai","Café, por favor."],
+  ["ぎゅうにゅうをください。","gyuu nyuu o kudasai","Leite, por favor."],
+  ["みずください。","mizu kudasai","Água, por favor."],
+  ["おちゃください。","ocha kudasai","Chá, por favor."],
+  ["コーヒーください。","koohii kudasai","Café, por favor."],
+  ["ぎゅうにゅうください。","gyuu nyuu kudasai","Leite, por favor."],
+];
+const ALL_JA_PHRASES: [string,string,string][] = [...JA_LEARNED_COMBINATIONS, ...NEW_JA_PHRASES, ...JA_MORE_PHRASES];
+
+function cumulativeJaBank(phaseIdx: number): [string,string,string][] {
+  const base = [...JA_CORE, ...EXTRA_CORE.ja];
+  const unlockedPhraseCount = phaseIdx < 3 ? 0 : Math.min(JA_LEARNED_COMBINATIONS.length + NEW_JA_PHRASES.length + JA_MORE_PHRASES.length, (phaseIdx - 2) * 10);
+  const additions = ALL_JA_PHRASES.slice(0, unlockedPhraseCount);
+  return Array.from(new Map([...base, ...additions].map((entry) => [entry[0], entry])).values());
+}
 
 function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
-  const start = (phaseIdx * 20) % ALL_JA_PHRASES.length;
-  const slice = Array.from({ length: 20 }, (_, i) => ALL_JA_PHRASES[(start + i) % ALL_JA_PHRASES.length]);
+  const pool = cumulativeJaBank(phaseIdx);
+  const slice = Array.from({ length: 20 }, (_, i) => pool[(phaseIdx * 7 + i) % pool.length]);
   const meanings = slice.map((x) => translate(x[2], ui));
   const phasePatterns: TaskKind[][] = [
     ["choose","listen","choose","choose","complete","listen","choose","match","choose","complete","listen","choose","choose","match","listen","choose","complete","choose","listen","choose"],
@@ -320,20 +343,13 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
   const makeBuild = (i: number, source: [string,string,string]): Question => {
     const [target, romaji] = source;
     const words = romaji.trim().split(/\s+/).filter(Boolean);
-    const other = ALL_JA_PHRASES[(start + i + 7) % ALL_JA_PHRASES.length][1].split(/\s+/).filter(Boolean);
-    const distractors = other.filter((word) => !words.includes(word)).slice(0, Math.max(1, 5 - words.length));
-    const options = shuffle([...words, ...distractors.filter((word) => !words.includes(word))]);
+    const distractorPool = pool.flatMap((entry) => entry[1].split(/\s+/)).filter((word) => !words.includes(word));
+    const distractors = shuffle(Array.from(new Set(distractorPool))).slice(0, Math.max(2, 5 - words.length));
+    const options = shuffle([...words, ...distractors]);
     return {
-      kind: "build",
-      prompt: translate("Ouça com atenção e monte a frase com as palavras em Romaji", ui),
-      audio: target,
-      answer: words.join(" "),
-      options,
-      buildOptions: options,
-      buildAnswer: words,
-      nekoMessage: i === 0 || i === 8
-        ? translate("Escuta com atenção! 👂 Agora monte o que você ouviu.", ui)
-        : undefined,
+      kind: "build", prompt: translate("Ouça com atenção e monte a frase com as palavras em Romaji", ui),
+      audio: target, answer: words.join(" "), options, buildOptions: options, buildAnswer: words,
+      nekoMessage: i === 0 || i === 8 ? translate("Escuta com atenção! 👂 Agora monte o que você ouviu.", ui) : undefined,
     };
   };
 
@@ -341,99 +357,45 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
     const [target, romaji, pt] = w;
     const meaning = translate(pt, ui);
     const kind = pattern[i];
-    const otherMeanings = meanings.filter((_, n) => n !== i);
-    const base = {
-      audio: target,
-      translation: meaning,
-      romaji,
-      japanese: target,
-    };
-
     if (kind === "build") {
-      const candidates = [
-        slice[i],
-        ...slice.slice(i + 1),
-        ...slice.slice(0, i),
-        ...ALL_JA_PHRASES,
-      ];
-      const source = candidates.find((entry) => entry[1].trim().split(/\s+/).filter(Boolean).length <= 5) ?? slice[i];
+      const candidates = pool.filter((entry) => entry[1].trim().split(/\s+/).filter(Boolean).length <= 5);
+      const source = candidates[(i + phaseIdx) % candidates.length] ?? w;
       return makeBuild(i, source);
     }
-
     if (kind === "listen") {
-      return {
-        kind: "listen",
-        prompt: translate("Ouça o áudio e escolha o significado", ui),
-        audio: target,
-        answer: meaning,
-        options: pickOptions(meaning, meanings),
-        reveal: { translation: meaning, romaji, japanese: target },
-        nekoMessage: i === 0 ? translate("Ouça com atenção! 👂", ui) : undefined,
-      } as Question;
+      return { kind:"listen", prompt:translate("Ouça o áudio e escolha o significado",ui), audio:target, answer:meaning,
+        options:pickOptions(meaning,meanings), reveal:{translation:meaning,romaji,japanese:target},
+        nekoMessage:i===0?translate("Ouça com atenção! 👂",ui):undefined } as Question;
     }
-
     if (kind === "match") {
-      const group = Array.from({ length: 4 }, (_, offset) => {
-        const n = (i + offset) % slice.length;
-        return slice[n];
-      });
-      const left = group.map((x) => x[1]);
-      const right = shuffle(group.map((x) => translate(x[2], ui)));
-      const pairs: Record<string,string> = {};
-      group.forEach((x) => { pairs[x[1]] = translate(x[2], ui); });
-      return {
-        kind: "match",
-        prompt: translate("Associe cada expressão ao significado correto", ui),
-        answer: JSON.stringify(pairs),
-        matchLeft: left,
-        matchRight: right,
-        matchPairs: pairs,
-        nekoMessage: i % 2 === 0 ? translate("Combine os pares! 🧩", ui) : undefined,
-      } as Question;
+      const group=slice.slice(i,i+4);
+      const safe=group.length===4?group:slice.slice(0,4);
+      const left=safe.map((x)=>x[1]); const right=shuffle(safe.map((x)=>translate(x[2],ui)));
+      const pairs:Record<string,string>={}; safe.forEach((x)=>{pairs[x[1]]=translate(x[2],ui);});
+      return {kind:"match",prompt:translate("Associe cada expressão ao significado correto",ui),answer:JSON.stringify(pairs),matchLeft:left,matchRight:right,matchPairs:pairs,
+        nekoMessage:i%2===0?translate("Combine os pares! 🧩",ui):undefined} as Question;
     }
-
-    if (kind === "complete") {
-      return {
-        ...base,
-        kind: "complete",
-        prompt: translate("Complete a frase usando o Romaji aprendido", ui),
-        answer: romaji,
-      } as Question;
-    }
-
-    if (kind === "choose") {
-      const useTranslation = i % 2 === 0;
-      return {
-        ...base,
-        kind: "choose",
-        prompt: useTranslation
-          ? translate("Escolha a tradução correta", ui)
-          : translate("Escolha a frase correta em Romaji", ui),
-        answer: useTranslation ? meaning : romaji,
-        options: useTranslation
-          ? pickOptions(meaning, meanings)
-          : pickOptions(romaji, slice.map((x) => x[1])),
-      } as Question;
-    }
-
-    return {
-      ...base,
-      kind: "choose",
-      prompt: translate("Qual opção corresponde à situação?", ui),
-      answer: meaning,
-      options: pickOptions(meaning, [meaning, ...otherMeanings]),
-    } as Question;
+    if (kind === "complete") return {...w,kind:"complete",prompt:translate("Complete a frase usando o Romaji aprendido",ui),audio:target,answer:romaji} as Question;
+    const useTranslation=i%2===0;
+    return {...w,kind:"choose",prompt:translate(useTranslation?"Escolha a tradução correta":"Escolha a frase correta em Romaji",ui),
+      audio:target,answer:useTranslation?meaning:romaji,options:useTranslation?pickOptions(meaning,meanings):pickOptions(romaji,slice.map((x)=>x[1]))} as Question;
   });
-
-  return {
-    id: "ja-phase-" + (phaseIdx + 1),
-    title: translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
-    icon: ICONS.ja[phaseIdx],
-    xp: [18,20,22,24,26,28,30,32,35,38][phaseIdx] ?? 38,
-    questions,
-  };
+  return {id:`ja-phase-${phaseIdx+1}`,title:translateVars("Fase {n}",{n:phaseIdx+1},ui),icon:ICONS.ja[phaseIdx],
+    xp:[18,20,22,24,26,28,30,32,35,38][phaseIdx]??38,questions};
 }
 
+const EN_LEARNED_COMBINATIONS: [string,string,string][] = [
+  ["Water, please.","Água, por favor.","vocabulário aprendido"],
+  ["Coffee, please.","Café, por favor.","vocabulário aprendido"],
+  ["Tea, please.","Chá, por favor.","vocabulário aprendido"],
+  ["Milk, please.","Leite, por favor.","vocabulário aprendido"],
+  ["Hello, thank you.","Olá, obrigado.","vocabulário aprendido"],
+  ["Good morning, thank you.","Bom dia, obrigado.","vocabulário aprendido"],
+  ["Yes, please.","Sim, por favor.","vocabulário aprendido"],
+  ["No, thank you.","Não, obrigado.","vocabulário aprendido"],
+  ["Goodbye, thank you.","Tchau, obrigado.","vocabulário aprendido"],
+  ["Hello, good morning.","Olá, bom dia.","vocabulário aprendido"],
+];
 
 const EN_VARIED_PHRASES: [string,string,string][] = [
   ["Hello, how are you?","Olá, como você está?","cumprimentos"],
@@ -496,6 +458,19 @@ const EN_VARIED_PHRASES: [string,string,string][] = [
   ["Good night, see you tomorrow.","Boa noite, até amanhã.","despedida"],
   ["I will call you later.","Vou ligar para você mais tarde.","conversa"],
   ["I am going home.","Estou indo para casa.","rotina"],
+];
+
+const PT_LEARNED_COMBINATIONS: [string,string,string][] = [
+  ["Água, por favor.","Water, please.","vocabulário aprendido"],
+  ["Café, por favor.","Coffee, please.","vocabulário aprendido"],
+  ["Chá, por favor.","Tea, please.","vocabulário aprendido"],
+  ["Leite, por favor.","Milk, please.","vocabulário aprendido"],
+  ["Olá, obrigado.","Hello, thank you.","vocabulário aprendido"],
+  ["Bom dia, obrigado.","Good morning, thank you.","vocabulário aprendido"],
+  ["Sim, por favor.","Yes, please.","vocabulário aprendido"],
+  ["Não, obrigado.","No, thank you.","vocabulário aprendido"],
+  ["Tchau, obrigado.","Goodbye, thank you.","vocabulário aprendido"],
+  ["Olá, bom dia.","Hello, good morning.","vocabulário aprendido"],
 ];
 
 const PT_VARIED_PHRASES: [string,string,string][] = [
@@ -571,118 +546,60 @@ const VARIED_PATTERNS: TaskKind[][] = [
   ["build","listen","match","choose","build","complete","listen","build","choose","match","listen","build","complete","choose","build","listen","match","build","choose","listen"],
 ];
 
-function buildVariedTextPhase(lang: "en" | "pt", phaseIdx: number, ui: UiLang): Phase {
-  const bank = lang === "en" ? EN_VARIED_PHRASES : PT_VARIED_PHRASES;
-  const start = (phaseIdx * 7) % bank.length;
-  const slice = Array.from({ length: 20 }, (_, i) => bank[(start + i) % bank.length]);
-  const pattern = VARIED_PATTERNS[phaseIdx % VARIED_PATTERNS.length];
+function cumulativeTextBank(lang: "en" | "pt", phaseIdx: number): [string,string,string][] {
+  const base = [...CORE[lang], ...EXTRA_CORE[lang]];
+  const learned = lang === "en" ? EN_LEARNED_COMBINATIONS : PT_LEARNED_COMBINATIONS;
+  const full = lang === "en" ? EN_VARIED_PHRASES : PT_VARIED_PHRASES;
+  const phraseBank = [...learned, ...full];
+  const unlockedPhraseCount = phaseIdx < 3 ? 0 : Math.min(phraseBank.length, (phaseIdx - 2) * 10);
+  const additions = phraseBank.slice(0, unlockedPhraseCount);
+  return Array.from(new Map([...base, ...additions].map((entry) => [entry[0], entry])).values());
+}
 
-  const tokenize = (text: string) => text
-    .replace(/[.,!?;:]/g, "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
+const TEXT_PHASE_PATTERNS = VARIED_PATTERNS;
+
+function buildVariedTextPhase(lang: "en" | "pt", phaseIdx: number, ui: UiLang): Phase {
+  const pool = cumulativeTextBank(lang, phaseIdx);
+  const slice = Array.from({ length: 20 }, (_, i) => pool[(phaseIdx * 7 + i) % pool.length]);
+  const pattern = TEXT_PHASE_PATTERNS[phaseIdx % TEXT_PHASE_PATTERNS.length];
+
+  const tokenize = (text: string) => text.replace(/[.,!?;:]/g, "").trim().split(/\s+/).filter(Boolean);
 
   const makeBuild = (i: number, source: [string,string,string]): Question => {
     const [target] = source;
     const words = tokenize(target);
-    const other = tokenize(bank[(start + i + 11) % bank.length][0]);
-    const distractors = other.filter((word) => !words.some((w) => normalizeTextToken(w) === normalizeTextToken(word))).slice(0, Math.max(2, 5 - Math.min(words.length, 3)));
+    const distractorPool = pool.flatMap((entry) => tokenize(entry[0])).filter((word) => !words.some((w) => normalizeTextToken(w) === normalizeTextToken(word)));
+    const distractors = shuffle(Array.from(new Set(distractorPool))).slice(0, Math.max(2, 5 - words.length));
     const options = shuffle([...words, ...distractors]);
-    const answer = words.join(" ");
-    return {
-      kind: "build",
-      prompt: translate(lang === "en" ? "Ouça com atenção e monte a frase com as palavras em inglês" : "Ouça com atenção e monte a frase com as palavras em português", ui),
-      audio: target,
-      answer,
-      options,
-      buildOptions: options,
-      buildAnswer: words,
-      nekoMessage: i === 0 || i === 8 ? translate("Escuta com atenção! 👂 Agora monte o que você ouviu.", ui) : undefined,
-    };
+    return {kind:"build",prompt:translate(lang==="en"?"Ouça com atenção e monte a frase com as palavras em inglês":"Ouça com atenção e monte a frase com as palavras em português",ui),
+      audio:target,answer:words.join(" "),options,buildOptions:options,buildAnswer:words,
+      nekoMessage:i===0||i===8?translate("Escuta com atenção! 👂 Agora monte o que você ouviu.",ui):undefined};
   };
 
-  const questions: Question[] = slice.map((entry, i) => {
-    const [target, meaning] = entry;
-    const kind = pattern[i];
-    const translatedMeaning = lang === "en" ? translate(meaning, ui) : translate(meaning, ui);
-
-    if (kind === "build") return makeBuild(i, entry);
-
-    if (kind === "listen") {
-      return {
-        kind: "listen",
-        prompt: translate("Ouça o áudio e escolha a resposta correta", ui),
-        audio: target,
-        answer: translatedMeaning,
-        options: pickOptions(translatedMeaning, slice.map((x) => translate(x[1], ui))),
-        reveal: lang === "en" ? { translation: translatedMeaning } : undefined,
-        nekoMessage: i === 0 ? translate("Ouça com atenção! 👂", ui) : undefined,
-      } as Question;
+  const questions: Question[] = slice.map((entry,i)=>{
+    const [target,meaning] = entry;
+    const kind=pattern[i];
+    const translatedMeaning=translate(meaning,ui);
+    if(kind==="build") return makeBuild(i,entry);
+    if(kind==="listen") return {kind:"listen",prompt:translate("Ouça o áudio e escolha a resposta correta",ui),audio:target,answer:translatedMeaning,
+      options:pickOptions(translatedMeaning,slice.map((x)=>translate(x[1],ui))),reveal:{translation:translatedMeaning},
+      nekoMessage:i===0?translate("Ouça com atenção! 👂",ui):undefined} as Question;
+    if(kind==="match"){
+      const group=slice.filter((entry,n,arr)=>arr.findIndex((x)=>x[0]===entry[0])===n).slice(i%8,i%8+4);
+      const safe=group.length===4?group:slice.slice(0,4);
+      const left=safe.map((x)=>x[0]); const right=shuffle(safe.map((x)=>translate(x[1],ui)));
+      const pairs:Record<string,string>={}; safe.forEach((x)=>{pairs[x[0]]=translate(x[1],ui);});
+      return {kind:"match",prompt:translate("Associe cada frase ao significado correto",ui),answer:JSON.stringify(pairs),matchLeft:left,matchRight:right,matchPairs:pairs,
+        nekoMessage:i%2===0?translate("Combine os pares! 🧩",ui):undefined} as Question;
     }
-
-    if (kind === "match") {
-      // Em português, a coluna da direita precisa ter quatro significados
-      // diferentes; isso evita dois botões idênticos que não poderiam ser
-      // associados separadamente pela interface.
-      const group = lang === "pt"
-        ? slice.filter((entry, n, arr) => arr.findIndex((x) => x[1] === entry[1]) === n).slice(i % 8, (i % 8) + 4)
-        : Array.from({ length: 4 }, (_, offset) => slice[(i + offset) % slice.length]);
-      const safeGroup = group.length === 4
-        ? group
-        : Array.from(new Map([...group, ...slice].map((entry) => [entry[0], entry])).values()).slice(0, 4);
-      const left = safeGroup.map((x) => x[0]);
-      const right = shuffle(safeGroup.map((x) => translate(x[1], ui)));
-      const pairs: Record<string, string> = {};
-      safeGroup.forEach((x) => { pairs[x[0]] = translate(x[1], ui); });
-      return {
-        kind: "match",
-        prompt: translate("Associe cada frase ao significado correto", ui),
-        answer: JSON.stringify(pairs),
-        matchLeft: left,
-        matchRight: right,
-        matchPairs: pairs,
-        nekoMessage: i % 2 === 0 ? translate("Combine os pares! 🧩", ui) : undefined,
-      } as Question;
-    }
-
-    if (kind === "complete") {
-      return {
-        kind: "complete",
-        prompt: translate(lang === "en" ? "Ouça e escreva a frase em inglês" : "Ouça e escreva a frase em português", ui),
-        audio: target,
-        answer: tokenize(target).join(" "),
-      } as Question;
-    }
-
-    if (kind === "choose") {
-      const useMeaning = i % 2 === 0;
-      const meanings = slice.map((x) => translate(x[1], ui));
-      return {
-        kind: "choose",
-        prompt: translate(useMeaning ? "Ouça e escolha o significado correto" : (lang === "en" ? "Ouça e escolha a frase correta em inglês" : "Ouça e escolha a frase correta em português"), ui),
-        audio: target,
-        answer: useMeaning ? translatedMeaning : target,
-        options: useMeaning ? pickOptions(translatedMeaning, meanings) : pickOptions(target, slice.map((x) => x[0])),
-      } as Question;
-    }
-
-    return {
-      kind: "choose",
-      prompt: translate(lang === "en" ? "Ouça e escolha a resposta correta em inglês" : "Ouça e escolha a resposta correta em português", ui),
-      audio: target,
-      answer: target,
-      options: pickOptions(target, slice.map((x) => x[0])),
-    } as Question;
+    if(kind==="complete") return {kind:"complete",prompt:translate(lang==="en"?"Ouça e escreva a frase em inglês":"Ouça e escreva a frase em português",ui),
+      audio:target,answer:tokenize(target).join(" ")} as Question;
+    const useMeaning=i%2===0;
+    return {kind:"choose",prompt:translate(useMeaning?"Ouça e escolha o significado correto":lang==="en"?"Ouça e escolha a frase correta em inglês":"Ouça e escolha a frase correta em português",ui),
+      audio:target,answer:useMeaning?translatedMeaning:target,options:useMeaning?pickOptions(translatedMeaning,slice.map((x)=>translate(x[1],ui))):pickOptions(target,slice.map((x)=>x[0]))} as Question;
   });
-
-  return {
-    id: `${lang}-phase-${phaseIdx + 1}`,
-    title: translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
-    icon: ICONS[lang][phaseIdx],
-    xp: [18,20,22,24,26,28,30,32,35,38][phaseIdx] ?? 38,
-    questions,
-  };
+  return {id:`${lang}-phase-${phaseIdx+1}`,title:translateVars("Fase {n}",{n:phaseIdx+1},ui),icon:ICONS[lang][phaseIdx],
+    xp:[18,20,22,24,26,28,30,32,35,38][phaseIdx]??38,questions};
 }
 
 function normalizeTextToken(value: string) {
