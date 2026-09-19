@@ -644,8 +644,18 @@ function LessonPlayer() {
           )
         ) : (
           <div className={`rounded-2xl p-4 ${correct ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
-            <div className="text-sm font-black">{correct ? t("Muito bem! 🎉") : `${t("Resposta certa:")} ${q.answer}`}</div>
-            {((isAudioMission && audioAnswered && q.reveal) || (!isAudioMission && (q.translation || q.japanese || q.kana || q.kanji || q.romaji || q.audio))) && (
+            <div className="text-sm font-black">{correct ? t("Muito bem! 🎉") : q.kind === "match" ? t("Alguns pares não correspondem. Veja as combinações corretas abaixo.") : `${t("Resposta certa:")} ${q.answer}`}</div>
+            {q.kind === "match" ? (
+              <div className="mt-2 grid grid-cols-1 gap-2 rounded-xl bg-background/60 p-3 text-left">
+                {Object.entries(q.matchPairs ?? {}).map(([left, right]) => (
+                  <div key={left} className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card px-3 py-2 text-xs">
+                    <span className="font-bold">{left}</span>
+                    <span className="text-muted-foreground">→</span>
+                    <span className="font-bold text-primary">{right}</span>
+                  </div>
+                ))}
+              </div>
+            ) : ((isAudioMission && audioAnswered && q.reveal) || (!isAudioMission && (q.translation || q.japanese || q.kana || q.kanji || q.romaji || q.audio))) && (
               <div className="mt-2 space-y-1 rounded-xl bg-background/60 p-3 text-left">
                 {isAudioMission && audioAnswered && q.reveal ? (
                   <>
