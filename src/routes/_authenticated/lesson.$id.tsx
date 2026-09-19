@@ -58,6 +58,11 @@ function LessonPlayer() {
   const progressKey = `nekoteach:lesson-progress:${id}`;
 
   useEffect(() => { prepareSpeech(); }, []);
+  useEffect(() => {
+    if (!q?.audio) return;
+    const timer = window.setTimeout(() => speakForLang(q.audio!, lang), 60);
+    return () => window.clearTimeout(timer);
+  }, [safeIdx, inReview, q?.audio, lang]);
 
   // Retomar progresso salvo da lição
   useEffect(() => {
@@ -324,8 +329,8 @@ function LessonPlayer() {
       {(q.japanese || q.kana || q.kanji || q.romaji || q.translation) && (
         <div className="mt-4 rounded-3xl bg-card p-5 text-center shadow-card">
           {q.kanji && <div className="text-5xl font-black">{q.kanji}</div>}
-          {q.kana && <div className={q.kanji ? "mt-1 text-2xl font-black" : "text-4xl font-black"}>{q.kana}</div>}
           {q.romaji && <div className="mt-1 text-lg font-bold text-primary">{q.romaji}</div>}
+          {q.kana && <div className={q.kanji ? "mt-1 text-2xl font-black" : "mt-1 text-4xl font-black"}>{q.kana}</div>}
           {q.translation && <div className="mt-1 text-base text-muted-foreground">{q.translation}</div>}
           {q.audio && <button onClick={() => speakForLang(q.audio!, lang)} className="mt-3 text-primary" aria-label={t("Ouvir")}><Volume2 className="h-6 w-6" /></button>}
         </div>
