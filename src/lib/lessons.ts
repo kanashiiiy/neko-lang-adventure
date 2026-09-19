@@ -495,6 +495,7 @@ const EN_VARIED_PHRASES: [string,string,string][] = [
   ["Have a good day.","Tenha um bom dia.","despedida"],
   ["Good night, see you tomorrow.","Boa noite, até amanhã.","despedida"],
   ["I will call you later.","Vou ligar para você mais tarde.","conversa"],
+  ["I am going home.","Estou indo para casa.","rotina"],
 ];
 
 const PT_VARIED_PHRASES: [string,string,string][] = [
@@ -557,6 +558,7 @@ const PT_VARIED_PHRASES: [string,string,string][] = [
   ["Tenha um bom dia.","despedida"],
   ["Boa noite, até amanhã.","despedida"],
   ["Vou ligar para você mais tarde.","conversa"],
+  ["Estou indo para casa.","rotina"],
 ];
 
 const VARIED_PATTERNS: TaskKind[][] = [
