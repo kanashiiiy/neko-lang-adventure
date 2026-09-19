@@ -585,21 +585,25 @@ function LessonPlayer() {
       )}
 
       {q.kind === "choose" && correct === null && (
-        <div className="mt-6 flex items-center justify-center rounded-3xl bg-card p-8 shadow-card">
-          <div className="flex flex-col items-center gap-2 text-center">
-            <span className="text-5xl font-black">{q.prompt.match(/"([^"]+)"/)?.[1] ?? ""}</span>
+        <div className="mt-6 flex items-center justify-center rounded-3xl bg-card p-6 shadow-card">
+          <div className="flex flex-col items-center gap-3 text-center">
+            {q.audio ? (
+              <button onClick={() => speakForLang(q.audio!, lang)} className="rounded-2xl bg-primary p-4 text-primary-foreground" aria-label={t("Ouvir")}>
+                <Volume2 className="h-7 w-7" />
+              </button>
+            ) : (
+              <span className="text-sm font-semibold text-muted-foreground">{t("Escolha a resposta correta")}</span>
+            )}
           </div>
         </div>
       )}
 
 
       {q.kind === "speak" && (
-        <div className="mt-6 flex flex-col items-center gap-2 rounded-3xl bg-card p-8 shadow-card">
-          <span className="text-5xl font-black">{q.answer}</span>
-          {lang === "ja" && q.romaji && <span className="text-sm font-bold uppercase text-muted-foreground">{q.romaji}</span>}
-          {q.translation && <span className="text-xs text-muted-foreground">{q.translation}</span>}
-          <button onClick={() => speakForLang(q.answer, lang)} className="text-primary mt-2">
-            <Volume2 className="h-6 w-6" />
+        <div className="mt-6 flex flex-col items-center gap-3 rounded-3xl bg-card p-8 shadow-card">
+          <div className="text-sm font-bold text-muted-foreground">{t("Ouça e repita o áudio")}</div>
+          <button onClick={() => q.audio && speakForLang(q.audio, lang)} className="rounded-2xl bg-primary p-4 text-primary-foreground" aria-label={t("Ouvir")}>
+            <Volume2 className="h-7 w-7" />
           </button>
           <button onClick={handleSpeak} disabled={listening || correct !== null}
             className={`btn-3d mt-2 flex items-center gap-2 rounded-2xl px-6 py-3 font-bold text-primary-foreground ${listening ? "bg-destructive animate-pulse" : "bg-primary"}`}>
