@@ -432,6 +432,13 @@ function buildPhase(
 ): Phase {
   const pool = cumulativePool(lang, phaseIdx);
 
+  // Keep lesson generation safe even if a future curriculum phase is empty.
+  // Falling back to the last unlocked content prevents an invalid question
+  // from reaching the lesson route and breaking the preview at runtime.
+  if (pool.length === 0) {
+    return buildPhase(lang, Math.max(0, phaseIdx - 1), _level, _goal, ui);
+  }
+
   // The current phase may only draw from content unlocked up to this phase.
   // Nothing from a future phase can leak into questions or distractors.
   const pattern = phaseKinds(phaseIdx);
