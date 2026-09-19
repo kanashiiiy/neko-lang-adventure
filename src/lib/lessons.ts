@@ -320,7 +320,7 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
   const makeBuild = (i: number, source: [string,string,string]): Question => {
     const [target, romaji] = source;
     const words = romaji.trim().split(/\s+/).filter(Boolean);
-    const other = NEW_JA_PHRASES[(start + i + 7) % NEW_JA_PHRASES.length][1].split(/\s+/).filter(Boolean);
+    const other = ALL_JA_PHRASES[(start + i + 7) % ALL_JA_PHRASES.length][1].split(/\s+/).filter(Boolean);
     const distractors = other.filter((word) => !words.includes(word)).slice(0, Math.max(1, 5 - words.length));
     const options = shuffle(Array.from(new Set([...words, ...distractors])));
     return {
