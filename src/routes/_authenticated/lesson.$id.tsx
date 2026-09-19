@@ -58,11 +58,6 @@ function LessonPlayer() {
   const progressKey = `nekoteach:lesson-progress:${id}`;
 
   useEffect(() => { prepareSpeech(); }, []);
-  useEffect(() => {
-    if (!q?.audio) return;
-    const timer = window.setTimeout(() => speakForLang(q.audio!, lang), 60);
-    return () => window.clearTimeout(timer);
-  }, [safeIdx, inReview, q?.audio, lang]);
 
   // Retomar progresso salvo da lição
   useEffect(() => {
@@ -118,6 +113,11 @@ function LessonPlayer() {
   const safeIdx = Math.min(activeIndex, total - 1);
   const q = lesson.questions[safeIdx];
   const inReview = reviewQueue.length > 0 && !done;
+  useEffect(() => {
+    if (!q?.audio) return;
+    const timer = window.setTimeout(() => speakForLang(q.audio!, lang), 60);
+    return () => window.clearTimeout(timer);
+  }, [safeIdx, inReview, q?.audio, lang]);
 
   async function ensureFocusSpent() {
     if (inReview) return true;
