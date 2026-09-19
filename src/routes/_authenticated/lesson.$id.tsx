@@ -57,6 +57,18 @@ function LessonPlayer() {
   const restoredRef = useRef(false);
   const progressKey = `nekoteach:lesson-progress:${id}`;
 
+  useEffect(() => {
+    prepareSpeech();
+  }, []);
+  useEffect(() => {
+    if (!lesson) return;
+    const active = reviewQueue.length > 0 ? reviewQueue[reviewIdx] ?? 0 : idx;
+    const audio = lesson.questions[active]?.audio;
+    if (!audio) return;
+    const timer = window.setTimeout(() => speakForLang(audio, lang), 60);
+    return () => window.clearTimeout(timer);
+  }, [lesson, idx, reviewIdx, reviewQueue, lang]);
+
 
 
   // Retomar progresso salvo da lição
