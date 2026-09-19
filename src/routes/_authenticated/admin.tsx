@@ -1,11 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/lib/neko-toast";
-import { ArrowLeft, Users, Activity, Crown, Sparkles, UserPlus, BookOpen, Brain, Gem } from "lucide-react";
+import { ArrowLeft, Users, Activity, Crown, Sparkles, UserPlus, BookOpen, Brain, Gem, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, updateProfile } from "@/lib/profile";
+import { fetchProfile, updateProfile, addAdminTestXp, getLevelChestKey } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { useT } from "@/lib/i18n";
+import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
@@ -90,6 +91,35 @@ function AdminPage() {
   };
 
   const maxDaily = Math.max(1, ...(stats?.signups_daily ?? []).map((d) => d.count));
+  const [xpAmount, setXpAmount] = useState("500");
+
+  function queueAdminLevelChests(userId: string, levels: number[]) {
+    try {
+      const key = `nekoteach:level-chests:${userId}`;
+      const current = JSON.parse(localStorage.getItem(key) ?? "[]") as number[];
+      const merged = Array.from(new Set([...current, ...levels])).sort((a, b) => a - b);
+      localStorage.setItem(key, JSON.stringify(merged));
+      // Não marca nenhum baú como aberto: eles continuam disponíveis após fechar o app.
+      levels.forEach((level) => localStorage.removeItem(getLevelChestKey(userId, level)));
+    } catch {}
+  }
+
+  async function addXpForTest() {
+    if (!profile?.id) return;
+    const amount = Math.floor(Number(xpAmount));
+    if (!Number.isFinite(amount) || amount <= 0) {
+      toast.error(t("Digite uma quantidade de XP válida."));
+      return;
+    }
+    const result = await addAdminTestXp(profile.id, amount);
+    if (!result) {
+      toast.error(t("Acesso não autorizado para esta ferramenta."));
+      return;
+    }
+    if (result.crossedLevels.length) queueAdminLevelChests(profile.id, result.crossedLevels);
+    qc.invalidateQueries({ queryKey: ["profile"] });
+    toast.success(tf("{n} XP adicionados com sucesso.", { n: amount }));
+  }
 
   return (
     <div className="mobile-shell">
@@ -165,6 +195,22 @@ function AdminPage() {
               label={t("Recarregar Foco (99)")}
               onClick={() => grant({ focus: 99 }, "Foco recarregado")}
             />
+            <div className="rounded-2xl border-2 border-primary/20 bg-background p-4">
+              <div className="flex items-center gap-2 font-black"><Star className="h-4 w-4 text-gold" /> {t("Adicionar XP")}</div>
+              <p className="mt-1 text-xs text-muted-foreground">{t("Ferramenta de teste disponível somente nesta conta Admin.")}</p>
+              <div className="mt-3 flex gap-2">
+                <input
+                  value={xpAmount}
+                  onChange={(e) => setXpAmount(e.target.value.replace(/[^0-9]/g, ""))}
+                  inputMode="numeric"
+                  aria-label={t("Quantidade de XP")}
+                  className="min-w-0 flex-1 rounded-2xl border-2 border-border bg-card px-4 py-3 font-bold outline-none focus:border-primary"
+                />
+                <button onClick={addXpForTest} className="btn-3d rounded-2xl bg-primary px-4 py-3 font-bold text-primary-foreground">
+                  {t("Adicionar")}
+                </button>
+              </div>
+            </div>
             <ToolButton
               icon={<Gem className="h-4 w-4" />}
               label={t("Adicionar 1000 diamantes")}
