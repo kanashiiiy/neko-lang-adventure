@@ -73,8 +73,9 @@ function StorePage() {
     if (profile.gems < cost) return toast.error(t("Diamantes insuficientes 💎"));
     const res = await buyFocus(profile.id, focus, cost);
     if (!res) return toast.error(t("Não foi possível comprar"));
+    // A compra já foi salva; a coleta visual acontece antes de atualizar o contador na tela.
+    await collectRewards([{ type: "focus", amount: focus }]);
     qc.invalidateQueries({ queryKey: ["profile"] });
-    toast.success(tf("+{n} Foco adicionados! ⚡", { n: focus }));
   }
 
   return (
