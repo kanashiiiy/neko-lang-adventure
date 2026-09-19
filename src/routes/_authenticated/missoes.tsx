@@ -7,10 +7,14 @@ import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT } from "@/lib/i18n";
 import { useRewardAnimation, type RewardAmount } from "@/components/RewardAnimation";
+import { getMissionStats } from "@/lib/mission-stats";
 
 export const Route = createFileRoute("/_authenticated/missoes")({ component: MissoesPage });
 
-interface MissionCtx { xp: number; streak: number; focus: number; gems: number; xpToday: number; loggedToday: boolean }
+interface MissionCtx {
+  xp: number; streak: number; focus: number; gems: number; xpToday: number; loggedToday: boolean;
+  answered: number; correct: number; words: number; listening: number; pronunciation: number; perfectLessons: number; lessons: number;
+}
 interface Mission {
   id: string; title: string; desc: string; target: number;
   progress: (p: MissionCtx) => number;
@@ -23,21 +27,32 @@ const LOGIN_MISSION: Mission = {
 const DAILY_POOL: Mission[] = [
   { id: "daily-xp-20", title: "Meta diária", desc: "Ganhe 20 XP hoje", target: 20, progress: (p) => Math.min(p.xpToday, 20), reward: { gems: 10, focus: 2 } },
   { id: "daily-xp-40", title: "Dobro de esforço", desc: "Ganhe 40 XP hoje", target: 40, progress: (p) => Math.min(p.xpToday, 40), reward: { gems: 20, focus: 3 } },
-  { id: "daily-xp-60", title: "Maratona do dia", desc: "Ganhe 60 XP hoje", target: 60, progress: (p) => Math.min(p.xpToday, 60), reward: { gems: 30, xp: 10 } },
-  { id: "streak-3", title: "Sequência de 3 dias", desc: "Estude 3 dias seguidos", target: 3, progress: (p) => Math.min(p.streak, 3), reward: { gems: 20 } },
-  { id: "streak-7", title: "Sequência de 7 dias", desc: "Estude 7 dias seguidos", target: 7, progress: (p) => Math.min(p.streak, 7), reward: { gems: 50, xp: 30 } },
-  { id: "xp-100", title: "Estudioso", desc: "Acumule 100 XP no total", target: 100, progress: (p) => Math.min(p.xp, 100), reward: { gems: 25, focus: 5 } },
-  { id: "xp-500", title: "Dedicado", desc: "Acumule 500 XP no total", target: 500, progress: (p) => Math.min(p.xp, 500), reward: { gems: 100, focus: 10 } },
+  { id: "daily-xp-60", title: "Maratona do dia", desc: "Ganhe 60 XP hoje", target: 60, progress: (p) => Math.min(p.xpToday, 60), reward: { gems: 30, xp: 10, focus: 4 } },
+  { id: "streak-3", title: "Sequência de 3 dias", desc: "Estude 3 dias seguidos", target: 3, progress: (p) => Math.min(p.streak, 3), reward: { gems: 20, focus: 1 } },
+  { id: "streak-7", title: "Sequência de 7 dias", desc: "Estude 7 dias seguidos", target: 7, progress: (p) => Math.min(p.streak, 7), reward: { gems: 50, xp: 30, focus: 3 } },
+  { id: "lessons-1", title: "Primeira lição", desc: "Complete uma lição", target: 1, progress: (p) => Math.min(p.lessons, 1), reward: { gems: 12, focus: 1 } },
+  { id: "lessons-3", title: "Ritmo de estudo", desc: "Complete 3 lições", target: 3, progress: (p) => Math.min(p.lessons, 3), reward: { gems: 30, xp: 15, focus: 2 } },
+  { id: "answers-10", title: "Treino de respostas", desc: "Responda 10 atividades", target: 10, progress: (p) => Math.min(p.answered, 10), reward: { gems: 15, focus: 1 } },
+  { id: "correct-10", title: "Mira certeira", desc: "Acerte 10 respostas", target: 10, progress: (p) => Math.min(p.correct, 10), reward: { xp: 15, gems: 15, focus: 2 } },
+  { id: "words-15", title: "Caçador de palavras", desc: "Aprenda/pratique 15 palavras", target: 15, progress: (p) => Math.min(p.words, 15), reward: { gems: 20, focus: 2 } },
+  { id: "listen-5", title: "Ouça com atenção", desc: "Ouça 5 palavras ou frases", target: 5, progress: (p) => Math.min(p.listening, 5), reward: { xp: 10, focus: 1 } },
+  { id: "speak-5", title: "Pratique a pronúncia", desc: "Pratique 5 atividades de fala", target: 5, progress: (p) => Math.min(p.pronunciation, 5), reward: { gems: 20, focus: 3 } },
+  { id: "perfect-1", title: "Sem erros", desc: "Complete uma lição sem errar", target: 1, progress: (p) => Math.min(p.perfectLessons, 1), reward: { xp: 20, gems: 20, focus: 2 } },
+  { id: "xp-100", title: "Estudioso", desc: "Acumule 100 XP no total", target: 100, progress: (p) => Math.min(p.xp, 100), reward: { gems: 25, focus: 2 } },
+  { id: "xp-500", title: "Dedicado", desc: "Acumule 500 XP no total", target: 500, progress: (p) => Math.min(p.xp, 500), reward: { gems: 100, focus: 4 } },
   { id: "gems-100", title: "Colecionador", desc: "Tenha 100 diamantes", target: 100, progress: (p) => Math.min(p.gems, 100), reward: { xp: 40, focus: 3 } },
 ];
-const DAILY_COUNT = 3;
+const DAILY_COUNT = 5;
 const CLAIMED_KEY = "nekoteach:missions-claimed";
 const DAY_XP_KEY = "nekoteach:day-xp";
 function today() { return new Date().toISOString().slice(0, 10); }
 function hashDate(d: string) { let h = 0; for (let i = 0; i < d.length; i++) h = (h * 31 + d.charCodeAt(i)) >>> 0; return h; }
 function dailyMissions(day: string): Mission[] {
   const pool = [...DAILY_POOL]; const picked: Mission[] = []; let seed = hashDate(day) || 1;
-  for (let i = 0; i < DAILY_COUNT && pool.length; i++) { seed = (seed * 1103515245 + 12345) >>> 0; picked.push(pool.splice(seed % pool.length, 1)[0]); }
+  for (let i = 0; i < DAILY_COUNT && pool.length; i++) {
+    seed = (seed * 1103515245 + 12345) >>> 0;
+    picked.push(pool.splice(seed % pool.length, 1)[0]);
+  }
   return picked;
 }
 function getClaimed(): Set<string> {
@@ -73,7 +88,12 @@ function MissoesPage() {
   }
 
   const claimed = getClaimed(); const missions = [LOGIN_MISSION, ...dailyMissions(today())];
-  const p: MissionCtx | null = profile ? { xp: profile.xp, streak: profile.streak, focus: profile.focus, gems: profile.gems, xpToday: Math.max(0, profile.xp - dayBaselineXp(profile.xp)), loggedToday: true } : null;
+  const stats = getMissionStats();
+  const p: MissionCtx | null = profile ? {
+    xp: profile.xp, streak: profile.streak, focus: profile.focus, gems: profile.gems,
+    xpToday: Math.max(0, profile.xp - dayBaselineXp(profile.xp)), loggedToday: true,
+    ...stats,
+  } : null;
   return (
     <div className="mobile-shell">
       <header className="border-b-2 border-border bg-card px-4 py-4 flex items-center gap-3">
