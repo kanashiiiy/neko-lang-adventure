@@ -38,6 +38,7 @@ function LessonPlayer() {
   const lesson = useMemo(() => getLesson(lang, id, profile?.level, profile?.goal, ui), [lang, id, profile?.level, profile?.goal, ui]);
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
+  const [buildPicked, setBuildPicked] = useState<string[]>([]);
   const [typed, setTyped] = useState("");
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [rights, setRights] = useState(0);
@@ -197,6 +198,13 @@ function LessonPlayer() {
 
   async function check() {
     const answer = q.kind === "complete" ? typed.trim() : picked;
+    if (q.kind === "build") {
+      if (!q.buildAnswer?.length || buildPicked.length !== q.buildAnswer.length) return;
+      const isRight = buildPicked.every((word, i) => normalize(word) === normalize(q.buildAnswer?.[i] ?? ""));
+      if (!(await ensureFocusSpent())) return;
+      applyResult(isRight);
+      return;
+    }
     if (!answer && q.kind !== "speak") return;
     if (!(await ensureFocusSpent())) return;
     const isRight = normalize(answer ?? "") === normalize(q.answer);
@@ -261,7 +269,7 @@ function LessonPlayer() {
   }
 
   async function next() {
-    setPicked(null); setTyped(""); setCorrect(null); setHeard(null);
+    setPicked(null); setTyped(""); setBuildPicked([]); setCorrect(null); setHeard(null);
     spentRef.current = false;
     if (inReview) {
       if (reviewIdx + 1 < reviewQueue.length) setReviewIdx((v) => v + 1);
@@ -456,7 +464,7 @@ function LessonPlayer() {
         {tf("Tarefa {idx} de {total} · {kind}", {
           idx: safeIdx + 1,
           total,
-          kind: q.kind === "listen" ? t("Ouvir") : q.kind === "speak" ? t("Falar") : q.kind === "complete" ? t("Escrever") : t("Escolher"),
+          kind: q.kind === "listen" ? t("Ouvir") : q.kind === "speak" ? t("Falar") : q.kind === "complete" ? t("Escrever") : q.kind === "build" ? t("Montar") : t("Escolher"),
         })}
       </div>
       <h2 className="mt-2 text-2xl font-black">{q.prompt}</h2>
@@ -467,6 +475,39 @@ function LessonPlayer() {
           {q.kana && <div className={q.kanji ? "mt-1 text-2xl font-black" : "mt-1 text-4xl font-black"}>{q.kana}</div>}
           {q.translation && <div className="mt-1 text-base text-muted-foreground">{q.translation}</div>}
           {q.audio && <button onClick={() => speakForLang(q.audio!, lang)} className="mt-3 text-primary" aria-label={t("Ouvir")}><Volume2 className="h-6 w-6" /></button>}
+        </div>
+      )}
+
+      {q.nekoMessage && (
+        <div className="mt-4 flex items-end gap-2">
+          <NekoMascot size={70} entrance />
+          <div className="rounded-2xl border-2 border-primary/20 bg-card p-3 text-xs font-semibold shadow-card">{q.nekoMessage}</div>
+        </div>
+      )}
+
+      {q.kind === "build" && correct === null && (
+        <div className="mt-6 space-y-4">
+          <button onClick={() => q.audio && speakForLang(q.audio, lang)}
+            className="flex w-full items-center justify-center gap-3 rounded-3xl bg-primary py-8 text-primary-foreground shadow-soft">
+            <Volume2 className="h-8 w-8" />
+            <span className="text-lg font-black">{t("Ouvir")}</span>
+          </button>
+          <div className="min-h-14 rounded-2xl border-2 border-dashed border-primary/30 bg-card p-3">
+            <div className="text-[10px] font-black uppercase text-muted-foreground">{t("Sua frase")}</div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {buildPicked.length ? buildPicked.map((word, i) => (
+                <button key={word + i} onClick={() => setBuildPicked((current) => current.filter((_, index) => index !== i))}
+                  className="rounded-xl bg-accent px-3 py-2 text-sm font-bold">{word}</button>
+              )) : <span className="text-sm text-muted-foreground">{t("Escolha as palavras na ordem do áudio")}</span>}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {(q.buildOptions ?? q.options ?? []).map((word) => {
+              const used = buildPicked.includes(word);
+              return <button key={word} disabled={used} onClick={() => setBuildPicked((current) => [...current, word])}
+                className="rounded-2xl border-2 border-border bg-card p-4 text-base font-bold disabled:opacity-40">{word}</button>;
+            })}
+          </div>
         </div>
       )}
 
@@ -540,7 +581,7 @@ function LessonPlayer() {
       <div className="mt-auto pt-6">
         {correct === null ? (
           q.kind === "speak" ? null : (
-            <button onClick={check} disabled={q.kind === "complete" ? !typed.trim() : !picked}
+            <button onClick={check} disabled={q.kind === "complete" ? !typed.trim() : q.kind === "build" ? buildPicked.length === 0 : !picked}
               className="btn-3d w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground disabled:opacity-50">
               {t("Verificar")}
             </button>
