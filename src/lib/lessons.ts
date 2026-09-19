@@ -125,12 +125,13 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
     };
 
     if (kind === "choose") {
-      const visual = phaseIdx < 2 ? VISUALS[ptTr] : undefined;
+      const rawVisual = phaseIdx < 2 ? VISUALS[ptTr] : undefined;
+      const visual = rawVisual?.map((v) => ({ ...v, label: translate(v.label, ui) }));
       return { ...base, kind: "choose",
         prompt: visual
           ? translate("Ouça o Neko e escolha a imagem correta", ui)
           : translateVars('Como se diz "{w}" em {lang}?', { w: meaning, lang: uiLangName }, ui),
-        answer: answerText,
+        answer: visual ? meaning : answerText,
         options: pickOptions(answerText, allAnswers),
         visualOptions: visual,
       } as Question;
