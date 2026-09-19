@@ -291,16 +291,20 @@ function LessonPlayer() {
     try {
       await saveLessonCompletion(profile.id, lang, lesson.id, score, xpEarned);
       recordLesson(wrong.length === 0);
+      // Recompensa de conclusão da fase é fixa e independente da sequência.
+      const phaseFocus = 3;
       const rewards: RewardAmount[] = [
         xpEarned > 0 ? { type: "xp", amount: xpEarned } : null,
         gemsEarned > 0 ? { type: "gems", amount: gemsEarned } : null,
+        { type: "focus", amount: phaseFocus },
         bonusFocus > 0 ? { type: "focus", amount: bonusFocus } : null,
       ].filter((r): r is RewardAmount => Boolean(r));
       const beforeXp = profile.xp;
       const afterXp = beforeXp + xpEarned;
       const crossedLevels = getLevelsCrossed(beforeXp, afterXp);
       await collectRewards(rewards);
-      await addXpAndGems(profile.id, xpEarned, gemsEarned, bonusFocus);
+      // Fase (+3) e sequência (7 acertos) são recompensas independentes.
+      await addXpAndGems(profile.id, xpEarned, gemsEarned, phaseFocus + bonusFocus);
       if (crossedLevels.length > 0) {
         queueLevelChests(profile.id, crossedLevels);
         setLevelUp(crossedLevels[0]);
@@ -408,7 +412,8 @@ function LessonPlayer() {
         <div className="mt-6 grid w-full grid-cols-3 gap-3">
           <Reward label={t("XP")} value={`+${xpEarned}`} color="bg-gold text-gold-foreground" />
           <Reward label={t("Acerto")} value={`${score}%`} color="bg-success text-success-foreground" />
-          <Reward label={t("Foco")} value={bonusFocus > 0 ? `+${bonusFocus}` : "0"} color="bg-primary text-primary-foreground" />
+          <Reward label={t("Foco da fase")} value="+3" color="bg-primary text-primary-foreground" />
+          <Reward label={t("Bônus de sequência")} value={bonusFocus > 0 ? `+${bonusFocus}` : "0"} color="bg-primary text-primary-foreground" />
         </div>
         <Link to="/home" className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
           {t("Continuar")}
