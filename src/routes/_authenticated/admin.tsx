@@ -7,7 +7,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile, updateProfile, addAdminTestXp, getLevelChestKey } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { useT, useTf } from "@/lib/i18n";
-import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
@@ -32,6 +31,7 @@ function AdminPage() {
   const tf = useTf();
   const qc = useQueryClient();
   const navigate = useNavigate();
+  const [xpAmount, setXpAmount] = useState("500");
 
   const { data: profile, isLoading: loadingProfile } = useQuery({
     queryKey: ["profile"],
@@ -93,7 +93,6 @@ function AdminPage() {
   };
 
   const maxDaily = Math.max(1, ...(stats?.signups_daily ?? []).map((d) => d.count));
-  const [xpAmount, setXpAmount] = useState("500");
 
   function queueAdminLevelChests(userId: string, levels: number[]) {
     try {
