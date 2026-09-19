@@ -236,9 +236,75 @@ function buildLegacyPhase(lang: Language, phaseIdx: number, level: Level, goal: 
 
 const NEW_JA_PHRASES: [string,string,string][] = [["コーヒーをください。","koohii o kudasai","Quero café, por favor."],["水をください。","mizu o kudasai","Quero água, por favor."],["お茶をください。","ocha o kudasai","Quero chá, por favor."],["駅はどこですか。","eki wa doko desu ka","Onde fica a estação?"],["ホテルはどこですか。","hoteru wa doko desu ka","Onde fica o hotel?"],["トイレはどこですか。","toire wa doko desu ka","Onde fica o banheiro?"],["これはいくらですか。","kore wa ikura desu ka","Quanto custa isto?"],["これをお願いします。","kore o onegaishimasu","Quero este, por favor."],["メニューを見せてください。","menyuu o misete kudasai","Mostre o menu, por favor."],["英語を話せますか。","eigo o hanasemasu ka","Você fala inglês?"],["日本語を話します。","nihongo o hanashimasu","Eu falo japonês."],["ゆっくり話してください。","yukkuri hanashite kudasai","Fale devagar, por favor."],["もう一度お願いします。","mou ichido onegaishimasu","Mais uma vez, por favor."],["写真を撮ってもいいですか。","shashin o totte mo ii desu ka","Posso tirar uma foto?"],["ここに座ってもいいですか。","koko ni suwatte mo ii desu ka","Posso sentar aqui?"],["カードで払えますか。","kaado de haraemasu ka","Posso pagar com cartão?"],["現金を持っています。","genkin o motteimasu","Eu tenho dinheiro em espécie."],["駅まで歩きます。","eki made arukimasu","Vou andando até a estação."],["明日ホテルに行きます。","ashita hoteru ni ikimasu","Amanhã vou ao hotel."],["今日は家で休みます。","kyou wa ie de yasumimasu","Hoje vou descansar em casa."],["朝にコーヒーを飲みます。","asa ni koohii o nomimasu","Bebo café de manhã."],["毎日水を飲みます。","mainichi mizu o nomimasu","Bebo água todos os dias."],["昼にご飯を食べます。","hiru ni gohan o tabemasu","Como arroz no almoço."],["夜に映画を見ます。","yoru ni eiga o mimasu","Vejo um filme à noite."],["友達と映画を見ます。","tomodachi to eiga o mimasu","Vejo um filme com um amigo."],["家族と旅行します。","kazoku to ryokou shimasu","Viajo com a família."],["日本へ旅行したいです。","nihon e ryokou shitai desu","Quero viajar para o Japão."],["東京に行きたいです。","toukyou ni ikitai desu","Quero ir para Tóquio."],["電車に乗ります。","densha ni norimasu","Vou de trem."],["切符を買います。","kippu o kaimasu","Compro a passagem."],["地図を見ます。","chizu o mimasu","Olho o mapa."],["タクシーを呼びます。","takushii o yobimasu","Chamo um táxi."],["ホテルを予約します。","hoteru o yoyaku shimasu","Reservo um hotel."],["部屋を確認します。","heya o kakunin shimasu","Confiro o quarto."],["荷物を持っています。","nimotsu o motteimasu","Estou com a bagagem."],["空港へ行きます。","kuukou e ikimasu","Vou para o aeroporto."],["飛行機に乗ります。","hikouki ni norimasu","Vou de avião."],["出口はあちらです。","deguchi wa achira desu","A saída é ali."],["入口はここです。","iriguchi wa koko desu","A entrada é aqui."],["道を教えてください。","michi o oshiete kudasai","Mostre o caminho, por favor."],["今日は忙しいです。","kyou wa isogashii desu","Hoje estou ocupado."],["今日は暇です。","kyou wa hima desu","Hoje estou livre."],["少し疲れています。","sukoshi tsukareteimasu","Estou um pouco cansado."],["元気です。","genki desu","Estou bem."],["お腹がすいています。","onaka ga suiteimasu","Estou com fome."],["喉が渇いています。","nodo ga kawaiteimasu","Estou com sede."],["この料理はおいしいです。","kono ryouri wa oishii desu","Esta comida está deliciosa."],["この店は静かです。","kono mise wa shizuka desu","Esta loja é tranquila."],["この場所はきれいです。","kono basho wa kirei desu","Este lugar é bonito."],["今日は暑いです。","kyou wa atsui desu","Hoje está quente."],["今日は寒いです。","kyou wa samui desu","Hoje está frio."],["雨が降っています。","ame ga futteimasu","Está chovendo."],["明日は晴れます。","ashita wa haremasu","Amanhã fará sol."],["今何時ですか。","ima nanji desu ka","Que horas são agora?"],["今は三時です。","ima wa sanji desu","Agora são três horas."],["今日は月曜日です。","kyou wa getsuyoubi desu","Hoje é segunda-feira."],["明日は休みです。","ashita wa yasumi desu","Amanhã é folga."],["週末に買い物します。","shuumatsu ni kaimono shimasu","Faço compras no fim de semana."],["新しい本を買います。","atarashii hon o kaimasu","Compro um livro novo."],["音楽を聞くのが好きです。","ongaku o kiku no ga suki desu","Gosto de ouvir música."],["学校へ行きます。","gakkou e ikimasu","Vou para a escola."],["先生に質問します。","sensei ni shitsumon shimasu","Faço uma pergunta ao professor."],["宿題をします。","shukudai o shimasu","Faço a lição de casa."],["日本語を勉強しています。","nihongo o benkyou shiteimasu","Estou estudando japonês."],["新しい言葉を覚えます。","atarashii kotoba o oboemasu","Aprendo palavras novas."],["毎朝早く起きます。","maiasa hayaku okimasu","Acordo cedo todas as manhãs."],["夜は本を読みます。","yoru wa hon o yomimasu","Leio um livro à noite."],["週末は友達に会います。","shuumatsu wa tomodachi ni aimasu","Encontro um amigo no fim de semana."],["一緒に昼ご飯を食べませんか。","issho ni hirugohan o tabemasen ka","Vamos almoçar juntos?"],["明日一緒に行きませんか。","ashita issho ni ikimasen ka","Vamos juntos amanhã?"],["少し待ってください。","sukoshi matte kudasai","Espere um pouco, por favor."],["ここで待ちます。","koko de machimasu","Vou esperar aqui."],["電話をかけます。","denwa o kakemasu","Vou telefonar."],["メールを送ります。","meeru o okurimasu","Vou enviar um e-mail."],["仕事が終わりました。","shigoto ga owarimashita","O trabalho terminou."],["明日の予定があります。","ashita no yotei ga arimasu","Tenho planos para amanhã."],["一緒に写真を撮りましょう。","issho ni shashin o torimashou","Vamos tirar uma foto juntos."],["ここで写真を撮ります。","koko de shashin o torimasu","Vou tirar uma foto aqui."],["この道をまっすぐ行きます。","kono michi o massugu ikimasu","Sigo reto por esta rua."],["右に曲がってください。","migi ni magatte kudasai","Vire à direita, por favor."]];
 
+
+const JA_MORE_PHRASES: [string,string,string][] = [
+  ["朝ご飯を食べます。","asagohan o tabemasu","Tomo café da manhã."],
+  ["コーヒーを飲みます。","koohii o nomimasu","Tomo café."],
+  ["水を買います。","mizu o kaimasu","Compro água."],
+  ["パンを食べます。","pan o tabemasu","Como pão."],
+  ["りんごを食べます。","ringo o tabemasu","Como uma maçã."],
+  ["駅で会いましょう。","eki de aimashou","Vamos nos encontrar na estação."],
+  ["ここはどこですか。","koko wa doko desu ka","Onde é aqui?"],
+  ["これは何ですか。","kore wa nan desu ka","O que é isto?"],
+  ["あれは何ですか。","are wa nan desu ka","O que é aquilo?"],
+  ["いくらですか。","ikura desu ka","Quanto custa?"],
+  ["少し高いです。","sukoshi takai desu","É um pouco caro."],
+  ["安いですね。","yasui desu ne","É barato, não é?"],
+  ["これをください。","kore o kudasai","Quero isto, por favor."],
+  ["別の色はありますか。","betsu no iro wa arimasu ka","Tem outra cor?"],
+  ["サイズはありますか。","saizu wa arimasu ka","Tem este tamanho?"],
+  ["試着してもいいですか。","shichaku shite mo ii desu ka","Posso experimentar?"],
+  ["これは便利です。","kore wa benri desu","Isto é prático."],
+  ["とてもきれいです。","totemo kirei desu","É muito bonito."],
+  ["この料理が好きです。","kono ryouri ga suki desu","Gosto desta comida."],
+  ["辛い食べ物が好きです。","karai tabemono ga suki desu","Gosto de comida apimentada."],
+  ["甘いものが好きです。","amai mono ga suki desu","Gosto de coisas doces."],
+  ["水をもう一杯ください。","mizu o mou ippai kudasai","Mais um copo de água, por favor."],
+  ["お会計をお願いします。","okaikei o onegaishimasu","A conta, por favor."],
+  ["予約があります。","yoyaku ga arimasu","Tenho uma reserva."],
+  ["予約を変更したいです。","yoyaku o henkou shitai desu","Quero alterar a reserva."],
+  ["部屋を見せてください。","heya o misete kudasai","Mostre o quarto, por favor."],
+  ["鍵をください。","kagi o kudasai","A chave, por favor."],
+  ["チェックインします。","chekkuin shimasu","Vou fazer o check-in."],
+  ["チェックアウトします。","chekkuauto shimasu","Vou fazer o check-out."],
+  ["荷物を預けたいです。","nimotsu o azuketai desu","Quero deixar minha bagagem."],
+  ["電車は何時ですか。","densha wa nanji desu ka","Que horas é o trem?"],
+  ["次の駅で降ります。","tsugi no eki de orimasu","Desço na próxima estação."],
+  ["ここで乗り換えます。","koko de norikaemasu","Faço a baldeação aqui."],
+  ["この電車で行きます。","kono densha de ikimasu","Vou neste trem."],
+  ["空港までお願いします。","kuukou made onegaishimasu","Até o aeroporto, por favor."],
+  ["右側にあります。","migigawa ni arimasu","Fica do lado direito."],
+  ["左にあります。","hidari ni arimasu","Fica à esquerda."],
+  ["まっすぐ行ってください。","massugu itte kudasai","Siga reto, por favor."],
+  ["ここから近いですか。","koko kara chikai desu ka","É perto daqui?"],
+  ["歩いて行けます。","aruite ikemasu","Dá para ir a pé."],
+  ["写真を見せてください。","shashin o misete kudasai","Mostre a foto, por favor."],
+  ["日本語が少し話せます。","nihongo ga sukoshi hanasemasu","Consigo falar um pouco de japonês."],
+  ["日本語がまだ苦手です。","nihongo ga mada nigate desu","Ainda tenho dificuldade com japonês."],
+  ["もう少しゆっくりお願いします。","mou sukoshi yukkuri onegaishimasu","Um pouco mais devagar, por favor."],
+  ["意味が分かりません。","imi ga wakarimasen","Não entendo o significado."],
+  ["分かりました。","wakarimashita","Entendi."],
+  ["大丈夫です。","daijoubu desu","Está tudo bem."],
+  ["手伝ってください。","tetsudatte kudasai","Ajude-me, por favor."],
+  ["ちょっと待ってください。","chotto matte kudasai","Espere um pouco, por favor."],
+  ["今忙しいです。","ima isogashii desu","Estou ocupado agora."],
+  ["あとで電話します。","ato de denwa shimasu","Ligo mais tarde."],
+  ["明日会いましょう。","ashita aimashou","Vamos nos encontrar amanhã."],
+  ["また明日。","mata ashita","Até amanhã."],
+  ["楽しかったです。","tanoshikatta desu","Foi divertido."],
+  ["今日は楽しいです。","kyou wa tanoshii desu","Hoje está divertido."],
+  ["いい天気ですね。","ii tenki desu ne","Que tempo bom, não é?"],
+  ["写真を撮りましょう。","shashin o torimashou","Vamos tirar uma foto."],
+  ["一緒に行きましょう。","issho ni ikimashou","Vamos juntos."],
+  ["ここに書いてください。","koko ni kaite kudasai","Escreva aqui, por favor."],
+  ["名前を書きます。","namae o kakimasu","Escrevo o nome."],
+  ["日本語で話してください。","nihongo de hanashite kudasai","Fale em japonês, por favor."]
+];
+const ALL_JA_PHRASES: [string,string,string][] = [...ALL_JA_PHRASES, ...JA_MORE_PHRASES];
+
 function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
   const start = (phaseIdx - 3) * 20;
-  const slice = NEW_JA_PHRASES.slice(start, start + 20);
+  const slice = ALL_JA_PHRASES.slice(start, start + 20);
   const meanings = slice.map((x) => translate(x[2], ui));
   const phasePatterns: TaskKind[][] = [
     ["choose","listen","choose","choose","complete","listen","choose","match","choose","complete","listen","choose","choose","match","listen","choose","complete","choose","listen","choose"],
@@ -288,7 +354,7 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
         slice[i],
         ...slice.slice(i + 1),
         ...slice.slice(0, i),
-        ...NEW_JA_PHRASES,
+        ...ALL_JA_PHRASES,
       ];
       const source = candidates.find((entry) => entry[1].trim().split(/\s+/).filter(Boolean).length <= 5) ?? slice[i];
       return makeBuild(i, source);
