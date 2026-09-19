@@ -39,6 +39,8 @@ function LessonPlayer() {
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [buildPicked, setBuildPicked] = useState<string[]>([]);
+  const [matchLeftPicked, setMatchLeftPicked] = useState<string | null>(null);
+  const [matchPairsPicked, setMatchPairsPicked] = useState<Record<string, string>>({});
   const [typed, setTyped] = useState("");
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [rights, setRights] = useState(0);
@@ -198,6 +200,15 @@ function LessonPlayer() {
 
   async function check() {
     const answer = q.kind === "complete" ? typed.trim() : picked;
+    if (q.kind === "match") {
+      const expected = q.matchPairs ?? {};
+      const keys = Object.keys(expected);
+      if (Object.keys(matchPairsPicked).length !== keys.length) return;
+      const isRight = keys.every((key) => matchPairsPicked[key] === expected[key]);
+      if (!(await ensureFocusSpent())) return;
+      applyResult(isRight);
+      return;
+    }
     if (q.kind === "build") {
       if (!q.buildAnswer?.length || buildPicked.length !== q.buildAnswer.length) return;
       const isRight = buildPicked.every((word, i) => normalize(word) === normalize(q.buildAnswer?.[i] ?? ""));
@@ -269,7 +280,7 @@ function LessonPlayer() {
   }
 
   async function next() {
-    setPicked(null); setTyped(""); setBuildPicked([]); setCorrect(null); setHeard(null);
+    setPicked(null); setTyped(""); setBuildPicked([]); setMatchLeftPicked(null); setMatchPairsPicked({}); setCorrect(null); setHeard(null);
     spentRef.current = false;
     if (inReview) {
       if (reviewIdx + 1 < reviewQueue.length) setReviewIdx((v) => v + 1);
@@ -469,7 +480,7 @@ function LessonPlayer() {
         {tf("Tarefa {idx} de {total} · {kind}", {
           idx: safeIdx + 1,
           total,
-          kind: q.kind === "listen" ? t("Ouvir") : q.kind === "speak" ? t("Falar") : q.kind === "complete" ? t("Escrever") : q.kind === "build" ? t("Montar") : t("Escolher"),
+          kind: q.kind === "listen" ? t("Ouvir") : q.kind === "speak" ? t("Falar") : q.kind === "complete" ? t("Escrever") : q.kind === "build" ? t("Montar") : q.kind === "match" ? t("Associar") : t("Escolher"),
         })}
       </div>
       <h2 className="mt-2 text-2xl font-black">{q.prompt}</h2>
@@ -489,6 +500,44 @@ function LessonPlayer() {
         <div className="mt-4 flex items-end gap-2">
           <NekoMascot size={70} entrance />
           <div className="rounded-2xl border-2 border-primary/20 bg-card p-3 text-xs font-semibold shadow-card">{q.nekoMessage}</div>
+        </div>
+      )}
+
+      {q.kind === "match" && correct === null && (
+        <div className="mt-6 space-y-4">
+          <div className="rounded-3xl bg-card p-4 shadow-card">
+            <div className="mb-3 text-center text-xs font-black uppercase tracking-wide text-muted-foreground">{t("Toque em um item de cada coluna para formar os pares")}</div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                {(q.matchLeft ?? []).map((left) => {
+                  const paired = matchPairsPicked[left];
+                  return (
+                    <button key={left} disabled={!!paired}
+                      onClick={() => setMatchLeftPicked(left)}
+                      className={`w-full rounded-2xl border-2 p-3 text-sm font-bold transition ${matchLeftPicked === left ? "border-primary bg-accent" : paired ? "border-success/40 bg-success/10 opacity-60" : "border-border bg-background"}`}>
+                      {left}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="space-y-2">
+                {(q.matchRight ?? []).map((right) => {
+                  const pairedLeft = Object.keys(matchPairsPicked).find((left) => matchPairsPicked[left] === right);
+                  return (
+                    <button key={right} disabled={!!pairedLeft || !matchLeftPicked}
+                      onClick={() => {
+                        if (!matchLeftPicked) return;
+                        setMatchPairsPicked((current) => ({ ...current, [matchLeftPicked]: right }));
+                        setMatchLeftPicked(null);
+                      }}
+                      className={`w-full rounded-2xl border-2 p-3 text-sm font-bold transition ${pairedLeft ? "border-success/40 bg-success/10 opacity-60" : matchLeftPicked ? "border-primary/40 bg-card" : "border-border bg-background opacity-70"}`}>
+                      {right}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -588,7 +637,7 @@ function LessonPlayer() {
       <div className="mt-auto pt-6">
         {correct === null ? (
           q.kind === "speak" ? null : (
-            <button onClick={check} disabled={q.kind === "complete" ? !typed.trim() : q.kind === "build" ? buildPicked.length === 0 : !picked}
+            <button onClick={check} disabled={q.kind === "complete" ? !typed.trim() : q.kind === "build" ? buildPicked.length === 0 : q.kind === "match" ? Object.keys(matchPairsPicked).length !== (q.matchLeft?.length ?? 0) : !picked}
               className="btn-3d w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground disabled:opacity-50">
               {t("Verificar")}
             </button>
