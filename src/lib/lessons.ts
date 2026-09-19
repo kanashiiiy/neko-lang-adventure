@@ -109,6 +109,7 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
   const words = Array.from({ length: 10 }, (_, i) => mixed[(start + i) % mixed.length]);
   const isJa = lang === "ja";
   const allAnswers = mixed.map((w) => (isJa ? (w[2] || w[0]) : w[0]));
+  const allMeanings = mixed.map((w) => translate(w[1], ui));
   const kinds = kindsForLevel(level);
   const uiLangName = translate(langName(lang), ui);
 
@@ -137,8 +138,12 @@ function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string
       } as Question;
     }
     if (kind === "listen") {
-      return { ...base, kind: "listen", prompt: translate("Ouça e escolha", ui), answer: answerText,
-        options: pickOptions(answerText, allAnswers) } as Question;
+      // A tarefa de áudio usa o significado como resposta/opções.
+      // Assim, nem o romaji nem a palavra japonesa ficam entre as opções
+      // antes da resposta. Os dados japoneses ficam disponíveis apenas
+      // para a tela de correção/aprendizado após o usuário responder.
+      return { ...base, kind: "listen", prompt: translate("Ouça e escolha a resposta correta", ui), answer: meaning,
+        options: pickOptions(meaning, allMeanings) } as Question;
     }
     if (kind === "complete") {
       const label = isJa ? translate("romaji", ui) : uiLangName;
