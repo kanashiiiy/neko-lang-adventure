@@ -18,6 +18,7 @@ interface FlyingReward extends RewardAmount {
   startY: number;
   targetX: number;
   targetY: number;
+  targetType: RewardType;
 }
 
 const RewardAnimationContext = createContext<RewardAnimationContextValue | null>(null);
@@ -29,14 +30,14 @@ const ICONS: Record<RewardType, string> = {
   special: "🏆",
 };
 
-function targetFor(type: RewardType) {
+function getTarget(type: RewardType) {
   const el = document.querySelector<HTMLElement>(`[data-reward-counter="${type}"]`);
-  if (!el) return { x: window.innerWidth / 2, y: 54 };
+  if (!el) return null;
   const r = el.getBoundingClientRect();
   return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
 }
 
-function sourceFor(source?: HTMLElement | null) {
+function getStart(source?: HTMLElement | null) {
   if (source) {
     const r = source.getBoundingClientRect();
     return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
@@ -50,13 +51,13 @@ function RewardLayer({ items }: { items: FlyingReward[] }) {
       {items.map((item) => (
         <span
           key={item.id}
-          className="reward-flight absolute flex h-11 w-11 items-center justify-center rounded-full bg-card text-2xl shadow-card ring-2 ring-gold/30"
+          className="reward-flight absolute flex h-10 w-10 items-center justify-center rounded-full bg-card text-2xl shadow-card ring-2 ring-gold/40"
           style={{
-            left: item.startX - 22,
-            top: item.startY - 22,
+            left: item.startX - 20,
+            top: item.startY - 20,
             "--reward-x": `${item.targetX - item.startX}px`,
             "--reward-y": `${item.targetY - item.startY}px`,
-            "--reward-delay": `${item.index * 55}ms`,
+            "--reward-delay": `${item.index * 45}ms`,
           } as CSSProperties}
         >
           {ICONS[item.type]}
@@ -70,39 +71,58 @@ export function RewardAnimationProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<FlyingReward[]>([]);
 
   const collectRewards = useCallback((rewards: RewardAmount[], source?: HTMLElement | null) => {
-    const valid = rewards.filter((r) => r.amount > 0);
-    if (!valid.length || typeof window === "undefined") return Promise.resolve();
+    if (typeof window === "undefined") return Promise.resolve();
 
-    const start = sourceFor(source);
+    const valid = rewards.filter((r) => r.amount > 0);
+    if (!valid.length) return Promise.resolve();
+
+    const start = getStart(source);
     const next: FlyingReward[] = [];
     let id = Date.now();
-    valid.forEach((reward) => {
-      const count = Math.min(Math.max(Math.ceil(reward.amount / 2), 1), 12);
-      const target = targetFor(reward.type);
+
+    for (const reward of valid) {
+      const target = getTarget(reward.type);
+      if (!target) continue;
+
+      // One visible icon represents one unit of the earned reward.
+      const count = Math.max(1, Math.floor(reward.amount));
       for (let i = 0; i < count; i++) {
         next.push({
           ...reward,
           id: id++,
           index: next.length,
-          startX: start.x + (Math.random() - 0.5) * 90,
-          startY: start.y + (Math.random() - 0.5) * 70,
+          startX: start.x + (Math.random() - 0.5) * 110,
+          startY: start.y + (Math.random() - 0.5) * 80,
           targetX: target.x,
           targetY: target.y,
+          targetType: reward.type,
         });
       }
-    });
+    }
+
+    if (!next.length) return Promise.resolve();
 
     setItems(next);
+
+    const lastDelay = (next.length - 1) * 45;
+    const duration = 180 + 850;
+    const total = lastDelay + duration + 80;
+
     return new Promise<void>((resolve) => {
       window.setTimeout(() => {
         setItems([]);
-        document.querySelectorAll<HTMLElement>("[data-reward-counter]").forEach((el) => {
+
+        const targetTypes = new Set(next.map((item) => item.targetType));
+        targetTypes.forEach((type) => {
+          const el = document.querySelector<HTMLElement>(`[data-reward-counter="${type}"]`);
+          if (!el) return;
           el.classList.remove("reward-counter-pulse");
           void el.offsetWidth;
           el.classList.add("reward-counter-pulse");
         });
+
         resolve();
-      }, 1050);
+      }, total);
     });
   }, []);
 
