@@ -235,14 +235,25 @@ function isShortListenItem(lang: Language, item: LessonItem): boolean {
   return tokenizeBuild(targetText(lang, item)).length <= 2;
 }
 
-function phaseKinds(phaseIdx: number): TaskKind[] {
-  // Japanese phases 1-5 (indexes 0-4) stay visual/written: no audio-response
-  // tasks. Audio listening starts in phase 6 as review/practice.
+function phaseKinds(lang: Language, phaseIdx: number): TaskKind[] {
+  // Only Japanese phases 1-5 remove audio-response tasks.
+  // Other languages keep their existing task distribution.
+  if (lang !== "ja") {
+    if (phaseIdx === 0) return ["choose", "choose", "choose", "choose", "listen", "match"];
+    if (phaseIdx === 1) return ["choose", "choose", "match", "choose", "listen", "complete"];
+    if (phaseIdx === 2) return ["choose", "listen", "choose", "match", "complete", "choose"];
+    if (phaseIdx === 3) return ["choose", "choose", "listen", "match", "complete", "choose"];
+    if (phaseIdx === 4) return ["choose", "listen", "match", "complete", "choose", "choose"];
+  }
+
+  // Japanese phases 1-5 stay visual/written.
   if (phaseIdx === 0) return ["choose", "choose", "choose", "choose", "match", "complete"];
   if (phaseIdx === 1) return ["choose", "choose", "match", "choose", "complete", "choose"];
   if (phaseIdx === 2) return ["choose", "choose", "choose", "match", "complete", "choose"];
   if (phaseIdx === 3) return ["choose", "choose", "match", "complete", "choose", "choose"];
   if (phaseIdx === 4) return ["choose", "match", "complete", "choose", "choose", "choose"];
+
+  // Japanese phases 6-10 use listening only as review of previously learned content.
   if (phaseIdx === 5) return ["choose", "match", "listen", "complete", "build", "choose"];
   if (phaseIdx === 6) return ["choose", "listen", "match", "build", "complete", "choose"];
   if (phaseIdx === 7) return ["choose", "match", "listen", "complete", "build", "choose"];
@@ -416,7 +427,7 @@ function buildPhase(
 
   // The current phase may only draw from content unlocked up to this phase.
   // Nothing from a future phase can leak into questions or distractors.
-  const pattern = phaseKinds(phaseIdx);
+  const pattern = phaseKinds(lang, phaseIdx);
   const questions: Question[] = Array.from({ length: 20 }, (_, index) => {
     const item = pool[(phaseIdx * 3 + index) % pool.length];
     const kind = pattern[index % pattern.length];
