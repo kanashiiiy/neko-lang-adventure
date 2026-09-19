@@ -322,7 +322,7 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
     const words = romaji.trim().split(/\s+/).filter(Boolean);
     const other = ALL_JA_PHRASES[(start + i + 7) % ALL_JA_PHRASES.length][1].split(/\s+/).filter(Boolean);
     const distractors = other.filter((word) => !words.includes(word)).slice(0, Math.max(1, 5 - words.length));
-    const options = shuffle(Array.from(new Set([...words, ...distractors])));
+    const options = shuffle([...words, ...distractors.filter((word) => !words.includes(word))]);
     return {
       kind: "build",
       prompt: translate("Ouça com atenção e monte a frase com as palavras em Romaji", ui),
