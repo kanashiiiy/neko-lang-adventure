@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "@/integrations/supabase/client";
 import { UiLangTransition } from "@/components/UiLangTransition";
+import { RewardAnimationProvider } from "@/components/RewardAnimation";
 
 function NotFoundComponent() {
   return (
@@ -113,9 +114,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
-      <UiLangTransition />
-      <Toaster position="top-center" offset={12} gap={8} />
+      <RewardAnimationProvider>
+        <Outlet />
+        <UiLangTransition />
+        <Toaster position="top-center" offset={12} gap={8} />
+      </RewardAnimationProvider>
     </QueryClientProvider>
   );
 }
