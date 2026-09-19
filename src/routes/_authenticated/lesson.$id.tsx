@@ -558,10 +558,12 @@ function LessonPlayer() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            {(q.buildOptions ?? q.options ?? []).map((word) => {
-              const used = buildPicked.includes(word);
-              return <button key={word} disabled={used} onClick={() => setBuildPicked((current) => [...current, word])}
-                className="rounded-2xl border-2 border-border bg-card p-4 text-base font-bold disabled:opacity-40">{word}</button>;
+            {(q.buildOptions ?? q.options ?? []).map((word, optionIndex) => {
+              const usedCount = buildPicked.filter((selected) => selected === word).length;
+              const availableCount = (q.buildOptions ?? q.options ?? []).filter((option) => option === word).length;
+              const used = usedCount >= availableCount;
+              return <button key={word + optionIndex} disabled={used} onClick={() => setBuildPicked((current) => used ? current : [...current, word])}
+                className="rounded-2xl border-2 border-border bg-card p-4 text-base font-bold transition active:scale-95 disabled:opacity-40">{word}</button>;
             })}
           </div>
         </div>
