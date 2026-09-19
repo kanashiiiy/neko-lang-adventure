@@ -300,7 +300,7 @@ const JA_MORE_PHRASES: [string,string,string][] = [
   ["名前を書きます。","namae o kakimasu","Escrevo o nome."],
   ["日本語で話してください。","nihongo de hanashite kudasai","Fale em japonês, por favor."]
 ];
-const ALL_JA_PHRASES: [string,string,string][] = [...ALL_JA_PHRASES, ...JA_MORE_PHRASES];
+const ALL_JA_PHRASES: [string,string,string][] = [...NEW_JA_PHRASES, ...JA_MORE_PHRASES];
 
 function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
   const start = (phaseIdx - 3) * 20;
