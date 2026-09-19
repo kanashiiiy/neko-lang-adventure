@@ -178,6 +178,12 @@ function LessonPlayer() {
     const gemsEarned = rights === total ? 10 : Math.max(1, Math.floor(rights / 2));
     try {
       await saveLessonCompletion(profile.id, lang, lesson.id, score, xpEarned);
+      const rewards: RewardAmount[] = [
+        xpEarned > 0 ? { type: "xp", amount: xpEarned } : null,
+        gemsEarned > 0 ? { type: "gems", amount: gemsEarned } : null,
+        bonusFocus > 0 ? { type: "focus", amount: bonusFocus } : null,
+      ].filter((r): r is RewardAmount => Boolean(r));
+      await collectRewards(rewards);
       await addXpAndGems(profile.id, xpEarned, gemsEarned, bonusFocus);
       qc.invalidateQueries({ queryKey: ["profile"] });
       qc.invalidateQueries({ queryKey: ["completed", lang] });
