@@ -455,10 +455,20 @@ export function buildPhases(langInput: Language | string | null | undefined, lev
   const lang = normalizeLanguage(langInput); const lv = normalizeLevel(level);
   return Array.from({ length: 10 }, (_, i) => buildPhase(lang, i, lv, goal ?? "outro", ui));
 }
+// Não gere todas as fases durante o carregamento do app.
+// O routeTree importa este módulo mesmo antes de o usuário abrir uma lição.
+// Gerar o conteúdo sob demanda evita que um problema no conteúdo de lições
+// impeça a tela inicial/login de ser renderizada.
+const defaultPhaseCache: Partial<Record<Language, Phase[]>> = {};
+
+function getDefaultPhases(lang: Language): Phase[] {
+  return defaultPhaseCache[lang] ??= buildPhases(lang, "iniciante", "outro");
+}
+
 export const PHASES: Record<Language, Phase[]> = {
-  ja: buildPhases("ja", "iniciante", "outro"),
-  en: buildPhases("en", "iniciante", "outro"),
-  pt: buildPhases("pt", "iniciante", "outro"),
+  get ja() { return getDefaultPhases("ja"); },
+  get en() { return getDefaultPhases("en"); },
+  get pt() { return getDefaultPhases("pt"); },
 };
 export const LESSONS = PHASES;
 export function getLesson(lang: Language | string | null | undefined, id: string, level?: string | null, goal?: string | null, ui: UiLang = "pt"): Phase | undefined {
