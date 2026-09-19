@@ -65,11 +65,13 @@ export async function fetchCurrentProfile(): Promise<Profile | null> {
 }
 
 export async function fetchProfile(userId: string): Promise<Profile | null> {
-  const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
+  const [{ data, error }, admin] = await Promise.all([
+    supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
+    isAdmin(userId),
+  ]);
   if (error) throw error;
   const raw = data as Profile | null;
-  const admin = raw ? await isAdmin(userId) : false;
-  const profile = raw ? ({ ...raw, is_admin: admin } as Profile) : null;
+  const profile = raw ? ({ ...raw, is_admin: raw ? admin : false } as Profile) : null;
   // Premium/trial expirou -> volta automaticamente ao Foco normal
   if (!admin && profile?.is_premium && profile.premium_until && !isPremiumActive({ ...profile, is_admin: false })) {
     const updated = await updateProfile(userId, { is_premium: false });
