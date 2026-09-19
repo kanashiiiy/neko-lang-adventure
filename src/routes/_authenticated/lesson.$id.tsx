@@ -146,15 +146,15 @@ function LessonPlayer() {
     setChestOpening(true);
     setChestReward(reward);
     // Marca antes de creditar para impedir duplicação ao tocar várias vezes.
-    markChestOpened(profile.id, level);
     try {
       const latest = await fetchProfile(profile.id);
       if (!latest) throw new Error("profile");
       await updateProfile(profile.id, { focus: latest.focus + reward });
+      markChestOpened(profile.id, level);
       await collectRewards([{ type: "focus", amount: reward }]);
       qc.invalidateQueries({ queryKey: ["profile"] });
     } catch {
-      // Se o crédito falhar, mantém a recompensa visual já definida e o baú não volta a duplicar.
+      setChestReward(null);
       toast.error(t("Não conseguimos salvar a recompensa."));
     }
     setChestOpening(false);
@@ -327,45 +327,50 @@ function LessonPlayer() {
     try { localStorage.removeItem(progressKey); } catch {}
   }
 
-  {levelUp !== null && !chestReward && (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-5">
-      <div className="w-full max-w-sm rounded-3xl bg-card p-6 text-center shadow-card animate-bounce-in">
-        <NekoMascot size={150} bounce float entrance />
-        <div className="mt-2 text-3xl font-black">✨ NÍVEL {levelUp}! ✨</div>
-        <p className="mt-2 text-sm font-semibold text-muted-foreground">{t("Você desbloqueou um baú de recompensa!")}</p>
+  const progressionOverlay = (
+    {levelUp !== null && !chestReward && (
+      <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-5">
+        <div className="w-full max-w-sm rounded-3xl bg-card p-6 text-center shadow-card animate-bounce-in">
+          <NekoMascot size={150} bounce float entrance />
+          <div className="mt-2 text-3xl font-black">✨ NÍVEL {levelUp}! ✨</div>
+          <p className="mt-2 text-sm font-semibold text-muted-foreground">{t("Você desbloqueou um baú de recompensa!")}</p>
+        </div>
       </div>
-    </div>
-  )}
+    )}
 
-  {chestLevel !== null && !levelUp && (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-5">
-      <div className="w-full max-w-sm rounded-3xl bg-card p-6 text-center shadow-card">
-        {chestReward === null ? (
-          <>
-            <div className={`text-8xl transition-transform duration-500 ${chestOpening ? "scale-125 rotate-6" : "animate-bounce"}`}>🎁</div>
-            <h2 className="mt-3 text-2xl font-black">🎁 {t("Baú de recompensa")}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{tf("Recompensa do Nível {n}", { n: chestLevel })}</p>
-            <button onClick={openLevelChest} disabled={chestOpening} className="btn-3d mt-5 w-full rounded-2xl bg-gradient-gold py-3.5 font-black text-gold-foreground">
-              {t("Abrir baú")}
-            </button>
-          </>
-        ) : (
-          <>
-            <div className="text-7xl animate-bounce">⚡</div>
-            <h2 className="mt-3 text-2xl font-black">⚡ +{chestReward} {t("Foco")}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{t("Recompensa adicionada ao seu Foco.")}</p>
-            <button onClick={() => { setChestReward(null); setChestLevel(null); }} className="btn-3d mt-5 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
-              {t("Continuar")}
-            </button>
-          </>
-        )}
+    {chestLevel !== null && !levelUp && (
+      <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-5">
+        <div className="w-full max-w-sm rounded-3xl bg-card p-6 text-center shadow-card">
+          {chestReward === null ? (
+            <>
+              <div className={`text-8xl transition-transform duration-500 ${chestOpening ? "scale-125 rotate-6" : "animate-bounce"}`}>🎁</div>
+              <h2 className="mt-3 text-2xl font-black">🎁 {t("Baú de recompensa")}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{tf("Recompensa do Nível {n}", { n: chestLevel })}</p>
+              <button onClick={openLevelChest} disabled={chestOpening} className="btn-3d mt-5 w-full rounded-2xl bg-gradient-gold py-3.5 font-black text-gold-foreground">
+                {t("Abrir baú")}
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="text-7xl animate-bounce">⚡</div>
+              <h2 className="mt-3 text-2xl font-black">⚡ +{chestReward} {t("Foco")}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{t("Recompensa adicionada ao seu Foco.")}</p>
+              <button onClick={() => { try { const raw = localStorage.getItem(`nekoteach:level-chests:${profile?.id}`); const queue = raw ? JSON.parse(raw) as number[] : []; setChestReward(null); setChestLevel(queue[0] ?? null); } catch { setChestReward(null); setChestLevel(null); } }} className="btn-3d mt-5 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
+                {t("Continuar")}
+              </button>
+            </>
+          )}
+        </div>
       </div>
-    </div>
-  )}
+    )}
+
+
+  );
 
   if (reviewIntro && !done) {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
+        {progressionOverlay}
         <NekoMascot size={180} bounce float entrance />
         <h1 className="mt-4 text-3xl font-black">{t("Hora de revisar! 🐾")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">{t("Você terminou a lição. Agora vamos revisar juntos as respostas que você errou.")}</p>
@@ -379,6 +384,7 @@ function LessonPlayer() {
   if (outOfFocus && !done) {
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
+        {progressionOverlay}
         <NekoMascot size={160} entrance />
         <h1 className="mt-4 text-2xl font-black">{t("Sem Foco ⚡")}</h1>
         <p className="mt-1 text-sm text-muted-foreground">{t("Compre mais Foco na loja com seus diamantes.")}</p>
@@ -395,6 +401,7 @@ function LessonPlayer() {
     const xpEarned = Math.round((rights / total) * lesson.xp);
     return (
       <div className="mobile-shell items-center justify-center px-6 text-center">
+        {progressionOverlay}
         <NekoMascot size={180} bounce float entrance />
         <h1 className="mt-4 text-3xl font-black">{t("Fase concluída! 🎉")}</h1>
         <p className="mt-1 text-muted-foreground">{tf("Você acertou {rights} de {total}", { rights, total })}</p>
@@ -412,6 +419,7 @@ function LessonPlayer() {
 
   return (
     <div className="mobile-shell px-4 pt-4 pb-6">
+      {progressionOverlay}
       {resumed && (
         <div className="pointer-events-none fixed bottom-24 right-3 z-50 flex items-end gap-2">
           <div className="pointer-events-auto max-w-[62vw] rounded-2xl border-2 border-primary/20 bg-card p-3 text-xs font-semibold shadow-card animate-bubble-in">
