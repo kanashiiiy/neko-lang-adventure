@@ -23,7 +23,7 @@ function write(data: { date: string; stats: MissionStats }) {
   try { localStorage.setItem(KEY, JSON.stringify(data)); } catch {}
 }
 export function getMissionStats(): MissionStats { return read().stats; }
-export function recordTask(kind: "choose" | "listen" | "complete" | "speak" | "build", correct: boolean) {
+export function recordTask(kind: "choose" | "listen" | "complete" | "speak" | "build" | "match", correct: boolean) {
   if (typeof window === "undefined") return;
   const data = read();
   data.stats.answered += 1;
