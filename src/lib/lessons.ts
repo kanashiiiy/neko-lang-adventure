@@ -303,8 +303,8 @@ const JA_MORE_PHRASES: [string,string,string][] = [
 const ALL_JA_PHRASES: [string,string,string][] = [...NEW_JA_PHRASES, ...JA_MORE_PHRASES];
 
 function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
-  const start = (phaseIdx - 3) * 20;
-  const slice = ALL_JA_PHRASES.slice(start, start + 20);
+  const start = (phaseIdx * 20) % ALL_JA_PHRASES.length;
+  const slice = Array.from({ length: 20 }, (_, i) => ALL_JA_PHRASES[(start + i) % ALL_JA_PHRASES.length]);
   const meanings = slice.map((x) => translate(x[2], ui));
   const phasePatterns: TaskKind[][] = [
     ["choose","listen","choose","choose","complete","listen","choose","match","choose","complete","listen","choose","choose","match","listen","choose","complete","choose","listen","choose"],
@@ -315,7 +315,7 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
     ["choose","build","listen","match","build","listen","choose","build","match","complete","listen","build","choose","match","listen","build","complete","choose","build","listen"],
     ["build","listen","match","choose","build","complete","listen","build","choose","match","listen","build","complete","choose","build","listen","match","build","choose","listen"],
   ];
-  const pattern = phasePatterns[Math.min(phaseIdx - 3, phasePatterns.length - 1)];
+  const pattern = phasePatterns[phaseIdx % phasePatterns.length];
 
   const makeBuild = (i: number, source: [string,string,string]): Question => {
     const [target, romaji] = source;
