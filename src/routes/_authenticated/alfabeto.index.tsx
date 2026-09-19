@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { BottomNav } from "@/components/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile } from "@/lib/profile";
+import { fetchCurrentProfile } from "@/lib/profile";
 import { ALPHABET_META, type AlphabetSystem } from "@/lib/alphabet";
 import { EN_SECTION_META } from "@/lib/en-content";
 import { useT } from "@/lib/i18n";
@@ -21,9 +21,7 @@ function AlfabetoPage() {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
-      return fetchProfile(data.user.id);
+      return fetchCurrentProfile();
     },
   });
 
