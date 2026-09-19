@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { toast } from "@/lib/neko-toast";
 import { ChevronRight, Moon, Sun, Bell, Lock, Info, HelpCircle, Globe } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, updateProfile } from "@/lib/profile";
+import { fetchCurrentProfile, updateProfile } from "@/lib/profile";
 import { LANGUAGES } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { useT } from "@/lib/i18n";
@@ -19,9 +19,7 @@ function SettingsPage() {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
-      return fetchProfile(data.user.id);
+      return fetchCurrentProfile();
     },
   });
 
