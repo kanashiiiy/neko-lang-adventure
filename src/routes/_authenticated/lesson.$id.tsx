@@ -417,16 +417,21 @@ function LessonPlayer() {
         <NekoMascot size={180} bounce float entrance />
         <h1 className="mt-4 text-3xl font-black">{t("Fase concluída! 🎉")}</h1>
         <p className="mt-1 text-muted-foreground">{tf("Você acertou {rights} de {total}", { rights, total })}</p>
-        <div className="mt-6 grid w-full grid-cols-3 gap-3">
+        <div className="mt-6 grid w-full grid-cols-2 gap-3">
           <Reward label={t("XP")} value={`+${xpEarned}`} color="bg-gold text-gold-foreground" />
           <Reward label={t("Acerto")} value={`${score}%`} color="bg-success text-success-foreground" />
           <div className="rounded-2xl bg-primary p-3 text-primary-foreground">
-            <div className="text-[10px] font-bold uppercase opacity-80">{t("Foco")}</div>
-            <div className="text-lg font-black">+{3 + bonusFocus}</div>
-            <div className="mt-1 text-[9px] font-bold opacity-90">
-              {tf("Fase +3 · sequência +{n}", { n: bonusFocus })}
-            </div>
+            <div className="text-[10px] font-bold uppercase opacity-80">{t("Foco da fase")}</div>
+            <div className="text-lg font-black">+3</div>
+            <div className="mt-1 text-[9px] font-bold opacity-90">{t("Conclusão da fase")}</div>
           </div>
+          {bonusFocus > 0 && (
+            <div className="rounded-2xl bg-accent p-3 text-accent-foreground">
+              <div className="text-[10px] font-bold uppercase opacity-80">{t("Bônus de sequência")}</div>
+              <div className="text-lg font-black">+{bonusFocus}</div>
+              <div className="mt-1 text-[9px] font-bold opacity-90">{t("7 acertos por sequência")}</div>
+            </div>
+          )}
         </div>
         <Link to="/home" className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
           {t("Continuar")}
