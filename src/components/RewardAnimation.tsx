@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 
 export type RewardType = "focus" | "gems" | "xp" | "special";
 
@@ -57,7 +57,7 @@ function RewardLayer({ items }: { items: FlyingReward[] }) {
             "--reward-x": `${item.targetX - item.startX}px`,
             "--reward-y": `${item.targetY - item.startY}px`,
             "--reward-delay": `${item.index * 55}ms`,
-          } as React.CSSProperties}
+          } as CSSProperties}
         >
           {ICONS[item.type]}
         </span>
