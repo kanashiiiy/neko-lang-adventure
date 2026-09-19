@@ -229,7 +229,9 @@ function meaningText(item: LessonItem, ui: UiLang): string {
 }
 
 function maxOptionsForPhase(phaseIdx: number): number {
-  if (phaseIdx <= 1) return 3;
+  // The first three phases already have enough learned content to show
+  // four answer choices without introducing future vocabulary.
+  if (phaseIdx <= 2) return 4;
   if (phaseIdx <= 4) return 3;
   return 4;
 }
@@ -257,11 +259,18 @@ function isShortListenItem(lang: Language, item: LessonItem): boolean {
 }
 
 function phaseKinds(phaseIdx: number): TaskKind[] {
-  if (phaseIdx === 0) return ["choose", "listen", "choose", "listen"];
-  if (phaseIdx === 1) return ["choose", "listen", "choose", "match"];
-  if (phaseIdx === 2) return ["choose", "listen", "complete", "match"];
-  if (phaseIdx === 3) return ["choose", "listen", "complete", "match", "choose"];
-  return ["choose", "listen", "match", "complete", "build", "choose"];
+  // Keep every phase mixed: normal recognition is the main exercise, while
+  // listening, matching, writing and building are distributed progressively.
+  if (phaseIdx === 0) return ["choose", "choose", "choose", "choose", "listen", "match"];
+  if (phaseIdx === 1) return ["choose", "choose", "match", "choose", "listen", "complete"];
+  if (phaseIdx === 2) return ["choose", "listen", "choose", "match", "complete", "choose"];
+  if (phaseIdx === 3) return ["choose", "choose", "listen", "match", "complete", "choose"];
+  if (phaseIdx === 4) return ["choose", "listen", "match", "complete", "choose", "choose"];
+  if (phaseIdx === 5) return ["choose", "match", "listen", "complete", "build", "choose"];
+  if (phaseIdx === 6) return ["choose", "listen", "match", "build", "complete", "choose"];
+  if (phaseIdx === 7) return ["choose", "match", "listen", "complete", "build", "choose"];
+  if (phaseIdx === 8) return ["choose", "listen", "match", "complete", "build", "choose"];
+  return ["choose", "match", "listen", "complete", "build", "choose", "listen"];
 }
 
 function buildOptionsFromLearnedPool(
@@ -399,24 +408,13 @@ function makeQuestion(
     };
   }
 
-  const useMeaning = index % 2 === 0;
   return {
     kind: "choose",
-    prompt: translate(
-      useMeaning
-        ? "Ouça e escolha o significado correto"
-        : lang === "ja"
-          ? "Escolha a resposta correta em Romaji"
-          : lang === "en"
-            ? "Escolha a palavra ou expressão correta em inglês"
-            : "Escolha a palavra ou expressão correta em português",
-      ui,
-    ),
-    audio: item[0],
-    answer: useMeaning ? meaning : target,
-    options: useMeaning
-      ? pickOptions(meaning, meaningPool, optionsCount)
-      : pickOptions(target, targetPool, optionsCount),
+    // Normal recognition tasks show the learned meaning first and four
+    // learned target options in the first three phases.
+    prompt: meaning,
+    answer: target,
+    options: pickOptions(target, targetPool, optionsCount),
     translation: meaning,
     romaji,
     japanese,
