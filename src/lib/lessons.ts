@@ -582,11 +582,19 @@ function buildVariedTextPhase(lang: "en" | "pt", phaseIdx: number, ui: UiLang): 
     }
 
     if (kind === "match") {
-      const group = Array.from({ length: 4 }, (_, offset) => slice[(i + offset) % slice.length]);
-      const left = group.map((x) => x[0]);
-      const right = shuffle(group.map((x) => translate(x[1], ui)));
+      // Em português, a coluna da direita precisa ter quatro significados
+      // diferentes; isso evita dois botões idênticos que não poderiam ser
+      // associados separadamente pela interface.
+      const group = lang === "pt"
+        ? slice.filter((entry, n, arr) => arr.findIndex((x) => x[1] === entry[1]) === n).slice(i % 8, (i % 8) + 4)
+        : Array.from({ length: 4 }, (_, offset) => slice[(i + offset) % slice.length]);
+      const safeGroup = group.length === 4
+        ? group
+        : Array.from(new Map([...group, ...slice].map((entry) => [entry[0], entry])).values()).slice(0, 4);
+      const left = safeGroup.map((x) => x[0]);
+      const right = shuffle(safeGroup.map((x) => translate(x[1], ui)));
       const pairs: Record<string, string> = {};
-      group.forEach((x) => { pairs[x[0]] = translate(x[1], ui); });
+      safeGroup.forEach((x) => { pairs[x[0]] = translate(x[1], ui); });
       return {
         kind: "match",
         prompt: translate("Associe cada frase ao significado correto", ui),
