@@ -1,4 +1,4 @@
-// Lesson content for NEKOTeach — 3 languages, 10 phases × 10 tasks, customized by level+goal.
+// Lesson content for NEKOTeach — 3 languages, 10 phases × 20 tasks, customized by level+goal.
 import { goalWordsFor } from "@/lib/goals";
 import { translate, translateVars, type UiLang } from "@/lib/i18n";
 
@@ -60,6 +60,9 @@ const EN_CORE: [string, string, string][] = [
   ["Cat", "Gato", ""], ["Dog", "Cachorro", ""],
   ["Water", "Água", ""], ["Book", "Livro", ""],
 ];
+const EN_EXTRA: [string, string, string][] = [
+  ["Please", "Por favor", ""], ["Sorry", "Desculpe", ""],
+];
 const PT_CORE: [string, string, string][] = [
   ["Olá", "Olá", ""], ["Bom dia", "Bom dia", ""],
   ["Obrigado", "Obrigado", ""], ["Tchau", "Tchau", ""],
@@ -67,7 +70,15 @@ const PT_CORE: [string, string, string][] = [
   ["Gato", "Gato", ""], ["Cachorro", "Cachorro", ""],
   ["Água", "Água", ""], ["Livro", "Livro", ""],
 ];
+const PT_EXTRA: [string, string, string][] = [
+  ["Por favor", "Por favor", ""], ["Desculpe", "Desculpe", ""],
+];
 const CORE: Record<Language, [string, string, string][]> = { ja: JA_CORE, en: EN_CORE, pt: PT_CORE };
+const EXTRA_CORE: Record<Language, [string, string, string][]> = {
+  ja: [["おいしい", "Delicioso", "oishii"], ["きれい", "Bonito", "kirei"]],
+  en: EN_EXTRA,
+  pt: PT_EXTRA,
+};
 
 const JA_KANJI: Record<string, string> = {
   "みず": "水", "ほん": "本", "ねこ": "猫", "いぬ": "犬",
@@ -139,12 +150,18 @@ function japaneseForms(target: string, romaji: string, level: Level) {
 function buildPhase(lang: Language, phaseIdx: number, level: Level, goal: string, ui: UiLang): Phase {
   const goalWords = goalWordsFor(lang, goal);
   const core = CORE[lang];
-  const mixed = [...goalWords, ...core];
-  const start = (phaseIdx * 2) % mixed.length;
-  const words = Array.from({ length: 10 }, (_, i) => mixed[(start + i) % mixed.length]);
+  const extraCore = EXTRA_CORE[lang];
+  // Os 10 primeiros itens continuam seguindo exatamente a lógica anterior.
+  // Os 10 seguintes são adicionados ao final para completar 20 tarefas por fase.
+  const legacyMixed = [...goalWords, ...core];
+  const expandedMixed = [...goalWords, ...core, ...extraCore];
+  const start = (phaseIdx * 2) % legacyMixed.length;
+  const legacyWords = Array.from({ length: 10 }, (_, i) => legacyMixed[(start + i) % legacyMixed.length]);
+  const additionalWords = Array.from({ length: 10 }, (_, i) => expandedMixed[(start + 10 + i) % expandedMixed.length]);
+  const words = [...legacyWords, ...additionalWords];
   const isJa = lang === "ja";
-  const allAnswers = mixed.map((w) => (isJa ? (w[2] || w[0]) : w[0]));
-  const allMeanings = mixed.map((w) => translate(w[1], ui));
+  const allAnswers = expandedMixed.map((w) => (isJa ? (w[2] || w[0]) : w[0]));
+  const allMeanings = expandedMixed.map((w) => translate(w[1], ui));
   const kinds = kindsForLevel(level);
   const uiLangName = translate(langName(lang), ui);
 
