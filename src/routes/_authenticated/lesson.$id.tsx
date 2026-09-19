@@ -448,21 +448,4 @@ function Reward({ label, value, color }: { label: string; value: string; color: 
       <div className="text-lg font-black">{value}</div>
     </div>
   );
-}      {q.visualOptions && (
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          {q.visualOptions.map((opt) => {
-            const isPicked = picked === opt.label;
-            const showResult = correct !== null && isPicked;
-            return (
-              <button key={opt.label} disabled={correct !== null}
-                onClick={() => setPicked(opt.label)}
-                className={`rounded-2xl border-2 bg-card p-4 text-center transition ${showResult && correct ? "border-success bg-success/10" : showResult && !correct ? "border-destructive bg-destructive/10" : isPicked ? "border-primary bg-accent" : "border-border"}`}>
-                <span className="block text-5xl">{opt.emoji}</span>
-                <span className="mt-2 block text-sm font-bold">{opt.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-
-
+}
