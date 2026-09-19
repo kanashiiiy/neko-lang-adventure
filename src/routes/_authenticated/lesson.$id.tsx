@@ -348,7 +348,12 @@ function LessonPlayer() {
       )}
 
       {isAudioMission && !audioAnswered && (
-        <div className="mt-6">
+        <div className="mt-6 space-y-4">
+          {lang === "ja" && q.japanese && (
+            <div className="flex items-center justify-center rounded-3xl bg-card p-6 shadow-card">
+              <span className="text-5xl font-black">{q.japanese}</span>
+            </div>
+          )}
           <button onClick={() => q.audio && speakForLang(q.audio, lang)}
             className="flex w-full items-center justify-center gap-3 rounded-3xl bg-primary py-8 text-primary-foreground shadow-soft">
             <Volume2 className="h-8 w-8" />
