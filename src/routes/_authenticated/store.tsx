@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/lib/neko-toast";
 import { Check, Sparkles, Brain, Gem } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, updateProfile, buyFocus, isPremiumPlusActive } from "@/lib/profile";
+import { fetchCurrentProfile, updateProfile, buyFocus, isPremiumPlusActive } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf } from "@/lib/i18n";
@@ -39,9 +39,7 @@ function StorePage() {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
-      return fetchProfile(data.user.id);
+      return fetchCurrentProfile();
     },
   });
 
