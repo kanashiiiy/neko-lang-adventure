@@ -79,7 +79,6 @@ Pronúncia
 
 Adapte a estrutura ao pedido: não inclua seções vazias ou irrelevantes.`;
 
-        const systemMessage = userMessages.find((message) => message.role === "system")?.content;
         const contents = userMessages
           .filter((message) => message.role !== "system")
           .map((message) => ({
