@@ -7,7 +7,7 @@ import { fetchProfile, updateProfile } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT } from "@/lib/i18n";
-import { useRewardAnimation } from "@/components/RewardAnimation";
+import { useRewardAnimation, type RewardAmount } from "@/components/RewardAnimation";
 
 
 export const Route = createFileRoute("/_authenticated/missoes")({
