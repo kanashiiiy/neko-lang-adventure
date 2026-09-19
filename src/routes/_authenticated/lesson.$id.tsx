@@ -412,8 +412,13 @@ function LessonPlayer() {
         <div className="mt-6 grid w-full grid-cols-3 gap-3">
           <Reward label={t("XP")} value={`+${xpEarned}`} color="bg-gold text-gold-foreground" />
           <Reward label={t("Acerto")} value={`${score}%`} color="bg-success text-success-foreground" />
-          <Reward label={t("Foco da fase")} value="+3" color="bg-primary text-primary-foreground" />
-          <Reward label={t("Bônus de sequência")} value={bonusFocus > 0 ? `+${bonusFocus}` : "0"} color="bg-primary text-primary-foreground" />
+          <div className="rounded-2xl bg-primary p-3 text-primary-foreground">
+            <div className="text-[10px] font-bold uppercase opacity-80">{t("Foco")}</div>
+            <div className="text-lg font-black">+{3 + bonusFocus}</div>
+            <div className="mt-1 text-[9px] font-bold opacity-90">
+              {tf("Fase +3 · sequência +{n}", { n: bonusFocus })}
+            </div>
+          </div>
         </div>
         <Link to="/home" className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
           {t("Continuar")}
