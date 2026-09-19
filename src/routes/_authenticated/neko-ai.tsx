@@ -6,7 +6,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { DailyDialogs } from "@/components/DailyDialogs";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, isPremiumPlusActive, isPremiumActive } from "@/lib/profile";
+import { fetchCurrentProfile, isPremiumPlusActive, isPremiumActive } from "@/lib/profile";
 import { normalizeLanguage } from "@/lib/lessons";
 import { useT, useUiLang } from "@/lib/i18n";
 
@@ -136,9 +136,7 @@ function NekoAIPage() {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
-      return fetchProfile(data.user.id);
+      return fetchCurrentProfile();
     },
   });
   const hasPlus = isPremiumPlusActive(profile);
