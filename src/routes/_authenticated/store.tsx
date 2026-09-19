@@ -7,6 +7,7 @@ import { fetchProfile, updateProfile, buyFocus, isPremiumPlusActive } from "@/li
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf } from "@/lib/i18n";
+import { useRewardAnimation } from "@/components/RewardAnimation";
 
 export const Route = createFileRoute("/_authenticated/store")({
   component: StorePage,
@@ -34,6 +35,7 @@ function StorePage() {
   const qc = useQueryClient();
   const t = useT();
   const tf = useTf();
+  const { collectRewards } = useRewardAnimation();
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
