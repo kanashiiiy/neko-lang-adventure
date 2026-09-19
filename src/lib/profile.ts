@@ -58,6 +58,12 @@ export async function isAdmin(userId: string): Promise<boolean> {
   }
 }
 
+export async function fetchCurrentProfile(): Promise<Profile | null> {
+  const { data } = await supabase.auth.getSession();
+  const userId = data.session?.user?.id;
+  return userId ? fetchProfile(userId) : null;
+}
+
 export async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
   if (error) throw error;
