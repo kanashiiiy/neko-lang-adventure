@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Flame, Gem, Trophy, Brain } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, fetchCompletedLessons, isPremiumActive, getLevelProgress } from "@/lib/profile";
+import { fetchCurrentProfile, fetchCompletedLessons, isPremiumActive, getLevelProgress } from "@/lib/profile";
 import { buildPhases, LANGUAGES, normalizeLanguage } from "@/lib/lessons";
 import { BottomNav } from "@/components/BottomNav";
 import { NekoMascot } from "@/components/NekoMascot";
@@ -16,7 +16,7 @@ function HomePage() {
   const [showLevelPanel, setShowLevelPanel] = useState(false);
   const { data: profile } = useQuery({
     queryKey: ["profile"],
-    queryFn: async () => { const { data } = await supabase.auth.getUser(); return data.user ? fetchProfile(data.user.id) : null; },
+    queryFn: async () => { return fetchCurrentProfile(); },
   });
   const lang = normalizeLanguage(profile?.language);
   const levelProgress = getLevelProgress(profile?.xp ?? 0);
