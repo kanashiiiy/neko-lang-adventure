@@ -251,7 +251,8 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
   ];
   const pattern = phasePatterns[Math.min(phaseIdx - 3, phasePatterns.length - 1)];
 
-  const makeBuild = (i: number, target: string, romaji: string): Question => {
+  const makeBuild = (i: number, source: [string,string,string]): Question => {
+    const [target, romaji] = source;
     const words = romaji.trim().split(/\s+/).filter(Boolean);
     const other = NEW_JA_PHRASES[(start + i + 7) % NEW_JA_PHRASES.length][1].split(/\s+/).filter(Boolean);
     const distractors = other.filter((word) => !words.includes(word)).slice(0, Math.max(1, 5 - words.length));
@@ -283,10 +284,14 @@ function buildVariedJapanesePhase(phaseIdx: number, ui: UiLang): Phase {
     };
 
     if (kind === "build") {
-      const words = romaji.trim().split(/\s+/).filter(Boolean);
-      if (words.length <= 5) return makeBuild(i, target, romaji);
-      const fallback = words.slice(0, 5).join(" ");
-      return makeBuild(i, target, fallback);
+      const candidates = [
+        slice[i],
+        ...slice.slice(i + 1),
+        ...slice.slice(0, i),
+        ...NEW_JA_PHRASES,
+      ];
+      const source = candidates.find((entry) => entry[1].trim().split(/\s+/).filter(Boolean).length <= 5) ?? slice[i];
+      return makeBuild(i, source);
     }
 
     if (kind === "listen") {
