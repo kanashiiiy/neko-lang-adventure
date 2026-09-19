@@ -10,6 +10,7 @@ import { speakForLang, getRecognition, isRecognitionSupported, matchSpeech, norm
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
 import { useRewardAnimation, type RewardAmount } from "@/components/RewardAnimation";
+import { recordTask, recordLesson } from "@/lib/mission-stats";
 
 export const Route = createFileRoute("/_authenticated/lesson/$id")({
   component: LessonPlayer,
@@ -43,6 +44,10 @@ function LessonPlayer() {
   const [streakInLesson, setStreakInLesson] = useState(0);
   const [bonusFocus, setBonusFocus] = useState(0);
   const [done, setDone] = useState(false);
+  const [reviewQueue, setReviewQueue] = useState<number[]>([]);
+  const [reviewIdx, setReviewIdx] = useState(0);
+  const [reviewIntro, setReviewIntro] = useState(false);
+  const [firstAttemptFinished, setFirstAttemptFinished] = useState(false);
   const [saving, setSaving] = useState(false);
   const [outOfFocus, setOutOfFocus] = useState(false);
   const [listening, setListening] = useState(false);
@@ -99,10 +104,13 @@ function LessonPlayer() {
   }
 
   const total = lesson.questions.length;
-  const safeIdx = Math.min(idx, total - 1);
+  const activeIndex = reviewQueue.length > 0 ? reviewQueue[reviewIdx] ?? 0 : idx;
+  const safeIdx = Math.min(activeIndex, total - 1);
   const q = lesson.questions[safeIdx];
+  const inReview = reviewQueue.length > 0 && !done;
 
   async function ensureFocusSpent() {
+    if (inReview) return true;
     if (spentRef.current || !profile) return true;
     if (isPremiumActive(profile)) { spentRef.current = true; return true; }
     spentRef.current = true;
@@ -122,6 +130,16 @@ function LessonPlayer() {
 
   function applyResult(isRight: boolean) {
     setCorrect(isRight);
+    if (!inReview) {
+      recordTask(q.kind, isRight);
+      if (!isRight) {
+        try {
+          const key = `nekoteach:lesson-errors:${id}`;
+          const current = JSON.parse(localStorage.getItem(key) ?? "[]") as number[];
+          if (!current.includes(safeIdx)) localStorage.setItem(key, JSON.stringify([...current, safeIdx]));
+        } catch {}
+      }
+    }
     if (isRight) {
       setRights((r) => r + 1);
       setStreakInLesson((s) => {
@@ -166,18 +184,34 @@ function LessonPlayer() {
   async function next() {
     setPicked(null); setTyped(""); setCorrect(null); setHeard(null);
     spentRef.current = false;
+    if (inReview) {
+      if (reviewIdx + 1 < reviewQueue.length) setReviewIdx((v) => v + 1);
+      else {
+        setReviewQueue([]);
+        setReviewIdx(0);
+        setDone(true);
+      }
+      return;
+    }
     if (idx + 1 < total) setIdx(idx + 1);
     else await finish();
   }
 
   async function finish() {
-    if (!lesson || !profile) return;
+    if (!lesson || !profile || firstAttemptFinished) return;
     setSaving(true);
+    const wrongRaw = (() => {
+      try {
+        return JSON.parse(localStorage.getItem(`nekoteach:lesson-errors:${id}`) ?? "[]") as number[];
+      } catch { return []; }
+    })();
+    const wrong = [...new Set(wrongRaw.filter((n) => n >= 0 && n < total))];
     const score = Math.round((rights / total) * 100);
     const xpEarned = Math.round((rights / total) * lesson.xp);
     const gemsEarned = rights === total ? 10 : Math.max(1, Math.floor(rights / 2));
     try {
       await saveLessonCompletion(profile.id, lang, lesson.id, score, xpEarned);
+      recordLesson(wrong.length === 0);
       const rewards: RewardAmount[] = [
         xpEarned > 0 ? { type: "xp", amount: xpEarned } : null,
         gemsEarned > 0 ? { type: "gems", amount: gemsEarned } : null,
@@ -187,12 +221,33 @@ function LessonPlayer() {
       await addXpAndGems(profile.id, xpEarned, gemsEarned, bonusFocus);
       qc.invalidateQueries({ queryKey: ["profile"] });
       qc.invalidateQueries({ queryKey: ["completed", lang] });
+      setFirstAttemptFinished(true);
+      try { localStorage.removeItem(`nekoteach:lesson-errors:${id}`); } catch {}
+      if (wrong.length > 0) {
+        setReviewQueue(wrong);
+        setReviewIdx(0);
+        setReviewIntro(true);
+      } else {
+        setDone(true);
+      }
     } catch {
       toast.error(t("Não conseguimos salvar seu progresso."));
     }
     setSaving(false);
-    try { localStorage.removeItem(progressKey); } catch { /* ignora */ }
-    setDone(true);
+    try { localStorage.removeItem(progressKey); } catch {}
+  }
+
+  if (reviewIntro && !done) {
+    return (
+      <div className="mobile-shell items-center justify-center px-6 text-center">
+        <NekoMascot size={180} bounce float entrance />
+        <h1 className="mt-4 text-3xl font-black">{t("Hora de revisar! 🐾")}</h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t("Você terminou a lição. Agora vamos revisar juntos as respostas que você errou.")}</p>
+        <button onClick={() => setReviewIntro(false)} className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
+          {t("Começar revisão")}
+        </button>
+      </div>
+    );
   }
 
   if (outOfFocus && !done) {
@@ -261,6 +316,15 @@ function LessonPlayer() {
         })}
       </div>
       <h2 className="mt-2 text-2xl font-black">{q.prompt}</h2>
+      {(q.japanese || q.kana || q.kanji || q.romaji || q.translation) && (
+        <div className="mt-4 rounded-3xl bg-card p-5 text-center shadow-card">
+          {q.kanji && <div className="text-5xl font-black">{q.kanji}</div>}
+          {q.kana && <div className={q.kanji ? "mt-1 text-2xl font-black" : "text-4xl font-black"}>{q.kana}</div>}
+          {q.romaji && <div className="mt-1 text-lg font-bold text-primary">{q.romaji}</div>}
+          {q.translation && <div className="mt-1 text-base text-muted-foreground">{q.translation}</div>}
+          {q.audio && <button onClick={() => speakForLang(q.audio!, lang)} className="mt-3 text-primary" aria-label={t("Ouvir")}><Volume2 className="h-6 w-6" /></button>}
+        </div>
+      )}
 
       {(q.kind === "listen") && (
         <button onClick={() => q.audio && speakForLang(q.audio, lang)}
@@ -296,7 +360,7 @@ function LessonPlayer() {
         </div>
       )}
 
-      {(q.kind === "choose" || q.kind === "listen") && q.options && (
+      {!q.visualOptions && (q.kind === "choose" || q.kind === "listen") && q.options && (
         <div className="mt-6 grid grid-cols-2 gap-3">
           {q.options.map((opt) => {
             const isPicked = picked === opt;
@@ -367,4 +431,21 @@ function Reward({ label, value, color }: { label: string; value: string; color: 
       <div className="text-lg font-black">{value}</div>
     </div>
   );
-}
+}      {q.visualOptions && (
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          {q.visualOptions.map((opt) => {
+            const isPicked = picked === opt.label;
+            const showResult = correct !== null && isPicked;
+            return (
+              <button key={opt.label} disabled={correct !== null}
+                onClick={() => setPicked(opt.label)}
+                className={`rounded-2xl border-2 bg-card p-4 text-center transition ${showResult && correct ? "border-success bg-success/10" : showResult && !correct ? "border-destructive bg-destructive/10" : isPicked ? "border-primary bg-accent" : "border-border"}`}>
+                <span className="block text-5xl">{opt.emoji}</span>
+                <span className="mt-2 block text-sm font-bold">{opt.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+
