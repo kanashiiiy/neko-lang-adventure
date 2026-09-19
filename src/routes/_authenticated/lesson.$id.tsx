@@ -5,7 +5,7 @@ import { toast } from "@/lib/neko-toast";
 import { X, Brain, Volume2, Mic } from "lucide-react";
 import { getLesson, normalizeLanguage } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive, getLevelProgress, getLevelsCrossed, getLevelChestKey, rollLevelChestFocus, updateProfile } from "@/lib/profile";
+import { fetchCurrentProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive, getLevelProgress, getLevelsCrossed, getLevelChestKey, rollLevelChestFocus, updateProfile } from "@/lib/profile";
 import { speakForLang, prepareSpeech, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
@@ -28,9 +28,7 @@ function LessonPlayer() {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
-      return fetchProfile(data.user.id);
+      return fetchCurrentProfile();
     },
   });
 
