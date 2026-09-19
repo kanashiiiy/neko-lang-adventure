@@ -421,8 +421,8 @@ function LessonPlayer() {
                 {q.translation && (
                   <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Português:")}</span> <span className="font-bold text-foreground">{q.translation}</span></div>
                 )}
-                {q.japanese && (
-                  <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{q.japanese}</span></div>
+                {(q.japanese || q.kana) && (
+                  <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Japonês:")}</span> <span className="font-bold text-foreground">{lang === "ja" ? (q.kana ?? q.japanese) : q.japanese}</span></div>
                 )}
                 {q.romaji && (
                   <div className="text-xs"><span className="font-black uppercase opacity-70">{t("Romaji:")}</span> <span className="font-bold text-foreground">{q.romaji}</span></div>
