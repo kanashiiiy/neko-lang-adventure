@@ -246,7 +246,7 @@ export function getLevelChestKey(userId: string, level: number) {
   return `nekoteach:level-chest:${userId}:level-${level}`;
 }
 
-export function rollLevelChestFocus() {
+export function rollLevelChestGems() {
   return Math.floor(Math.random() * 15) + 1;
 }
 
