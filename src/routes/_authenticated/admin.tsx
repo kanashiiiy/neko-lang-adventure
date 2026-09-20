@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/lib/neko-toast";
 import { ArrowLeft, Users, Activity, Crown, Sparkles, UserPlus, BookOpen, Brain, Gem, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProfile, updateProfile, addAdminTestXp, getLevelChestKey } from "@/lib/profile";
+import { fetchProfile, updateProfile, addAdminTestXp, getLevelChestKey, isAdmin } from "@/lib/profile";
 import { BottomNav } from "@/components/BottomNav";
 import { useT, useTf } from "@/lib/i18n";
 
@@ -33,20 +33,31 @@ function AdminPage() {
   const navigate = useNavigate();
   const [xpAmount, setXpAmount] = useState("500");
 
-  const { data: profile, isLoading: loadingProfile } = useQuery({
-    queryKey: ["profile"],
+  const { data: profile, isLoading: loadingProfile, error: profileError } = useQuery({
+    queryKey: ["admin-profile"],
     queryFn: async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
-      return fetchProfile(data.user.id);
+      const { data, error } = await supabase.auth.getSession();
+      if (error) throw error;
+      const user = data.session?.user;
+      if (!user) return null;
+
+      // Acesso ao painel é decidido pelo role real no backend, não por um
+      // campo/cache do perfil. Isso evita bloquear administradores quando
+      // outras colunas do perfil estiverem sendo atualizadas.
+      const admin = await isAdmin(user.id);
+      if (!admin) return { id: user.id, is_admin: false } as const;
+
+      // O painel continua usando o perfil existente para suas ferramentas.
+      const currentProfile = await fetchProfile(user.id);
+      return currentProfile ? { ...currentProfile, is_admin: true } : { id: user.id, is_admin: true };
     },
   });
 
-  const isAdmin = Boolean(profile?.is_admin);
+  const isAdminUser = Boolean(profile?.is_admin);
 
   const { data: stats } = useQuery({
     queryKey: ["admin-stats"],
-    enabled: isAdmin,
+    enabled: isAdminUser,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("admin_app_stats");
       if (error) throw error;
@@ -63,7 +74,7 @@ function AdminPage() {
     );
   }
 
-  if (!isAdmin) {
+  if (!isAdminUser) {
     return (
       <div className="mobile-shell">
         <main className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
@@ -72,6 +83,22 @@ function AdminPage() {
           <button onClick={() => navigate({ to: "/home" })}
             className="btn-3d rounded-2xl bg-primary px-5 py-3 font-bold text-primary-foreground">
             {t("Voltar")}
+          </button>
+        </main>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  if (profileError) {
+    return (
+      <div className="mobile-shell">
+        <main className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
+          <div className="text-4xl">⚠️</div>
+          <p className="font-bold">{t("Não foi possível carregar o perfil de administrador.")}</p>
+          <button onClick={() => qc.invalidateQueries({ queryKey: ["admin-profile"] })}
+            className="btn-3d rounded-2xl bg-primary px-5 py-3 font-bold text-primary-foreground">
+            {t("Tentar novamente")}
           </button>
         </main>
         <BottomNav />
