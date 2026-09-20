@@ -5,7 +5,7 @@ import { toast } from "@/lib/neko-toast";
 import { X, Brain, Volume2, Mic } from "lucide-react";
 import { getLesson, normalizeLanguage } from "@/lib/lessons";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchCurrentProfile, fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive, getLevelProgress, getLevelsCrossed, getLevelChestKey, rollLevelChestFocus, updateProfile } from "@/lib/profile";
+import { fetchCurrentProfile, fetchProfile, addXpAndGems, saveLessonCompletion, spendFocus, isPremiumActive, getLevelProgress, getLevelsCrossed, getLevelChestKey, rollLevelChestGems, updateProfile } from "@/lib/profile";
 import { speakForLang, prepareSpeech, getRecognition, isRecognitionSupported, matchSpeech, normalize } from "@/lib/speech";
 import { NekoMascot } from "@/components/NekoMascot";
 import { useT, useTf, useUiLang } from "@/lib/i18n";
@@ -143,16 +143,16 @@ function LessonPlayer() {
   async function openLevelChest() {
     if (!profile?.id || chestLevel === null || chestOpening || chestReward !== null) return;
     const level = chestLevel;
-    const reward = rollLevelChestFocus();
+    const reward = rollLevelChestGems();
     setChestOpening(true);
     setChestReward(reward);
     // Marca antes de creditar para impedir duplicação ao tocar várias vezes.
     try {
       const latest = await fetchProfile(profile.id);
       if (!latest) throw new Error("profile");
-      await updateProfile(profile.id, { focus: latest.focus + reward });
+      await updateProfile(profile.id, { gems: latest.gems + reward });
       markChestOpened(profile.id, level);
-      await collectRewards([{ type: "focus", amount: reward }]);
+      await collectRewards([{ type: "gems", amount: reward }]);
       qc.invalidateQueries({ queryKey: ["profile"] });
     } catch {
       setChestReward(null);
@@ -376,9 +376,9 @@ function LessonPlayer() {
             </>
           ) : (
             <>
-              <div className="text-7xl animate-bounce">⚡</div>
-              <h2 className="mt-3 text-2xl font-black">⚡ +{chestReward} {t("Foco")}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">{t("Recompensa adicionada ao seu Foco.")}</p>
+              <div className="text-7xl animate-bounce">💎</div>
+              <h2 className="mt-3 text-2xl font-black">💎 +{chestReward} {t("Diamantes")}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{t("Recompensa adicionada aos seus Diamantes.")}</p>
               <button onClick={() => { try { const raw = localStorage.getItem(`nekoteach:level-chests:${profile?.id}`); const queue = raw ? JSON.parse(raw) as number[] : []; setChestReward(null); setChestLevel(queue[0] ?? null); } catch { setChestReward(null); setChestLevel(null); } }} className="btn-3d mt-5 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
                 {t("Continuar")}
               </button>
