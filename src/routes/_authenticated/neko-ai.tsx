@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Send, ImagePlus, X, Menu, Plus, Trash2 } from "lucide-react";
@@ -132,6 +132,7 @@ function saveThreads(threads: Thread[]) {
 function NekoAIPage() {
   const t = useT();
   const uiLang = useUiLang();
+  const navigate = useNavigate();
   const [tab, setTab] = useState<"chat" | "dialogs">("chat");
   const { data: profile } = useQuery({
     queryKey: ["profile"],
@@ -151,6 +152,7 @@ function NekoAIPage() {
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState<string | null>(null);
   const [usage, setUsage] = useState<PhotoUsage | null>(null);
+  const [photoLimitReached, setPhotoLimitReached] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -261,11 +263,12 @@ function NekoAIPage() {
       return;
     }
     if (usage && !usage.unlimited && (usage.remaining ?? 0) <= 0) {
+      setPhotoLimitReached(true);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: t("Você já usou suas 10 análises de fotos de hoje 🐾 Novas análises estarão disponíveis amanhã!"),
+          content: t("Você atingiu o limite de análises de fotos do seu plano hoje 🐾"),
         },
       ]);
       return;
@@ -298,11 +301,12 @@ function NekoAIPage() {
       const data = (await res.json()) as { reply?: string; blocked?: boolean; usage?: PhotoUsage };
       if (data.usage) setUsage(data.usage);
       if (data.blocked) {
+        setPhotoLimitReached(true);
         setMessages([
           ...next,
           {
             role: "assistant",
-            content: t("Você já usou suas 10 análises de fotos de hoje 🐾 Novas análises estarão disponíveis amanhã!"),
+            content: t("Você atingiu o limite de análises de fotos do seu plano hoje 🐾"),
           },
         ]);
       } else {
@@ -467,6 +471,64 @@ function NekoAIPage() {
           </div>
         )}
       </div>
+
+      {photoLimitReached && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-foreground/40 px-5">
+          <div className="w-full max-w-sm rounded-3xl border-2 border-border bg-card p-5 shadow-xl">
+            <div className="text-center">
+              <div className="text-4xl">📷</div>
+              <h2 className="mt-2 text-xl font-black">{t("Limite de fotos atingido")}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {t("Você atingiu o limite de fotos do seu plano atual. Escolha uma opção para continuar usando fotos.")}
+              </p>
+            </div>
+
+            <div className="mt-4 space-y-3">
+              <button
+                type="button"
+                onClick={() => { setPhotoLimitReached(false); navigate({ to: "/store" }); }}
+                className="w-full rounded-2xl border-2 border-border bg-background p-4 text-left"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="font-black">✨ {t("Premium")}</div>
+                  <div className="text-sm font-black text-primary">R$ 19,90/mês</div>
+                </div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  📷 {t("10 análises de fotos por dia")}
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {t("Foco infinito, sem anúncios e prioridade nas respostas do Neko AI.")}
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { setPhotoLimitReached(false); navigate({ to: "/store" }); }}
+                className="w-full rounded-2xl border-2 border-primary bg-primary/10 p-4 text-left"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="font-black">💎 {t("Premium Plus")}</div>
+                  <div className="text-sm font-black text-primary">R$ 49,90/mês</div>
+                </div>
+                <div className="mt-1 text-sm font-black text-primary">
+                  ♾️ {t("Análises de fotos ilimitadas")}
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {t("Tudo do Premium + mais liberdade no Neko AI e Diálogos do Dia a Dia.")}
+                </div>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setPhotoLimitReached(false)}
+              className="mt-4 w-full rounded-2xl bg-muted py-3 text-sm font-bold text-muted-foreground"
+            >
+              {t("Agora não")}
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="border-t-2 border-border bg-card px-3 py-2">
         {(hasPlus || hasPremium) && usage && (
