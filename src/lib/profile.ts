@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 export interface Profile {
   id: string;
   name: string | null;
+  username: string | null;
   email: string | null;
   avatar_url: string | null;
   language: string;
@@ -23,6 +24,10 @@ export interface Profile {
   onboarding_complete: boolean;
   theme: string;
   notifications_enabled: boolean;
+  profile_frame: string;
+  profile_background: string;
+  profile_effect: string;
+  profile_badge: string;
   /** Somente leitura no cliente: derivado da função de Administrador no backend */
   is_admin?: boolean;
 }
