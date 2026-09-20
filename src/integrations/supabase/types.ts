@@ -183,6 +183,11 @@ export type Database = {
           theme?: string | null
           updated_at?: string
           xp?: number
+          username?: string | null
+          profile_frame?: string
+          profile_background?: string
+          profile_effect?: string
+          profile_badge?: string
         }
         Relationships: []
       }
