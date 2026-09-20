@@ -8,7 +8,7 @@ export const Route = createFileRoute("/api/neko-ai")({
           const body = await request.json();
 
           const res = await fetch(
-            "https://rwaakywcx...supabase.co/functions/v1/neko-ai",
+            "https://rwaakvwcxbmgzgidqikx.supabase.co/functions/v1/neko-ai",
             {
               method: "POST",
               headers: {
