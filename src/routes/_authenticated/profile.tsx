@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "@/lib/neko-toast";
 import {
   Flame, Gem, Trophy, Edit3, Lock, Globe, MapPin, Bell, Moon, Shield, LogOut,
-  ChevronRight, Award, Camera, ArrowLeft, Palette, Sparkles, Check, Crown,
-  Image as ImageIcon, Medal
+  ChevronRight, Camera, ArrowLeft, Palette, Check
 } from "lucide-react";
 import { ProfileAvatar, fileToAvatarDataUrl } from "@/components/ProfileAvatar";
 import { supabase } from "@/integrations/supabase/client";
