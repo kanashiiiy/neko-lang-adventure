@@ -63,7 +63,11 @@ function HomePage() {
       )}
       <main className="flex-1 px-4 py-5">
         <div className="mb-6 rounded-3xl bg-gradient-primary p-5 text-primary-foreground shadow-soft"><div className="flex items-center gap-3"><NekoMascot size={72} float /><div><div className="text-xs opacity-90">{tf("Olá, {name}!", { name: profile?.name ?? t("amigo") })}</div><div className="text-lg font-black">{t("Vamos aprender hoje? 🔥")}</div><div className="mt-1 text-xs opacity-90">{t("Meta diária: 20 XP")}</div></div></div></div>
-        <h2 className="mb-3 px-1 text-sm font-bold uppercase tracking-wide text-muted-foreground">{t("Fases")} · {t(langMeta?.name ?? "")}</h2>
+        <div className="mb-5 rounded-3xl border border-primary/15 bg-card/80 px-4 py-4 shadow-soft">
+          <div className="text-xs font-black uppercase tracking-[0.16em] text-primary">SEÇÃO 1 — UNIDADE 1</div>
+          <div className="mt-1 text-lg font-black text-foreground">👋 Apresentação e cumprimentos</div>
+          <div className="mt-1 text-xs font-semibold text-muted-foreground">{t("Fases")} · {t(langMeta?.name ?? "")} · 20 tarefas por fase</div>
+        </div>
         <div className="relative flex flex-col items-center gap-4">
           {phases.map((l, i) => {
             const isDone = completed?.has(l.id); const prevDone = i === 0 || completed?.has(phases[i - 1].id); const locked = !prevDone && !isDone; const offset = i % 2 === 0 ? "translate-x-6" : "-translate-x-6";
