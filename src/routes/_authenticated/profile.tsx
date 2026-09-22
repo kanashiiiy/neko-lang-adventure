@@ -273,26 +273,157 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
   const [category,setCategory]=useState<Category>("frames");
   const [filter,setFilter]=useState<"all"|Plan>("all");
   const [selected,setSelected]=useState({frames:frame.id,backgrounds:background.id,effects:effect.id,badges:badge.id});
-  const preview=(id:string)=>({frame:FRAMES.find(x=>x.id===id)??FRAMES[0],background:BACKGROUNDS.find(x=>x.id===selected.backgrounds)??BACKGROUNDS[0],effect:EFFECTS.find(x=>x.id===selected.effects)??EFFECTS[0],badge:BADGES.find(x=>x.id===selected.badges)??BADGES[0]});
-  const p=preview(selected.frames);
-  const canUse=(item:Cosmetic)=>item.plan==="free" || (item.plan==="premium" && plan!=="free") || (item.plan==="plus" && plan==="plus");
+
+  const currentFrame=FRAMES.find(x=>x.id===selected.frames) ?? FRAMES[0];
+  const currentBackground=BACKGROUNDS.find(x=>x.id===selected.backgrounds) ?? BACKGROUNDS[0];
+  const currentEffect=EFFECTS.find(x=>x.id===selected.effects) ?? EFFECTS[0];
+  const currentBadge=BADGES.find(x=>x.id===selected.badges) ?? BADGES[0];
+
+  const canUse=(item:Cosmetic)=>
+    item.plan==="free" ||
+    (item.plan==="premium" && plan!=="free") ||
+    (item.plan==="plus" && plan==="plus");
+
   const items=CATALOG[category].filter(x=>filter==="all"||x.plan===filter);
-  return <div className="fixed inset-0 z-[70] flex flex-col bg-background">
-    <header className="flex items-center justify-between border-b border-border bg-card px-4 py-3"><button onClick={onClose} className="flex items-center gap-2 font-black"><ArrowLeft className="h-5 w-5"/>Voltar</button><h2 className="font-black">Personalizar perfil</h2><button onClick={()=>onSave({profile_frame:selected.frames,profile_background:selected.backgrounds,profile_effect:selected.effects,profile_badge:selected.badges})} className="rounded-xl bg-primary px-4 py-2 font-black text-primary-foreground"><Check className="mr-1 inline h-4 w-4"/>Aplicar</button></header>
-    <div className={`shrink-0 border-b border-white/10 p-4 text-white ${p.background.className}`}>
-      <div className="mx-auto max-w-sm"><ProfileHero profile={profile} level={getLevelProgress(profile.xp)} frame={p.frame} background={p.background} effect={p.effect} badge={p.badge} premium={plan!=="free"} plus={plan==="plus"}/></div>
+  const planLabel=(p:Plan)=>p==="free"?"Grátis":p==="premium"?"Premium":"Premium Plus";
+  const planIcon=(p:Plan)=>p==="free"?"":p==="premium"?"👑":"💎";
+
+  return (
+    <div className="fixed inset-0 z-[70] flex min-h-0 flex-col overflow-hidden bg-[#08081a] text-white">
+      <header className="shrink-0 border-b border-violet-500/30 bg-[#090922]/95 px-3 py-3 backdrop-blur">
+        <div className="mx-auto flex w-full max-w-7xl items-center gap-3">
+          <button onClick={onClose} className="flex shrink-0 items-center gap-2 rounded-xl px-2 py-2 font-black text-white hover:bg-white/10">
+            <ArrowLeft className="h-5 w-5"/> <span>Voltar</span>
+          </button>
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="text-xl">🐾</span>
+            <h2 className="truncate text-base font-black sm:text-lg">Personalizar perfil</h2>
+          </div>
+          {plan==="plus" && <span className="hidden rounded-full border border-yellow-300/50 bg-gradient-to-r from-yellow-500/20 to-fuchsia-500/20 px-3 py-1 text-xs font-black text-yellow-200 sm:inline-flex">👑 Premium Plus</span>}
+          <button onClick={()=>onSave({profile_frame:selected.frames,profile_background:selected.backgrounds,profile_effect:selected.effects,profile_badge:selected.badges})}
+            className="shrink-0 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 px-4 py-2.5 font-black shadow-[0_0_22px_rgba(168,85,247,.35)]">
+            <Check className="mr-1 inline h-4 w-4"/>Aplicar
+          </button>
+        </div>
+      </header>
+
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <div className="mx-auto grid w-full max-w-7xl gap-3 p-3 sm:p-4 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-4">
+          <aside className="lg:sticky lg:top-4 lg:self-start">
+            <div className="rounded-3xl border border-violet-500/40 bg-gradient-to-br from-[#170d42] via-[#29105d] to-[#4b126d] p-3 shadow-[0_0_30px_rgba(124,58,237,.18)]">
+              <ProfileHero
+                profile={profile}
+                level={getLevelProgress(profile.xp)}
+                frame={currentFrame}
+                background={currentBackground}
+                effect={currentEffect}
+                badge={currentBadge}
+                premium={plan!=="free"}
+                plus={plan==="plus"}
+              />
+              <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5 text-center backdrop-blur">
+                <div className="flex items-center justify-between text-xs font-black">
+                  <span>{getLevelProgress(profile.xp).xpIntoLevel} XP</span>
+                  <span>{getLevelProgress(profile.xp).xpForNextLevel} XP</span>
+                </div>
+                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/15">
+                  <div className="h-full rounded-full bg-gradient-to-r from-violet-400 via-fuchsia-400 to-yellow-300" style={{width:`${getLevelProgress(profile.xp).progressPercent}%`}}/>
+                </div>
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-1.5">
+                <MiniStat icon="🔥" value={profile.streak} label="Sequência"/>
+                <MiniStat icon="💎" value={profile.gems} label="Diamantes"/>
+                <MiniStat icon="🏆" value="—" label="Conquistas"/>
+              </div>
+              {(plan==="plus" || plan==="premium") && (
+                <div className="mt-3 rounded-2xl border border-yellow-300/30 bg-gradient-to-r from-yellow-500/15 to-fuchsia-500/15 py-2 text-center text-xs font-black text-yellow-100">
+                  {plan==="plus"?"👑 Premium Plus":"👑 Premium"}
+                </div>
+              )}
+            </div>
+          </aside>
+
+          <section className="min-w-0 rounded-3xl border border-violet-500/30 bg-[#0c0c22] p-2.5 shadow-[0_0_30px_rgba(76,29,149,.12)] sm:p-4">
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+              {(["frames","backgrounds","effects","badges"] as Category[]).map(c=>{
+                const active=category===c;
+                return <button key={c} onClick={()=>{setCategory(c);setFilter("all")}}
+                  className={`flex min-w-0 items-center justify-center gap-1 rounded-xl border px-2 py-2.5 text-[10px] font-black transition sm:gap-2 sm:text-xs ${active?"border-fuchsia-400 bg-gradient-to-r from-violet-600 to-fuchsia-500 shadow-[0_0_18px_rgba(168,85,247,.35)]":"border-violet-500/20 bg-[#15152f] text-white/80"}`}>
+                  <span>{c==="frames"?"◉":c==="backgrounds"?"🖼️":c==="effects"?"✨":"🏅"}</span>
+                  <span className="truncate">{CATEGORY_LABELS[c]}</span>
+                </button>;
+              })}
+            </div>
+
+            <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1">
+              {(["all","free","premium","plus"] as const).map(x=>
+                <button key={x} onClick={()=>setFilter(x)}
+                  className={`shrink-0 rounded-full border px-3 py-1.5 text-[10px] font-black sm:text-xs ${filter===x?"border-violet-400 bg-violet-500 text-white":"border-violet-500/20 bg-[#17172f] text-white/75"}`}>
+                  {x==="all"?"Todas":x==="free"?"Grátis":x==="premium"?"Premium":"Premium Plus"}
+                </button>
+              )}
+            </div>
+
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4">
+              {items.map(item=>{
+                const unlocked=canUse(item);
+                const selectedNow=selected[category]===item.id;
+                return (
+                  <button key={item.id} disabled={!unlocked} onClick={()=>setSelected(s=>({...s,[category]:item.id}))}
+                    className={`group relative min-w-0 overflow-hidden rounded-2xl border p-1.5 text-left transition-all ${selectedNow?"border-cyan-300 bg-cyan-400/10 shadow-[0_0_18px_rgba(34,211,238,.22)]":"border-violet-500/20 bg-[#11112b] hover:border-violet-400/60"} ${!unlocked?"opacity-60":""}`}>
+                    <CosmeticThumbnail item={item} category={category} selected={selectedNow}/>
+                    <div className="px-1.5 pb-1 pt-2">
+                      <div className="truncate text-[11px] font-black sm:text-xs">{item.name}</div>
+                      <div className={`mt-1 inline-flex max-w-full items-center gap-1 rounded-full px-1.5 py-0.5 text-[8px] font-black sm:text-[9px] ${item.plan==="free"?"bg-emerald-500/15 text-emerald-200":item.plan==="premium"?"bg-yellow-500/15 text-yellow-200":"bg-fuchsia-500/15 text-fuchsia-200"}`}>
+                        {planIcon(item.plan)} {planLabel(item.plan)}
+                      </div>
+                    </div>
+                    {!unlocked && <span className="absolute right-2 top-2 rounded-full bg-black/70 p-1.5 text-white"><Lock className="h-3.5 w-3.5"/></span>}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button onClick={()=>onSave({profile_frame:selected.frames,profile_background:selected.backgrounds,profile_effect:selected.effects,profile_badge:selected.badges})}
+              className="mt-4 hidden w-full rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600 py-3.5 font-black shadow-[0_0_24px_rgba(168,85,247,.3)] sm:block">
+              <Check className="mr-1 inline h-4 w-4"/>Aplicar
+            </button>
+          </section>
+        </div>
+      </div>
     </div>
-    <div className="flex gap-2 overflow-x-auto border-b border-border bg-card p-3">{(["frames","backgrounds","effects","badges"] as Category[]).map(c=><button key={c} onClick={()=>{setCategory(c);setFilter("all")}} className={`whitespace-nowrap rounded-xl px-3 py-2 text-xs font-black ${category===c?"bg-primary text-primary-foreground":"bg-muted"}`}>{c==="frames"?"🟣":c==="backgrounds"?"🖼️":c==="effects"?"✨":"🏅"} {CATEGORY_LABELS[c]}</button>)}</div>
-    <div className="flex gap-2 overflow-x-auto px-4 py-3"><button onClick={()=>setFilter("all")} className={`rounded-full px-3 py-1.5 text-xs font-bold ${filter==="all"?"bg-primary text-primary-foreground":"bg-muted"}`}>Todos</button>{(["free","premium","plus"] as Plan[]).map(x=><button key={x} onClick={()=>setFilter(x)} className={`rounded-full px-3 py-1.5 text-xs font-bold ${filter===x?"bg-primary text-primary-foreground":"bg-muted"}`}>{x==="free"?"Grátis":x==="premium"?"Premium":"Premium Plus"}</button>)}</div>
-    <div className="grid flex-1 grid-cols-2 gap-3 overflow-y-auto p-4 sm:grid-cols-3">
-      {items.map(item=>{const unlocked=canUse(item);const selectedNow=selected[category]===item.id;return <button key={item.id} disabled={!unlocked} onClick={()=>setSelected(s=>({...s,[category]:item.id}))} className={`relative overflow-hidden rounded-2xl border-2 p-3 text-left transition ${selectedNow?"border-primary ring-2 ring-primary/20":"border-border"} ${!unlocked?"opacity-55":""}`}>
-        <div className={`mb-3 flex h-24 items-center justify-center rounded-xl text-4xl ${category==="backgrounds"?item.className:"bg-muted"} `}>{item.emoji}</div>
-        <div className="font-black text-sm">{item.name}</div>
-        <div className="mt-1 text-[10px] font-bold uppercase text-muted-foreground">{item.plan==="free"?"Grátis":item.plan==="premium"?"Premium":"Premium Plus"}</div>
-        {!unlocked&&<div className="absolute right-2 top-2 rounded-full bg-black/60 p-1 text-white"><Lock className="h-4 w-4"/></div>}
-        {selectedNow&&<div className="absolute right-2 bottom-2 rounded-full bg-primary p-1 text-primary-foreground"><Check className="h-4 w-4"/></div>}
-      </button>})}
-    </div>
+  );
+}
+
+function CosmeticThumbnail({item,category,selected}:{item:Cosmetic;category:Category;selected:boolean}) {
+  if (category==="backgrounds") {
+    return <div className={`relative flex h-24 items-center justify-center overflow-hidden rounded-xl border border-white/10 ${item.className}`}>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,.35),transparent_28%),radial-gradient(circle_at_75%_70%,rgba(217,70,239,.25),transparent_32%)]"/>
+      <span className="relative text-4xl drop-shadow-[0_2px_5px_rgba(0,0,0,.6)]">{item.emoji}</span>
+      {selected && <span className="absolute right-1.5 top-1.5 rounded-full bg-cyan-400 p-1 text-slate-950"><Check className="h-3 w-3"/></span>}
+    </div>;
+  }
+
+  if (category==="frames") {
+    return <div className="relative flex h-24 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#15152f] via-[#24104c] to-[#09091d]">
+      <div className={`flex h-16 w-16 items-center justify-center rounded-full border-4 ${item.className} bg-[#0b0b20] shadow-[0_0_18px_rgba(168,85,247,.35)]`}>
+        <span className="text-3xl">{item.emoji}</span>
+      </div>
+      {selected && <span className="absolute right-1.5 top-1.5 rounded-full bg-cyan-400 p-1 text-slate-950"><Check className="h-3 w-3"/></span>}
+    </div>;
+  }
+
+  return <div className="relative flex h-24 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#15152f] via-[#28104d] to-[#09091d]">
+    <div className={`absolute inset-3 rounded-full border border-fuchsia-400/20 ${item.className}`}/>
+    <span className={`relative text-4xl drop-shadow-[0_0_12px_rgba(217,70,239,.65)] ${item.className}`}>{item.emoji}</span>
+    {category==="badges" && <span className="absolute bottom-2 rounded-full bg-black/45 px-2 py-0.5 text-[8px] font-black text-white/80">EMBLEMA</span>}
+    {selected && <span className="absolute right-1.5 top-1.5 rounded-full bg-cyan-400 p-1 text-slate-950"><Check className="h-3 w-3"/></span>}
+  </div>;
+}
+
+function MiniStat({icon,value,label}:{icon:string;value:number|string;label:string}) {
+  return <div className="rounded-xl border border-white/10 bg-black/20 p-1.5 text-center">
+    <div className="text-sm">{icon}</div><div className="text-xs font-black">{value}</div><div className="truncate text-[7px] font-bold text-white/60">{label}</div>
   </div>;
 }
 
