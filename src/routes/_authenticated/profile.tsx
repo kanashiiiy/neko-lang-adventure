@@ -145,9 +145,15 @@ function ProfilePage() {
   }, [profile]);
 
   async function save(patch: Record<string, unknown>) {
-    if (!profile) return;
+    if (!profile) throw new Error("Perfil não carregado.");
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (sessionData.session?.user?.id !== profile.id) {
+      throw new Error("Sua sessão expirou. Entre novamente para salvar a personalização.");
+    }
     await updateProfile(profile.id, patch as Partial<Profile>);
     await qc.invalidateQueries({ queryKey:["profile"] });
+    await qc.refetchQueries({ queryKey:["profile"], type:"active" });
   }
 
   async function onPickPhoto(e: React.ChangeEvent<HTMLInputElement>) {
@@ -363,6 +369,28 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
   const [category,setCategory]=useState<Category>("frames");
   const [filter,setFilter]=useState<"all"|Plan>("all");
   const [selected,setSelected]=useState({frames:frame.id,backgrounds:background.id,effects:effect.id,badges:badge.id});
+  const [saving,setSaving]=useState(false);
+  const [saveError,setSaveError]=useState<string | null>(null);
+
+  async function handleApply() {
+    if (saving) return;
+    setSaving(true);
+    setSaveError(null);
+    try {
+      await onSave({
+        profile_frame:selected.frames,
+        profile_background:selected.backgrounds,
+        profile_effect:selected.effects,
+        profile_badge:selected.badges,
+      });
+    } catch (error) {
+      const message=error instanceof Error ? error.message : "Não foi possível salvar a personalização.";
+      setSaveError(message);
+      toast.error(message);
+    } finally {
+      setSaving(false);
+    }
+  }
 
   const currentFrame=FRAMES.find(x=>x.id===selected.frames) ?? FRAMES[0];
   const currentBackground=BACKGROUNDS.find(x=>x.id===selected.backgrounds) ?? BACKGROUNDS[0];
@@ -390,9 +418,9 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
             <h2 className="truncate text-base font-black sm:text-lg">Personalizar perfil</h2>
           </div>
           {plan==="plus" && <span className="hidden rounded-full border border-yellow-300/50 bg-gradient-to-r from-yellow-500/20 to-fuchsia-500/20 px-3 py-1 text-xs font-black text-yellow-200 sm:inline-flex">👑 Premium Plus</span>}
-          <button onClick={()=>onSave({profile_frame:selected.frames,profile_background:selected.backgrounds,profile_effect:selected.effects,profile_badge:selected.badges})}
-            className="shrink-0 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 px-4 py-2.5 font-black shadow-[0_0_22px_rgba(168,85,247,.35)]">
-            <Check className="mr-1 inline h-4 w-4"/>Aplicar
+          <button type="button" onClick={handleApply} disabled={saving}
+            className="shrink-0 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 px-4 py-2.5 font-black shadow-[0_0_22px_rgba(168,85,247,.35)] disabled:cursor-wait disabled:opacity-70">
+            <Check className="mr-1 inline h-4 w-4"/>{saving ? "Salvando..." : "Aplicar"}
           </button>
         </div>
       </header>
@@ -474,10 +502,11 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
               })}
             </div>
 
-            <button onClick={()=>onSave({profile_frame:selected.frames,profile_background:selected.backgrounds,profile_effect:selected.effects,profile_badge:selected.badges})}
-              className="mt-4 hidden w-full rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600 py-3.5 font-black shadow-[0_0_24px_rgba(168,85,247,.3)] sm:block">
-              <Check className="mr-1 inline h-4 w-4"/>Aplicar
+            <button type="button" onClick={handleApply} disabled={saving}
+              className="mt-4 hidden w-full rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600 py-3.5 font-black shadow-[0_0_24px_rgba(168,85,247,.3)] disabled:cursor-wait disabled:opacity-70 sm:block">
+              <Check className="mr-1 inline h-4 w-4"/>{saving ? "Salvando..." : "Aplicar"}
             </button>
+            {saveError && <p className="mt-2 text-center text-xs font-bold text-red-300">{saveError}</p>}
           </section>
         </div>
       </div>
