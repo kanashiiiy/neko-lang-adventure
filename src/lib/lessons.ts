@@ -393,7 +393,8 @@ function buildPhase(
   goal: string,
   ui: UiLang,
 ): Phase {
-  const pool = cumulativePool(lang, phaseIdx, goal, _level);\n  const unitPhase = UNIT1[lang][phaseIdx] ?? [];
+  const pool = cumulativePool(lang, phaseIdx, goal, _level);
+  const unitPhase = UNIT1[lang][phaseIdx] ?? [];
 
   // Keep lesson generation safe even if a future curriculum phase is empty.
   // Falling back to the last unlocked content prevents an invalid question
@@ -406,8 +407,10 @@ function buildPhase(
   // Nothing from a future phase can leak into questions or distractors.
   const pattern = phaseKinds(lang, phaseIdx);
   const questions: Question[] = Array.from({ length: 20 }, (_, index) => {
-    const item = pool[(phaseIdx * 3 + index) % pool.length];
-    const kind = pattern[index % pattern.length];
+    const early = unitPhase[index % Math.max(1, unitPhase.length)] ?? pool[0];
+    const cumulative = pool[(index * 2 + phaseIdx) % pool.length];
+    const item = index < 5 ? early : index < 10 && index % 2 === 0 ? early : cumulative;
+    const kind = pattern[index];
 
     // Build only after short expressions have been unlocked. Earlier phases
     // stay focused on individual words and very small recognition tasks.
