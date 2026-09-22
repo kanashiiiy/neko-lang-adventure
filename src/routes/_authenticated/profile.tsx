@@ -314,35 +314,114 @@ function FrameArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
   </div>;
 }
 
-function BackgroundArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
-  const scenes:Record<string,{sky:string;ground:string;objects:string[]}> = {
-    "bg-default":{sky:"from-[#391078] via-[#6416a1] to-[#15052f]",ground:"from-[#220743] to-[#09051b]",objects:["✦","✧","🌙"]},
-    "bg-night":{sky:"from-[#07122e] via-[#17145a] to-[#2b0d56]",ground:"from-[#0b102b] to-[#050817]",objects:["🌙","✦","✦","☁️"]},
-    "bg-purple-sky":{sky:"from-[#1b145d] via-[#6522a9] to-[#e052cf]",ground:"from-[#35105f] to-[#12082c]",objects:["☁️","☁️","✦","✧"]},
-    "bg-sunset":{sky:"from-[#ff7a45] via-[#df3f83] to-[#4b187f]",ground:"from-[#6b1e58] to-[#16082d]",objects:["☀️","☁️","✦"]},
-    "bg-magic-forest":{sky:"from-[#071d2b] via-[#164f55] to-[#402067]",ground:"from-[#061f24] to-[#120821]",objects:["🌲","🌲","✨","🌿"]},
-    "bg-neon-city":{sky:"from-[#080c25] via-[#3a105d] to-[#091e55]",ground:"from-[#060817] to-[#12082e]",objects:["🌃","▥","▥","✦"]},
-    "bg-japanese-temple":{sky:"from-[#160d35] via-[#54143e] to-[#110a25]",ground:"from-[#160c22] to-[#05050f]",objects:["⛩️","🌸","🏮","🌙"]},
-    "bg-beach":{sky:"from-[#25c8ed] via-[#54e3df] to-[#f8c76b]",ground:"from-[#087c9c] to-[#174d6a]",objects:["☀️","🌴","🌊","🏝️"]},
-    "bg-winter":{sky:"from-[#193c66] via-[#6bbbe4] to-[#e7f7ff]",ground:"from-[#aacfe8] to-[#526d94]",objects:["❄️","❄️","🏔️","✧"]},
-    "bg-kitsune":{sky:"from-[#351044] via-[#a52d45] to-[#f28a35]",ground:"from-[#42172d] to-[#13081e]",objects:["🦊","⛩️","🌙","🔥"]},
-    "bg-space":{sky:"from-[#02020b] via-[#111044] to-[#2a0c55]",ground:"from-[#03030c] to-[#0c0622]",objects:["🪐","🌌","✦","✧"]},
-    "bg-dreams":{sky:"from-[#4b126c] via-[#b342b5] to-[#49a9dd]",ground:"from-[#35104d] to-[#0b1731]",objects:["☁️","💫","🌙","✦"]},
-    "bg-aurora":{sky:"from-[#063f46] via-[#087b83] to-[#4a247f]",ground:"from-[#05252f] to-[#12072b]",objects:["🌈","✦","🌲","✧"]},
-    "bg-halloween":{sky:"from-[#050509] via-[#3c1035] to-[#8c2b16]",ground:"from-[#12050d] to-[#050307]",objects:["🎃","🕸","🌙","🦇"]},
-    "bg-festival":{sky:"from-[#16114f] via-[#a52972] to-[#f0a33c]",ground:"from-[#24103c] to-[#100719]",objects:["🎆","🏮","✨","🎇"]},
-    "bg-summer":{sky:"from-[#4bd7ff] via-[#39cfe2] to-[#ffd84f]",ground:"from-[#05758e] to-[#0b526d]",objects:["☀️","🌴","🌊","🕊️"]},
-    "bg-gold":{sky:"from-[#3b1d05] via-[#b27612] to-[#ffe59a]",ground:"from-[#4b2607] to-[#120a03]",objects:["✨","👑","💎","✦"]}
-  };
-  const scene=scenes[item.id]??scenes["bg-default"];
-  return <div className={`pointer-events-none absolute inset-0 overflow-hidden bg-gradient-to-br ${scene.sky}`}>
-    <div className={`absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t ${scene.ground}`}/>
-    <div className="absolute -left-10 top-1/4 h-24 w-32 rounded-full bg-white/10 blur-2xl"/>
-    {scene.objects.map((o,i)=><span key={i} className={`absolute opacity-95 drop-shadow-[0_2px_10px_rgba(255,255,255,.45)] ${large?"text-4xl sm:text-5xl":"text-2xl"}`} style={{left:`${8+(i*23)%80}%`,top:`${8+(i*19)%68}%`,transform:`translate(-50%,-50%) rotate(${(i%2===0?-1:1)*(4+i*3)}deg)`}}>{o}</span>)}
-    <div className="absolute inset-0 opacity-30" style={{backgroundImage:"radial-gradient(circle,rgba(255,255,255,.7) 1px,transparent 1px)",backgroundSize:"20px 20px"}}/><div className="absolute inset-x-0 bottom-0 h-[42%] bg-[linear-gradient(to_top,rgba(3,3,15,.82),transparent)]"/><div className="absolute inset-x-3 bottom-3 h-2 rounded-full bg-white/10 blur-md"/>
-  </div>;
-}
 
+function BackgroundArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
+  const scenes:Record<string,{bg:string;accent:string;type:string}> = {
+    "bg-default":{bg:"#24104f",accent:"#b78cff",type:"night"},
+    "bg-night":{bg:"#08152f",accent:"#8e7dff",type:"night"},
+    "bg-purple-sky":{bg:"#3a176c",accent:"#d79cff",type:"sky"},
+    "bg-sunset":{bg:"#7c285d",accent:"#ffb45e",type:"sunset"},
+    "bg-magic-forest":{bg:"#0b3b38",accent:"#79d99a",type:"forest"},
+    "bg-neon-city":{bg:"#10143d",accent:"#35e7ff",type:"city"},
+    "bg-japanese-temple":{bg:"#32152c",accent:"#ff8b9d",type:"temple"},
+    "bg-beach":{bg:"#1683a0",accent:"#ffe07a",type:"beach"},
+    "bg-winter":{bg:"#527e9d",accent:"#e9f8ff",type:"winter"},
+    "bg-kitsune":{bg:"#6d2b3d",accent:"#ffb04d",type:"kitsune"},
+    "bg-space":{bg:"#090b2b",accent:"#9e7cff",type:"space"},
+    "bg-dreams":{bg:"#633d86",accent:"#f3a6ff",type:"dreams"},
+    "bg-aurora":{bg:"#0b5961",accent:"#7dffcf",type:"aurora"},
+    "bg-halloween":{bg:"#24132b",accent:"#ff9d3d",type:"halloween"},
+    "bg-festival":{bg:"#4a1e62",accent:"#ffd166",type:"festival"},
+    "bg-summer":{bg:"#1490a8",accent:"#ffe46b",type:"summer"},
+    "bg-gold":{bg:"#5b3a0b",accent:"#ffe08a",type:"gold"}
+  };
+  const scene=scenes[item.id] ?? scenes["bg-default"];
+  const rect=(x:number,y:number,w:number,h:number,fill:string,rx=0)=>"<rect x="+x+" y="+y+" width="+w+" height="+h+" rx="+rx+" fill=\""+fill+"\"/>";
+  const circle=(cx:number,cy:number,r:number,fill:string)=>"<circle cx="+cx+" cy="+cy+" r="+r+" fill=\""+fill+"\"/>";
+  const path=(d:string,fill:string,stroke="",sw=0)=>"<path d=\""+d+"\" fill=\""+fill+"\""+(stroke?" stroke=\""+stroke+"\" stroke-width=\""+sw+"\"":"")+"/>";
+  const line=(x1:number,y1:number,x2:number,y2:number,stroke:string,sw:number)=>"<line x1="+x1+" y1="+y1+" x2="+x2+" y2="+y2+" stroke=\""+stroke+"\" stroke-width=\""+sw+"\"/>";
+  const star=(x:number,y:number,s:number,color=scene.accent)=>path("M"+x+" "+(y-s)+" L"+(x+s*.22)+" "+(y-s*.22)+" L"+(x+s)+" "+y+" L"+(x+s*.22)+" "+(y+s*.22)+" L"+x+" "+(y+s)+" L"+(x-s*.22)+" "+(y+s*.22)+" L"+(x-s)+" "+y+" L"+(x-s*.22)+" "+(y-s*.22)+"Z",color);
+  const tree=(x:number,y:number,s:number,color:string)=>rect(x-s*.08,y+s*.15,s*.16,s*.7,"#33251c",3)+path("M"+x+" "+(y-s*.65)+" L"+(x-s*.45)+" "+y+" H"+(x-s*.18)+" L"+(x-s*.55)+" "+(y+s*.38)+" H"+(x+s*.55)+" L"+(x+s*.18)+" "+y+" H"+(x+s*.45)+"Z",color);
+
+  let art=rect(0,0,400,300,scene.bg);
+  switch(scene.type){
+    case "night":
+      art+=circle(292,70,32,"#fff1b8")+circle(307,60,30,scene.bg);
+      art+=star(55,48,5)+star(100,88,3)+star(160,43,4)+star(225,100,3)+star(350,42,5)+star(365,120,3);
+      art+=path("M0 174 Q80 120 150 168 T300 156 T400 168 V300 H0Z","#111936")+path("M0 220 Q100 185 190 220 T400 210 V300 H0Z","#080d22");
+      art+=rect(30,214,64,38,"#251b4c",4)+line(45,218,45,252,"#6b4aa0",3)+line(78,218,78,252,"#6b4aa0",3);
+      break;
+    case "sky":
+      art+=circle(82,68,30,"#ffd77a")+path("M0 165 Q55 120 112 160 T220 152 T330 165 T400 148 V300 H0Z","#6d3d91")+path("M0 205 Q80 176 160 207 T310 198 T400 205 V300 H0Z","#29194e");
+      art+=path("M42 96 q20-22 40 0 q20-22 40 0 q-8 18-40 18 q-32 0-40-18Z","#f0d9ff")+path("M230 72 q18-20 36 0 q18-20 36 0 q-7 16-36 16 q-29 0-36-16Z","#ffffff");
+      art+=star(340,75,5)+star(190,52,4);
+      break;
+    case "sunset":
+      art+=circle(200,138,47,"#ffd36b")+path("M0 174 Q80 145 160 176 T320 166 T400 174 V300 H0Z","#472052")+path("M0 205 Q90 180 180 208 T350 200 T400 205 V300 H0Z","#1b1231");
+      art+=path("M65 175 q25-35 50 0 v75 H65Z","#26162f")+line(75,190,105,190,"#a25d78",3)+line(75,208,105,208,"#a25d78",3)+line(75,226,105,226,"#a25d78",3);
+      art+=star(50,65,4,"#ffe9a3")+star(335,72,5,"#ffe9a3");
+      break;
+    case "forest":
+      art+=circle(305,70,35,"#d5ffb8")+tree(65,142,85,"#0e654d")+tree(135,128,110,"#157a58")+tree(220,145,90,"#0c5a49")+tree(320,125,115,"#1a7655")+tree(380,150,80,"#0b5545");
+      art+=path("M0 215 Q100 180 200 215 T400 205 V300 H0Z","#082c2d")+path("M170 300 Q190 235 205 190 Q220 235 245 300Z","#142a28");
+      art+=star(40,65,4)+star(255,48,4)+star(355,95,3);
+      break;
+    case "city":
+      art+=circle(330,55,28,"#c7f6ff")+rect(20,115,55,135,"#1d2455",3)+rect(86,82,70,168,"#1d2455",3)+rect(168,128,48,122,"#1d2455",3)+rect(225,65,72,185,"#1d2455",3)+rect(307,105,65,145,"#1d2455",3);
+      [[35,135],[60,135],[100,105],[127,105],[100,130],[127,130],[240,92],[267,92],[240,120],[321,130],[347,130]].forEach(([x,y])=>art+=rect(x,y,10,8,scene.accent,1));
+      art+=rect(0,248,400,52,"#070918")+line(0,270,400,270,scene.accent,3)+star(50,55,4);
+      break;
+    case "temple":
+      art+=circle(310,58,30,"#ffdca8")+path("M35 125 L200 60 L365 125Z","#15101d")+rect(20,125,360,17,"#b43e4f")+line(45,112,355,112,"#f08b70",7);
+      art+=line(72,125,72,225,"#d85a62",12)+line(120,125,120,225,"#d85a62",12)+line(280,125,280,225,"#d85a62",12)+line(328,125,328,225,"#d85a62",12);
+      art+=path("M95 220 V145 Q200 92 305 145 V220Z","#211427","#e06b65",8)+path("M55 230 Q200 190 345 230 V300 H55Z","#17101b");
+      art+=circle(78,158,7,"#ffb35c")+circle(322,158,7,"#ffb35c")+star(170,45,4);
+      break;
+    case "beach":
+      art+=circle(80,70,38,"#ffe27a")+path("M0 175 Q80 145 160 175 T320 170 T400 180 V300 H0Z","#d6b35f")+path("M0 208 Q90 180 180 208 T400 200 V300 H0Z","#08758c")+path("M0 226 Q90 205 180 226 T400 218","none","#8fe5e4",7);
+      art+=path("M315 92 q-18-32-8-52 q22 27 15 52 q20-28 32-35 q3 30-24 44Z","#1b704f")+rect(326,90,8,100,"#79512d");
+      art+=path("M30 105 q20-18 40 0 q20-18 40 0","none","#fff",4);
+      break;
+    case "winter":
+      art+=circle(310,62,34,"#eefaff")+path("M0 200 L75 105 L145 200 L215 82 L315 200 L365 125 L430 205 V300 H0Z","#d9eff8")+path("M0 228 Q100 200 200 230 T400 220 V300 H0Z","#9fc8df")+path("M0 258 Q100 238 200 260 T400 250 V300 H0Z","#eaf8ff");
+      art+=star(45,55,4,"#fff")+star(115,90,3,"#fff")+star(200,48,4,"#fff")+star(355,100,4,"#fff");
+      art+=line(55,238,67,193,"#244e60",7)+line(67,238,79,193,"#244e60",7)+line(345,240,355,202,"#244e60",7)+line(355,240,365,202,"#244e60",7);
+      break;
+    case "kitsune":
+      art+=circle(300,65,32,"#ffd7a0")+path("M0 205 Q80 175 150 205 T300 200 T400 210 V300 H0Z","#34162d")+path("M70 225 L130 130 L190 225Z","#1d1326")+path("M80 210 L130 155 L180 210","none","#d85a43",10)+line(105,225,105,300,"#8d3b3d",12)+line(155,225,155,300,"#8d3b3d",12);
+      art+=path("M250 180 Q220 140 245 105 Q270 140 260 170 Q290 145 310 150 Q295 185 270 188Z","#ff8b3d")+path("M20 70 Q40 45 60 70 M60 70 Q80 45 100 70","none","#f6b0a4",4);
+      break;
+    case "space":
+      art+=circle(315,75,40,"#e8ddff")+circle(300,65,40,scene.bg)+circle(115,165,30,"#6b58c9")+path("M53 165 Q115 140 177 165 Q115 190 53 165Z","none",scene.accent,7)+path("M40 165 Q115 138 190 165 Q115 192 40 165Z","none","#d7caff",2);
+      art+=star(45,50,5)+star(180,50,4)+star(235,115,3)+star(350,140,5)+star(270,215,4)+star(65,220,3)+circle(345,210,18,"#9c72e8");
+      break;
+    case "dreams":
+      art+=path("M0 195 Q70 145 140 195 T280 190 T400 200 V300 H0Z","#392b61")+path("M58 105 q22-28 44 0 q22-28 44 0 q-8 24-44 24 q-36 0-44-24Z","#f5d8ff")+path("M235 82 q20-25 40 0 q20-25 40 0 q-7 21-40 21 q-33 0-40-21Z","#f5d8ff");
+      art+=path("M200 155 l10 25 27 2-21 17 7 26-23-14-23 14 7-26-21-17 27-2Z",scene.accent)+circle(105,55,18,"#ffd66b")+star(330,55,5)+star(165,80,3);
+      break;
+    case "aurora":
+      art+=path("M0 125 Q70 45 140 125 T280 120 T400 125 L400 0 H0Z","#0d6f70")+path("M40 160 Q110 35 180 160 T320 150 T400 170","none","#77ffd3",22)+path("M80 155 Q150 55 220 155 T360 150","none","#b7a0ff",15);
+      art+=tree(65,175,90,"#0a3538")+tree(155,165,105,"#0a3035")+tree(330,172,95,"#0a3437")+path("M0 230 Q100 200 200 230 T400 220 V300 H0Z","#061f2b")+star(280,48,4);
+      break;
+    case "halloween":
+      art+=circle(310,65,34,"#ffd36e")+path("M0 205 Q100 175 200 205 T400 200 V300 H0Z","#120b18")+path("M65 205 C45 160 70 125 105 110 C140 125 155 165 135 205Z","#1d111e")+path("M82 165 l23-35 23 35","none","#ff873d",5)+line(84,178,94,178,"#ffbd57",5)+line(113,178,123,178,"#ffbd57",5)+path("M210 180 q25-45 50 0 q25-45 50 0","none","#e0a1ff",5)+star(50,65,5,"#ff9d3d");
+      break;
+    case "festival":
+      art+=path("M0 120 Q200 165 400 120","none","#f8b6df",4)+path("M35 125 l18 30 18-30 M115 138 l18 30 18-30 M295 138 l18 30 18-30 M355 125 l18 30 18-30","none","#ffd166",4);
+      art+=rect(70,190,50,80,"#261235")+rect(280,180,50,90,"#261235")+path("M65 190 L95 165 L125 190Z","#e35b78")+path("M275 180 L305 150 L335 180Z","#e35b78")+circle(200,105,22,"#ffdc72")+star(45,55,5)+star(355,65,5);
+      break;
+    case "summer":
+      art+=circle(82,65,38,"#ffe36f")+path("M0 185 Q100 155 200 185 T400 178 V300 H0Z","#d5b35c")+path("M0 210 Q100 190 200 212 T400 205 V300 H0Z","#08758c")+path("M305 100 q-22-40-10-60 q28 32 17 60 q26-30 40-34 q0 34-29 48Z","#23865e")+rect(320,90,9,115,"#79512d")+path("M25 115 q22-20 44 0 q22-20 44 0","none","#fff",4);
+      break;
+    case "gold":
+      art+=circle(200,112,64,"#ffd86a")+circle(200,112,38,"#fff0a3")+path("M0 210 Q100 175 200 210 T400 205 V300 H0Z","#321b09")+path("M115 210 L200 155 L285 210","none","#f5c34f",12)+line(145,210,145,270,"#d49a2e",12)+line(255,210,255,270,"#d49a2e",12)+star(55,70,6)+star(340,65,7)+star(85,145,4)+star(320,150,4);
+      break;
+  }
+
+  const svg="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 300\" preserveAspectRatio=\"xMidYMid slice\">"+art+"</svg>";
+  const src="data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);
+  return <img src={src} alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full object-cover"/>;
+}
 function EffectArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
   if(item.id==="effect-none") return null;
   const symbols:Record<string,string[]> = {
@@ -515,7 +594,7 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
 }
 
 function CosmeticThumbnail({item,category,selected}:{item:Cosmetic;category:Category;selected:boolean}) {
-  return <div className="relative h-[148px] overflow-hidden rounded-xl border border-violet-300/20 bg-[#08081d] shadow-[inset_0_0_22px_rgba(139,92,246,.12)] sm:h-[158px]">
+  return <div className={category==="backgrounds" ? "relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-violet-300/20 bg-[#08081d] shadow-[inset_0_0_22px_rgba(139,92,246,.12)]" : "relative h-[148px] overflow-hidden rounded-xl border border-violet-300/20 bg-[#08081d] shadow-[inset_0_0_22px_rgba(139,92,246,.12)] sm:h-[158px]"}>
     {category==="backgrounds" && <><BackgroundArt item={item} large/><div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/70 to-transparent"/><div className="absolute inset-x-2 bottom-2 rounded-lg border border-white/15 bg-black/25 px-2 py-1 text-center text-[9px] font-black text-white/90 backdrop-blur-sm">CENÁRIO</div></></>}
     {category==="frames" && <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_center,rgba(139,92,246,.22),transparent_62%)]"><div className="relative h-36 w-36 sm:h-40 sm:w-40"><div className="absolute inset-[18%] z-0 flex items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#09071a] text-5xl shadow-[0_0_24px_rgba(139,92,246,.35)]">{item.id==="frame-neko-ears"?"🐱":"🐾"}</div><FrameArt item={item} large/></div></div>}
     {category==="effects" && <><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,.28),transparent_58%)]"/><div className="absolute inset-0 flex items-center justify-center"><span className="text-5xl drop-shadow-[0_0_14px_rgba(255,255,255,.55)]">{item.id==="effect-none"?"∅":"🐱"}</span><EffectArt item={item} large/></div></>}
