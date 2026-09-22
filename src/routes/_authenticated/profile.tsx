@@ -253,19 +253,109 @@ function ProfilePage() {
 
 function ProfileHero({profile,level,frame,background,effect,badge,premium,plus}:{profile:Profile;level:ReturnType<typeof getLevelProgress>;frame:Cosmetic;background:Cosmetic;effect:Cosmetic;badge:Cosmetic;premium:boolean;plus:boolean}) {
   const displayName=profile.name??"Neko";
-  return <div className={`relative overflow-hidden rounded-[2rem] p-5 text-white shadow-soft ${background.className}`}>
-    <div className="absolute inset-0 bg-black/15"/>
-    <div className="relative flex flex-col items-center text-center">
-      <div className="relative flex h-36 w-36 items-center justify-center">
-        <div className={`absolute inset-1 rounded-full ${frame.className} ${frame.id==="frame-default"?"border-2 border-white/50":""}`}/>
-        <div className={`absolute inset-0 flex items-center justify-center text-3xl ${effect.className}`}>{effect.emoji}</div>
-        <div className="relative z-10 rounded-full"><ProfileAvatar name={profile.name} url={profile.avatar_url} size={104}/></div>
-        <div className="absolute -bottom-1 -right-1 z-20 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/30 bg-black/35 text-2xl backdrop-blur">{badge.emoji}</div>
+  const username=profile.username || displayName.toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,24) || "nekouser";
+  return <div className="relative overflow-hidden rounded-[2rem] border border-fuchsia-300/20 bg-[#120b35] text-white shadow-[0_0_35px_rgba(124,58,237,.22)]">
+    <BackgroundArt item={background} large/>
+    <div className="absolute inset-0 bg-gradient-to-b from-[#08051d]/15 via-transparent to-[#08051d]/70"/>
+    <div className="relative flex flex-col items-center px-4 pb-5 pt-6 text-center">
+      <div className="relative flex h-40 w-40 items-center justify-center">
+        <EffectArt item={effect} large/>
+        <FrameArt item={frame} large/>
+        <div className="relative z-20 rounded-full p-1.5">
+          <ProfileAvatar name={profile.name} url={profile.avatar_url} size={112}/>
+        </div>
+        <div className="absolute -bottom-1 -right-1 z-30 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/40 bg-[#24104f]/95 text-2xl shadow-[0_0_18px_rgba(217,70,239,.55)]">{badge.emoji}</div>
       </div>
-      <div className="mt-3 text-2xl font-black">{displayName}</div>
-      <div className="text-sm font-bold opacity-80">@{profile.username || displayName.toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,24) || "nekouser"}</div>
-      <div className="mt-2 flex items-center gap-2"><span className="rounded-full bg-white/15 px-3 py-1 text-xs font-black">Nível {level.level}</span>{plus&&<span className="rounded-full bg-yellow-400/20 px-2 py-1 text-xs">💎 PLUS</span>}{premium&&!plus&&<span className="rounded-full bg-yellow-400/20 px-2 py-1 text-xs">👑 PREMIUM</span>}</div>
+      <div className="mt-3 text-2xl font-black drop-shadow-lg">{displayName}</div>
+      <div className="text-sm font-bold text-white/75">@{username}</div>
+      <div className="mt-2 flex items-center gap-2">
+        <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-black">Nível {level.level}</span>
+        {plus&&<span className="rounded-full border border-fuchsia-300/30 bg-fuchsia-500/20 px-2.5 py-1 text-xs font-black text-fuchsia-100">💎 PLUS</span>}
+        {premium&&!plus&&<span className="rounded-full border border-yellow-300/30 bg-yellow-500/15 px-2.5 py-1 text-xs font-black text-yellow-100">👑 PREMIUM</span>}
+      </div>
     </div>
+  </div>;
+}
+
+function FrameArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
+  const symbols:Record<string,string[]> = {
+    "frame-default":["✦","✦"],
+    "frame-gold":["✦","◆","✦","◆"],
+    "frame-sakura":["🌸","🌸","🌸","🌸","🌸","🌸"],
+    "frame-galaxy":["✦","·","✧","·","✦","·"],
+    "frame-neko-ears":["🐾","🐾","✦"],
+    "frame-hearts":["♥","♡","♥","♡","♥","♡"],
+    "frame-winter":["❄","✧","❄","✧","❄","✧"],
+    "frame-demon":["♠","◆","♠","◆","♠"],
+    "frame-samurai":["⚔","◆","⚔","◆"],
+    "frame-star":["★","✦","★","✦","★"],
+    "frame-summer":["☀","✿","☀","✿"],
+    "frame-halloween":["🎃","🕸","🎃","🕸"],
+    "frame-birthday":["🎂","🎈","🎂","🎈"],
+    "frame-dark-purple":["✦","☾","✦","☾","✦"],
+    "frame-space-neko":["🚀","✦","🪐","✦"],
+    "frame-royal-gold":["♛","✦","♛","✦"]
+  };
+  const list=symbols[item.id]??["✦","✦","✦"];
+  const size=large?156:82;
+  return <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center" style={{width:size,height:size,left:"50%",top:"50%",transform:"translate(-50%,-50%)"}}>
+    <div className={`absolute inset-[5%] rounded-full border-[3px] ${item.id==="frame-gold"||item.id==="frame-star"||item.id==="frame-royal-gold"?"border-yellow-300 shadow-[0_0_12px_rgba(250,204,21,.9)]":item.id==="frame-sakura"||item.id==="frame-hearts"||item.id==="frame-birthday"?"border-pink-300 shadow-[0_0_12px_rgba(244,114,182,.8)]":item.id==="frame-winter"?"border-sky-200 shadow-[0_0_12px_rgba(125,211,252,.8)]":"border-violet-300 shadow-[0_0_14px_rgba(168,85,247,.75)]"}`}/>
+    <div className="absolute inset-[10%] rounded-full border border-white/35"/>
+    {list.map((s,i)=>{
+      const angle=(360/list.length)*i-90;
+      return <span key={i} className="absolute text-[12px] drop-shadow-[0_0_5px_rgba(255,255,255,.8)] sm:text-base" style={{left:`${50+43*Math.cos(angle*Math.PI/180)}%`,top:`${50+43*Math.sin(angle*Math.PI/180)}%`,transform:"translate(-50%,-50%)"}}>{s}</span>;
+    })}
+  </div>;
+}
+
+function BackgroundArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
+  const scenes:Record<string,{sky:string;ground:string;objects:string[]}> = {
+    "bg-default":{sky:"from-[#391078] via-[#6416a1] to-[#15052f]",ground:"from-[#220743] to-[#09051b]",objects:["✦","✧","🌙"]},
+    "bg-night":{sky:"from-[#07122e] via-[#17145a] to-[#2b0d56]",ground:"from-[#0b102b] to-[#050817]",objects:["🌙","✦","✦","☁️"]},
+    "bg-purple-sky":{sky:"from-[#1b145d] via-[#6522a9] to-[#e052cf]",ground:"from-[#35105f] to-[#12082c]",objects:["☁️","☁️","✦","✧"]},
+    "bg-sunset":{sky:"from-[#ff7a45] via-[#df3f83] to-[#4b187f]",ground:"from-[#6b1e58] to-[#16082d]",objects:["☀️","☁️","✦"]},
+    "bg-magic-forest":{sky:"from-[#071d2b] via-[#164f55] to-[#402067]",ground:"from-[#061f24] to-[#120821]",objects:["🌲","🌲","✨","🌿"]},
+    "bg-neon-city":{sky:"from-[#080c25] via-[#3a105d] to-[#091e55]",ground:"from-[#060817] to-[#12082e]",objects:["🌃","▥","▥","✦"]},
+    "bg-japanese-temple":{sky:"from-[#160d35] via-[#54143e] to-[#110a25]",ground:"from-[#160c22] to-[#05050f]",objects:["⛩️","🌸","🏮","🌙"]},
+    "bg-beach":{sky:"from-[#25c8ed] via-[#54e3df] to-[#f8c76b]",ground:"from-[#087c9c] to-[#174d6a]",objects:["☀️","🌴","🌊","🏝️"]},
+    "bg-winter":{sky:"from-[#193c66] via-[#6bbbe4] to-[#e7f7ff]",ground:"from-[#aacfe8] to-[#526d94]",objects:["❄️","❄️","🏔️","✧"]},
+    "bg-kitsune":{sky:"from-[#351044] via-[#a52d45] to-[#f28a35]",ground:"from-[#42172d] to-[#13081e]",objects:["🦊","⛩️","🌙","🔥"]},
+    "bg-space":{sky:"from-[#02020b] via-[#111044] to-[#2a0c55]",ground:"from-[#03030c] to-[#0c0622]",objects:["🪐","🌌","✦","✧"]},
+    "bg-dreams":{sky:"from-[#4b126c] via-[#b342b5] to-[#49a9dd]",ground:"from-[#35104d] to-[#0b1731]",objects:["☁️","💫","🌙","✦"]},
+    "bg-aurora":{sky:"from-[#063f46] via-[#087b83] to-[#4a247f]",ground:"from-[#05252f] to-[#12072b]",objects:["🌈","✦","🌲","✧"]},
+    "bg-halloween":{sky:"from-[#050509] via-[#3c1035] to-[#8c2b16]",ground:"from-[#12050d] to-[#050307]",objects:["🎃","🕸","🌙","🦇"]},
+    "bg-festival":{sky:"from-[#16114f] via-[#a52972] to-[#f0a33c]",ground:"from-[#24103c] to-[#100719]",objects:["🎆","🏮","✨","🎇"]},
+    "bg-summer":{sky:"from-[#4bd7ff] via-[#39cfe2] to-[#ffd84f]",ground:"from-[#05758e] to-[#0b526d]",objects:["☀️","🌴","🌊","🕊️"]},
+    "bg-gold":{sky:"from-[#3b1d05] via-[#b27612] to-[#ffe59a]",ground:"from-[#4b2607] to-[#120a03]",objects:["✨","👑","💎","✦"]}
+  };
+  const scene=scenes[item.id]??scenes["bg-default"];
+  return <div className={`pointer-events-none absolute inset-0 overflow-hidden bg-gradient-to-br ${scene.sky}`}>
+    <div className={`absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t ${scene.ground}`}/>
+    <div className="absolute -left-10 top-1/4 h-24 w-32 rounded-full bg-white/10 blur-2xl"/>
+    {scene.objects.map((o,i)=><span key={i} className={`absolute text-2xl opacity-90 drop-shadow-[0_2px_8px_rgba(255,255,255,.35)] ${large?"sm:text-3xl":""}`} style={{left:`${10+(i*23)%78}%`,top:`${12+(i*19)%65}%`}}>{o}</span>)}
+    <div className="absolute inset-0 opacity-35" style={{backgroundImage:"radial-gradient(circle,rgba(255,255,255,.6) 1px,transparent 1px)",backgroundSize:"22px 22px"}}/>
+  </div>;
+}
+
+function EffectArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
+  if(item.id==="effect-none") return null;
+  const symbols:Record<string,string[]> = {
+    "effect-basic":["✦","✧","✦"],
+    "effect-sakura":["🌸","🌸","🌸","🌸","🌸"],
+    "effect-stars":["⭐","✦","✧","⭐","✦"],
+    "effect-gold-aura":["✨","💛","✨","💛"],
+    "effect-butterflies":["🦋","🦋","🦋"],
+    "effect-blue-flames":["🔥","🔥","🔥"],
+    "effect-neko-ears":["🐾","🐾"],
+    "effect-snow":["❄️","❄️","❄️","❄️","❄️"],
+    "effect-space":["🪐","✦","🌌","✧"],
+    "effect-hearts":["💖","💗","💕","💖"],
+    "effect-royal-aura":["👑","✨","👑","✨"]
+  };
+  const list=symbols[item.id]??["✦","✦"];
+  return <div className={`pointer-events-none absolute inset-0 z-25 ${large?"":"scale-[.82]"}`}>
+    <div className={`absolute left-1/2 top-1/2 h-[88%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-full border ${item.id.includes("gold")||item.id.includes("royal")?"border-yellow-300/60 shadow-[0_0_28px_rgba(250,204,21,.35)]":"border-fuchsia-300/30 shadow-[0_0_24px_rgba(217,70,239,.3)]"} animate-pulse`}/>
+    {list.map((s,i)=>{const angle=(360/list.length)*i-90;return <span key={i} className="absolute text-lg drop-shadow-[0_0_8px_rgba(255,255,255,.8)] sm:text-2xl" style={{left:`${50+48*Math.cos(angle*Math.PI/180)}%`,top:`${50+48*Math.sin(angle*Math.PI/180)}%`,transform:"translate(-50%,-50%)"}}>{s}</span>})}
   </div>;
 }
 
@@ -396,30 +486,15 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
 }
 
 function CosmeticThumbnail({item,category,selected}:{item:Cosmetic;category:Category;selected:boolean}) {
-  if (category==="backgrounds") {
-    return <div className={`relative flex h-24 items-center justify-center overflow-hidden rounded-xl border border-white/10 ${item.className}`}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,.35),transparent_28%),radial-gradient(circle_at_75%_70%,rgba(217,70,239,.25),transparent_32%)]"/>
-      <span className="relative text-4xl drop-shadow-[0_2px_5px_rgba(0,0,0,.6)]">{item.emoji}</span>
-      {selected && <span className="absolute right-1.5 top-1.5 rounded-full bg-cyan-400 p-1 text-slate-950"><Check className="h-3 w-3"/></span>}
-    </div>;
-  }
-
-  if (category==="frames") {
-    return <div className="relative flex h-24 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#15152f] via-[#24104c] to-[#09091d]">
-      <div className={`flex h-16 w-16 items-center justify-center rounded-full border-4 ${item.className} bg-[#0b0b20] shadow-[0_0_18px_rgba(168,85,247,.35)]`}>
-        <span className="text-3xl">{item.emoji}</span>
-      </div>
-      {selected && <span className="absolute right-1.5 top-1.5 rounded-full bg-cyan-400 p-1 text-slate-950"><Check className="h-3 w-3"/></span>}
-    </div>;
-  }
-
-  return <div className="relative flex h-24 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#15152f] via-[#28104d] to-[#09091d]">
-    <div className={`absolute inset-3 rounded-full border border-fuchsia-400/20 ${item.className}`}/>
-    <span className={`relative text-4xl drop-shadow-[0_0_12px_rgba(217,70,239,.65)] ${item.className}`}>{item.emoji}</span>
-    {category==="badges" && <span className="absolute bottom-2 rounded-full bg-black/45 px-2 py-0.5 text-[8px] font-black text-white/80">EMBLEMA</span>}
-    {selected && <span className="absolute right-1.5 top-1.5 rounded-full bg-cyan-400 p-1 text-slate-950"><Check className="h-3 w-3"/></span>}
+  return <div className="relative h-[112px] overflow-hidden rounded-xl border border-violet-300/15 bg-[#08081d]">
+    {category==="backgrounds" && <BackgroundArt item={item}/>}
+    {category==="frames" && <div className="absolute inset-0 flex items-center justify-center"><div className="relative h-24 w-24"><FrameArt item={item}/><div className="absolute inset-[20%] z-0 flex items-center justify-center rounded-full bg-[#0b0820] text-3xl">{item.id==="frame-neko-ears"?"🐱":"🐾"}</div></div></div>}
+    {category==="effects" && <><div className="absolute inset-0 bg-gradient-to-br from-[#16103a] via-[#25104c] to-[#070719]"/><div className="absolute inset-0 flex items-center justify-center"><span className="text-4xl">{item.id==="effect-none"?"∅":"🐱"}</span><EffectArt item={item}/></div></>}
+    {category==="badges" && <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#171044] to-[#070719]"><div className="flex h-20 w-20 items-center justify-center rounded-full border border-fuchsia-300/30 bg-gradient-to-br from-violet-700/50 to-fuchsia-500/20 text-4xl shadow-[0_0_22px_rgba(168,85,247,.3)]">{item.emoji}</div><div className="absolute inset-3 rounded-full border border-yellow-300/20"/></div>}
+    {selected && <span className="absolute right-2 top-2 z-40 rounded-full bg-cyan-300 p-1 text-slate-950 shadow-[0_0_12px_rgba(34,211,238,.8)]"><Check className="h-3 w-3"/></span>}
   </div>;
 }
+
 
 function MiniStat({icon,value,label}:{icon:string;value:number|string;label:string}) {
   return <div className="rounded-xl border border-white/10 bg-black/20 p-1.5 text-center">
