@@ -338,8 +338,8 @@ function BackgroundArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
   return <div className={`pointer-events-none absolute inset-0 overflow-hidden bg-gradient-to-br ${scene.sky}`}>
     <div className={`absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t ${scene.ground}`}/>
     <div className="absolute -left-10 top-1/4 h-24 w-32 rounded-full bg-white/10 blur-2xl"/>
-    {scene.objects.map((o,i)=><span key={i} className={`absolute text-2xl opacity-90 drop-shadow-[0_2px_8px_rgba(255,255,255,.35)] ${large?"sm:text-3xl":""}`} style={{left:`${10+(i*23)%78}%`,top:`${12+(i*19)%65}%`}}>{o}</span>)}
-    <div className="absolute inset-0 opacity-35" style={{backgroundImage:"radial-gradient(circle,rgba(255,255,255,.6) 1px,transparent 1px)",backgroundSize:"22px 22px"}}/>
+    {scene.objects.map((o,i)=><span key={i} className={`absolute opacity-95 drop-shadow-[0_2px_10px_rgba(255,255,255,.45)] ${large?"text-4xl sm:text-5xl":"text-2xl"}`} style={{left:`${8+(i*23)%80}%`,top:`${8+(i*19)%68}%`,transform:`translate(-50%,-50%) rotate(${(i%2===0?-1:1)*(4+i*3)}deg)`}}>{o}</span>)}
+    <div className="absolute inset-0 opacity-30" style={{backgroundImage:"radial-gradient(circle,rgba(255,255,255,.7) 1px,transparent 1px)",backgroundSize:"20px 20px"}}/><div className="absolute inset-x-0 bottom-0 h-[42%] bg-[linear-gradient(to_top,rgba(3,3,15,.82),transparent)]"/><div className="absolute inset-x-3 bottom-3 h-2 rounded-full bg-white/10 blur-md"/>
   </div>;
 }
 
@@ -361,7 +361,7 @@ function EffectArt({item,large=false}:{item:Cosmetic;large?:boolean}) {
   const list=symbols[item.id]??["✦","✦"];
   return <div className={`pointer-events-none absolute inset-0 z-25 ${large?"":"scale-[.82]"}`}>
     <div className={`absolute left-1/2 top-1/2 h-[88%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-full border ${item.id.includes("gold")||item.id.includes("royal")?"border-yellow-300/60 shadow-[0_0_28px_rgba(250,204,21,.35)]":"border-fuchsia-300/30 shadow-[0_0_24px_rgba(217,70,239,.3)]"} animate-pulse`}/>
-    {list.map((s,i)=>{const angle=(360/list.length)*i-90;return <span key={i} className="absolute text-lg drop-shadow-[0_0_8px_rgba(255,255,255,.8)] sm:text-2xl" style={{left:`${50+48*Math.cos(angle*Math.PI/180)}%`,top:`${50+48*Math.sin(angle*Math.PI/180)}%`,transform:"translate(-50%,-50%)"}}>{s}</span>})}
+    {list.map((s,i)=>{const angle=(360/list.length)*i-90;return <span key={i} className={`absolute drop-shadow-[0_0_10px_rgba(255,255,255,.9)] ${large?"text-3xl sm:text-4xl":"text-lg sm:text-2xl"}`} style={{left:`${50+48*Math.cos(angle*Math.PI/180)}%`,top:`${50+48*Math.sin(angle*Math.PI/180)}%`,transform:"translate(-50%,-50%)"}}>{s}</span>})}
   </div>;
 }
 
@@ -482,7 +482,7 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
               )}
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4">
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
               {items.map(item=>{
                 const unlocked=canUse(item);
                 const selectedNow=selected[category]===item.id;
@@ -515,10 +515,10 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
 }
 
 function CosmeticThumbnail({item,category,selected}:{item:Cosmetic;category:Category;selected:boolean}) {
-  return <div className="relative h-[112px] overflow-hidden rounded-xl border border-violet-300/15 bg-[#08081d]">
+  return <div className="relative h-[148px] overflow-hidden rounded-xl border border-violet-300/20 bg-[#08081d] shadow-[inset_0_0_22px_rgba(139,92,246,.12)] sm:h-[158px]">
     {category==="backgrounds" && <BackgroundArt item={item}/>}
-    {category==="frames" && <div className="absolute inset-0 flex items-center justify-center"><div className="relative h-24 w-24"><FrameArt item={item}/><div className="absolute inset-[20%] z-0 flex items-center justify-center rounded-full bg-[#0b0820] text-3xl">{item.id==="frame-neko-ears"?"🐱":"🐾"}</div></div></div>}
-    {category==="effects" && <><div className="absolute inset-0 bg-gradient-to-br from-[#16103a] via-[#25104c] to-[#070719]"/><div className="absolute inset-0 flex items-center justify-center"><span className="text-4xl">{item.id==="effect-none"?"∅":"🐱"}</span><EffectArt item={item}/></div></>}
+    {category==="frames" && <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_center,rgba(139,92,246,.22),transparent_62%)]"><div className="relative h-36 w-36 sm:h-40 sm:w-40"><div className="absolute inset-[18%] z-0 flex items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#09071a] text-5xl shadow-[0_0_24px_rgba(139,92,246,.35)]">{item.id==="frame-neko-ears"?"🐱":"🐾"}</div><FrameArt item={item} large/></div></div>}
+    {category==="effects" && <><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,.28),transparent_58%)]"/><div className="absolute inset-0 flex items-center justify-center"><span className="text-5xl drop-shadow-[0_0_14px_rgba(255,255,255,.55)]">{item.id==="effect-none"?"∅":"🐱"}</span><EffectArt item={item} large/></div></>}
     {category==="badges" && <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#171044] to-[#070719]"><div className="flex h-20 w-20 items-center justify-center rounded-full border border-fuchsia-300/30 bg-gradient-to-br from-violet-700/50 to-fuchsia-500/20 text-4xl shadow-[0_0_22px_rgba(168,85,247,.3)]">{item.emoji}</div><div className="absolute inset-3 rounded-full border border-yellow-300/20"/></div>}
     {selected && <span className="absolute right-2 top-2 z-40 rounded-full bg-cyan-300 p-1 text-slate-950 shadow-[0_0_12px_rgba(34,211,238,.8)]"><Check className="h-3 w-3"/></span>}
   </div>;
