@@ -103,6 +103,9 @@ export async function updateProfile(userId: string, patch: Partial<Profile>) {
     .select()
     .maybeSingle();
   if (error) throw error;
+  if (!data) {
+    throw new Error("Não foi possível salvar o perfil. Verifique sua sessão e tente novamente.");
+  }
   return data as Profile;
 }
 
