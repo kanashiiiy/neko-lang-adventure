@@ -93,6 +93,39 @@ const GOAL_ROWS: Record<Exclude<GoalFamily, "general">, GoalRow[]> = {
   ],
 };
 
+function rowsToCurriculum(rows: GoalRow[], lang: Language): Curriculum {
+  return rows.map(([en, pt, _ja, romaji]) =>
+    lang === "ja" ? [romaji, pt, romaji] : lang === "en" ? [en, pt] : [pt, en]
+  );
+}
+
+const GENERAL_GOAL_ROWS: GoalRow[] = [
+  ...GOAL_ROWS.travel,
+  ...GOAL_ROWS.live,
+  ...GOAL_ROWS.work,
+];
+
+const GOAL_CURRICULUM: Record<Language, Record<GoalFamily, Curriculum>> = {
+  pt: {
+    travel: rowsToCurriculum(GOAL_ROWS.travel, "pt"),
+    live: rowsToCurriculum(GOAL_ROWS.live, "pt"),
+    work: rowsToCurriculum(GOAL_ROWS.work, "pt"),
+    general: rowsToCurriculum(GENERAL_GOAL_ROWS, "pt"),
+  },
+  en: {
+    travel: rowsToCurriculum(GOAL_ROWS.travel, "en"),
+    live: rowsToCurriculum(GOAL_ROWS.live, "en"),
+    work: rowsToCurriculum(GOAL_ROWS.work, "en"),
+    general: rowsToCurriculum(GENERAL_GOAL_ROWS, "en"),
+  },
+  ja: {
+    travel: rowsToCurriculum(GOAL_ROWS.travel, "ja"),
+    live: rowsToCurriculum(GOAL_ROWS.live, "ja"),
+    work: rowsToCurriculum(GOAL_ROWS.work, "ja"),
+    general: rowsToCurriculum(GENERAL_GOAL_ROWS, "ja"),
+  },
+};
+
 type Unit1Row = [pt:string,en:string,ja:string,romaji:string];
 const UNIT1_ROWS: Unit1Row[][] = [[["Olá","Hello","こんにちは","konnichiwa"],["Oi","Hi","やあ","yaa"],["Bom dia","Good morning","おはようございます","ohayou gozaimasu"],["Boa tarde","Good afternoon","こんにちは","konnichiwa"]],[["Até logo","See you later","また後で","mata ato de"],["Até mais","See you","またね","mata ne"],["Obrigado(a)","Thank you","ありがとう","arigatou"],["De nada","You're welcome","どういたしまして","douitashimashite"],["Por favor","Please","お願いします","onegaishimasu"]],[["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],["Como você se chama?","May I ask your name?","何という名前ですか","nan to iu namae desu ka"],["Meu nome é...","My name is...","私は...です","watashi wa desu"],["Eu sou...","I'm...","私の名前は...です","watashi no namae wa desu"]],[["Como você está?","How are you?","お元気ですか","ogenki desu ka"],["Estou bem.","I'm fine.","元気です","genki desu"],["Estou ótimo(a).","I'm great.","すごく元気です","sugoku genki desu"],["Estou muito bem.","I'm very well.","とても元気です","totemo genki desu"]],[["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"],["Muito prazer.","It's a pleasure to meet you.","どうぞよろしくお願いします","douzo yoroshiku onegaishimasu"],["É um prazer conhecer você.","It's nice to meet you.","お会いできてうれしいです","oai dekite ureshii desu"],["Prazer em conhecer você também.","Nice to meet you too.","よろしくお願いします","yoroshiku onegaishimasu"]],[["E você?","And you?","あなたは","anata wa"],["De onde você é?","Where are you from?","どこから来ましたか","doko kara kimashita ka"],["Eu sou do Brasil.","I'm from Brazil.","ブラジルから来ました","burajiru kara kimashita"],["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"]],[["Olá! Meu nome é...","Hello! My name is...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Bom dia! Como você está?","Good morning! How are you?","おはようございます！元気ですか","ohayou gozaimasu genki desu ka"],["Estou bem. E você?","I'm fine. And you?","元気です。あなたは","genki desu anata wa"],["Prazer em conhecer você!","Nice to meet you!","はじめまして！","hajimemashite"],["Meu nome é...","My name is...","私の名前は...です","watashi no namae wa desu"]],[["Olá! Qual é o seu nome?","Hello! What's your name?","こんにちは！お名前は何ですか","konnichiwa onamae wa nan desu ka"],["Meu nome é... Prazer!","My name is... Nice to meet you!","私は...です。はじめまして","watashi wa desu hajimemashite"],["Oi! Como você está?","Hi! How are you?","やあ！元気ですか","yaa genki desu ka"],["Estou ótimo(a), obrigado(a).","I'm great, thank you.","すごく元気です。ありがとう","sugoku genki desu arigatou"],["Prazer em conhecer você também.","Nice to meet you too.","私もよろしくお願いします","watashi mo yoroshiku onegaishimasu"]],[["Bom dia! Meu nome é...","Good morning! My name is...","おはようございます！私は...です","ohayou gozaimasu watashi wa desu"],["Olá! Eu sou...","Hello! I'm...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Como você está? Estou bem.","How are you? I'm fine.","お元気ですか。元気です","ogenki desu ka genki desu"],["De onde você é? Eu sou do Brasil.","Where are you from? I'm from Brazil.","どこから来ましたか。ブラジルから来ました","doko kara kimashita ka burajiru kara kimashita"]],[["Olá! Meu nome é... Prazer em conhecer você.","Hello! My name is... Nice to meet you.","こんにちは！私は...です。はじめまして","konnichiwa watashi wa desu hajimemashite"],["Bom dia! Como você está?","Good morning! How are you?","おはようございます！お元気ですか","ohayou gozaimasu ogenki desu ka"],["Estou muito bem. E você?","I'm very well. And you?","とても元気です。あなたは","totemo genki desu anata wa"],["De onde você é?","Where are you from?","どこから来ましたか","doko kara kimashita ka"],["Prazer! Até mais!","Nice to meet you! See you!","はじめまして！またね","hajimemashite mata ne"]]];
 function unit1Curriculum(lang: Language): Curriculum {
