@@ -596,8 +596,27 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
 function CosmeticThumbnail({item,category,selected}:{item:Cosmetic;category:Category;selected:boolean}) {
   return <div className={category==="backgrounds" ? "relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-violet-300/20 bg-[#08081d] shadow-[inset_0_0_22px_rgba(139,92,246,.12)]" : "relative h-[148px] overflow-hidden rounded-xl border border-violet-300/20 bg-[#08081d] shadow-[inset_0_0_22px_rgba(139,92,246,.12)] sm:h-[158px]"}>
     {category==="backgrounds" && <><BackgroundArt item={item} large/><div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/70 to-transparent"/><div className="absolute inset-x-2 bottom-2 rounded-lg border border-white/15 bg-black/25 px-2 py-1 text-center text-[9px] font-black text-white/90 backdrop-blur-sm">CENÁRIO</div></></>}
-    {category==="frames" && <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_center,rgba(139,92,246,.22),transparent_62%)]"><div className="relative h-36 w-36 sm:h-40 sm:w-40"><div className="absolute inset-[18%] z-0 flex items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#09071a] text-5xl shadow-[0_0_24px_rgba(139,92,246,.35)]">{item.id==="frame-neko-ears"?"🐱":"🐾"}</div><FrameArt item={item} large/></div></div>}
-    {category==="effects" && <><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,.28),transparent_58%)]"/><div className="absolute inset-0 flex items-center justify-center"><span className="text-5xl drop-shadow-[0_0_14px_rgba(255,255,255,.55)]">{item.id==="effect-none"?"∅":"🐱"}</span><EffectArt item={item} large/></div></>}
+    {category === "frames" && (
+      <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_center,rgba(139,92,246,.22),transparent_62%)]">
+        <div className="relative h-36 w-36 sm:h-40 sm:w-40">
+          <div className="absolute inset-[18%] z-0 flex items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#09071a] text-5xl shadow-[0_0_24px_rgba(139,92,246,.35)]">
+            {item.id === "frame-neko-ears" ? "🐱" : "🐾"}
+          </div>
+          <FrameArt item={item} large/>
+        </div>
+      </div>
+    )}
+    {category === "effects" && (
+      <>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,.28),transparent_58%)]"/>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-5xl drop-shadow-[0_0_14px_rgba(255,255,255,.55)]">
+            {item.id === "effect-none" ? "∅" : "🐱"}
+          </span>
+          <EffectArt item={item} large/>
+        </div>
+      </>
+    )}
     {category==="badges" && <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#171044] to-[#070719]"><div className="flex h-20 w-20 items-center justify-center rounded-full border border-fuchsia-300/30 bg-gradient-to-br from-violet-700/50 to-fuchsia-500/20 text-4xl shadow-[0_0_22px_rgba(168,85,247,.3)]">{item.emoji}</div><div className="absolute inset-3 rounded-full border border-yellow-300/20"/></div>}
     {selected && <span className="absolute right-2 top-2 z-40 rounded-full bg-cyan-300 p-1 text-slate-950 shadow-[0_0_12px_rgba(34,211,238,.8)]"><Check className="h-3 w-3"/></span>}
   </div>;
