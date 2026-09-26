@@ -9,4 +9,4 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- Reuse `EntranceFrame` and `EntranceBrand` across unauthenticated entry screens so their visual identity stays consistent.
+- Use the uploaded final artwork directly on `/welcome`; reuse `EntranceFrame` and `EntranceBrand` on the remaining unauthenticated screens.
