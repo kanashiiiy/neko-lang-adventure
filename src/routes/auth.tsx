@@ -1,9 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ArrowLeft, LogIn, Sparkles } from "lucide-react";
 import { z } from "zod";
 import { toast } from "@/lib/neko-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { NekoMascot } from "@/components/NekoMascot";
+import { Button } from "@/components/ui/button";
+import { EntranceBrand, EntranceFrame } from "@/components/EntranceVisual";
 import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/auth")({
@@ -11,6 +13,16 @@ export const Route = createFileRoute("/auth")({
   ssr: false,
   validateSearch: (search: Record<string, unknown>): { mode?: "login" } =>
     search.mode === "login" ? { mode: "login" } : {},
+  head: () => ({
+    meta: [
+      { title: "Entrar ou criar conta | NEKOTeach" },
+      { name: "description", content: "Entre no NEKOTeach ou crie sua conta para aprender idiomas com o Neko." },
+      { property: "og:title", content: "Entrar ou criar conta | NEKOTeach" },
+      { property: "og:description", content: "Entre no NEKOTeach ou crie sua conta para aprender idiomas com o Neko." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
 function AuthPage() {
@@ -141,27 +153,45 @@ function AuthPage() {
   }
 
   return (
-    <div className="mobile-shell px-6 pt-10 pb-8">
-      <div className="flex flex-col items-center text-center">
-        <NekoMascot size={120} float />
-        <h1 className="mt-2 text-3xl font-black">
-          NEKO<span className="text-primary">Teach</span>
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          {mode === "signup" ? t("Crie sua conta grátis") : mode === "forgot" ? t("Recupere sua senha") : t("Entre para continuar")}
+    <EntranceFrame>
+      <div className="px-5 pb-8 pt-4">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          aria-label={t("Voltar")}
+          onClick={() => mode === "forgot" ? setMode("login") : navigate({ to: "/welcome" })}
+          className="relative z-20 rounded-full text-primary hover:bg-accent"
+        >
+          <ArrowLeft className="size-5" />
+        </Button>
+
+        <div className="entrance-hero -mt-4">
+          <EntranceBrand compact greeting={mode === "signup" ? t("Olá!") : undefined} />
+        </div>
+        <div className="mt-1 text-center">
+          <h2 className="text-xl font-black text-foreground">
+            {mode === "signup" ? t("Crie sua conta grátis") : mode === "forgot" ? t("Recupere sua senha") : t("Bem-vindo de volta!")}
+          </h2>
+          <p className="mt-1 text-sm font-semibold text-muted-foreground">
+            {mode === "signup" ? t("Aprenda idiomas de forma divertida com a Neko.") : mode === "forgot" ? t("Enviaremos um link de redefinição para o seu e-mail.") : t("Entre para continuar")}
         </p>
       </div>
 
       {!loginOnly && mode !== "forgot" && (
-        <div className="mt-6 grid grid-cols-2 gap-1 rounded-2xl bg-muted p-1">
-          <button
+        <div className="mt-5 grid grid-cols-2 gap-1 rounded-2xl border border-primary/10 bg-muted p-1">
+          <Button
+            type="button"
+            variant="ghost"
             onClick={() => setMode("login")}
-            className={`rounded-xl py-2 text-sm font-bold transition ${mode === "login" ? "bg-card shadow-card text-foreground" : "text-muted-foreground"}`}
-          >{t("Entrar")}</button>
-          <button
+            className={`h-10 rounded-xl text-sm font-black transition ${mode === "login" ? "bg-card shadow-card text-primary hover:bg-card" : "text-muted-foreground"}`}
+          >{t("Entrar")}</Button>
+          <Button
+            type="button"
+            variant="ghost"
             onClick={() => setMode("signup")}
-            className={`rounded-xl py-2 text-sm font-bold transition ${mode === "signup" ? "bg-card shadow-card text-foreground" : "text-muted-foreground"}`}
-          >{t("Cadastrar")}</button>
+            className={`h-10 rounded-xl text-sm font-black transition ${mode === "signup" ? "bg-card shadow-card text-primary hover:bg-card" : "text-muted-foreground"}`}
+          >{t("Cadastrar")}</Button>
         </div>
       )}
 
@@ -169,10 +199,10 @@ function AuthPage() {
         <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-3">
           <Field name="email" type="email" placeholder="seu@email.com" label={t("E-mail")} autoComplete="email" />
           <Field name="password" type="password" placeholder={t("Sua senha")} label={t("Senha")} autoComplete="current-password" />
-          <button type="button" onClick={() => setMode("forgot")} className="self-end text-xs font-semibold text-primary">
+          <Button type="button" variant="link" onClick={() => setMode("forgot")} className="h-auto self-end p-0 text-xs font-bold text-primary">
             {t("Esqueci minha senha")}
-          </button>
-          <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")}>{t("Entrar")}</PrimaryButton>
+          </Button>
+          <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")} icon="login">{t("Entrar")}</PrimaryButton>
         </form>
       )}
 
@@ -185,25 +215,25 @@ function AuthPage() {
             <input name="accept" type="checkbox" className="mt-0.5 h-4 w-4 accent-primary" />
             <span>{t("Concordo com os")} <a className="text-primary font-semibold">{t("Termos de Uso")}</a> {t("e a")} <a className="text-primary font-semibold">{t("Política de Privacidade")}</a>.</span>
           </label>
-          <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")}>{t("Criar conta")}</PrimaryButton>
+          <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")} icon="signup">{t("Criar conta")}</PrimaryButton>
         </form>
       )}
 
       {mode === "forgot" && (
         <form onSubmit={handleForgot} className="mt-6 flex flex-col gap-3">
-          <p className="text-sm text-muted-foreground">{t("Enviaremos um link de redefinição para o seu e-mail.")}</p>
           <Field name="email" type="email" placeholder="seu@email.com" label={t("E-mail")} autoComplete="email" />
           <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")}>{t("Enviar link")}</PrimaryButton>
-          <button type="button" onClick={() => setMode("login")} className="text-sm font-semibold text-primary">
+          <Button type="button" variant="link" onClick={() => setMode("login")} className="text-sm font-bold text-primary">
             {t("Voltar ao login")}
-          </button>
+          </Button>
         </form>
       )}
 
-      <p className="mt-8 text-center text-xs text-muted-foreground">
+      <p className="mt-7 text-center text-xs text-muted-foreground">
         {t("Ao continuar você aceita nossos termos.")}
       </p>
-    </div>
+      </div>
+    </EntranceFrame>
   );
 }
 
@@ -213,19 +243,21 @@ function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> 
       <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{label}</span>
       <input
         {...props}
-        className="rounded-2xl border-2 border-border bg-card px-4 py-3 text-base outline-none transition focus:border-primary"
+        className="rounded-2xl border-2 border-primary/15 bg-card px-4 py-3 text-base shadow-card outline-none transition placeholder:text-muted-foreground/65 focus:border-primary focus:ring-2 focus:ring-primary/10"
       />
     </label>
   );
 }
 
-function PrimaryButton({ children, loading, loadingLabel }: { children: React.ReactNode; loading?: boolean; loadingLabel: string }) {
+function PrimaryButton({ children, loading, loadingLabel, icon }: { children: React.ReactNode; loading?: boolean; loadingLabel: string; icon?: "login" | "signup" }) {
   return (
-    <button
+    <Button
       disabled={loading}
-      className="btn-3d mt-2 rounded-2xl bg-primary py-3.5 text-primary-foreground disabled:opacity-70"
+      className="entrance-primary-button mt-2 h-13 rounded-2xl bg-gradient-primary font-black uppercase text-primary-foreground hover:opacity-95 disabled:opacity-70"
     >
+      {!loading && icon === "login" && <LogIn className="size-5 text-gold" />}
+      {!loading && icon === "signup" && <Sparkles className="size-5 text-gold" />}
       {loading ? loadingLabel : children}
-    </button>
+    </Button>
   );
 }
