@@ -153,8 +153,8 @@ function AuthPage() {
   }
 
   return (
-    <EntranceFrame>
-      <div className="px-5 pb-8 pt-4">
+    <EntranceFrame className="w-full max-w-none">
+      <div className="mx-auto w-full max-w-md px-5 pb-8 pt-4">
         <Button
           type="button"
           variant="ghost"
