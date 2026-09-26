@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { NekoMascot } from "@/components/NekoMascot";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfile } from "@/lib/profile";
-import entryArtwork from "@/assets/nekoteach-entry-final.png.asset.json";
+import { useT } from "@/lib/i18n";
 
 
 export const Route = createFileRoute("/")({
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/")({
 
 function SplashScreen() {
   const navigate = useNavigate();
+  const t = useT();
   const [ready, setReady] = useState(false);
 
 
@@ -74,14 +76,18 @@ function SplashScreen() {
   }, [navigate]);
 
   return (
-    <main className="relative h-dvh w-full overflow-hidden bg-background">
-      <div className="welcome-artboard absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <img
-          src={entryArtwork.url}
-          alt="NEKOTeach — aprenda idiomas de forma divertida com a Neko"
-          className="absolute inset-0 size-full object-fill"
-        />
-        <div className="absolute bottom-[5.5%] left-1/2 h-2 w-40 -translate-x-1/2 overflow-hidden rounded-full bg-primary/20 shadow-soft">
+    <main className="relative flex h-dvh w-full items-center justify-center overflow-hidden bg-gradient-primary text-primary-foreground">
+      <div className="absolute -left-20 -top-20 size-60 rounded-full bg-primary-foreground/10" aria-hidden="true" />
+      <div className="absolute -bottom-28 -right-24 size-72 rounded-full bg-primary-foreground/10" aria-hidden="true" />
+      <div className="relative z-10 flex -translate-y-[3dvh] flex-col items-center gap-6 animate-bounce-in">
+        <NekoMascot size={220} float />
+        <div className="text-center">
+          <h1 className="text-4xl font-black">
+            NEKO<span className="text-gold">Teach</span>
+          </h1>
+          <p className="mt-2 text-sm opacity-90">{t("Aprenda idiomas com o Neko")}</p>
+        </div>
+        <div className="mt-6 h-2 w-40 overflow-hidden rounded-full bg-primary-foreground/25">
           <div
             className="h-full rounded-full bg-gold transition-all duration-1000 ease-out"
             style={{ width: ready ? "100%" : "35%" }}
