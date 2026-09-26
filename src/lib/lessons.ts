@@ -50,7 +50,7 @@ export interface Phase {
   questions: Question[];
 }
 
-type LessonItem = [target: string, meaning: string, romaji?: string];
+type LessonItem = [target: string, meaning: string, romaji?: string, japanese?: string];
 type Curriculum = LessonItem[][];
 
 type GoalFamily = "travel" | "live" | "work" | "general";
@@ -135,9 +135,71 @@ const GOAL_CURRICULUM: Record<Language, Record<GoalFamily, Curriculum>> = {
 };
 
 type Unit1Row = [pt:string,en:string,ja:string,romaji:string];
-const UNIT1_ROWS: Unit1Row[][] = [[["Olá","Hello","こんにちは","konnichiwa"],["Oi","Hi","やあ","yaa"],["Bom dia","Good morning","おはようございます","ohayou gozaimasu"],["Boa tarde","Good afternoon","こんにちは","konnichiwa"]],[["Até logo","See you later","また後で","mata ato de"],["Até mais","See you","またね","mata ne"],["Obrigado(a)","Thank you","ありがとう","arigatou"],["De nada","You're welcome","どういたしまして","douitashimashite"],["Por favor","Please","お願いします","onegaishimasu"]],[["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],["Como você se chama?","May I ask your name?","何という名前ですか","nan to iu namae desu ka"],["Meu nome é...","My name is...","私は...です","watashi wa desu"],["Eu sou...","I'm...","私の名前は...です","watashi no namae wa desu"]],[["Como você está?","How are you?","お元気ですか","ogenki desu ka"],["Estou bem.","I'm fine.","元気です","genki desu"],["Estou ótimo(a).","I'm great.","すごく元気です","sugoku genki desu"],["Estou muito bem.","I'm very well.","とても元気です","totemo genki desu"]],[["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"],["Muito prazer.","It's a pleasure to meet you.","どうぞよろしくお願いします","douzo yoroshiku onegaishimasu"],["É um prazer conhecer você.","It's nice to meet you.","お会いできてうれしいです","oai dekite ureshii desu"],["Prazer em conhecer você também.","Nice to meet you too.","よろしくお願いします","yoroshiku onegaishimasu"]],[["E você?","And you?","あなたは","anata wa"],["De onde você é?","Where are you from?","どこから来ましたか","doko kara kimashita ka"],["Eu sou do Brasil.","I'm from Brazil.","ブラジルから来ました","burajiru kara kimashita"],["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"]],[["Olá! Meu nome é...","Hello! My name is...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Bom dia! Como você está?","Good morning! How are you?","おはようございます！元気ですか","ohayou gozaimasu genki desu ka"],["Estou bem. E você?","I'm fine. And you?","元気です。あなたは","genki desu anata wa"],["Prazer em conhecer você!","Nice to meet you!","はじめまして！","hajimemashite"],["Meu nome é...","My name is...","私の名前は...です","watashi no namae wa desu"]],[["Olá! Qual é o seu nome?","Hello! What's your name?","こんにちは！お名前は何ですか","konnichiwa onamae wa nan desu ka"],["Meu nome é... Prazer!","My name is... Nice to meet you!","私は...です。はじめまして","watashi wa desu hajimemashite"],["Oi! Como você está?","Hi! How are you?","やあ！元気ですか","yaa genki desu ka"],["Estou ótimo(a), obrigado(a).","I'm great, thank you.","すごく元気です。ありがとう","sugoku genki desu arigatou"],["Prazer em conhecer você também.","Nice to meet you too.","私もよろしくお願いします","watashi mo yoroshiku onegaishimasu"]],[["Bom dia! Meu nome é...","Good morning! My name is...","おはようございます！私は...です","ohayou gozaimasu watashi wa desu"],["Olá! Eu sou...","Hello! I'm...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Como você está? Estou bem.","How are you? I'm fine.","お元気ですか。元気です","ogenki desu ka genki desu"],["De onde você é? Eu sou do Brasil.","Where are you from? I'm from Brazil.","どこから来ましたか。ブラジルから来ました","doko kara kimashita ka burajiru kara kimashita"]],[["Olá! Meu nome é... Prazer em conhecer você.","Hello! My name is... Nice to meet you.","こんにちは！私は...です。はじめまして","konnichiwa watashi wa desu hajimemashite"],["Bom dia! Como você está?","Good morning! How are you?","おはようございます！お元気ですか","ohayou gozaimasu ogenki desu ka"],["Estou muito bem. E você?","I'm very well. And you?","とても元気です。あなたは","totemo genki desu anata wa"],["De onde você é?","Where are you from?","どこから来ましたか","doko kara kimashita ka"],["Prazer! Até mais!","Nice to meet you! See you!","はじめまして！またね","hajimemashite mata ne"]]];
+const UNIT1_ROWS: Unit1Row[][] = [
+  [
+    ["Olá", "Hello", "こんにちは", "konnichiwa"], ["Oi", "Hi", "やあ", "yaa"],
+    ["Bom dia", "Good morning", "おはようございます", "ohayou gozaimasu"], ["Boa tarde", "Good afternoon", "どうも", "doumo"],
+    ["Boa noite", "Good evening", "こんばんは", "konbanwa"], ["Ei!", "Hey!", "ねえ", "nee"],
+    ["Tudo bem?", "How's it going?", "元気？", "genki"], ["Bem-vindo(a)!", "Welcome!", "ようこそ", "youkoso"],
+  ],
+  [
+    ["Tchau", "Bye", "じゃあね", "jaa ne"], ["Até mais", "See you", "またね", "mata ne"],
+    ["Até logo", "See you later", "また後で", "mata ato de"], ["Obrigado(a)", "Thank you", "ありがとう", "arigatou"],
+    ["Muito obrigado(a)", "Thank you very much", "ありがとうございます", "arigatou gozaimasu"], ["De nada", "You're welcome", "どういたしまして", "douitashimashite"],
+    ["Por favor", "Please", "お願いします", "onegaishimasu"], ["Com licença", "Excuse me", "すみません", "sumimasen"],
+    ["Desculpe", "I'm sorry", "ごめんなさい", "gomennasai"],
+  ],
+  [
+    ["Qual é o seu nome?", "What's your name?", "お名前は何ですか", "onamae wa nan desu ka"], ["Como você se chama?", "May I ask your name?", "お名前は？", "onamae wa"],
+    ["Meu nome é Ana.", "My name is Ana.", "私はアナです", "watashi wa ana desu"], ["Eu sou o Leo.", "I'm Leo.", "レオです", "reo desu"],
+    ["Pode me chamar de Bia.", "You can call me Bia.", "ビアと呼んでください", "bia to yonde kudasai"], ["Este é o Ken.", "This is Ken.", "こちらはケンです", "kochira wa ken desu"],
+    ["Quem é você?", "Who are you?", "あなたは誰ですか", "anata wa dare desu ka"], ["Sou estudante.", "I'm a student.", "学生です", "gakusei desu"],
+  ],
+  [
+    ["Como você está?", "How are you?", "お元気ですか", "ogenki desu ka"], ["Estou bem.", "I'm fine.", "元気です", "genki desu"],
+    ["Estou ótimo(a).", "I'm great.", "とても元気です", "totemo genki desu"], ["Estou feliz.", "I'm happy.", "うれしいです", "ureshii desu"],
+    ["Estou cansado(a).", "I'm tired.", "疲れています", "tsukarete imasu"], ["Estou com sono.", "I'm sleepy.", "眠いです", "nemui desu"],
+    ["Mais ou menos.", "So-so.", "まあまあです", "maa maa desu"], ["E você?", "And you?", "あなたは？", "anata wa"],
+  ],
+  [
+    ["Prazer em conhecer você.", "Nice to meet you.", "はじめまして", "hajimemashite"], ["Igualmente.", "Likewise.", "こちらこそ", "kochira koso"],
+    ["É um prazer.", "It's a pleasure.", "よろしくお願いします", "yoroshiku onegaishimasu"], ["Prazer em conhecer você também.", "Nice to meet you too.", "私もお会いできてうれしいです", "watashi mo oai dekite ureshii desu"],
+    ["Esta é minha amiga Ana.", "This is my friend Ana.", "こちらは友達のアナです", "kochira wa tomodachi no ana desu"], ["Este é meu amigo Ken.", "This is my friend Ken.", "こちらは友達のケンです", "kochira wa tomodachi no ken desu"],
+    ["Somos colegas.", "We're classmates.", "私たちはクラスメートです", "watashitachi wa kurasumeeto desu"], ["Que bom conhecer você.", "Glad to meet you.", "お会いできてうれしいです", "oai dekite ureshii desu"],
+  ],
+  [
+    ["De onde você é?", "Where are you from?", "どちらの出身ですか", "dochira no shusshin desu ka"], ["Sou do Brasil.", "I'm from Brazil.", "ブラジル出身です", "burajiru shusshin desu"],
+    ["Sou dos Estados Unidos.", "I'm from the United States.", "アメリカ出身です", "amerika shusshin desu"], ["Sou do Japão.", "I'm from Japan.", "日本出身です", "nihon shusshin desu"],
+    ["Onde você mora?", "Where do you live?", "どこに住んでいますか", "doko ni sunde imasu ka"], ["Moro em Belém.", "I live in Belém.", "ベレンに住んでいます", "beren ni sunde imasu"],
+    ["Moro aqui.", "I live here.", "ここに住んでいます", "koko ni sunde imasu"], ["Moro perto daqui.", "I live nearby.", "近くに住んでいます", "chikaku ni sunde imasu"],
+  ],
+  [
+    ["Você fala português?", "Do you speak Portuguese?", "ポルトガル語を話しますか", "porutogaru go o hanashimasu ka"], ["Você fala inglês?", "Do you speak English?", "英語を話しますか", "eigo o hanashimasu ka"],
+    ["Você fala japonês?", "Do you speak Japanese?", "日本語を話しますか", "nihongo o hanashimasu ka"], ["Sim, um pouco.", "Yes, a little.", "はい、少し", "hai sukoshi"],
+    ["Ainda estou aprendendo.", "I'm still learning.", "まだ勉強中です", "mada benkyou chuu desu"], ["Pode repetir?", "Can you repeat that?", "もう一度お願いします", "mou ichido onegaishimasu"],
+    ["Entendeu?", "Did you understand?", "わかりましたか", "wakarimashita ka"], ["Sim, entendi.", "Yes, I understood.", "はい、わかりました", "hai wakarimashita"],
+  ],
+  [
+    ["Bom dia, professora.", "Good morning, teacher.", "先生、おはようございます", "sensei ohayou gozaimasu"], ["Oi, tudo bem?", "Hi, how's it going?", "やあ、元気？", "yaa genki"],
+    ["Olá, posso me apresentar?", "Hello, may I introduce myself?", "こんにちは、自己紹介してもいいですか", "konnichiwa jikoshoukai shite mo ii desu ka"], ["Claro, por favor.", "Of course, go ahead.", "はい、どうぞ", "hai douzo"],
+    ["Esta é a minha colega.", "This is my colleague.", "こちらは私の同僚です", "kochira wa watashi no douryou desu"], ["Obrigado pela apresentação.", "Thanks for the introduction.", "紹介してくれてありがとう", "shoukai shite kurete arigatou"],
+    ["Foi bom falar com você.", "It was nice talking to you.", "お話しできてよかったです", "ohanashi dekite yokatta desu"], ["Até amanhã.", "See you tomorrow.", "また明日", "mata ashita"],
+  ],
+  [
+    ["Olá! Meu nome é Ana.", "Hello! My name is Ana.", "こんにちは、私はアナです", "konnichiwa watashi wa ana desu"], ["Oi, eu sou o Leo.", "Hi, I'm Leo.", "やあ、レオです", "yaa reo desu"],
+    ["Como você está hoje?", "How are you today?", "今日はお元気ですか", "kyou wa ogenki desu ka"], ["Estou bem, obrigado(a).", "I'm fine, thank you.", "元気です、ありがとう", "genki desu arigatou"],
+    ["Sou do Brasil e moro em Belém.", "I'm from Brazil and live in Belém.", "ブラジル出身で、ベレンに住んでいます", "burajiru shusshin de beren ni sunde imasu"], ["Este é meu amigo Ken.", "This is my friend Ken.", "こちらは友達のケンです", "kochira wa tomodachi no ken desu"],
+    ["Prazer, Ken.", "Nice to meet you, Ken.", "はじめまして、ケンさん", "hajimemashite ken san"], ["Até mais, tenha um bom dia.", "See you, have a good day.", "またね、よい一日を", "mata ne yoi ichinichi o"],
+  ],
+  [
+    ["Bom dia! Qual é o seu nome?", "Good morning! What's your name?", "おはようございます、お名前は何ですか", "ohayou gozaimasu onamae wa nan desu ka"], ["Meu nome é Ana. E você?", "My name is Ana. And you?", "私はアナです。あなたは？", "watashi wa ana desu anata wa"],
+    ["Sou o Ken. Prazer em conhecer você.", "I'm Ken. Nice to meet you.", "ケンです。はじめまして", "ken desu hajimemashite"], ["Igualmente! Como você está?", "Likewise! How are you?", "こちらこそ。お元気ですか", "kochira koso ogenki desu ka"],
+    ["Estou ótimo, obrigado.", "I'm great, thank you.", "とても元気です。ありがとう", "totemo genki desu arigatou"], ["De onde você é?", "Where are you from?", "どちらの出身ですか", "dochira no shusshin desu ka"],
+    ["Sou do Japão e moro aqui.", "I'm from Japan and live here.", "日本出身で、ここに住んでいます", "nihon shusshin de koko ni sunde imasu"], ["Foi bom falar com você. Até logo!", "It was nice talking to you. See you later!", "お話しできてよかったです。また後で", "ohanashi dekite yokatta desu mata ato de"],
+  ],
+];
 function unit1Curriculum(lang: Language): Curriculum {
-  return UNIT1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => lang==="ja" ? [romaji,pt,romaji] : lang==="en" ? [en,pt] : [pt,en]) as LessonItem[]);
+  return UNIT1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => lang==="ja" ? [romaji,pt,romaji,ja] : lang==="en" ? [en,pt] : [pt,en]) as LessonItem[]);
 }
 const UNIT1: Record<Language,Curriculum> = { pt:unit1Curriculum("pt"), en:unit1Curriculum("en"), ja:unit1Curriculum("ja") };
 
