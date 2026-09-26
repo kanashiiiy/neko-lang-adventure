@@ -174,7 +174,7 @@ function AuthPage() {
             {mode === "signup" ? t("Crie sua conta grátis") : mode === "forgot" ? t("Recupere sua senha") : t("Bem-vindo de volta!")}
           </h2>
           <p className="mt-1 text-sm font-semibold text-muted-foreground">
-          {mode === "signup" ? t("Crie sua conta grátis") : mode === "forgot" ? t("Recupere sua senha") : t("Entre para continuar")}
+            {mode === "signup" ? t("Aprenda idiomas de forma divertida com a Neko.") : mode === "forgot" ? t("Enviaremos um link de redefinição para o seu e-mail.") : t("Entre para continuar")}
         </p>
       </div>
 
@@ -221,7 +221,6 @@ function AuthPage() {
 
       {mode === "forgot" && (
         <form onSubmit={handleForgot} className="mt-6 flex flex-col gap-3">
-          <p className="text-sm text-muted-foreground">{t("Enviaremos um link de redefinição para o seu e-mail.")}</p>
           <Field name="email" type="email" placeholder="seu@email.com" label={t("E-mail")} autoComplete="email" />
           <PrimaryButton loading={loading} loadingLabel={t("Aguarde...")}>{t("Enviar link")}</PrimaryButton>
           <Button type="button" variant="link" onClick={() => setMode("login")} className="text-sm font-bold text-primary">
