@@ -106,7 +106,14 @@ export async function updateProfile(userId: string, patch: Partial<Profile>) {
   if (!data) {
     throw new Error("Não foi possível salvar o perfil. Verifique sua sessão e tente novamente.");
   }
-  return data as Profile;
+  return {
+    ...data,
+    username: null,
+    profile_frame: "none",
+    profile_background: "default",
+    profile_effect: "none",
+    profile_badge: "none",
+  } as Profile;
 }
 
 // Data local (YYYY-MM-DD) — a sequência conta dias do calendário do usuário
