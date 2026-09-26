@@ -1,10 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { KeyRound, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { EntranceBrand, EntranceFrame } from "@/components/EntranceVisual";
+import entryArtwork from "@/assets/nekoteach-entry-final.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
-import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/welcome")({
   component: WelcomePage,
@@ -23,7 +21,6 @@ export const Route = createFileRoute("/welcome")({
 
 function WelcomePage() {
   const navigate = useNavigate();
-  const t = useT();
 
   // Sessão salva? entra direto, sem passar pelo login.
   useEffect(() => {
@@ -39,37 +36,30 @@ function WelcomePage() {
 
 
   return (
-    <EntranceFrame>
-      <section className="entrance-hero flex flex-1 flex-col items-center justify-center px-6 pb-3 pt-8 text-center">
-        <EntranceBrand greeting={t("Olá!")} />
-        <h2 className="mt-4 text-[1.35rem] font-black text-foreground">{t("Bem-vindo ao NEKOTeach!")}</h2>
-        <p className="mt-1.5 max-w-xs text-sm font-semibold leading-relaxed text-muted-foreground">
-          {t("Aprenda idiomas de forma divertida com a Neko.")}
-        </p>
-      </section>
-
-      <div className="px-6 pb-8 pt-4">
-        <div className="flex flex-col gap-4">
+    <main className="grid min-h-dvh place-items-center overflow-hidden bg-background">
+      <div className="relative aspect-[2/3] h-auto max-h-dvh w-full max-w-[calc(100dvh*2/3)]">
+        <img
+          src={entryArtwork.url}
+          alt="NEKOTeach — aprenda idiomas de forma divertida com a Neko"
+          className="absolute inset-0 size-full object-contain"
+        />
         <Button
+          type="button"
+          aria-label="Já tenho uma conta"
           onClick={() => navigate({ to: "/auth", search: { mode: "login" } })}
-          className="entrance-primary-button h-14 rounded-3xl bg-gradient-primary text-base font-black uppercase text-primary-foreground hover:opacity-95"
+          className="absolute left-[8%] top-[68.2%] h-[7.8%] w-[84%] border-0 bg-transparent p-0 text-transparent shadow-none hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          <KeyRound className="size-5 text-gold" /> {t("Já tenho uma conta")}
+          <span className="sr-only">Já tenho uma conta</span>
         </Button>
         <Button
-          variant="outline"
+          type="button"
+          aria-label="Sou novo"
           onClick={() => navigate({ to: "/start" })}
-          className="h-14 rounded-3xl border-2 border-primary bg-card text-base font-black uppercase text-primary hover:bg-accent"
+          className="absolute left-[8%] top-[77%] h-[7.8%] w-[84%] border-0 bg-transparent p-0 text-transparent shadow-none hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          <Sparkles className="size-5 text-gold" /> {t("Sou novo")}
+          <span className="sr-only">Sou novo</span>
         </Button>
-        </div>
-        <div className="mt-7 flex items-center justify-center gap-3 text-primary/35" aria-hidden="true">
-          <span className="h-px w-12 bg-primary/20" />
-          <span className="text-xl">🐾</span>
-          <span className="h-px w-12 bg-primary/20" />
-        </div>
       </div>
-    </EntranceFrame>
+    </main>
   );
 }
