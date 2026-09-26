@@ -36,12 +36,12 @@ function WelcomePage() {
 
 
   return (
-    <main className="grid min-h-dvh place-items-center overflow-hidden bg-background">
-      <div className="relative aspect-[2/3] h-auto max-h-dvh w-full max-w-[calc(100dvh*2/3)]">
+    <main className="relative h-dvh w-full overflow-hidden bg-background">
+      <div className="welcome-artboard absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <img
           src={entryArtwork.url}
           alt="NEKOTeach — aprenda idiomas de forma divertida com a Neko"
-          className="absolute inset-0 size-full object-contain"
+          className="absolute inset-0 size-full object-fill"
         />
         <Button
           type="button"

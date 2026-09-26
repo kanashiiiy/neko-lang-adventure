@@ -142,6 +142,11 @@
   @apply mx-auto max-w-md min-h-dvh flex flex-col;
 }
 
+.welcome-artboard {
+  width: max(100vw, 66.667dvh);
+  height: max(150vw, 100dvh);
+}
+
 .entrance-shell {
   background:
     radial-gradient(circle at 50% 27%, color-mix(in oklab, var(--entrance-lilac) 62%, transparent) 0 19%, transparent 42%),
