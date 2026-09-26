@@ -95,7 +95,11 @@ const GOAL_ROWS: Record<Exclude<GoalFamily, "general">, GoalRow[]> = {
 
 function rowsToCurriculum(rows: GoalRow[], lang: Language): Curriculum {
   return rows.map(([en, pt, _ja, romaji]) =>
-    lang === "ja" ? [romaji, pt, romaji] : lang === "en" ? [en, pt] : [pt, en]
+    lang === "ja"
+      ? ([romaji, pt, romaji] satisfies LessonItem)
+      : lang === "en"
+        ? ([en, pt] satisfies LessonItem)
+        : ([pt, en] satisfies LessonItem)
   );
 }
 

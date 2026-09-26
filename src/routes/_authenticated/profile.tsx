@@ -166,15 +166,27 @@ function ProfilePage() {
     finally { setUploading(false); }
   }
 
-  async function saveName() {
-    if (name.trim().length < 2) return toast.error(t("Nome muito curto"));
+  async function saveName(): Promise<void> {
+    if (name.trim().length < 2) {
+      toast.error(t("Nome muito curto"));
+      return;
+    }
     await save({ name:name.trim() }); toast.success(t("Nome atualizado!")); setModal(null);
   }
-  async function savePass() {
-    if (pass.length < 6) return toast.error(t("Mínimo 6 caracteres"));
-    if (pass !== confirm) return toast.error(t("As senhas não coincidem"));
+  async function savePass(): Promise<void> {
+    if (pass.length < 6) {
+      toast.error(t("Mínimo 6 caracteres"));
+      return;
+    }
+    if (pass !== confirm) {
+      toast.error(t("As senhas não coincidem"));
+      return;
+    }
     const { error }=await supabase.auth.updateUser({password:pass});
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success(t("Senha atualizada!")); setPass(""); setConfirm(""); setModal(null);
   }
   async function toggleTheme() { const next=profile?.theme==="dark"?"light":"dark"; document.documentElement.classList.toggle("dark",next==="dark"); await save({theme:next}); }
