@@ -77,6 +77,10 @@
   --shadow-card: 0 2px 8px -2px oklch(0.3 0.05 280 / 0.08);
   --shadow-btn: 0 4px 0 0 oklch(0.42 0.22 292);
   --shadow-btn-gold: 0 4px 0 0 oklch(0.7 0.16 70);
+  --entrance-ink: oklch(0.24 0.08 285);
+  --entrance-lilac: oklch(0.9 0.07 295);
+  --entrance-lilac-strong: oklch(0.78 0.13 298);
+  --entrance-surface: oklch(0.995 0.006 285);
 }
 
 .dark {
@@ -136,6 +140,65 @@
 
 @utility mobile-shell {
   @apply mx-auto max-w-md min-h-dvh flex flex-col;
+}
+
+.entrance-shell {
+  background:
+    radial-gradient(circle at 50% 27%, color-mix(in oklab, var(--entrance-lilac) 62%, transparent) 0 19%, transparent 42%),
+    var(--entrance-surface);
+  color: var(--entrance-ink);
+}
+.entrance-blob {
+  position: absolute;
+  z-index: -1;
+  border-radius: 46% 54% 52% 48%;
+  background: color-mix(in oklab, var(--entrance-lilac) 76%, transparent);
+  filter: blur(0.2px);
+}
+.entrance-blob-left { left: -4.5rem; top: -3.75rem; width: 10rem; height: 10rem; transform: rotate(22deg); }
+.entrance-blob-right { right: -4.25rem; top: -2.75rem; width: 9rem; height: 9rem; transform: rotate(-18deg); }
+.entrance-blob-bottom { right: -5rem; bottom: -4.5rem; width: 11rem; height: 11rem; transform: rotate(20deg); }
+.entrance-paw, .entrance-spark { position: absolute; z-index: -1; }
+.entrance-paw { color: color-mix(in oklab, var(--primary) 30%, transparent); }
+.entrance-paw-left { left: 2rem; top: 28%; width: 1.9rem; transform: rotate(-18deg); }
+.entrance-paw-right { right: 1.75rem; top: 37%; width: 2.25rem; transform: rotate(17deg); }
+.entrance-spark { color: var(--gold); }
+.entrance-spark-left { left: 1.6rem; top: 18%; width: 1.45rem; }
+.entrance-spark-right { right: 2.1rem; top: 23%; width: 1.2rem; }
+.entrance-greeting {
+  border: 2px solid var(--primary);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--primary);
+  padding: 0.28rem 0.72rem;
+  font-size: 0.86rem;
+  font-weight: 900;
+  box-shadow: var(--shadow-soft);
+}
+.entrance-greeting::after {
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  bottom: -0.42rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-left: 2px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
+  background: var(--card);
+  transform: skew(-24deg) rotate(-24deg);
+}
+.entrance-logo-gradient {
+  background-image: var(--gradient-primary);
+  background-clip: text;
+  color: transparent;
+}
+.entrance-primary-button {
+  box-shadow: 0 5px 0 color-mix(in oklab, var(--primary) 72%, var(--foreground));
+}
+.entrance-primary-button:active { box-shadow: none; }
+
+@media (max-height: 700px) {
+  .entrance-shell .entrance-hero { transform: scale(0.84); margin-block: -1.4rem; }
 }
 
 @keyframes bounce-in {
