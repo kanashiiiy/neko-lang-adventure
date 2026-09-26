@@ -6,6 +6,7 @@ import { toast } from "@/lib/neko-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { EntranceBrand, EntranceFrame } from "@/components/EntranceVisual";
+import entryArtwork from "@/assets/nekoteach-entry-final.png.asset.json";
 import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/auth")({
@@ -154,21 +155,32 @@ function AuthPage() {
 
   return (
     <EntranceFrame className="w-full max-w-none">
-      <div className="mx-auto w-full max-w-md px-5 pb-8 pt-4">
+      {(mode === "login" || mode === "forgot") && (
+        <div className="auth-artwork relative h-[34dvh] min-h-64 w-full shrink-0 overflow-hidden" aria-hidden="true">
+          <img
+            src={entryArtwork.url}
+            alt=""
+            className="absolute left-1/2 top-0 h-auto w-full max-w-lg -translate-x-1/2"
+          />
+        </div>
+      )}
+      <div className={`mx-auto w-full max-w-md px-5 pb-8 ${mode === "login" || mode === "forgot" ? "pt-0" : "pt-4"}`}>
         <Button
           type="button"
           variant="ghost"
           size="icon"
           aria-label={t("Voltar")}
           onClick={() => mode === "forgot" ? setMode("login") : navigate({ to: "/welcome" })}
-          className="relative z-20 rounded-full text-primary hover:bg-accent"
+          className={`relative z-20 rounded-full text-primary hover:bg-accent ${mode === "login" || mode === "forgot" ? "-mt-12 bg-card/85 shadow-card backdrop-blur-sm" : ""}`}
         >
           <ArrowLeft className="size-5" />
         </Button>
 
-        <div className="entrance-hero -mt-4">
-          <EntranceBrand compact greeting={mode === "signup" ? t("Olá!") : undefined} />
-        </div>
+        {mode === "signup" && (
+          <div className="entrance-hero -mt-4">
+            <EntranceBrand compact greeting={t("Olá!")} />
+          </div>
+        )}
         <div className="mt-1 text-center">
           <h2 className="text-xl font-black text-foreground">
             {mode === "signup" ? t("Crie sua conta grátis") : mode === "forgot" ? t("Recupere sua senha") : t("Bem-vindo de volta!")}

@@ -79,7 +79,7 @@ function SplashScreen() {
     <main className="relative flex h-dvh w-full items-center justify-center overflow-hidden bg-gradient-primary text-primary-foreground">
       <div className="absolute -left-20 -top-20 size-60 rounded-full bg-primary-foreground/10" aria-hidden="true" />
       <div className="absolute -bottom-28 -right-24 size-72 rounded-full bg-primary-foreground/10" aria-hidden="true" />
-      <div className="relative z-10 flex flex-col items-center gap-6 animate-bounce-in">
+      <div className="relative z-10 flex -translate-y-[3dvh] flex-col items-center gap-6 animate-bounce-in">
         <NekoMascot size={220} float />
         <div className="text-center">
           <h1 className="text-4xl font-black">
@@ -87,7 +87,7 @@ function SplashScreen() {
           </h1>
           <p className="mt-2 text-sm opacity-90">{t("Aprenda idiomas com o Neko")}</p>
         </div>
-        <div className="mt-6 h-2 w-40 overflow-hidden rounded-full bg-white/25">
+        <div className="mt-6 h-2 w-40 overflow-hidden rounded-full bg-primary-foreground/25">
           <div
             className="h-full rounded-full bg-gold transition-all duration-1000 ease-out"
             style={{ width: ready ? "100%" : "35%" }}
