@@ -94,8 +94,16 @@ const GOAL_ROWS: Record<Exclude<GoalFamily, "general">, GoalRow[]> = {
 };
 
 function rowsToCurriculum(rows: GoalRow[], lang: Language): Curriculum {
-  return rows.map(([en, pt, _ja, romaji]) =>
-    lang === "ja" ? [romaji, pt, romaji] : lang === "en" ? [en, pt] : [pt, en]
+  const items = rows.map(([en, pt, _ja, romaji]) =>
+    lang === "ja"
+      ? ([romaji, pt, romaji] satisfies LessonItem)
+      : lang === "en"
+        ? ([en, pt] satisfies LessonItem)
+        : ([pt, en] satisfies LessonItem)
+  );
+  return Array.from(
+    { length: Math.ceil(items.length / 4) },
+    (_, index) => items.slice(index * 4, index * 4 + 4),
   );
 }
 

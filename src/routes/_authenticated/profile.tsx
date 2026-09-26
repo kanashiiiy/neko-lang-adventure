@@ -166,15 +166,27 @@ function ProfilePage() {
     finally { setUploading(false); }
   }
 
-  async function saveName() {
-    if (name.trim().length < 2) return toast.error(t("Nome muito curto"));
+  async function saveName(): Promise<void> {
+    if (name.trim().length < 2) {
+      toast.error(t("Nome muito curto"));
+      return;
+    }
     await save({ name:name.trim() }); toast.success(t("Nome atualizado!")); setModal(null);
   }
-  async function savePass() {
-    if (pass.length < 6) return toast.error(t("Mínimo 6 caracteres"));
-    if (pass !== confirm) return toast.error(t("As senhas não coincidem"));
+  async function savePass(): Promise<void> {
+    if (pass.length < 6) {
+      toast.error(t("Mínimo 6 caracteres"));
+      return;
+    }
+    if (pass !== confirm) {
+      toast.error(t("As senhas não coincidem"));
+      return;
+    }
     const { error }=await supabase.auth.updateUser({password:pass});
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success(t("Senha atualizada!")); setPass(""); setConfirm(""); setModal(null);
   }
   async function toggleTheme() { const next=profile?.theme==="dark"?"light":"dark"; document.documentElement.classList.toggle("dark",next==="dark"); await save({theme:next}); }
@@ -595,7 +607,15 @@ function Customizer({profile,plan,frame,background,effect,badge,onClose,onSave}:
 
 function CosmeticThumbnail({item,category,selected}:{item:Cosmetic;category:Category;selected:boolean}) {
   return <div className={category==="backgrounds" ? "relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-violet-300/20 bg-[#08081d] shadow-[inset_0_0_22px_rgba(139,92,246,.12)]" : "relative h-[148px] overflow-hidden rounded-xl border border-violet-300/20 bg-[#08081d] shadow-[inset_0_0_22px_rgba(139,92,246,.12)] sm:h-[158px]"}>
-    {category==="backgrounds" && <><BackgroundArt item={item} large/><div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/70 to-transparent"/><div className="absolute inset-x-2 bottom-2 rounded-lg border border-white/15 bg-black/25 px-2 py-1 text-center text-[9px] font-black text-white/90 backdrop-blur-sm">CENÁRIO</div></></>}
+    {category === "backgrounds" && (
+      <>
+        <BackgroundArt item={item} large />
+        <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/70 to-transparent" />
+        <div className="absolute inset-x-2 bottom-2 rounded-lg border border-white/15 bg-black/25 px-2 py-1 text-center text-[9px] font-black text-white/90 backdrop-blur-sm">
+          CENÁRIO
+        </div>
+      </>
+    )}
     {category === "frames" && (
       <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_center,rgba(139,92,246,.22),transparent_62%)]">
         <div className="relative h-36 w-36 sm:h-40 sm:w-40">
