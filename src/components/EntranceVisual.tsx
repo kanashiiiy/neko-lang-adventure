@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function EntranceFrame({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <main className={cn("entrance-shell mobile-shell relative isolate overflow-hidden", className)}>
+    <main className={cn("entrance-shell mobile-shell relative isolate overflow-x-hidden", className)}>
       <div className="entrance-blob entrance-blob-left" aria-hidden="true" />
       <div className="entrance-blob entrance-blob-right" aria-hidden="true" />
       <div className="entrance-blob entrance-blob-bottom" aria-hidden="true" />
