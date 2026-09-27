@@ -48,6 +48,7 @@ function LessonPlayer() {
   const [reviewQueue, setReviewQueue] = useState<number[]>([]);
   const [reviewIdx, setReviewIdx] = useState(0);
   const [reviewIntro, setReviewIntro] = useState(false);
+  const [difficultyIntro, setDifficultyIntro] = useState(false);
   const [firstAttemptFinished, setFirstAttemptFinished] = useState(false);
   const [saving, setSaving] = useState(false);
   const [outOfFocus, setOutOfFocus] = useState(false);
@@ -89,13 +90,14 @@ function LessonPlayer() {
         return;
       }
       const saved = JSON.parse(raw) as {
-        idx?: number; rights?: number; streakInLesson?: number; bonusFocus?: number;
+        idx?: number; rights?: number; streakInLesson?: number; bonusFocus?: number; difficultyIntro?: boolean;
       };
       if (typeof saved.idx === "number" && saved.idx > 0) {
         setIdx(saved.idx);
         setRights(saved.rights ?? 0);
         setStreakInLesson(saved.streakInLesson ?? 0);
         setBonusFocus(saved.bonusFocus ?? 0);
+        setDifficultyIntro(Boolean(saved.difficultyIntro));
         setResumed(true);
       }
     } catch { /* ignora progresso inválido */ }
@@ -105,11 +107,11 @@ function LessonPlayer() {
   useEffect(() => {
     if (!restoredRef.current || done) return;
     try {
-      if (idx > 0) {
-        localStorage.setItem(progressKey, JSON.stringify({ idx, rights, streakInLesson, bonusFocus }));
+      if (idx > 0 || difficultyIntro) {
+        localStorage.setItem(progressKey, JSON.stringify({ idx, rights, streakInLesson, bonusFocus, difficultyIntro }));
       }
     } catch { /* armazenamento indisponível */ }
-  }, [progressKey, idx, rights, streakInLesson, bonusFocus, done]);
+  }, [progressKey, idx, rights, streakInLesson, bonusFocus, difficultyIntro, done]);
 
   // Baús de nível ficam persistidos localmente até serem abertos.
   useEffect(() => {
@@ -182,7 +184,7 @@ function LessonPlayer() {
   const safeIdx = Math.min(activeIndex, total - 1);
   const q = lesson.questions[safeIdx];
   const phaseNumber = Number(lesson.id.match(/-phase-(\\d+)$/)?.[1] ?? 1);
-  const isFirstTenJapanese = lang === "ja" && phaseNumber <= 10;
+  const isFirstTenJapanese = lang === "ja" && phaseNumber <= 7;
   const isAudioMission = q.kind === "listen";
   const audioAnswered = isAudioMission && correct !== null;
   const inReview = reviewQueue.length > 0 && !done;
@@ -290,6 +292,7 @@ function LessonPlayer() {
       }
       return;
     }
+    if (phaseNumber <= 7 && idx === 10) { setDifficultyIntro(true); return; }
     if (idx + 1 < total) setIdx(idx + 1);
     else await finish();
   }
@@ -388,6 +391,18 @@ function LessonPlayer() {
     )}
     </>
   );
+
+  if (difficultyIntro && !done) {
+    return (
+      <div className="mobile-shell items-center justify-center px-6 text-center">
+        {progressionOverlay}
+        <NekoMascot size={180} bounce float entrance />
+        <div className="mt-4 text-3xl font-black">⚡ {t("Dificuldade aumentada")}</div>
+        <p className="mt-2 text-sm text-muted-foreground">{t("Agora você vai testar o que aprendeu em situações diferentes, usando o mesmo conteúdo desta fase.")}</p>
+        <button onClick={() => { setDifficultyIntro(false); setIdx(11); }} className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">{t("Continuar")}</button>
+      </div>
+    );
+  }
 
   if (reviewIntro && !done) {
     return (
