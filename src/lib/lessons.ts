@@ -127,7 +127,18 @@ const GOAL_CURRICULUM: Record<Language, Record<GoalFamily, Curriculum>> = {
 };
 
 type Unit1Row = [pt:string,en:string,ja:string,romaji:string];
-const UNIT1_ROWS: Unit1Row[][] = [[["Olá","Hello","こんにちは","konnichiwa"],["Oi","Hi","やあ","yaa"],["Bom dia","Good morning","おはようございます","ohayou gozaimasu"],["Boa tarde","Good afternoon","こんにちは","konnichiwa"]],[["Até logo","See you later","また後で","mata ato de"],["Até mais","See you","またね","mata ne"],["Obrigado(a)","Thank you","ありがとう","arigatou"],["De nada","You're welcome","どういたしまして","douitashimashite"],["Por favor","Please","お願いします","onegaishimasu"]],[["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],["Como você se chama?","May I ask your name?","何という名前ですか","nan to iu namae desu ka"],["Meu nome é...","My name is...","私は...です","watashi wa desu"],["Eu sou...","I'm...","私の名前は...です","watashi no namae wa desu"]],[["Como você está?","How are you?","お元気ですか","ogenki desu ka"],["Estou bem.","I'm fine.","元気です","genki desu"],["Estou ótimo(a).","I'm great.","すごく元気です","sugoku genki desu"],["Estou muito bem.","I'm very well.","とても元気です","totemo genki desu"]],[["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"],["Muito prazer.","It's a pleasure to meet you.","どうぞよろしくお願いします","douzo yoroshiku onegaishimasu"],["É um prazer conhecer você.","It's nice to meet you.","お会いできてうれしいです","oai dekite ureshii desu"],["Prazer em conhecer você também.","Nice to meet you too.","よろしくお願いします","yoroshiku onegaishimasu"]],[["E você?","And you?","あなたは","anata wa"],["De onde você é?","Where are you from?","どこから来ましたか","doko kara kimashita ka"],["Eu sou do Brasil.","I'm from Brazil.","ブラジルから来ました","burajiru kara kimashita"],["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"]],[["Olá! Meu nome é...","Hello! My name is...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Bom dia! Como você está?","Good morning! How are you?","おはようございます！元気ですか","ohayou gozaimasu genki desu ka"],["Estou bem. E você?","I'm fine. And you?","元気です。あなたは","genki desu anata wa"],["Prazer em conhecer você!","Nice to meet you!","はじめまして！","hajimemashite"],["Meu nome é...","My name is...","私の名前は...です","watashi no namae wa desu"]],[["Olá! Qual é o seu nome?","Hello! What's your name?","こんにちは！お名前は何ですか","konnichiwa onamae wa nan desu ka"],["Meu nome é... Prazer!","My name is... Nice to meet you!","私は...です。はじめまして","watashi wa desu hajimemashite"],["Oi! Como você está?","Hi! How are you?","やあ！元気ですか","yaa genki desu ka"],["Estou ótimo(a), obrigado(a).","I'm great, thank you.","すごく元気です。ありがとう","sugoku genki desu arigatou"],["Prazer em conhecer você também.","Nice to meet you too.","私もよろしくお願いします","watashi mo yoroshiku onegaishimasu"]],[["Bom dia! Meu nome é...","Good morning! My name is...","おはようございます！私は...です","ohayou gozaimasu watashi wa desu"],["Olá! Eu sou...","Hello! I'm...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Como você está? Estou bem.","How are you? I'm fine.","お元気ですか。元気です","ogenki desu ka genki desu"],["De onde você é? Eu sou do Brasil.","Where are you from? I'm from Brazil.","どこから来ましたか。ブラジルから来ました","doko kara kimashita ka burajiru kara kimashita"]],[["Olá! Meu nome é... Prazer em conhecer você.","Hello! My name is... Nice to meet you.","こんにちは！私は...です。はじめまして","konnichiwa watashi wa desu hajimemashite"],["Bom dia! Como você está?","Good morning! How are you?","おはようございます！お元気ですか","ohayou gozaimasu ogenki desu ka"],["Estou muito bem. E você?","I'm very well. And you?","とても元気です。あなたは","totemo genki desu anata wa"],["De onde você é?","Where are you from?","どこから来ましたか","doko kara kimashita ka"],["Prazer! Até mais!","Nice to meet you! See you!","はじめまして！またね","hajimemashite mata ne"]]];
+const UNIT1_ROWS: Unit1Row[][] = [
+  [["Olá","Hello","こんにちは","konnichiwa"],["Oi","Hi","やあ","yaa"],["Bom dia","Good morning","おはようございます","ohayou gozaimasu"],["Boa tarde","Good afternoon","こんにちは","konnichiwa"],["Boa noite","Good evening","こんばんは","konbanwa"],["Sim","Yes","はい","hai"],["Não","No","いいえ","iie"]],
+  [["Até logo","See you later","また後で","mata ato de"],["Até mais","See you","またね","mata ne"],["Obrigado(a)","Thank you","ありがとう","arigatou"],["De nada","You're welcome","どういたしまして","douitashimashite"],["Por favor","Please","お願いします","onegaishimasu"],["Desculpa","Sorry","ごめんなさい","gomennasai"],["Tudo bem.","It's okay.","大丈夫です","daijoubu desu"]],
+  [["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],["Como você se chama?","May I ask your name?","何という名前ですか","nan to iu namae desu ka"],["Meu nome é...","My name is...","私は...です","watashi wa desu"],["Eu sou...","I'm...","私の名前は...です","watashi no namae wa desu"],["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"]],
+  [["Como você está?","How are you?","お元気ですか","ogenki desu ka"],["Estou bem.","I'm fine.","元気です","genki desu"],["Estou ótimo(a).","I'm great.","すごく元気です","sugoku genki desu"],["Estou muito bem.","I'm very well.","とても元気です","totemo genki desu"],["E você?","And you?","あなたは","anata wa"],["Eu sou do Brasil.","I'm from Brazil.","ブラジルから来ました","burajiru kara kimashita"]],
+  [["De onde você é?","Where are you from?","どこから来ましたか","doko kara kimashita ka"],["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"],["Onde fica?","Where is it?","どこですか","doko desu ka"],["Aqui","Here","ここです","koko desu"],["Casa","Home","家","ie"],["Quarto","Room","部屋","heya"]],
+  [["Água","Water","水","mizu"],["Comida","Food","食べ物","tabemono"],["Banheiro","Bathroom","トイレ","toire"],["Escola","School","学校","gakkou"],["Ajude-me, por favor.","Please help me.","助けてください","tasukete kudasai"],["Água, por favor.","Water, please.","水をください","mizu o kudasai"]],
+  [["Hoje","Today","今日","kyou"],["Amanhã","Tomorrow","明日","ashita"],["Agora","Now","今","ima"],["Que horas são?","What time is it?","何時ですか","nanji desu ka"],["Entendi.","I understand.","わかりました","wakarimashita"],["Não entendo.","I don't understand.","わかりません","wakarimasen"]],
+  [["Olá! Meu nome é...","Hello! My name is...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Bom dia! Como você está?","Good morning! How are you?","おはようございます！元気ですか","ohayou gozaimasu genki desu ka"],["Estou bem. E você?","I'm fine. And you?","元気です。あなたは","genki desu anata wa"],["Prazer em conhecer você!","Nice to meet you!","はじめまして！","hajimemashite"],["Meu nome é... Prazer!","My name is... Nice to meet you!","私は...です。はじめまして","watashi wa desu hajimemashite"]],
+  [["Eu moro aqui.","I live here.","ここに住んでいます","koko ni sunde imasu"],["Eu moro perto daqui.","I live nearby.","近くに住んでいます","chikaku ni sunde imasu"],["Quero este, por favor.","I'll take this, please.","これをください","kore o kudasai"],["Mais uma vez, por favor.","One more time, please.","もう一度お願いします","mou ichido onegaishimasu"],["Espere um pouco, por favor.","Please wait a moment.","ちょっと待ってください","chotto matte kudasai"],["É um prazer conhecer você.","It's nice to meet you.","お会いできてうれしいです","oai dekite ureshii desu"]],
+  [["Bom dia! Meu nome é...","Good morning! My name is...","おはようございます！私は...です","ohayou gozaimasu watashi wa desu"],["Olá! Eu sou...","Hello! I'm...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Como você está? Estou bem.","How are you? I'm fine.","お元気ですか。元気です","ogenki desu ka genki desu"],["De onde você é? Eu sou do Brasil.","Where are you from? I'm from Brazil.","どこから来ましたか。ブラジルから来ました","doko kara kimashita ka burajiru kara kimashita"],["Prazer! Até mais!","Nice to meet you! See you!","はじめまして！またね","hajimemashite mata ne"]],
+];
 function unit1Curriculum(lang: Language): Curriculum {
   return UNIT1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => lang==="ja" ? [romaji,pt,romaji] : lang==="en" ? [en,pt] : [pt,en]) as LessonItem[]);
 }
@@ -161,7 +172,7 @@ const ICONS: Record<Language, string[]> = {
   pt: ["👋", "☕", "🐱", "📖", "🧩", "🎧", "🗣️", "✍️", "🌟", "🏆"],
 };
 
-const PHASE_XP = [18, 20, 22, 24, 26, 28, 30, 32, 35, 38];
+const PHASE_XP = [18,20,22,24,26,28,30,32,35,38,40,42,44,46,48,50,52,54,56,60];
 
 function shuffle<T>(items: T[]): T[] {
   return [...items].sort(() => Math.random() - 0.5);
@@ -416,7 +427,29 @@ function makeQuestion(
 }
 
 const UNIT1_TITLES = [
- ["Primeiros cumprimentos","First greetings","最初のあいさつ"],["Despedidas e educação","Goodbyes and politeness","別れと丁寧な表現"],["Nome e apresentação","Names and introductions","名前と自己紹介"],["Como você está?","How are you?","元気ですか"],["Prazer em conhecer","Nice to meet you","はじめまして"],["Perguntas simples","Simple questions","簡単な質問"],["Pequenas conversas","Short conversations","短い会話"],["Situações práticas","Practical situations","実践的な場面"],["Revisão e combinação","Review and combination","復習と組み合わせ"],["Desafio da unidade","Unit challenge","ユニットチャレンジ"],
+  ["Palavras e cumprimentos","Words and greetings","言葉とあいさつ"],
+  ["Educação e respostas simples","Politeness and simple answers","丁寧な表現と簡単な答え"],
+  ["Nome e apresentação básica","Basic names and introductions","名前と基本の自己紹介"],
+  ["Como você está?","How are you?","元気ですか"],
+  ["Perguntas básicas","Basic questions","基本的な質問"],
+  ["Lugares e necessidades","Places and needs","場所と必要な表現"],
+  ["Tempo e compreensão","Time and understanding","時間と理解"],
+  ["Frases curtas","Short sentences","短い文"],
+  ["Combinações básicas","Basic combinations","基本的な組み合わせ"],
+  ["Revisão e base para interagir","Review and interaction basics","復習と会話の基礎"],
+] as const;
+
+const SECTION2_TITLES = [
+  ["Vocabulário mais amplo","Broader vocabulary","より広い語彙"],
+  ["Situações do dia a dia","Everyday situations","日常の場面"],
+  ["Perguntas mais completas","More complete questions","より完全な質問"],
+  ["Pedidos e necessidades","Requests and needs","依頼と必要な表現"],
+  ["Locais e deslocamento","Places and getting around","場所と移動"],
+  ["Conversas práticas","Practical conversations","実践的な会話"],
+  ["Compreensão e explicação","Understanding and explaining","理解と説明"],
+  ["Frases mais completas","More complete sentences","より完全な文"],
+  ["Combinações e contexto","Combinations and context","組み合わせと文脈"],
+  ["Desafio de conversação","Conversation challenge","会話チャレンジ"],
 ] as const;
 
 function buildPhase(
@@ -475,9 +508,11 @@ function buildPhase(
     return makeQuestion(lang, item, kind, phaseIdx, pool, ui, index);
   });
 
+  const titleRows = phaseIdx < 10 ? UNIT1_TITLES : SECTION2_TITLES;
+  const titleIndex = phaseIdx < 10 ? phaseIdx : phaseIdx - 10;
   return {
     id: `${lang}-phase-${phaseIdx + 1}`,
-    title: UNIT1_TITLES[phaseIdx] ? (ui === "en" ? UNIT1_TITLES[phaseIdx][1] : ui === "ja" ? UNIT1_TITLES[phaseIdx][2] : UNIT1_TITLES[phaseIdx][0]) : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
+    title: titleRows[titleIndex] ? (ui === "en" ? titleRows[titleIndex][1] : ui === "ja" ? titleRows[titleIndex][2] : titleRows[titleIndex][0]) : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
     icon: ICONS[lang][phaseIdx],
     xp: PHASE_XP[phaseIdx] ?? PHASE_XP[PHASE_XP.length - 1],
     questions,
@@ -508,7 +543,7 @@ export function buildPhases(
 ): Phase[] {
   const lang = normalizeLanguage(langInput);
   const normalizedLevel = normalizeLevel(level);
-  return Array.from({ length: 10 }, (_, index) => buildPhase(lang, index, normalizedLevel, goal ?? "outro", ui));
+  return Array.from({ length: 20 }, (_, index) => buildPhase(lang, index, normalizedLevel, goal ?? "outro", ui));
 }
 
 // Lazy cache prevents lesson generation from affecting startup/login rendering.
