@@ -184,9 +184,17 @@ function uniqueByTarget(items: LessonItem[]): LessonItem[] {
 
 function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | undefined, level: Level = "iniciante"): LessonItem[] {
   if (phaseIdx < 10) return uniqueByTarget(UNIT1[lang].slice(0, phaseIdx + 1).flat());
-  const family = normalizeGoal(goal); const curriculum = GOAL_CURRICULUM[lang][family];
-  const offset = levelOffset(level); const unlockedThrough = Math.min(curriculum.length - 1, phaseIdx + offset);
-  return uniqueByTarget(curriculum.slice(0, unlockedThrough + 1).flat());
+  const family = normalizeGoal(goal);
+  const curriculum = GOAL_CURRICULUM[lang][family];
+  const section2Start = Math.min(8, Math.max(0, curriculum.length - 1));
+  const section2Phase = phaseIdx - 10;
+  const offset = levelOffset(level);
+  const unlockedThrough = Math.min(
+    curriculum.length - 1,
+    section2Start + (section2Phase + 1) * 4 - 1 + offset,
+  );
+  const section2Pool = curriculum.slice(section2Start, unlockedThrough + 1);
+  return uniqueByTarget(section2Pool.flat());
 }
 
 
