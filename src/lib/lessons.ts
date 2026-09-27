@@ -490,7 +490,7 @@ function makeQuestion(
   const optionsCount = maxOptionsForPhase(phaseIdx);
   const targetPool = pool.map((entry) => targetText(lang, entry));
   const meaningPool = pool.map((entry) => meaningText(entry, ui));
-  const japanese = lang === "ja" && phaseIdx < 10 ? japaneseHiragana(item) : lang === "ja" ? item[0] : undefined;
+  const japanese = lang === "ja" && phaseIdx >= 7 ? item[0] : undefined;
   const romaji = lang === "ja" ? item[2] : undefined;
 
   if (kind === "listen") {
@@ -598,6 +598,104 @@ const SECTION2_TITLES = [
   ["Conversas sobre você","Conversations about you","あなたについての会話"],
 ] as const;
 
+function makeDifficultyQuestion(lang: Language, phaseIdx: number, challengeIndex: number, item: LessonItem, pool: LessonItem[], ui: UiLang): Question {
+  const target = targetText(lang, item);
+  const meaning = meaningText(item, ui);
+  const targetPool = pool.map((entry) => targetText(lang, entry));
+  const meaningPool = pool.map((entry) => meaningText(entry, ui));
+  const contexts = [
+    [
+      "🌅 Você encontra alguém pela manhã. Qual cumprimento combina com a situação?",
+      "🔊 Qual expressão você ouviu?",
+      "👋 Você terminou a conversa e está indo embora. Qual expressão combina?",
+      "🌅 Você encontra seu amigo pela manhã. Depois vocês terminam a conversa e você vai embora.",
+    ],
+    [
+      "🙏 Alguém ajudou você. Qual expressão você usa para agradecer?",
+      "🔊 Qual expressão de agradecimento você ouviu?",
+      "😊 Alguém diz que não há problema depois que você agradece. Qual resposta combina?",
+      "🙏 Você agradece a alguém e a pessoa responde de forma educada.",
+    ],
+    [
+      "🙇 Você cometeu um pequeno erro. Qual expressão combina com a situação?",
+      "🔊 Qual expressão de desculpa você ouviu?",
+      "🚶 Você precisa chamar a atenção de alguém com educação. Qual expressão combina?",
+      "🙇 Você precisa pedir desculpa e depois pedir licença.",
+    ],
+    [
+      "🙂 Você encontra alguém e quer perguntar se está tudo bem. Qual expressão combina?",
+      "🔊 Qual pergunta sobre como alguém está você ouviu?",
+      "😊 A pessoa pergunta como você está e você responde que está bem.",
+      "🙂 Você pergunta como a pessoa está e depois responde que está bem.",
+    ],
+    [
+      "👋 Você acabou de conhecer alguém. Qual expressão de apresentação combina?",
+      "🔊 Qual expressão de apresentação você ouviu?",
+      "🤝 Você acabou de conhecer alguém e quer dizer que foi um prazer.",
+      "👋 Você se apresenta e depois diz que foi um prazer conhecer a pessoa.",
+    ],
+    [
+      "👋 Você terminou uma conversa. Qual despedida combina?",
+      "🔊 Qual despedida você ouviu?",
+      "🌙 Você vai se despedir e sabe que verá a pessoa amanhã. Qual expressão combina?",
+      "👋 Você se despede agora e diz que verá a pessoa amanhã.",
+    ],
+    [
+      "🗣️ Você encontra alguém, cumprimenta e pergunta como está. Qual sequência combina?",
+      "🔊 Qual expressão desta pequena conversa você ouviu?",
+      "👋 A conversa terminou. Qual despedida combina?",
+      "🗣️ Você cumprimenta, pergunta como a pessoa está, agradece e se despede.",
+    ],
+  ][phaseIdx];
+
+  if (challengeIndex === 1) {
+    return {
+      kind: "listen",
+      prompt: translate(contexts[1], ui),
+      audio: audioText(lang, item),
+      answer: meaning,
+      options: pickOptions(meaning, meaningPool, 4),
+      translation: meaning,
+      romaji: lang === "ja" ? item[2] : undefined,
+      reveal: { translation: meaning, romaji: lang === "ja" ? item[2] : undefined, japanese: lang === "ja" ? (item[3] ?? item[0]) : undefined },
+    };
+  }
+
+  if (challengeIndex === 3) {
+    const sequences = [
+      ["ohayou gozaimasu → mata ato", "Good morning → See you later", "Bom dia → Até logo"],
+      ["arigatou → douitashimashite", "Thank you → You're welcome", "Obrigado → De nada"],
+      ["gomennasai → sumimasen", "Sorry → Excuse me", "Desculpa → Com licença"],
+      ["daijoubu desu ka → genki desu", "Are you okay? → I'm fine.", "Tudo bem? → Estou bem."],
+      ["watashi wa ... desu → hajimemashite", "I'm... → Nice to meet you.", "Eu sou... → Prazer."],
+      ["jaa ne → mata ashita", "Bye → See you tomorrow", "Tchau → Até amanhã"],
+      ["konnichiwa → ogenki desu ka → arigatou → jaa ne", "Hi → How are you? → Thank you → Bye", "Oi → Como você está? → Obrigado → Tchau"],
+    ][phaseIdx];
+    const answer = lang === "ja" ? sequences[0] : lang === "en" ? sequences[1] : sequences[2];
+    const distractors = targetPool.filter((value) => value !== answer).slice(0, 3);
+    return {
+      kind: "choose",
+      prompt: translate(contexts[3], ui),
+      answer,
+      options: shuffle([answer, ...distractors]).slice(0, 4),
+      translation: meaning,
+      romaji: lang === "ja" ? item[2] : undefined,
+    };
+  }
+
+  const preferred = phaseIdx === 0 && challengeIndex === 0 ? "ohayou gozaimasu"
+    : phaseIdx === 0 && challengeIndex === 2 ? "mata ato"
+    : target;
+  return {
+    kind: "choose",
+    prompt: translate(challengeIndex === 0 ? contexts[0] : contexts[2], ui),
+    answer: preferred,
+    options: pickOptions(preferred, targetPool, 4),
+    translation: meaning,
+    romaji: lang === "ja" ? item[2] : undefined,
+  };
+}
+
 function buildPhase(
   lang: Language,
   phaseIdx: number,
@@ -616,8 +714,9 @@ function buildPhase(
     const currentItem = unitPhase[index % unitPhase.length] ?? pool[0];
     const isDifficulty = isUnit1 && index >= 11;
     const item = isUnit1 ? currentItem : index < unitPhase.length ? currentItem : (index - unitPhase.length) % 2 === 0 ? currentItem : pool[(index * 3 + phaseIdx) % pool.length];
+    if (isDifficulty) return makeDifficultyQuestion(lang, phaseIdx, index - 11, item, unitPhase, ui);
+
     let kind = pattern[index];
-    if (isDifficulty) kind = (["choose","listen","choose","listen"] as TaskKind[])[index - 11];
 
     if (kind === "listen") {
       const maxWords = isUnit1 ? 4 : phaseIdx <= 8 ? 3 : phaseIdx <= 11 ? 5 : phaseIdx <= 14 ? 7 : 12;
@@ -636,12 +735,7 @@ function buildPhase(
       const buildItem = buildable.length ? buildable[(index + phaseIdx) % buildable.length] : item;
       return makeQuestion(lang, buildItem, "build", phaseIdx, pool, ui, index);
     }
-    const question = makeQuestion(lang, item, kind, phaseIdx, pool, ui, index);
-    if (isDifficulty) {
-      const prompts = ["Escolha a expressão que combina com a situação.","Qual expressão combina melhor com a situação?","Escolha a resposta adequada para a situação.","Use o que aprendeu para escolher a melhor resposta."];
-      question.prompt = translate(prompts[index - 11], ui);
-    }
-    return question;
+    return makeQuestion(lang, item, kind, phaseIdx, pool, ui, index);
   });
 
   return {
