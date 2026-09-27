@@ -241,7 +241,6 @@ function LessonPlayer() {
         if (next % 7 === 0) {
           // Fases 1–10: +4 Foco por 7 acertos seguidos.
           // Fase 11+: +3 Foco. A regra usa o número da fase atual para continuar funcionando em futuras fases.
-          const phaseNumber = Number(lesson.id.match(/-phase-(\\d+)$/)?.[1] ?? 1);
           const focusReward = phaseNumber >= 11 ? 3 : 4;
           setBonusFocus((b) => b + focusReward);
           // O bônus de Foco é incluído na recompensa final da lição e coletado visualmente.

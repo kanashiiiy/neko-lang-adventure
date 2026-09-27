@@ -75,8 +75,8 @@ function HomePage() {
           })}
         </div>
         <div className="mb-5 mt-8 rounded-3xl border border-primary/15 bg-card/80 px-4 py-4 shadow-soft">
-          <div className="text-xs font-black uppercase tracking-[0.16em] text-primary">SEÇÃO 2</div>
-          <div className="mt-1 text-lg font-black text-foreground">Conteúdos mais completos e complexos para ampliar seu vocabulário e conversar.</div>
+          <div className="text-xs font-black uppercase tracking-[0.16em] text-primary">SEÇÃO 2 — UNIDADE 2</div>
+          <div className="mt-1 text-lg font-black text-foreground">Aprenda a falar sobre você, sua origem, preferências e informações pessoais em situações do dia a dia.</div>
           <div className="mt-1 text-xs font-semibold text-muted-foreground">{t("Fases")} · {t(langMeta?.name ?? "")} · 20 tarefas por fase</div>
         </div>
         <div className="relative flex flex-col items-center gap-4">

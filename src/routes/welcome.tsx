@@ -1,17 +1,26 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { NekoMascot } from "@/components/NekoMascot";
+import { Button } from "@/components/ui/button";
+import entryArtwork from "@/assets/nekoteach-entry-final.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
-import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/welcome")({
   component: WelcomePage,
   ssr: false,
+  head: () => ({
+    meta: [
+      { title: "Boas-vindas | NEKOTeach" },
+      { name: "description", content: "Comece sua jornada de idiomas com o Neko no NEKOTeach." },
+      { property: "og:title", content: "Boas-vindas | NEKOTeach" },
+      { property: "og:description", content: "Comece sua jornada de idiomas com o Neko no NEKOTeach." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
 function WelcomePage() {
   const navigate = useNavigate();
-  const t = useT();
 
   // Sessão salva? entra direto, sem passar pelo login.
   useEffect(() => {
@@ -27,32 +36,30 @@ function WelcomePage() {
 
 
   return (
-    <div className="mobile-shell px-6 pt-12 pb-8">
-      <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <NekoMascot size={180} float />
-        <h1 className="mt-4 text-4xl font-black tracking-tight">
-          NEKO<span className="text-primary">Teach</span>
-        </h1>
-        <h2 className="mt-4 text-xl font-bold">{t("Bem-vindo ao NEKOTeach!")}</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {t("Aprenda idiomas de forma divertida com a Neko.")}
-        </p>
-      </div>
-
-      <div className="mt-8 flex flex-col gap-3">
-        <button
+    <main className="relative h-dvh w-full overflow-hidden bg-background">
+      <div className="welcome-artboard absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <img
+          src={entryArtwork.url}
+          alt="NEKOTeach — aprenda idiomas de forma divertida com a Neko"
+          className="absolute inset-0 size-full object-fill"
+        />
+        <Button
+          type="button"
+          aria-label="Já tenho uma conta"
           onClick={() => navigate({ to: "/auth", search: { mode: "login" } })}
-          className="btn-3d rounded-2xl bg-primary py-4 text-base font-bold text-primary-foreground"
+          className="absolute left-[8%] top-[68.2%] h-[7.8%] w-[84%] border-0 bg-transparent p-0 text-transparent shadow-none hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          🔑 {t("Já tenho uma conta")}
-        </button>
-        <button
+          <span className="sr-only">Já tenho uma conta</span>
+        </Button>
+        <Button
+          type="button"
+          aria-label="Sou novo"
           onClick={() => navigate({ to: "/start" })}
-          className="btn-3d rounded-2xl border-2 border-primary bg-card py-4 text-base font-bold text-primary"
+          className="absolute left-[8%] top-[77%] h-[7.8%] w-[84%] border-0 bg-transparent p-0 text-transparent shadow-none hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          ✨ {t("Sou novo")}
-        </button>
+          <span className="sr-only">Sou novo</span>
+        </Button>
       </div>
-    </div>
+    </main>
   );
 }

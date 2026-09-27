@@ -50,7 +50,7 @@ export interface Phase {
   questions: Question[];
 }
 
-type LessonItem = [target: string, meaning: string, romaji?: string];
+type LessonItem = [target: string, meaning: string, romaji?: string, japanese?: string];
 type Curriculum = LessonItem[][];
 
 type GoalFamily = "travel" | "live" | "work" | "general";
@@ -94,8 +94,16 @@ const GOAL_ROWS: Record<Exclude<GoalFamily, "general">, GoalRow[]> = {
 };
 
 function rowsToCurriculum(rows: GoalRow[], lang: Language): Curriculum {
-  return rows.map(([en, pt, _ja, romaji]) =>
-    lang === "ja" ? [romaji, pt, romaji] : lang === "en" ? [en, pt] : [pt, en]
+  const items = rows.map(([en, pt, _ja, romaji]) =>
+    lang === "ja"
+      ? ([romaji, pt, romaji] satisfies LessonItem)
+      : lang === "en"
+        ? ([en, pt] satisfies LessonItem)
+        : ([pt, en] satisfies LessonItem)
+  );
+  return Array.from(
+    { length: Math.ceil(items.length / 4) },
+    (_, index) => items.slice(index * 4, index * 4 + 4),
   );
 }
 
@@ -128,21 +136,247 @@ const GOAL_CURRICULUM: Record<Language, Record<GoalFamily, Curriculum>> = {
 
 type Unit1Row = [pt:string,en:string,ja:string,romaji:string];
 const UNIT1_ROWS: Unit1Row[][] = [
-  [["Olá","Hello","こんにちは","konnichiwa"],["Oi","Hi","やあ","yaa"],["Bom dia","Good morning","おはようございます","ohayou gozaimasu"],["Boa tarde","Good afternoon","こんにちは","konnichiwa"],["Boa noite","Good evening","こんばんは","konbanwa"],["Sim","Yes","はい","hai"],["Não","No","いいえ","iie"]],
-  [["Até logo","See you later","また後で","mata ato de"],["Até mais","See you","またね","mata ne"],["Obrigado(a)","Thank you","ありがとう","arigatou"],["De nada","You're welcome","どういたしまして","douitashimashite"],["Por favor","Please","お願いします","onegaishimasu"],["Desculpa","Sorry","ごめんなさい","gomennasai"],["Tudo bem.","It's okay.","大丈夫です","daijoubu desu"]],
-  [["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],["Como você se chama?","May I ask your name?","何という名前ですか","nan to iu namae desu ka"],["Meu nome é...","My name is...","私は...です","watashi wa desu"],["Eu sou...","I'm...","私の名前は...です","watashi no namae wa desu"],["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"]],
-  [["Como você está?","How are you?","お元気ですか","ogenki desu ka"],["Estou bem.","I'm fine.","元気です","genki desu"],["Estou ótimo(a).","I'm great.","すごく元気です","sugoku genki desu"],["Estou muito bem.","I'm very well.","とても元気です","totemo genki desu"],["E você?","And you?","あなたは","anata wa"],["Eu sou do Brasil.","I'm from Brazil.","ブラジルから来ました","burajiru kara kimashita"]],
-  [["De onde você é?","Where are you from?","どこから来ましたか","doko kara kimashita ka"],["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"],["Onde fica?","Where is it?","どこですか","doko desu ka"],["Aqui","Here","ここです","koko desu"],["Casa","Home","家","ie"],["Quarto","Room","部屋","heya"]],
-  [["Água","Water","水","mizu"],["Comida","Food","食べ物","tabemono"],["Banheiro","Bathroom","トイレ","toire"],["Escola","School","学校","gakkou"],["Ajude-me, por favor.","Please help me.","助けてください","tasukete kudasai"],["Água, por favor.","Water, please.","水をください","mizu o kudasai"]],
-  [["Hoje","Today","今日","kyou"],["Amanhã","Tomorrow","明日","ashita"],["Agora","Now","今","ima"],["Que horas são?","What time is it?","何時ですか","nanji desu ka"],["Entendi.","I understand.","わかりました","wakarimashita"],["Não entendo.","I don't understand.","わかりません","wakarimasen"]],
-  [["Olá! Meu nome é...","Hello! My name is...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Bom dia! Como você está?","Good morning! How are you?","おはようございます！元気ですか","ohayou gozaimasu genki desu ka"],["Estou bem. E você?","I'm fine. And you?","元気です。あなたは","genki desu anata wa"],["Prazer em conhecer você!","Nice to meet you!","はじめまして！","hajimemashite"],["Meu nome é... Prazer!","My name is... Nice to meet you!","私は...です。はじめまして","watashi wa desu hajimemashite"]],
-  [["Eu moro aqui.","I live here.","ここに住んでいます","koko ni sunde imasu"],["Eu moro perto daqui.","I live nearby.","近くに住んでいます","chikaku ni sunde imasu"],["Quero este, por favor.","I'll take this, please.","これをください","kore o kudasai"],["Mais uma vez, por favor.","One more time, please.","もう一度お願いします","mou ichido onegaishimasu"],["Espere um pouco, por favor.","Please wait a moment.","ちょっと待ってください","chotto matte kudasai"],["É um prazer conhecer você.","It's nice to meet you.","お会いできてうれしいです","oai dekite ureshii desu"]],
-  [["Bom dia! Meu nome é...","Good morning! My name is...","おはようございます！私は...です","ohayou gozaimasu watashi wa desu"],["Olá! Eu sou...","Hello! I'm...","こんにちは！私は...です","konnichiwa watashi wa desu"],["Como você está? Estou bem.","How are you? I'm fine.","お元気ですか。元気です","ogenki desu ka genki desu"],["De onde você é? Eu sou do Brasil.","Where are you from? I'm from Brazil.","どこから来ましたか。ブラジルから来ました","doko kara kimashita ka burajiru kara kimashita"],["Prazer! Até mais!","Nice to meet you! See you!","はじめまして！またね","hajimemashite mata ne"]],
+  [
+    ["Olá", "Hello", "こんにちは", "konnichiwa"], ["Oi", "Hi", "やあ", "yaa"],
+    ["Bom dia", "Good morning", "おはようございます", "ohayou gozaimasu"], ["Boa tarde", "Good afternoon", "どうも", "doumo"],
+    ["Boa noite", "Good evening", "こんばんは", "konbanwa"], ["Ei!", "Hey!", "ねえ", "nee"],
+    ["Tudo bem?", "How's it going?", "元気？", "genki"], ["Bem-vindo(a)!", "Welcome!", "ようこそ", "youkoso"],
+  ],
+  [
+    ["Tchau", "Bye", "じゃあね", "jaa ne"], ["Até mais", "See you", "またね", "mata ne"],
+    ["Até logo", "See you later", "また後で", "mata ato de"], ["Obrigado(a)", "Thank you", "ありがとう", "arigatou"],
+    ["Muito obrigado(a)", "Thank you very much", "ありがとうございます", "arigatou gozaimasu"], ["De nada", "You're welcome", "どういたしまして", "douitashimashite"],
+    ["Por favor", "Please", "お願いします", "onegaishimasu"], ["Com licença", "Excuse me", "すみません", "sumimasen"],
+    ["Desculpe", "I'm sorry", "ごめんなさい", "gomennasai"],
+  ],
+  [
+    ["Qual é o seu nome?", "What's your name?", "お名前は何ですか", "onamae wa nan desu ka"], ["Como você se chama?", "May I ask your name?", "お名前は？", "onamae wa"],
+    ["Meu nome é Ana.", "My name is Ana.", "私はアナです", "watashi wa ana desu"], ["Eu sou o Leo.", "I'm Leo.", "レオです", "reo desu"],
+    ["Pode me chamar de Bia.", "You can call me Bia.", "ビアと呼んでください", "bia to yonde kudasai"], ["Este é o Ken.", "This is Ken.", "こちらはケンです", "kochira wa ken desu"],
+    ["Quem é você?", "Who are you?", "あなたは誰ですか", "anata wa dare desu ka"], ["Sou estudante.", "I'm a student.", "学生です", "gakusei desu"],
+  ],
+  [
+    ["Como você está?", "How are you?", "お元気ですか", "ogenki desu ka"], ["Estou bem.", "I'm fine.", "元気です", "genki desu"],
+    ["Estou ótimo(a).", "I'm great.", "とても元気です", "totemo genki desu"], ["Estou feliz.", "I'm happy.", "うれしいです", "ureshii desu"],
+    ["Estou cansado(a).", "I'm tired.", "疲れています", "tsukarete imasu"], ["Estou com sono.", "I'm sleepy.", "眠いです", "nemui desu"],
+    ["Mais ou menos.", "So-so.", "まあまあです", "maa maa desu"], ["E você?", "And you?", "あなたは？", "anata wa"],
+  ],
+  [
+    ["Prazer em conhecer você.", "Nice to meet you.", "はじめまして", "hajimemashite"], ["Igualmente.", "Likewise.", "こちらこそ", "kochira koso"],
+    ["É um prazer.", "It's a pleasure.", "よろしくお願いします", "yoroshiku onegaishimasu"], ["Prazer em conhecer você também.", "Nice to meet you too.", "私もお会いできてうれしいです", "watashi mo oai dekite ureshii desu"],
+    ["Esta é minha amiga Ana.", "This is my friend Ana.", "こちらは友達のアナです", "kochira wa tomodachi no ana desu"], ["Este é meu amigo Ken.", "This is my friend Ken.", "こちらは友達のケンです", "kochira wa tomodachi no ken desu"],
+    ["Somos colegas.", "We're classmates.", "私たちはクラスメートです", "watashitachi wa kurasumeeto desu"], ["Que bom conhecer você.", "Glad to meet you.", "お会いできてうれしいです", "oai dekite ureshii desu"],
+  ],
+  [
+    ["De onde você é?", "Where are you from?", "どちらの出身ですか", "dochira no shusshin desu ka"], ["Sou do Brasil.", "I'm from Brazil.", "ブラジル出身です", "burajiru shusshin desu"],
+    ["Sou dos Estados Unidos.", "I'm from the United States.", "アメリカ出身です", "amerika shusshin desu"], ["Sou do Japão.", "I'm from Japan.", "日本出身です", "nihon shusshin desu"],
+    ["Onde você mora?", "Where do you live?", "どこに住んでいますか", "doko ni sunde imasu ka"], ["Moro em Belém.", "I live in Belém.", "ベレンに住んでいます", "beren ni sunde imasu"],
+    ["Moro aqui.", "I live here.", "ここに住んでいます", "koko ni sunde imasu"], ["Moro perto daqui.", "I live nearby.", "近くに住んでいます", "chikaku ni sunde imasu"],
+  ],
+  [
+    ["Você fala português?", "Do you speak Portuguese?", "ポルトガル語を話しますか", "porutogaru go o hanashimasu ka"], ["Você fala inglês?", "Do you speak English?", "英語を話しますか", "eigo o hanashimasu ka"],
+    ["Você fala japonês?", "Do you speak Japanese?", "日本語を話しますか", "nihongo o hanashimasu ka"], ["Sim, um pouco.", "Yes, a little.", "はい、少し", "hai sukoshi"],
+    ["Ainda estou aprendendo.", "I'm still learning.", "まだ勉強中です", "mada benkyou chuu desu"], ["Pode repetir?", "Can you repeat that?", "もう一度お願いします", "mou ichido onegaishimasu"],
+    ["Entendeu?", "Did you understand?", "わかりましたか", "wakarimashita ka"], ["Sim, entendi.", "Yes, I understood.", "はい、わかりました", "hai wakarimashita"],
+  ],
+  [
+    ["Bom dia, professora.", "Good morning, teacher.", "先生、おはようございます", "sensei ohayou gozaimasu"], ["Oi, tudo bem?", "Hi, how's it going?", "やあ、元気？", "yaa genki"],
+    ["Olá, posso me apresentar?", "Hello, may I introduce myself?", "こんにちは、自己紹介してもいいですか", "konnichiwa jikoshoukai shite mo ii desu ka"], ["Claro, por favor.", "Of course, go ahead.", "はい、どうぞ", "hai douzo"],
+    ["Esta é a minha colega.", "This is my colleague.", "こちらは私の同僚です", "kochira wa watashi no douryou desu"], ["Obrigado pela apresentação.", "Thanks for the introduction.", "紹介してくれてありがとう", "shoukai shite kurete arigatou"],
+    ["Foi bom falar com você.", "It was nice talking to you.", "お話しできてよかったです", "ohanashi dekite yokatta desu"], ["Até amanhã.", "See you tomorrow.", "また明日", "mata ashita"],
+  ],
+  [
+    ["Olá! Meu nome é Ana.", "Hello! My name is Ana.", "こんにちは、私はアナです", "konnichiwa watashi wa ana desu"], ["Oi, eu sou o Leo.", "Hi, I'm Leo.", "やあ、レオです", "yaa reo desu"],
+    ["Como você está hoje?", "How are you today?", "今日はお元気ですか", "kyou wa ogenki desu ka"], ["Estou bem, obrigado(a).", "I'm fine, thank you.", "元気です、ありがとう", "genki desu arigatou"],
+    ["Sou do Brasil e moro em Belém.", "I'm from Brazil and live in Belém.", "ブラジル出身で、ベレンに住んでいます", "burajiru shusshin de beren ni sunde imasu"], ["Este é meu amigo Ken.", "This is my friend Ken.", "こちらは友達のケンです", "kochira wa tomodachi no ken desu"],
+    ["Prazer, Ken.", "Nice to meet you, Ken.", "はじめまして、ケンさん", "hajimemashite ken san"], ["Até mais, tenha um bom dia.", "See you, have a good day.", "またね、よい一日を", "mata ne yoi ichinichi o"],
+  ],
+  [
+    ["Bom dia! Qual é o seu nome?", "Good morning! What's your name?", "おはようございます、お名前は何ですか", "ohayou gozaimasu onamae wa nan desu ka"], ["Meu nome é Ana. E você?", "My name is Ana. And you?", "私はアナです。あなたは？", "watashi wa ana desu anata wa"],
+    ["Sou o Ken. Prazer em conhecer você.", "I'm Ken. Nice to meet you.", "ケンです。はじめまして", "ken desu hajimemashite"], ["Igualmente! Como você está?", "Likewise! How are you?", "こちらこそ。お元気ですか", "kochira koso ogenki desu ka"],
+    ["Estou ótimo, obrigado.", "I'm great, thank you.", "とても元気です。ありがとう", "totemo genki desu arigatou"], ["De onde você é?", "Where are you from?", "どちらの出身ですか", "dochira no shusshin desu ka"],
+    ["Sou do Japão e moro aqui.", "I'm from Japan and live here.", "日本出身で、ここに住んでいます", "nihon shusshin de koko ni sunde imasu"], ["Foi bom falar com você. Até logo!", "It was nice talking to you. See you later!", "お話しできてよかったです。また後で", "ohanashi dekite yokatta desu mata ato de"],
+  ],
 ];
 function unit1Curriculum(lang: Language): Curriculum {
-  return UNIT1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => lang==="ja" ? [romaji,pt,romaji] : lang==="en" ? [en,pt] : [pt,en]) as LessonItem[]);
+  return UNIT1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => lang==="ja" ? [romaji,pt,romaji,ja] : lang==="en" ? [en,pt] : [pt,en]) as LessonItem[]);
 }
 const UNIT1: Record<Language,Curriculum> = { pt:unit1Curriculum("pt"), en:unit1Curriculum("en"), ja:unit1Curriculum("ja") };
+
+// Keep Section 1 basic and progressive. Longer existing material remains available
+// in Section 2 so no existing learning content is unnecessarily removed.
+const SECTION1_ROWS: Unit1Row[][] = [
+  UNIT1_ROWS[0],
+  UNIT1_ROWS[1],
+  UNIT1_ROWS[2].slice(0, 4).concat([UNIT1_ROWS[2][7]]),
+  UNIT1_ROWS[3].slice(0, 6),
+  [
+    ["Sim","Yes","はい","hai"],["Não","No","いいえ","iie"],
+    ["O que é isto?","What is this?","これは何ですか","kore wa nan desu ka"],
+    ["Onde é?","Where is it?","どこですか","doko desu ka"],
+    ["Aqui","Here","ここ","koko"],["Ali","There","そこ","soko"],
+    ["Hoje","Today","今日","kyou"],["Amanhã","Tomorrow","明日","ashita"],
+  ],
+  [
+    ["Você fala português?","Do you speak Portuguese?","ポルトガル語を話しますか","porutogaru go o hanashimasu ka"],
+    ["Você fala inglês?","Do you speak English?","英語を話しますか","eigo o hanashimasu ka"],
+    ["Você fala japonês?","Do you speak Japanese?","日本語を話しますか","nihongo o hanashimasu ka"],
+    ["Sim, um pouco.","Yes, a little.","はい、少し","hai sukoshi"],
+    ["Pode repetir?","Can you repeat that?","もう一度お願いします","mou ichido onegaishimasu"],
+    ["Entendeu?","Did you understand?","わかりましたか","wakarimashita ka"],
+    ["Sim, entendi.","Yes, I understood.","はい、わかりました","hai wakarimashita"],
+  ],
+  [
+    ["Água","Water","水","mizu"],["Comida","Food","食べ物","tabemono"],
+    ["Casa","Home","家","ie"],["Escola","School","学校","gakkou"],
+    ["Quarto","Room","部屋","heya"],["Banheiro","Bathroom","トイレ","toire"],
+    ["Estação","Station","駅","eki"],["Hospital","Hospital","病院","byouin"],
+  ],
+  [
+    ["Por favor","Please","お願いします","onegaishimasu"],["Com licença","Excuse me","すみません","sumimasen"],
+    ["Desculpe","I'm sorry","ごめんなさい","gomennasai"],["Obrigado(a)","Thank you","ありがとう","arigatou"],
+    ["De nada","You're welcome","どういたしまして","douitashimashite"],["Tudo bem","It's okay","大丈夫です","daijoubu desu"],
+    ["Até mais","See you","またね","mata ne"],["Até logo","See you later","また後で","mata ato de"],
+  ],
+  [
+    ["Estou bem.","I'm fine.","元気です","genki desu"],["Estou feliz.","I'm happy.","うれしいです","ureshii desu"],
+    ["Estou cansado(a).","I'm tired.","疲れています","tsukarete imasu"],["E você?","And you?","あなたは？","anata wa"],
+    ["Eu sou o Leo.","I'm Leo.","レオです","reo desu"],["Meu nome é Ana.","My name is Ana.","私はアナです","watashi wa ana desu"],
+    ["Moro aqui.","I live here.","ここに住んでいます","koko ni sunde imasu"],["Moro perto daqui.","I live nearby.","近くに住んでいます","chikaku ni sunde imasu"],
+  ],
+  [
+    ["Olá","Hello","こんにちは","konnichiwa"],["Obrigado(a)","Thank you","ありがとう","arigatou"],
+    ["Por favor","Please","お願いします","onegaishimasu"],["Sim","Yes","はい","hai"],
+    ["Não","No","いいえ","iie"],["Aqui","Here","ここ","koko"],
+    ["Hoje","Today","今日","kyou"],["Amanhã","Tomorrow","明日","ashita"],
+  ],
+  [
+    ["Olá, tudo bem?","Hello, how are you?","こんにちは、元気ですか","konnichiwa genki desu ka"],
+    ["Estou bem, obrigado(a).","I'm fine, thank you.","元気です、ありがとう","genki desu arigatou"],
+    ["Meu nome é Ana.","My name is Ana.","私はアナです","watashi wa ana desu"],
+    ["Eu sou o Leo.","I'm Leo.","レオです","reo desu"],
+    ["Até mais.","See you.","またね","mata ne"],
+    ["Por favor, repita.","Please repeat.","もう一度お願いします","mou ichido onegaishimasu"],
+  ],
+];
+
+const SECTION1: Record<Language, Curriculum> = {
+  pt: SECTION1_ROWS.map(phase => phase.map(([pt,en]) => [pt,en] as LessonItem)),
+  en: SECTION1_ROWS.map(phase => phase.map(([pt,en]) => [en,pt] as LessonItem)),
+  ja: SECTION1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => [romaji,pt,romaji,ja] as LessonItem)),
+};
+
+// Existing longer introductions, origin, conversation and contextual phrases move
+// into Section 2 rather than being deleted.
+const SECTION2_ROWS: Unit1Row[][] = [
+  // Unidade 2 — Sobre você e apresentação pessoal
+  [
+    ["Meu nome é Ana.","My name is Ana.","私はアナです","watashi wa ana desu"],
+    ["Eu sou o Leo.","I'm Leo.","レオです","reo desu"],
+    ["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],
+    ["Como você se chama?","What's your name?","お名前は？","onamae wa"],
+    ["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"],
+    ["Igualmente.","Likewise.","こちらこそ","kochira koso"],
+    ["Este é o Ken.","This is Ken.","こちらはケンです","kochira wa ken desu"],
+    ["Esta é a Ana.","This is Ana.","こちらはアナです","kochira wa ana desu"],
+  ],
+  [
+    ["Eu sou do Brasil.","I'm from Brazil.","ブラジル出身です","burajiru shusshin desu"],
+    ["De onde você é?","Where are you from?","どちらの出身ですか","dochira no shusshin desu ka"],
+    ["Eu sou do Japão.","I'm from Japan.","日本出身です","nihon shusshin desu"],
+    ["Você é do Brasil?","Are you from Brazil?","ブラジル出身ですか","burajiru shusshin desu ka"],
+    ["Eu sou de Portugal.","I'm from Portugal.","ポルトガル出身です","porutogaru shusshin desu"],
+    ["De que país você é?","Which country are you from?","どこの国の出身ですか","doko no kuni no shusshin desu ka"],
+    ["Sou brasileiro(a).","I'm Brazilian.","ブラジル人です","burajirujin desu"],
+    ["Sou japonês/japonesa.","I'm Japanese.","日本人です","nihonjin desu"],
+  ],
+  [
+    ["Eu moro em Belém.","I live in Belém.","ベレンに住んでいます","beren ni sunde imasu"],
+    ["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"],
+    ["Eu moro no Brasil.","I live in Brazil.","ブラジルに住んでいます","burajiru ni sunde imasu"],
+    ["Eu moro em Tóquio.","I live in Tokyo.","東京に住んでいます","toukyou ni sunde imasu"],
+    ["Qual cidade você mora?","Which city do you live in?","どの町に住んでいますか","dono machi ni sunde imasu ka"],
+    ["Minha cidade é pequena.","My city is small.","私の町は小さいです","watashi no machi wa chiisai desu"],
+    ["Minha cidade é grande.","My city is big.","私の町は大きいです","watashi no machi wa ookii desu"],
+    ["Eu moro perto da escola.","I live near the school.","学校の近くに住んでいます","gakkou no chikaku ni sunde imasu"],
+  ],
+  [
+    ["Eu tenho 17 anos.","I'm 17 years old.","17歳です","juunana sai desu"],
+    ["Quantos anos você tem?","How old are you?","何歳ですか","nan sai desu ka"],
+    ["Eu tenho 20 anos.","I'm 20 years old.","20歳です","hatachi desu"],
+    ["Ela tem 18 anos.","She is 18 years old.","彼女は18歳です","kanojo wa juuhassai desu"],
+    ["Ele tem 21 anos.","He is 21 years old.","彼は21歳です","kare wa nijuuissai desu"],
+    ["Minha idade é 20 anos.","My age is 20.","私の年齢は20歳です","watashi no nenrei wa hatachi desu"],
+    ["Você tem quantos anos?","How old are you?","あなたは何歳ですか","anata wa nan sai desu ka"],
+    ["Tenho 18 anos.","I'm 18 years old.","18歳です","juuhassai desu"],
+  ],
+  [
+    ["Eu tenho uma irmã.","I have a sister.","妹がいます","imouto ga imasu"],
+    ["Você tem irmãos?","Do you have siblings?","きょうだいがいますか","kyoudai ga imasu ka"],
+    ["Eu tenho um irmão.","I have a brother.","兄がいます","ani ga imasu"],
+    ["Tenho dois irmãos.","I have two siblings.","きょうだいが二人います","kyoudai ga futari imasu"],
+    ["Minha família é pequena.","My family is small.","私の家族は小さいです","watashi no kazoku wa chiisai desu"],
+    ["Minha família é grande.","My family is big.","私の家族は大きいです","watashi no kazoku wa ookii desu"],
+    ["Esta é minha mãe.","This is my mother.","こちらは母です","kochira wa haha desu"],
+    ["Este é meu pai.","This is my father.","こちらは父です","kochira wa chichi desu"],
+  ],
+  [
+    ["Eu sou estudante.","I'm a student.","学生です","gakusei desu"],
+    ["Você é estudante?","Are you a student?","学生ですか","gakusei desu ka"],
+    ["Eu estudo na escola.","I study at school.","学校で勉強しています","gakkou de benkyou shite imasu"],
+    ["O que você estuda?","What do you study?","何を勉強していますか","nani o benkyou shite imasu ka"],
+    ["Eu estudo inglês.","I study English.","英語を勉強しています","eigo o benkyou shite imasu"],
+    ["Eu estudo japonês.","I study Japanese.","日本語を勉強しています","nihongo o benkyou shite imasu"],
+    ["Eu trabalho aqui.","I work here.","ここで働いています","koko de hataraite imasu"],
+    ["Você trabalha?","Do you work?","働いていますか","hataraite imasu ka"],
+  ],
+  [
+    ["Eu gosto de música.","I like music.","音楽が好きです","ongaku ga suki desu"],
+    ["Você gosta de música?","Do you like music?","音楽が好きですか","ongaku ga suki desu ka"],
+    ["Eu gosto de jogos.","I like games.","ゲームが好きです","geemu ga suki desu"],
+    ["Eu gosto de anime.","I like anime.","アニメが好きです","anime ga suki desu"],
+    ["Eu não gosto de café.","I don't like coffee.","コーヒーが好きではありません","koohii ga suki dewa arimasen"],
+    ["Do que você gosta?","What do you like?","何が好きですか","nani ga suki desu ka"],
+    ["Eu gosto de ler.","I like reading.","読むことが好きです","yomu koto ga suki desu"],
+    ["Eu gosto de ouvir música.","I like listening to music.","音楽を聞くことが好きです","ongaku o kiku koto ga suki desu"],
+  ],
+  [
+    ["Meu hobby é jogar.","My hobby is playing games.","趣味はゲームをすることです","shumi wa geemu o suru koto desu"],
+    ["Qual é o seu hobby?","What is your hobby?","趣味は何ですか","shumi wa nan desu ka"],
+    ["Eu gosto de desenhar.","I like drawing.","絵を描くことが好きです","e o kaku koto ga suki desu"],
+    ["Eu gosto de assistir anime.","I like watching anime.","アニメを見ることが好きです","anime o miru koto ga suki desu"],
+    ["Eu jogo nas horas vagas.","I play games in my free time.","暇なときにゲームをします","hima na toki ni geemu o shimasu"],
+    ["O que você faz no tempo livre?","What do you do in your free time?","暇なときは何をしますか","hima na toki wa nani o shimasu ka"],
+    ["Eu estudo e ouço música.","I study and listen to music.","勉強して、音楽を聞きます","benkyou shite ongaku o kikimasu"],
+    ["Eu gosto de filmes e jogos.","I like movies and games.","映画とゲームが好きです","eiga to geemu ga suki desu"],
+  ],
+  [
+    ["Olá, meu nome é Ana.","Hello, my name is Ana.","こんにちは、私はアナです","konnichiwa watashi wa ana desu"],
+    ["Eu sou do Brasil e moro em Belém.","I'm from Brazil and live in Belém.","ブラジル出身で、ベレンに住んでいます","burajiru shusshin de beren ni sunde imasu"],
+    ["Eu tenho 20 anos e sou estudante.","I'm 20 years old and a student.","20歳で、学生です","hatachi de gakusei desu"],
+    ["Eu gosto de música e jogos.","I like music and games.","音楽とゲームが好きです","ongaku to geemu ga suki desu"],
+    ["Este é meu amigo Ken.","This is my friend Ken.","こちらは友達のケンです","kochira wa tomodachi no ken desu"],
+    ["Ele é do Japão e mora em Tóquio.","He is from Japan and lives in Tokyo.","彼は日本出身で、東京に住んでいます","kare wa nihon shusshin de toukyou ni sunde imasu"],
+    ["Ele gosta de anime.","He likes anime.","彼はアニメが好きです","kare wa anime ga suki desu"],
+    ["Prazer em conhecer vocês.","Nice to meet you both.","お二人にお会いできてうれしいです","ofutari ni oai dekite ureshii desu"],
+  ],
+  [
+    ["— Qual é o seu nome? — Meu nome é Ana.","— What's your name? — My name is Ana.","— お名前は何ですか。— 私はアナです。","— onamae wa nan desu ka — watashi wa ana desu"],
+    ["— De onde você é? — Sou do Brasil.","— Where are you from? — I'm from Brazil.","— どちらの出身ですか。— ブラジル出身です。","— dochira no shusshin desu ka — burajiru shusshin desu"],
+    ["— Onde você mora? — Moro em Belém.","— Where do you live? — I live in Belém.","— どこに住んでいますか。— ベレンに住んでいます。","— doko ni sunde imasu ka — beren ni sunde imasu"],
+    ["— Você estuda? — Sim, eu estudo japonês.","— Do you study? — Yes, I study Japanese.","— 勉強していますか。— はい、日本語を勉強しています。","— benkyou shite imasu ka — hai nihongo o benkyou shite imasu"],
+    ["— Do que você gosta? — Gosto de música.","— What do you like? — I like music.","— 何が好きですか。— 音楽が好きです。","— nani ga suki desu ka — ongaku ga suki desu"],
+    ["— Você tem irmãos? — Sim, tenho uma irmã.","— Do you have siblings? — Yes, I have a sister.","— きょうだいがいますか。— はい、妹がいます。","— kyoudai ga imasu ka — hai imouto ga imasu"],
+    ["— Qual é o seu hobby? — Gosto de desenhar.","— What's your hobby? — I like drawing.","— 趣味は何ですか。— 絵を描くことが好きです。","— shumi wa nan desu ka — e o kaku koto ga suki desu"],
+    ["Foi bom conversar com você.","It was nice talking with you.","お話しできてよかったです","ohanashi dekite yokatta desu"],
+  ],
+];
+
+const SECTION2: Record<Language, Curriculum> = {
+  pt: SECTION2_ROWS.map(phase => phase.map(([pt,en]) => [pt,en] as LessonItem)),
+  en: SECTION2_ROWS.map(phase => phase.map(([pt,en]) => [en,pt] as LessonItem)),
+  ja: SECTION2_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => [romaji,pt,romaji,ja] as LessonItem)),
+};
 
 
 function normalizeGoal(value: string | null | undefined): GoalFamily {
@@ -183,10 +417,10 @@ function uniqueByTarget(items: LessonItem[]): LessonItem[] {
 }
 
 function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | undefined, level: Level = "iniciante"): LessonItem[] {
-  if (phaseIdx < 10) return uniqueByTarget(UNIT1[lang].slice(0, phaseIdx + 1).flat());
+  if (phaseIdx < 10) return uniqueByTarget(SECTION1[lang].slice(0, phaseIdx + 1).flat());
   const family = normalizeGoal(goal);
-  const curriculum = GOAL_CURRICULUM[lang][family];
-  const section2Start = Math.min(8, Math.max(0, curriculum.length - 1));
+  const curriculum = [...SECTION2[lang], ...GOAL_CURRICULUM[lang][family]];
+  const section2Start = 0;
   const section2Phase = phaseIdx - 10;
   const offset = levelOffset(level);
   const unlockedThrough = Math.min(
@@ -199,6 +433,7 @@ function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | 
 
 
 function japaneseHiragana(item: LessonItem): string {
+  if (item[3]) return item[3];
   const romaji = item[2] ?? item[0];
   const digraphs: Record<string, string> = {
     kya: "きゃ", kyu: "きゅ", kyo: "きょ", sha: "しゃ", shu: "しゅ", sho: "しょ",
@@ -246,6 +481,10 @@ function targetText(lang: Language, item: LessonItem): string {
   return lang === "ja" ? (item[2] ?? item[0]) : item[0];
 }
 
+function audioText(lang: Language, item: LessonItem): string {
+  return lang === "ja" ? (item[3] ?? item[0]) : item[0];
+}
+
 function meaningText(item: LessonItem, ui: UiLang): string {
   return translate(item[1], ui);
 }
@@ -281,9 +520,20 @@ function isShortListenItem(lang: Language, item: LessonItem): boolean {
 }
 
 function phaseKinds(lang: Language, phaseIdx: number): TaskKind[] {
-  const patterns: TaskKind[][] = [["choose","choose","choose","choose","match","complete","choose","match","complete","choose","match","choose","complete","choose","match","complete","choose","choose","match","choose"],["choose","choose","listen","choose","match","complete","choose","listen","match","complete","choose","match","choose","complete","listen","choose","match","complete","choose","match"],["choose","listen","choose","match","complete","choose","listen","match","choose","complete","choose","match","listen","choose","complete","match","choose","listen","complete","match"],["choose","choose","listen","match","complete","choose","match","listen","choose","complete","build","choose","match","complete","listen","build","choose","match","complete","choose"],["choose","listen","match","complete","choose","build","listen","match","choose","complete","build","choose","listen","match","complete","build","choose","match","listen","choose"],["choose","match","listen","complete","build","choose","listen","match","complete","build","choose","listen","match","complete","build","choose","match","listen","complete","build"],["choose","listen","match","build","complete","choose","build","listen","match","complete","choose","match","build","listen","complete","choose","build","match","listen","complete"],["choose","match","listen","complete","build","choose","listen","build","match","complete","choose","match","listen","build","complete","choose","build","match","listen","complete"],["choose","listen","match","build","complete","choose","match","listen","build","complete","choose","build","match","listen","complete","build","choose","match","listen","complete"],["choose","match","listen","build","complete","choose","listen","match","build","complete","choose","match","listen","build","complete","choose","build","match","listen","complete"]];
+  const patterns: TaskKind[][] = [
+    ["choose","choose","listen","match","complete","choose","listen","match","choose","complete","choose","listen","match","complete","choose","match","listen","choose","complete","match"],
+    ["choose","listen","choose","match","complete","choose","listen","match","choose","complete","speak","match","listen","choose","complete","choose","match","listen","complete","speak"],
+    ["choose","listen","match","complete","choose","speak","listen","match","choose","complete","build","choose","match","listen","complete","speak","choose","build","match","complete"],
+    ["choose","listen","match","complete","speak","choose","match","listen","build","complete","choose","speak","match","complete","listen","build","choose","match","complete","listen"],
+    ["choose","listen","match","complete","build","speak","listen","match","choose","complete","build","choose","listen","match","complete","speak","choose","build","listen","match"],
+    ["choose","match","listen","complete","build","speak","listen","match","complete","build","choose","listen","match","speak","build","choose","match","listen","complete","build"],
+    ["choose","listen","match","build","complete","speak","build","listen","match","complete","choose","match","build","listen","complete","speak","build","match","listen","complete"],
+    ["choose","match","listen","complete","build","speak","listen","build","match","complete","choose","match","listen","build","complete","speak","build","match","listen","complete"],
+    ["choose","listen","match","build","complete","speak","match","listen","build","complete","choose","build","match","listen","complete","speak","choose","match","listen","build"],
+    ["choose","match","listen","build","complete","speak","listen","match","build","complete","choose","match","listen","build","complete","speak","build","match","listen","complete"],
+  ];
   const pattern=patterns[Math.min(phaseIdx,9)];
-  return lang==="ja" && phaseIdx<5 ? pattern.map(k=>k==="listen" ? "choose" : k) : pattern;
+  return pattern;
 }
 
 function buildOptionsFromLearnedPool(
@@ -326,7 +576,7 @@ function makeBuildQuestion(
           : "Ouça e monte a expressão usando as palavras em português",
       ui,
     ),
-    audio: item[0],
+    audio: audioText(lang, item),
     answer: words.join(" "),
     options,
     buildOptions: options,
@@ -356,7 +606,7 @@ function makeQuestion(
     return {
       kind: "listen",
       prompt: translate("Ouça o áudio e escolha o significado correto", ui),
-      audio: item[0],
+      audio: audioText(lang, item),
       answer: meaning,
       options: pickOptions(meaning, meaningPool, optionsCount),
       japanese,
@@ -396,7 +646,7 @@ function makeQuestion(
         { lang: label },
         ui,
       ),
-      audio: item[0],
+      audio: audioText(lang, item),
       answer: target,
       translation: meaning,
       romaji,
@@ -413,8 +663,8 @@ function makeQuestion(
     return {
       kind: "speak",
       prompt: translateVars("Fale: {w}", { w: target }, ui),
-      audio: item[0],
-      answer: item[0],
+      audio: audioText(lang, item),
+      answer: audioText(lang, item),
       translation: meaning,
       romaji,
       japanese,
@@ -448,16 +698,16 @@ const UNIT1_TITLES = [
 ] as const;
 
 const SECTION2_TITLES = [
-  ["Vocabulário mais amplo","Broader vocabulary","より広い語彙"],
-  ["Situações do dia a dia","Everyday situations","日常の場面"],
-  ["Perguntas mais completas","More complete questions","より完全な質問"],
-  ["Pedidos e necessidades","Requests and needs","依頼と必要な表現"],
-  ["Locais e deslocamento","Places and getting around","場所と移動"],
-  ["Conversas práticas","Practical conversations","実践的な会話"],
-  ["Compreensão e explicação","Understanding and explaining","理解と説明"],
-  ["Frases mais completas","More complete sentences","より完全な文"],
-  ["Combinações e contexto","Combinations and context","組み合わせと文脈"],
-  ["Desafio de conversação","Conversation challenge","会話チャレンジ"],
+  ["Sobre você e seu nome","About you and your name","あなたと名前"],
+  ["Origem e país","Origin and country","出身と国"],
+  ["Cidade e onde você mora","City and where you live","町と住んでいる場所"],
+  ["Idade","Age","年齢"],
+  ["Família","Family","家族"],
+  ["Estudos e trabalho","Studies and work","勉強と仕事"],
+  ["Gostos e preferências","Likes and preferences","好きなものと好み"],
+  ["Hobbies e interesses","Hobbies and interests","趣味と興味"],
+  ["Pequenas apresentações","Short introductions","簡単な自己紹介"],
+  ["Conversas sobre você","Conversations about you","あなたについての会話"],
 ] as const;
 
 function buildPhase(
@@ -468,7 +718,7 @@ function buildPhase(
   ui: UiLang,
 ): Phase {
   const pool = cumulativePool(lang, phaseIdx, goal, _level);
-  const unitPhase = UNIT1[lang][phaseIdx] ?? [];
+  const unitPhase = phaseIdx < 10 ? (SECTION1[lang][phaseIdx] ?? []) : (SECTION2[lang][phaseIdx - 10] ?? []);
 
   // Keep lesson generation safe even if a future curriculum phase is empty.
   // Falling back to the last unlocked content prevents an invalid question
@@ -481,22 +731,26 @@ function buildPhase(
   // Nothing from a future phase can leak into questions or distractors.
   const pattern = phaseKinds(lang, phaseIdx);
   const questions: Question[] = Array.from({ length: 20 }, (_, index) => {
-    const early = unitPhase[index % Math.max(1, unitPhase.length)] ?? pool[0];
-    const cumulative = pool[(index * 2 + phaseIdx) % pool.length];
-    const item = index < 5 ? early : index < 10 && index % 2 === 0 ? early : cumulative;
+    const currentItem = unitPhase[index % Math.max(1, unitPhase.length)] ?? pool[0];
+    const cumulative = pool[(index * 3 + phaseIdx) % pool.length];
+    // First pass presents every new expression once. The rest alternates
+    // current-phase practice with cumulative review in a stable varied order.
+    const item = index < unitPhase.length
+      ? currentItem
+      : (index - unitPhase.length) % 2 === 0
+        ? currentItem
+        : cumulative;
     const kind = pattern[index];
 
     // Build only after short expressions have been unlocked. Earlier phases
     // stay focused on individual words and very small recognition tasks.
     if (kind === "listen") {
-      // Listening tasks stay beginner-friendly: only individual words or
-      // short two-word expressions already unlocked in the cumulative pool.
-      const reviewCurriculum = UNIT1[lang];
-      const reviewPool = uniqueByTarget(reviewCurriculum.slice(0, 5).flat());
-      const learnedPool = reviewPool.length > 0 ? reviewPool : pool;
-      const shortPool = learnedPool.filter((entry) => isShortListenItem(lang, entry));
+      // Audio grows from greetings to short questions and dialogues, while
+      // remaining strictly inside the vocabulary unlocked through this phase.
+      const maxWords = phaseIdx <= 1 ? 3 : phaseIdx <= 4 ? 5 : phaseIdx <= 7 ? 7 : 12;
+      const shortPool = pool.filter((entry) => tokenizeBuild(targetText(lang, entry)).length <= maxWords);
       const listenItem = shortPool.length > 0
-        ? shortPool[index % shortPool.length]
+        ? shortPool[(index + phaseIdx) % shortPool.length]
         : item;
       return makeQuestion(lang, listenItem, "listen", phaseIdx, pool, ui, index);
     }
@@ -516,11 +770,9 @@ function buildPhase(
     return makeQuestion(lang, item, kind, phaseIdx, pool, ui, index);
   });
 
-  const titleRows = phaseIdx < 10 ? UNIT1_TITLES : SECTION2_TITLES;
-  const titleIndex = phaseIdx < 10 ? phaseIdx : phaseIdx - 10;
   return {
     id: `${lang}-phase-${phaseIdx + 1}`,
-    title: titleRows[titleIndex] ? (ui === "en" ? titleRows[titleIndex][1] : ui === "ja" ? titleRows[titleIndex][2] : titleRows[titleIndex][0]) : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
+    title: (() => { const row = phaseIdx < 10 ? UNIT1_TITLES[phaseIdx] : SECTION2_TITLES[phaseIdx - 10]; return row ? (ui === "en" ? row[1] : ui === "ja" ? row[2] : row[0]) : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui); })(),
     icon: ICONS[lang][phaseIdx],
     xp: PHASE_XP[phaseIdx] ?? PHASE_XP[PHASE_XP.length - 1],
     questions,
