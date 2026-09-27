@@ -226,12 +226,12 @@ const CURRICULUM: Record<Language, Curriculum> = {
 };
 
 const ICONS: Record<Language, string[]> = {
-  ja: ["🌸", "🍵", "🐱", "📖", "🧩", "🎧", "🗣️", "✍️", "🌟", "🏆"],
-  en: ["👋", "☕", "🐱", "📖", "🧩", "🎧", "🗣️", "✍️", "🌟", "🏆"],
-  pt: ["👋", "☕", "🐱", "📖", "🧩", "🎧", "🗣️", "✍️", "🌟", "🏆"],
+  ja: ["🌸","🍵","🐱","📖","🧩","🎧","🗣️","✍️","🌟","🏆","📚","🏠","❓","🛍️","🚆","💬","🔎","📝","🔗","🎯"],
+  en: ["👋","☕","🐱","📖","🧩","🎧","🗣️","✍️","🌟","🏆","📚","🏠","❓","🛍️","🚆","💬","🔎","📝","🔗","🎯"],
+  pt: ["👋","☕","🐱","📖","🧩","🎧","🗣️","✍️","🌟","🏆","📚","🏠","❓","🛍️","🚆","💬","🔎","📝","🔗","🎯"],
 };
 
-const PHASE_XP = [18, 20, 22, 24, 26, 28, 30, 32, 35, 38];
+const PHASE_XP = [18,20,22,24,26,28,30,32,35,38,40,42,44,46,48,50,52,54,56,60];
 
 function shuffle<T>(items: T[]): T[] {
   return [...items].sort(() => Math.random() - 0.5);
@@ -243,9 +243,14 @@ function uniqueByTarget(items: LessonItem[]): LessonItem[] {
 
 function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | undefined, level: Level = "iniciante"): LessonItem[] {
   if (phaseIdx < 10) return uniqueByTarget(UNIT1[lang].slice(0, phaseIdx + 1).flat());
-  const family = normalizeGoal(goal); const curriculum = GOAL_CURRICULUM[lang][family];
-  const offset = levelOffset(level); const unlockedThrough = Math.min(curriculum.length - 1, phaseIdx + offset);
-  return uniqueByTarget(curriculum.slice(0, unlockedThrough + 1).flat());
+  const section2Phase = phaseIdx - 10;
+  const offset = levelOffset(level);
+  const unit2Through = Math.min(
+    UNIT2[lang].length - 1,
+    section2Phase + Math.min(2, offset),
+  );
+  const section2Pool = UNIT2[lang].slice(0, unit2Through + 1);
+  return uniqueByTarget(section2Pool.flat());
 }
 
 
@@ -501,8 +506,49 @@ function makeQuestion(
   };
 }
 
+type Unit2Row = [pt:string,en:string,ja:string,romaji:string];
+const UNIT2_ROWS: Unit2Row[][] = [
+  [["Meu nome é...","My name is...","私の名前は...です","watashi no namae wa ... desu"],["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],["Eu sou...","I'm...","私は...です","watashi wa ... desu"],["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"],["Prazer!","Nice to meet you!","よろしくお願いします","yoroshiku onegaishimasu"]],
+  [["Eu sou do Brasil.","I'm from Brazil.","ブラジル出身です","burajiru shusshin desu"],["De onde você é?","Where are you from?","どこの出身ですか","doko no shusshin desu ka"],["Eu moro em...","I live in...","...に住んでいます","... ni sunde imasu"],["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"],["Eu moro aqui.","I live here.","ここに住んでいます","koko ni sunde imasu"]],
+  [["Eu tenho 17 anos.","I'm 17 years old.","17歳です","juunanasai desu"],["Quantos anos você tem?","How old are you?","何歳ですか","nansai desu ka"],["Hoje tenho aula.","I have class today.","今日は授業があります","kyou wa jugyou ga arimasu"],["Eu estudo.","I study.","勉強しています","benkyou shite imasu"],["Você estuda?","Do you study?","勉強していますか","benkyou shite imasu ka"]],
+  [["Eu trabalho.","I work.","働いています","hataraite imasu"],["Onde você trabalha?","Where do you work?","どこで働いていますか","doko de hataraite imasu ka"],["Eu trabalho em...","I work at...","...で働いています","... de hataraite imasu"],["Eu estudo e trabalho.","I study and work.","勉強と仕事をしています","benkyou to shigoto o shite imasu"],["O que você faz?","What do you do?","何をしていますか","nani o shite imasu ka"]],
+  [["Minha família.","My family.","私の家族です","watashi no kazoku desu"],["Eu tenho um irmão.","I have a brother.","兄弟が一人います","kyoudai ga hitori imasu"],["Você tem irmãos?","Do you have siblings?","兄弟がいますか","kyoudai ga imasu ka"],["Minha mãe.","My mother.","私の母です","watashi no haha desu"],["Meu pai.","My father.","私の父です","watashi no chichi desu"]],
+  [["Eu gosto de música.","I like music.","音楽が好きです","ongaku ga suki desu"],["Eu gosto de jogos.","I like games.","ゲームが好きです","geemu ga suki desu"],["O que você gosta?","What do you like?","何が好きですか","nani ga suki desu ka"],["Eu não gosto de...","I don't like...","...が好きではありません","... ga suki dewa arimasen"],["Meu hobby é...","My hobby is...","趣味は...です","shumi wa ... desu"]],
+  [["Eu gosto de anime.","I like anime.","アニメが好きです","anime ga suki desu"],["Eu gosto de música e jogos.","I like music and games.","音楽とゲームが好きです","ongaku to geemu ga suki desu"],["O que você faz no tempo livre?","What do you do in your free time?","暇なときは何をしますか","hima na toki wa nani o shimasu ka"],["Eu assisto anime.","I watch anime.","アニメを見ます","anime o mimasu"],["Eu jogo.","I play games.","ゲームをします","geemu o shimasu"]],
+  [["Esta é minha família.","This is my family.","これは私の家族です","kore wa watashi no kazoku desu"],["Este é meu amigo.","This is my friend.","これは私の友達です","kore wa watashi no tomodachi desu"],["Vou apresentar meu amigo.","I'll introduce my friend.","友達を紹介します","tomodachi o shoukai shimasu"],["Ele é meu amigo.","He is my friend.","彼は私の友達です","kare wa watashi no tomodachi desu"],["Ela é minha amiga.","She is my friend.","彼女は私の友達です","kanojo wa watashi no tomodachi desu"]],
+  [["De onde você é e onde mora?","Where are you from and where do you live?","どこの出身で、どこに住んでいますか","doko no shusshin de doko ni sunde imasu ka"],["O que você gosta?","What do you like?","何が好きですか","nani ga suki desu ka"],["Você estuda ou trabalha?","Do you study or work?","勉強していますか、働いていますか","benkyou shite imasu ka hataraite imasu ka"],["Eu estudo e gosto de música.","I study and like music.","勉強していて、音楽が好きです","benkyou shite ite ongaku ga suki desu"],["Prazer em conhecer você. Até mais!","Nice to meet you. See you!","はじめまして。またね","hajimemashite mata ne"]],
+  [["Olá! Meu nome é...","Hello! My name is...","こんにちは！私の名前は...です","konnichiwa watashi no namae wa ... desu"],["Eu sou do Brasil e moro em...","I'm from Brazil and I live in...","ブラジル出身で、...に住んでいます","burajiru shusshin de ... ni sunde imasu"],["Eu estudo e gosto de jogos.","I study and like games.","勉強していて、ゲームが好きです","benkyou shite ite geemu ga suki desu"],["Este é meu amigo. Prazer em conhecer você.","This is my friend. Nice to meet you.","これは私の友達です。はじめまして","kore wa watashi no tomodachi desu hajimemashite"],["Conte sobre você.","Tell me about yourself.","あなたについて話してください","anata ni tsuite hanashite kudasai"]]
+];
+
+function unit2Curriculum(lang: Language): Curriculum {
+  return UNIT2_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) =>
+    lang === "ja" ? [romaji,pt,romaji] : lang === "en" ? [en,pt] : [pt,en]
+  ) as LessonItem[]);
+}
+const UNIT2: Record<Language,Curriculum> = {
+  pt: unit2Curriculum("pt"),
+  en: unit2Curriculum("en"),
+  ja: unit2Curriculum("ja"),
+};
+
+
+
+
 const UNIT1_TITLES = [
  ["Primeiros cumprimentos","First greetings","最初のあいさつ"],["Despedidas e educação","Goodbyes and politeness","別れと丁寧な表現"],["Nome e apresentação","Names and introductions","名前と自己紹介"],["Como você está?","How are you?","元気ですか"],["Prazer em conhecer","Nice to meet you","はじめまして"],["Perguntas simples","Simple questions","簡単な質問"],["Pequenas conversas","Short conversations","短い会話"],["Situações práticas","Practical situations","実践的な場面"],["Revisão e combinação","Review and combination","復習と組み合わせ"],["Desafio da unidade","Unit challenge","ユニットチャレンジ"],
+] as const;
+
+const SECTION2_TITLES = [
+  ["Nome e apresentação pessoal","Names and personal introductions","名前と自己紹介"],
+  ["Origem e onde você mora","Origin and where you live","出身と住んでいる場所"],
+  ["Idade e estudos","Age and studies","年齢と勉強"],
+  ["Trabalho e rotina","Work and routine","仕事と日常"],
+  ["Família","Family","家族"],
+  ["Gostos e preferências","Likes and preferences","好きなものと好み"],
+  ["Hobbies e interesses","Hobbies and interests","趣味と興味"],
+  ["Apresentando outras pessoas","Introducing other people","他の人の紹介"],
+  ["Perguntas sobre você","Questions about you","自分についての質問"],
+  ["Desafio de apresentação","Personal introduction challenge","自己紹介チャレンジ"],
 ] as const;
 
 function buildPhase(
@@ -513,7 +559,9 @@ function buildPhase(
   ui: UiLang,
 ): Phase {
   const pool = cumulativePool(lang, phaseIdx, goal, _level);
-  const unitPhase = UNIT1[lang][phaseIdx] ?? [];
+  const unitPhase = phaseIdx < 10
+    ? (UNIT1[lang][phaseIdx] ?? [])
+    : (UNIT2[lang][phaseIdx - 10] ?? []);
 
   // Keep lesson generation safe even if a future curriculum phase is empty.
   // Falling back to the last unlocked content prevents an invalid question
@@ -567,7 +615,9 @@ function buildPhase(
 
   return {
     id: `${lang}-phase-${phaseIdx + 1}`,
-    title: UNIT1_TITLES[phaseIdx] ? (ui === "en" ? UNIT1_TITLES[phaseIdx][1] : ui === "ja" ? UNIT1_TITLES[phaseIdx][2] : UNIT1_TITLES[phaseIdx][0]) : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
+    title: (phaseIdx < 10 ? UNIT1_TITLES[phaseIdx] : SECTION2_TITLES[phaseIdx - 10])
+      ? (ui === "en" ? (phaseIdx < 10 ? UNIT1_TITLES[phaseIdx][1] : SECTION2_TITLES[phaseIdx - 10][1]) : ui === "ja" ? (phaseIdx < 10 ? UNIT1_TITLES[phaseIdx][2] : SECTION2_TITLES[phaseIdx - 10][2]) : (phaseIdx < 10 ? UNIT1_TITLES[phaseIdx][0] : SECTION2_TITLES[phaseIdx - 10][0]))
+      : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
     icon: ICONS[lang][phaseIdx],
     xp: PHASE_XP[phaseIdx] ?? PHASE_XP[PHASE_XP.length - 1],
     questions,
@@ -598,7 +648,7 @@ export function buildPhases(
 ): Phase[] {
   const lang = normalizeLanguage(langInput);
   const normalizedLevel = normalizeLevel(level);
-  return Array.from({ length: 10 }, (_, index) => buildPhase(lang, index, normalizedLevel, goal ?? "outro", ui));
+  return Array.from({ length: 20 }, (_, index) => buildPhase(lang, index, normalizedLevel, goal ?? "outro", ui));
 }
 
 // Lazy cache prevents lesson generation from affecting startup/login rendering.
