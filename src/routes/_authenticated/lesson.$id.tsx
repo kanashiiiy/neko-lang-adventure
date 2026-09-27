@@ -45,6 +45,7 @@ function LessonPlayer() {
   const [streakInLesson, setStreakInLesson] = useState(0);
   const [bonusFocus, setBonusFocus] = useState(0);
   const [done, setDone] = useState(false);
+  const [difficultyBreak, setDifficultyBreak] = useState(false);
   const [reviewQueue, setReviewQueue] = useState<number[]>([]);
   const [reviewIdx, setReviewIdx] = useState(0);
   const [reviewIntro, setReviewIntro] = useState(false);
@@ -290,8 +291,26 @@ function LessonPlayer() {
       }
       return;
     }
+    // After the 11th normal task, pause before the four harder tasks.
+    if (idx === 10 && total >= 15) {
+      setDifficultyBreak(true);
+      return;
+    }
     if (idx + 1 < total) setIdx(idx + 1);
     else await finish();
+  }
+
+  function continueDifficulty() {
+    setDifficultyBreak(false);
+    setIdx(11);
+    setPicked(null);
+    setTyped("");
+    setBuildPicked([]);
+    setMatchLeftPicked(null);
+    setMatchPairsPicked({});
+    setCorrect(null);
+    setHeard(null);
+    spentRef.current = false;
   }
 
   async function finish() {
@@ -398,6 +417,23 @@ function LessonPlayer() {
         <p className="mt-2 text-sm text-muted-foreground">{t("Você terminou a lição. Agora vamos revisar juntos as respostas que você errou.")}</p>
         <button onClick={() => setReviewIntro(false)} className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
           {t("Começar revisão")}
+        </button>
+      </div>
+    );
+  }
+
+  if (difficultyBreak && !done) {
+    return (
+      <div className="mobile-shell items-center justify-center px-6 text-center">
+        {progressionOverlay}
+        <NekoMascot size={180} bounce float entrance />
+        <div className="mt-4 text-4xl">⚡</div>
+        <h1 className="mt-2 text-3xl font-black">{t("Dificuldade aumentada")}</h1>
+        <p className="mt-2 text-sm font-semibold text-muted-foreground">
+          {t("Agora você vai testar o que aprendeu em situações diferentes.")}
+        </p>
+        <button onClick={continueDifficulty} className="btn-3d mt-8 w-full rounded-2xl bg-primary py-3.5 font-bold text-primary-foreground">
+          {t("Continuar")}
         </button>
       </div>
     );
