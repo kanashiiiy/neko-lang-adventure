@@ -1,3 +1,4 @@
+// TESTE DE CONEXAO CHATGPT -> NEKOTeach (nekoteach-lovable)
 // Lesson content for NEKOTeach — progressive, vocabulary-safe lessons for 3 languages.
 import { translate, translateVars, type UiLang } from "@/lib/i18n";
 
