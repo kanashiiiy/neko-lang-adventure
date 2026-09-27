@@ -1,4 +1,3 @@
-// TESTE DE CONEXAO CHATGPT -> NEKOTeach (nekoteach-lovable)
 // Lesson content for NEKOTeach — progressive, vocabulary-safe lessons for 3 languages.
 import { translate, translateVars, type UiLang } from "@/lib/i18n";
 
@@ -138,69 +137,59 @@ const GOAL_CURRICULUM: Record<Language, Record<GoalFamily, Curriculum>> = {
 type Unit1Row = [pt:string,en:string,ja:string,romaji:string];
 const UNIT1_ROWS: Unit1Row[][] = [
   [
-    ["Olá", "Hello", "こんにちは", "konnichiwa"], ["Oi", "Hi", "やあ", "yaa"],
-    ["Bom dia", "Good morning", "おはようございます", "ohayou gozaimasu"], ["Boa tarde", "Good afternoon", "どうも", "doumo"],
-    ["Boa noite", "Good evening", "こんばんは", "konbanwa"], ["Ei!", "Hey!", "ねえ", "nee"],
-    ["Tudo bem?", "How's it going?", "元気？", "genki"], ["Bem-vindo(a)!", "Welcome!", "ようこそ", "youkoso"],
+    ["Oi", "Hi", "やあ", "yaa"],
+    ["Bom dia", "Good morning", "おはようございます", "ohayou gozaimasu"],
+    ["Boa tarde", "Good afternoon", "こんにちは", "konnichiwa"],
+    ["Boa noite", "Good evening", "こんばんは", "konbanwa"],
+    ["Até logo", "See you later", "またね", "mata ne"],
   ],
   [
-    ["Tchau", "Bye", "じゃあね", "jaa ne"], ["Até mais", "See you", "またね", "mata ne"],
-    ["Até logo", "See you later", "また後で", "mata ato de"], ["Obrigado(a)", "Thank you", "ありがとう", "arigatou"],
-    ["Muito obrigado(a)", "Thank you very much", "ありがとうございます", "arigatou gozaimasu"], ["De nada", "You're welcome", "どういたしまして", "douitashimashite"],
-    ["Por favor", "Please", "お願いします", "onegaishimasu"], ["Com licença", "Excuse me", "すみません", "sumimasen"],
-    ["Desculpe", "I'm sorry", "ごめんなさい", "gomennasai"],
+    ["Obrigado", "Thank you", "ありがとう", "arigatou"],
+    ["Muito obrigado", "Thank you very much", "どうもありがとうございます", "doumo arigatou gozaimasu"],
+    ["De nada", "You're welcome", "どういたしまして", "douitashimashite"],
   ],
   [
-    ["Qual é o seu nome?", "What's your name?", "お名前は何ですか", "onamae wa nan desu ka"], ["Como você se chama?", "May I ask your name?", "お名前は？", "onamae wa"],
-    ["Meu nome é Ana.", "My name is Ana.", "私はアナです", "watashi wa ana desu"], ["Eu sou o Leo.", "I'm Leo.", "レオです", "reo desu"],
-    ["Pode me chamar de Bia.", "You can call me Bia.", "ビアと呼んでください", "bia to yonde kudasai"], ["Este é o Ken.", "This is Ken.", "こちらはケンです", "kochira wa ken desu"],
-    ["Quem é você?", "Who are you?", "あなたは誰ですか", "anata wa dare desu ka"], ["Sou estudante.", "I'm a student.", "学生です", "gakusei desu"],
+    ["Desculpa", "Sorry", "ごめん", "gomen"],
+    ["Desculpe", "I'm sorry", "すみません", "sumimasen"],
+    ["Com licença", "Excuse me", "失礼します", "shitsurei shimasu"],
   ],
   [
-    ["Como você está?", "How are you?", "お元気ですか", "ogenki desu ka"], ["Estou bem.", "I'm fine.", "元気です", "genki desu"],
-    ["Estou ótimo(a).", "I'm great.", "とても元気です", "totemo genki desu"], ["Estou feliz.", "I'm happy.", "うれしいです", "ureshii desu"],
-    ["Estou cansado(a).", "I'm tired.", "疲れています", "tsukarete imasu"], ["Estou com sono.", "I'm sleepy.", "眠いです", "nemui desu"],
-    ["Mais ou menos.", "So-so.", "まあまあです", "maa maa desu"], ["E você?", "And you?", "あなたは？", "anata wa"],
+    ["Tudo bem?", "How are you?", "元気ですか", "genki desu ka"],
+    ["Como vai?", "How's it going?", "お元気ですか", "ogenki desu ka"],
+    ["Estou bem.", "I'm fine.", "元気です", "genki desu"],
+    ["E você?", "And you?", "あなたは？", "anata wa"],
   ],
   [
-    ["Prazer em conhecer você.", "Nice to meet you.", "はじめまして", "hajimemashite"], ["Igualmente.", "Likewise.", "こちらこそ", "kochira koso"],
-    ["É um prazer.", "It's a pleasure.", "よろしくお願いします", "yoroshiku onegaishimasu"], ["Prazer em conhecer você também.", "Nice to meet you too.", "私もお会いできてうれしいです", "watashi mo oai dekite ureshii desu"],
-    ["Esta é minha amiga Ana.", "This is my friend Ana.", "こちらは友達のアナです", "kochira wa tomodachi no ana desu"], ["Este é meu amigo Ken.", "This is my friend Ken.", "こちらは友達のケンです", "kochira wa tomodachi no ken desu"],
-    ["Somos colegas.", "We're classmates.", "私たちはクラスメートです", "watashitachi wa kurasumeeto desu"], ["Que bom conhecer você.", "Glad to meet you.", "お会いできてうれしいです", "oai dekite ureshii desu"],
+    ["Eu sou...", "I'm...", "私は...です", "watashi wa ... desu"],
+    ["Meu nome é...", "My name is...", "私の名前は...です", "watashi no namae wa ... desu"],
+    ["Prazer.", "Nice to meet you.", "はじめまして", "hajimemashite"],
+    ["Prazer em conhecer.", "Nice to meet you.", "よろしくお願いします", "yoroshiku onegaishimasu"],
   ],
   [
-    ["De onde você é?", "Where are you from?", "どちらの出身ですか", "dochira no shusshin desu ka"], ["Sou do Brasil.", "I'm from Brazil.", "ブラジル出身です", "burajiru shusshin desu"],
-    ["Sou dos Estados Unidos.", "I'm from the United States.", "アメリカ出身です", "amerika shusshin desu"], ["Sou do Japão.", "I'm from Japan.", "日本出身です", "nihon shusshin desu"],
-    ["Onde você mora?", "Where do you live?", "どこに住んでいますか", "doko ni sunde imasu ka"], ["Moro em Belém.", "I live in Belém.", "ベレンに住んでいます", "beren ni sunde imasu"],
-    ["Moro aqui.", "I live here.", "ここに住んでいます", "koko ni sunde imasu"], ["Moro perto daqui.", "I live nearby.", "近くに住んでいます", "chikaku ni sunde imasu"],
+    ["Tchau", "Bye", "バイバイ", "baibai"],
+    ["Até logo", "See you later", "またね", "mata ne"],
+    ["Até amanhã", "See you tomorrow", "また明日", "mata ashita"],
   ],
   [
-    ["Você fala português?", "Do you speak Portuguese?", "ポルトガル語を話しますか", "porutogaru go o hanashimasu ka"], ["Você fala inglês?", "Do you speak English?", "英語を話しますか", "eigo o hanashimasu ka"],
-    ["Você fala japonês?", "Do you speak Japanese?", "日本語を話しますか", "nihongo o hanashimasu ka"], ["Sim, um pouco.", "Yes, a little.", "はい、少し", "hai sukoshi"],
-    ["Ainda estou aprendendo.", "I'm still learning.", "まだ勉強中です", "mada benkyou chuu desu"], ["Pode repetir?", "Can you repeat that?", "もう一度お願いします", "mou ichido onegaishimasu"],
-    ["Entendeu?", "Did you understand?", "わかりましたか", "wakarimashita ka"], ["Sim, entendi.", "Yes, I understood.", "はい、わかりました", "hai wakarimashita"],
-  ],
-  [
-    ["Bom dia, professora.", "Good morning, teacher.", "先生、おはようございます", "sensei ohayou gozaimasu"], ["Oi, tudo bem?", "Hi, how's it going?", "やあ、元気？", "yaa genki"],
-    ["Olá, posso me apresentar?", "Hello, may I introduce myself?", "こんにちは、自己紹介してもいいですか", "konnichiwa jikoshoukai shite mo ii desu ka"], ["Claro, por favor.", "Of course, go ahead.", "はい、どうぞ", "hai douzo"],
-    ["Esta é a minha colega.", "This is my colleague.", "こちらは私の同僚です", "kochira wa watashi no douryou desu"], ["Obrigado pela apresentação.", "Thanks for the introduction.", "紹介してくれてありがとう", "shoukai shite kurete arigatou"],
-    ["Foi bom falar com você.", "It was nice talking to you.", "お話しできてよかったです", "ohanashi dekite yokatta desu"], ["Até amanhã.", "See you tomorrow.", "また明日", "mata ashita"],
-  ],
-  [
-    ["Olá! Meu nome é Ana.", "Hello! My name is Ana.", "こんにちは、私はアナです", "konnichiwa watashi wa ana desu"], ["Oi, eu sou o Leo.", "Hi, I'm Leo.", "やあ、レオです", "yaa reo desu"],
-    ["Como você está hoje?", "How are you today?", "今日はお元気ですか", "kyou wa ogenki desu ka"], ["Estou bem, obrigado(a).", "I'm fine, thank you.", "元気です、ありがとう", "genki desu arigatou"],
-    ["Sou do Brasil e moro em Belém.", "I'm from Brazil and live in Belém.", "ブラジル出身で、ベレンに住んでいます", "burajiru shusshin de beren ni sunde imasu"], ["Este é meu amigo Ken.", "This is my friend Ken.", "こちらは友達のケンです", "kochira wa tomodachi no ken desu"],
-    ["Prazer, Ken.", "Nice to meet you, Ken.", "はじめまして、ケンさん", "hajimemashite ken san"], ["Até mais, tenha um bom dia.", "See you, have a good day.", "またね、よい一日を", "mata ne yoi ichinichi o"],
-  ],
-  [
-    ["Bom dia! Qual é o seu nome?", "Good morning! What's your name?", "おはようございます、お名前は何ですか", "ohayou gozaimasu onamae wa nan desu ka"], ["Meu nome é Ana. E você?", "My name is Ana. And you?", "私はアナです。あなたは？", "watashi wa ana desu anata wa"],
-    ["Sou o Ken. Prazer em conhecer você.", "I'm Ken. Nice to meet you.", "ケンです。はじめまして", "ken desu hajimemashite"], ["Igualmente! Como você está?", "Likewise! How are you?", "こちらこそ。お元気ですか", "kochira koso ogenki desu ka"],
-    ["Estou ótimo, obrigado.", "I'm great, thank you.", "とても元気です。ありがとう", "totemo genki desu arigatou"], ["De onde você é?", "Where are you from?", "どちらの出身ですか", "dochira no shusshin desu ka"],
-    ["Sou do Japão e moro aqui.", "I'm from Japan and live here.", "日本出身で、ここに住んでいます", "nihon shusshin de koko ni sunde imasu"], ["Foi bom falar com você. Até logo!", "It was nice talking to you. See you later!", "お話しできてよかったです。また後で", "ohanashi dekite yokatta desu mata ato de"],
+    ["Oi", "Hi", "やあ", "yaa"],
+    ["Tudo bem?", "How are you?", "元気ですか", "genki desu ka"],
+    ["Estou bem.", "I'm fine.", "元気です", "genki desu"],
+    ["Eu sou...", "I'm...", "私は...です", "watashi wa ... desu"],
+    ["Meu nome é...", "My name is...", "私の名前は...です", "watashi no namae wa ... desu"],
+    ["Prazer.", "Nice to meet you.", "はじめまして", "hajimemashite"],
+    ["Obrigado", "Thank you", "ありがとう", "arigatou"],
+    ["Desculpa", "Sorry", "ごめん", "gomen"],
+    ["Com licença", "Excuse me", "失礼します", "shitsurei shimasu"],
+    ["Tchau", "Bye", "バイバイ", "baibai"],
+    ["Até logo", "See you later", "またね", "mata ne"],
+    ["Até amanhã", "See you tomorrow", "また明日", "mata ashita"],
   ],
 ];
+
 function unit1Curriculum(lang: Language): Curriculum {
-  return UNIT1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => lang==="ja" ? [romaji,pt,romaji,ja] : lang==="en" ? [en,pt] : [pt,en]) as LessonItem[]);
+  return UNIT1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) =>
+    lang==="ja" ? [romaji,pt,romaji,ja] : lang==="en" ? [en,pt] : [pt,en]
+  ) as LessonItem[]);
 }
 const UNIT1: Record<Language,Curriculum> = { pt:unit1Curriculum("pt"), en:unit1Curriculum("en"), ja:unit1Curriculum("ja") };
 
@@ -227,9 +216,9 @@ const CURRICULUM: Record<Language, Curriculum> = {
 };
 
 const ICONS: Record<Language, string[]> = {
-  ja: ["🌸","🍵","🐱","📖","🧩","🎧","🗣️","✍️","🌟","🏆","📚","🏠","❓","🛍️","🚆","💬","🔎","📝","🔗","🎯"],
-  en: ["👋","☕","🐱","📖","🧩","🎧","🗣️","✍️","🌟","🏆","📚","🏠","❓","🛍️","🚆","💬","🔎","📝","🔗","🎯"],
-  pt: ["👋","☕","🐱","📖","🧩","🎧","🗣️","✍️","🌟","🏆","📚","🏠","❓","🛍️","🚆","💬","🔎","📝","🔗","🎯"],
+  ja: ["🌸","🍵","🐱","📖","🧩","🎧","🗣️","📚","🏠","❓","🛍️","🚆","💬","🔎","🎯"],
+  en: ["👋","☕","🐱","📖","🧩","🎧","🗣️","📚","🏠","❓","🛍️","🚆","💬","🔎","🎯"],
+  pt: ["👋","☕","🐱","📖","🧩","🎧","🗣️","📚","🏠","❓","🛍️","🚆","💬","🔎","🎯"],
 };
 
 const PHASE_XP = [18,20,22,24,26,28,30,32,35,38,40,42,44,46,48,50,52,54,56,60];
@@ -243,8 +232,8 @@ function uniqueByTarget(items: LessonItem[]): LessonItem[] {
 }
 
 function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | undefined, level: Level = "iniciante"): LessonItem[] {
-  if (phaseIdx < 10) return uniqueByTarget(UNIT1[lang].slice(0, phaseIdx + 1).flat());
-  const section2Phase = phaseIdx - 10;
+  if (phaseIdx < 7) return uniqueByTarget(UNIT1[lang][phaseIdx] ?? []);
+  const section2Phase = phaseIdx - 7;
   const offset = levelOffset(level);
   const unit2Through = Math.min(
     UNIT2[lang].length - 1,
@@ -342,215 +331,40 @@ function isShortListenItem(lang: Language, item: LessonItem): boolean {
   return tokenizeBuild(targetText(lang, item)).length <= 2;
 }
 
-function phaseKinds(lang: Language, phaseIdx: number): TaskKind[] {
-  const patterns: TaskKind[][] = [
-    ["choose","choose","listen","match","complete","choose","listen","match","choose","complete","choose","listen","match","complete","choose","match","listen","choose","complete","match"],
-    ["choose","listen","choose","match","complete","choose","listen","match","choose","complete","speak","match","listen","choose","complete","choose","match","listen","complete","speak"],
-    ["choose","listen","match","complete","choose","speak","listen","match","choose","complete","build","choose","match","listen","complete","speak","choose","build","match","complete"],
-    ["choose","listen","match","complete","speak","choose","match","listen","build","complete","choose","speak","match","complete","listen","build","choose","match","complete","listen"],
-    ["choose","listen","match","complete","build","speak","listen","match","choose","complete","build","choose","listen","match","complete","speak","choose","build","listen","match"],
-    ["choose","match","listen","complete","build","speak","listen","match","complete","build","choose","listen","match","speak","build","choose","match","listen","complete","build"],
-    ["choose","listen","match","build","complete","speak","build","listen","match","complete","choose","match","build","listen","complete","speak","build","match","listen","complete"],
-    ["choose","match","listen","complete","build","speak","listen","build","match","complete","choose","match","listen","build","complete","speak","build","match","listen","complete"],
-    ["choose","listen","match","build","complete","speak","match","listen","build","complete","choose","build","match","listen","complete","speak","choose","match","listen","build"],
-    ["choose","match","listen","build","complete","speak","listen","match","build","complete","choose","match","listen","build","complete","speak","build","match","listen","complete"],
+function phaseKinds(_lang: Language, _phaseIdx: number): TaskKind[] {
+  const normal: TaskKind[] = [
+    "choose", "listen", "choose", "match", "complete",
+    "choose", "listen", "match", "choose", "complete", "listen",
   ];
-  const pattern=patterns[Math.min(phaseIdx,9)];
-  return pattern;
+  const harderByPhase: TaskKind[][] = [
+    ["choose", "listen", "match", "build"],
+    ["choose", "listen", "build", "match"],
+    ["choose", "listen", "match", "build"],
+    ["choose", "listen", "match", "build"],
+    ["choose", "listen", "match", "build"],
+    ["choose", "listen", "match", "build"],
+    ["choose", "listen", "match", "build"],
+  ];
+  const hard = harderByPhase[Math.min(_phaseIdx, harderByPhase.length - 1)];
+  return [...normal, ...hard];
 }
 
-function buildOptionsFromLearnedPool(
-  target: string,
-  pool: LessonItem[],
-  lang: Language,
-): string[] {
-  const answerTokens = tokenizeBuild(target);
-  if (answerTokens.length === 0 || answerTokens.length > 5) return [];
-
-  const learnedTokens = pool.flatMap((item) => tokenizeBuild(targetText(lang, item)));
-  const distractors = shuffle(
-    Array.from(new Set(learnedTokens)).filter(
-      (token) => !answerTokens.some((answer) => normalizeToken(answer) === normalizeToken(token)),
-    ),
-  ).slice(0, Math.max(1, Math.min(3, 5 - answerTokens.length)));
-
-  // No future vocabulary is ever introduced here: every distractor comes from
-  // the cumulative pool unlocked by the current phase.
-  return shuffle([...answerTokens, ...distractors]);
+function buildHardPrompt(phaseIdx: number, kind: TaskKind, ui: UiLang): string {
+  const prompts = [
+    "Agora aplique os cumprimentos em uma situação.",
+    "Agora escolha a expressão certa para agradecer.",
+    "Agora escolha a expressão certa para pedir desculpas ou licença.",
+    "Agora combine as expressões em uma interação curta.",
+    "Agora use a apresentação em uma situação simples.",
+    "Agora escolha a despedida que combina com a situação.",
+    "Agora combine o que você aprendeu em uma pequena conversa.",
+  ];
+  const base = translate(prompts[Math.min(phaseIdx, prompts.length - 1)], ui);
+  if (kind === "listen") return translate("Ouça e identifique a expressão na situação.", ui);
+  if (kind === "match") return translate("Associe as expressões às situações corretas.", ui);
+  if (kind === "build") return translate("Monte a expressão correta com o que você aprendeu.", ui);
+  return base;
 }
-
-function makeBuildQuestion(
-  lang: Language,
-  item: LessonItem,
-  pool: LessonItem[],
-  phaseIdx: number,
-  ui: UiLang,
-): Question {
-  const target = targetText(lang, item);
-  const words = tokenizeBuild(target);
-  const options = buildOptionsFromLearnedPool(target, pool, lang);
-  return {
-    kind: "build",
-    prompt: translate(
-      lang === "ja"
-        ? "Ouça e monte a expressão usando as palavras em Romaji"
-        : lang === "en"
-          ? "Ouça e monte a expressão usando as palavras em inglês"
-          : "Ouça e monte a expressão usando as palavras em português",
-      ui,
-    ),
-    audio: audioText(lang, item),
-    answer: words.join(" "),
-    options,
-    buildOptions: options,
-    buildAnswer: words,
-    translation: meaningText(item, ui),
-  };
-}
-
-function makeQuestion(
-  lang: Language,
-  item: LessonItem,
-  kind: TaskKind,
-  phaseIdx: number,
-  pool: LessonItem[],
-  ui: UiLang,
-  index: number,
-): Question {
-  const target = targetText(lang, item);
-  const meaning = meaningText(item, ui);
-  const optionsCount = maxOptionsForPhase(phaseIdx);
-  const targetPool = pool.map((entry) => targetText(lang, entry));
-  const meaningPool = pool.map((entry) => meaningText(entry, ui));
-  const japanese = lang === "ja" && phaseIdx < 10 ? japaneseHiragana(item) : lang === "ja" ? item[0] : undefined;
-  const romaji = lang === "ja" ? item[2] : undefined;
-
-  if (kind === "listen") {
-    return {
-      kind: "listen",
-      prompt: translate("Ouça o áudio e escolha o significado correto", ui),
-      audio: audioText(lang, item),
-      answer: meaning,
-      options: pickOptions(meaning, meaningPool, optionsCount),
-      japanese,
-      romaji,
-      reveal: { translation: meaning, romaji, japanese },
-      nekoMessage: index === 0 ? translate("Ouça com atenção! 👂", ui) : undefined,
-    };
-  }
-
-  if (kind === "match") {
-    const start = (index + phaseIdx) % Math.max(1, pool.length - Math.min(optionsCount, pool.length) + 1);
-    const size = Math.min(optionsCount, pool.length);
-    const group = pool.slice(start, start + size);
-    const safe = group.length >= 2 ? group : pool.slice(0, Math.min(optionsCount, pool.length));
-    const left = safe.map((entry) => targetText(lang, entry));
-    const right = shuffle(safe.map((entry) => meaningText(entry, ui)));
-    const pairs: Record<string, string> = {};
-    safe.forEach((entry) => { pairs[targetText(lang, entry)] = meaningText(entry, ui); });
-
-    return {
-      kind: "match",
-      prompt: translate("Associe cada palavra ou expressão ao significado correto", ui),
-      answer: JSON.stringify(pairs),
-      matchLeft: left,
-      matchRight: right,
-      matchPairs: pairs,
-      nekoMessage: index % 2 === 0 ? translate("Combine os pares! 🧩", ui) : undefined,
-    };
-  }
-
-  if (kind === "complete") {
-    const label = lang === "ja" ? translate("romaji", ui) : translate(langName(lang), ui);
-    return {
-      kind: "complete",
-      prompt: translateVars(
-        lang === "ja" ? "Escreva em {lang}: o que você ouviu" : "Escreva em {lang}: o que você ouviu",
-        { lang: label },
-        ui,
-      ),
-      audio: audioText(lang, item),
-      answer: target,
-      translation: meaning,
-      romaji,
-      japanese,
-      hint: phaseIdx <= 2 ? target : undefined,
-    };
-  }
-
-  if (kind === "build") {
-    return makeBuildQuestion(lang, item, pool, phaseIdx, ui);
-  }
-
-  if (kind === "speak") {
-    return {
-      kind: "speak",
-      prompt: translateVars("Fale: {w}", { w: target }, ui),
-      audio: audioText(lang, item),
-      answer: audioText(lang, item),
-      translation: meaning,
-      romaji,
-      japanese,
-    };
-  }
-
-  return {
-    kind: "choose",
-    // Normal recognition tasks show the learned meaning first and four
-    // learned target options in the first three phases.
-    prompt: meaning,
-    answer: target,
-    options: pickOptions(target, targetPool, optionsCount),
-    translation: meaning,
-    romaji,
-    japanese,
-  };
-}
-
-type Unit2Row = [pt:string,en:string,ja:string,romaji:string];
-const UNIT2_ROWS: Unit2Row[][] = [
-  [["Meu nome é...","My name is...","私の名前は...です","watashi no namae wa ... desu"],["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],["Eu sou...","I'm...","私は...です","watashi wa ... desu"],["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"],["Prazer!","Nice to meet you!","よろしくお願いします","yoroshiku onegaishimasu"]],
-  [["Eu sou do Brasil.","I'm from Brazil.","ブラジル出身です","burajiru shusshin desu"],["De onde você é?","Where are you from?","どこの出身ですか","doko no shusshin desu ka"],["Eu moro em...","I live in...","...に住んでいます","... ni sunde imasu"],["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"],["Eu moro aqui.","I live here.","ここに住んでいます","koko ni sunde imasu"]],
-  [["Eu tenho 17 anos.","I'm 17 years old.","17歳です","juunanasai desu"],["Quantos anos você tem?","How old are you?","何歳ですか","nansai desu ka"],["Hoje tenho aula.","I have class today.","今日は授業があります","kyou wa jugyou ga arimasu"],["Eu estudo.","I study.","勉強しています","benkyou shite imasu"],["Você estuda?","Do you study?","勉強していますか","benkyou shite imasu ka"]],
-  [["Eu trabalho.","I work.","働いています","hataraite imasu"],["Onde você trabalha?","Where do you work?","どこで働いていますか","doko de hataraite imasu ka"],["Eu trabalho em...","I work at...","...で働いています","... de hataraite imasu"],["Eu estudo e trabalho.","I study and work.","勉強と仕事をしています","benkyou to shigoto o shite imasu"],["O que você faz?","What do you do?","何をしていますか","nani o shite imasu ka"]],
-  [["Minha família.","My family.","私の家族です","watashi no kazoku desu"],["Eu tenho um irmão.","I have a brother.","兄弟が一人います","kyoudai ga hitori imasu"],["Você tem irmãos?","Do you have siblings?","兄弟がいますか","kyoudai ga imasu ka"],["Minha mãe.","My mother.","私の母です","watashi no haha desu"],["Meu pai.","My father.","私の父です","watashi no chichi desu"]],
-  [["Eu gosto de música.","I like music.","音楽が好きです","ongaku ga suki desu"],["Eu gosto de jogos.","I like games.","ゲームが好きです","geemu ga suki desu"],["O que você gosta?","What do you like?","何が好きですか","nani ga suki desu ka"],["Eu não gosto de...","I don't like...","...が好きではありません","... ga suki dewa arimasen"],["Meu hobby é...","My hobby is...","趣味は...です","shumi wa ... desu"]],
-  [["Eu gosto de anime.","I like anime.","アニメが好きです","anime ga suki desu"],["Eu gosto de música e jogos.","I like music and games.","音楽とゲームが好きです","ongaku to geemu ga suki desu"],["O que você faz no tempo livre?","What do you do in your free time?","暇なときは何をしますか","hima na toki wa nani o shimasu ka"],["Eu assisto anime.","I watch anime.","アニメを見ます","anime o mimasu"],["Eu jogo.","I play games.","ゲームをします","geemu o shimasu"]],
-  [["Esta é minha família.","This is my family.","これは私の家族です","kore wa watashi no kazoku desu"],["Este é meu amigo.","This is my friend.","これは私の友達です","kore wa watashi no tomodachi desu"],["Vou apresentar meu amigo.","I'll introduce my friend.","友達を紹介します","tomodachi o shoukai shimasu"],["Ele é meu amigo.","He is my friend.","彼は私の友達です","kare wa watashi no tomodachi desu"],["Ela é minha amiga.","She is my friend.","彼女は私の友達です","kanojo wa watashi no tomodachi desu"]],
-  [["De onde você é e onde mora?","Where are you from and where do you live?","どこの出身で、どこに住んでいますか","doko no shusshin de doko ni sunde imasu ka"],["O que você gosta?","What do you like?","何が好きですか","nani ga suki desu ka"],["Você estuda ou trabalha?","Do you study or work?","勉強していますか、働いていますか","benkyou shite imasu ka hataraite imasu ka"],["Eu estudo e gosto de música.","I study and like music.","勉強していて、音楽が好きです","benkyou shite ite ongaku ga suki desu"],["Prazer em conhecer você. Até mais!","Nice to meet you. See you!","はじめまして。またね","hajimemashite mata ne"]],
-  [["Olá! Meu nome é...","Hello! My name is...","こんにちは！私の名前は...です","konnichiwa watashi no namae wa ... desu"],["Eu sou do Brasil e moro em...","I'm from Brazil and I live in...","ブラジル出身で、...に住んでいます","burajiru shusshin de ... ni sunde imasu"],["Eu estudo e gosto de jogos.","I study and like games.","勉強していて、ゲームが好きです","benkyou shite ite geemu ga suki desu"],["Este é meu amigo. Prazer em conhecer você.","This is my friend. Nice to meet you.","これは私の友達です。はじめまして","kore wa watashi no tomodachi desu hajimemashite"],["Conte sobre você.","Tell me about yourself.","あなたについて話してください","anata ni tsuite hanashite kudasai"]]
-];
-
-function unit2Curriculum(lang: Language): Curriculum {
-  return UNIT2_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) =>
-    lang === "ja" ? [romaji,pt,romaji] : lang === "en" ? [en,pt] : [pt,en]
-  ) as LessonItem[]);
-}
-const UNIT2: Record<Language,Curriculum> = {
-  pt: unit2Curriculum("pt"),
-  en: unit2Curriculum("en"),
-  ja: unit2Curriculum("ja"),
-};
-
-
-
-
-const UNIT1_TITLES = [
- ["Primeiros cumprimentos","First greetings","最初のあいさつ"],["Despedidas e educação","Goodbyes and politeness","別れと丁寧な表現"],["Nome e apresentação","Names and introductions","名前と自己紹介"],["Como você está?","How are you?","元気ですか"],["Prazer em conhecer","Nice to meet you","はじめまして"],["Perguntas simples","Simple questions","簡単な質問"],["Pequenas conversas","Short conversations","短い会話"],["Situações práticas","Practical situations","実践的な場面"],["Revisão e combinação","Review and combination","復習と組み合わせ"],["Desafio da unidade","Unit challenge","ユニットチャレンジ"],
-] as const;
-
-const SECTION2_TITLES = [
-  ["Nome e apresentação pessoal","Names and personal introductions","名前と自己紹介"],
-  ["Origem e onde você mora","Origin and where you live","出身と住んでいる場所"],
-  ["Idade e estudos","Age and studies","年齢と勉強"],
-  ["Trabalho e rotina","Work and routine","仕事と日常"],
-  ["Família","Family","家族"],
-  ["Gostos e preferências","Likes and preferences","好きなものと好み"],
-  ["Hobbies e interesses","Hobbies and interests","趣味と興味"],
-  ["Apresentando outras pessoas","Introducing other people","他の人の紹介"],
-  ["Perguntas sobre você","Questions about you","自分についての質問"],
-  ["Desafio de apresentação","Personal introduction challenge","自己紹介チャレンジ"],
-] as const;
 
 function buildPhase(
   lang: Language,
@@ -560,64 +374,63 @@ function buildPhase(
   ui: UiLang,
 ): Phase {
   const pool = cumulativePool(lang, phaseIdx, goal, _level);
-  const unitPhase = phaseIdx < 10
+  const unitPhase = phaseIdx < 7
     ? (UNIT1[lang][phaseIdx] ?? [])
-    : (UNIT2[lang][phaseIdx - 10] ?? []);
+    : (UNIT2[lang][phaseIdx - 7] ?? []);
 
-  // Keep lesson generation safe even if a future curriculum phase is empty.
-  // Falling back to the last unlocked content prevents an invalid question
-  // from reaching the lesson route and breaking the preview at runtime.
   if (pool.length === 0) {
     return buildPhase(lang, Math.max(0, phaseIdx - 1), _level, goal, ui);
   }
 
-  // The current phase may only draw from content unlocked up to this phase.
-  // Nothing from a future phase can leak into questions or distractors.
   const pattern = phaseKinds(lang, phaseIdx);
-  const questions: Question[] = Array.from({ length: 20 }, (_, index) => {
+  const questions: Question[] = Array.from({ length: 15 }, (_, index) => {
+    const isHard = index >= 11;
     const currentItem = unitPhase[index % Math.max(1, unitPhase.length)] ?? pool[0];
     const cumulative = pool[(index * 3 + phaseIdx) % pool.length];
-    // First pass presents every new expression once. The rest alternates
-    // current-phase practice with cumulative review in a stable varied order.
-    const item = index < unitPhase.length
-      ? currentItem
-      : (index - unitPhase.length) % 2 === 0
-        ? currentItem
-        : cumulative;
+    const item = phaseIdx === 6
+      ? (index < unitPhase.length ? currentItem : cumulative)
+      : currentItem;
     const kind = pattern[index];
 
-    // Build only after short expressions have been unlocked. Earlier phases
-    // stay focused on individual words and very small recognition tasks.
-    if (kind === "listen") {
-      // Audio grows from greetings to short questions and dialogues, while
-      // remaining strictly inside the vocabulary unlocked through this phase.
-      const maxWords = phaseIdx <= 1 ? 3 : phaseIdx <= 4 ? 5 : phaseIdx <= 7 ? 7 : 12;
-      const shortPool = pool.filter((entry) => tokenizeBuild(targetText(lang, entry)).length <= maxWords);
-      const listenItem = shortPool.length > 0
-        ? shortPool[(index + phaseIdx) % shortPool.length]
-        : item;
-      return makeQuestion(lang, listenItem, "listen", phaseIdx, pool, ui, index);
+    const question = (() => {
+      if (kind === "listen") {
+        const maxWords = phaseIdx <= 1 ? 3 : phaseIdx <= 5 ? 5 : 7;
+        const shortPool = pool.filter((entry) => tokenizeBuild(targetText(lang, entry)).length <= maxWords);
+        const listenItem = shortPool.length > 0
+          ? shortPool[(index + phaseIdx) % shortPool.length]
+          : item;
+        return makeQuestion(lang, listenItem, "listen", phaseIdx, pool, ui, index);
+      }
+
+      if (kind === "build") {
+        const buildable = pool.filter((entry) => {
+          const words = tokenizeBuild(targetText(lang, entry));
+          return words.length >= 2 && words.length <= 5;
+        });
+        const buildItem = buildable.length > 0
+          ? buildable[(index + phaseIdx) % buildable.length]
+          : item;
+        return makeQuestion(lang, buildItem, "build", phaseIdx, pool, ui, index);
+      }
+
+      return makeQuestion(lang, item, kind, phaseIdx, pool, ui, index);
+    })();
+
+    if (isHard) {
+      question.prompt = buildHardPrompt(phaseIdx, kind, ui);
     }
 
-    if (kind === "build" && phaseIdx < 4) {
-      return makeQuestion(lang, item, "choose", phaseIdx, pool, ui, index);
-    }
-
-    // Never force a build on a one-token item. When a phase has expressions,
-    // select a short expression (maximum five tokens) from already unlocked content.
-    if (kind === "build") {
-      const buildable = pool.filter((entry) => tokenizeBuild(targetText(lang, entry)).length >= 2 && tokenizeBuild(targetText(lang, entry)).length <= 5);
-      const buildItem = buildable.length > 0 ? buildable[(index + phaseIdx) % buildable.length] : item;
-      return makeQuestion(lang, buildItem, "build", phaseIdx, pool, ui, index);
-    }
-
-    return makeQuestion(lang, item, kind, phaseIdx, pool, ui, index);
+    return question;
   });
 
   return {
-    id: `${lang}-phase-${phaseIdx + 1}`,
-    title: (phaseIdx < 10 ? UNIT1_TITLES[phaseIdx] : SECTION2_TITLES[phaseIdx - 10])
-      ? (ui === "en" ? (phaseIdx < 10 ? UNIT1_TITLES[phaseIdx][1] : SECTION2_TITLES[phaseIdx - 10][1]) : ui === "ja" ? (phaseIdx < 10 ? UNIT1_TITLES[phaseIdx][2] : SECTION2_TITLES[phaseIdx - 10][2]) : (phaseIdx < 10 ? UNIT1_TITLES[phaseIdx][0] : SECTION2_TITLES[phaseIdx - 10][0]))
+    id: \`\${lang}-phase-\${phaseIdx + 1}\`,
+    title: (phaseIdx < 7 ? UNIT1_TITLES[phaseIdx] : SECTION2_TITLES[phaseIdx - 7])
+      ? (ui === "en"
+        ? (phaseIdx < 7 ? UNIT1_TITLES[phaseIdx][1] : SECTION2_TITLES[phaseIdx - 7][1])
+        : ui === "ja"
+          ? (phaseIdx < 7 ? UNIT1_TITLES[phaseIdx][2] : SECTION2_TITLES[phaseIdx - 7][2])
+          : (phaseIdx < 7 ? UNIT1_TITLES[phaseIdx][0] : SECTION2_TITLES[phaseIdx - 7][0]))
       : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
     icon: ICONS[lang][phaseIdx],
     xp: PHASE_XP[phaseIdx] ?? PHASE_XP[PHASE_XP.length - 1],
@@ -649,7 +462,7 @@ export function buildPhases(
 ): Phase[] {
   const lang = normalizeLanguage(langInput);
   const normalizedLevel = normalizeLevel(level);
-  return Array.from({ length: 20 }, (_, index) => buildPhase(lang, index, normalizedLevel, goal ?? "outro", ui));
+  return Array.from({ length: 15 }, (_, index) => buildPhase(lang, index, normalizedLevel, goal ?? "outro", ui));
 }
 
 // Lazy cache prevents lesson generation from affecting startup/login rendering.
