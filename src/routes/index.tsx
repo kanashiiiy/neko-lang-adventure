@@ -9,6 +9,16 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/")({
   component: SplashScreen,
   ssr: false,
+  head: () => ({
+    meta: [
+      { title: "NEKOTeach — Aprenda idiomas com o Neko" },
+      { name: "description", content: "Aprenda idiomas de forma divertida com o Neko." },
+      { property: "og:title", content: "NEKOTeach — Aprenda idiomas com o Neko" },
+      { property: "og:description", content: "Aprenda idiomas de forma divertida com o Neko." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
 function SplashScreen() {
@@ -66,22 +76,24 @@ function SplashScreen() {
   }, [navigate]);
 
   return (
-    <div className="mobile-shell items-center justify-center bg-gradient-primary text-primary-foreground">
-      <div className="flex flex-col items-center gap-6 animate-bounce-in">
-        <NekoMascot size={200} float />
+    <main className="relative flex h-dvh w-full items-center justify-center overflow-hidden bg-gradient-primary text-primary-foreground">
+      <div className="absolute -left-20 -top-20 size-60 rounded-full bg-primary-foreground/10" aria-hidden="true" />
+      <div className="absolute -bottom-28 -right-24 size-72 rounded-full bg-primary-foreground/10" aria-hidden="true" />
+      <div className="relative z-10 flex -translate-y-[3dvh] flex-col items-center gap-6 animate-bounce-in">
+        <NekoMascot size={220} float />
         <div className="text-center">
-          <h1 className="text-4xl font-black tracking-tight">
+          <h1 className="text-4xl font-black">
             NEKO<span className="text-gold">Teach</span>
           </h1>
           <p className="mt-2 text-sm opacity-90">{t("Aprenda idiomas com o Neko")}</p>
         </div>
-        <div className="mt-6 h-2 w-40 overflow-hidden rounded-full bg-white/25">
+        <div className="mt-6 h-2 w-40 overflow-hidden rounded-full bg-primary-foreground/25">
           <div
             className="h-full rounded-full bg-gold transition-all duration-1000 ease-out"
             style={{ width: ready ? "100%" : "35%" }}
           />
         </div>
       </div>
-    </div>
+    </main>
   );
 }
