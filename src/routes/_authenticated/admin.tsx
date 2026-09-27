@@ -54,6 +54,7 @@ function AdminPage() {
   });
 
   const isAdminUser = Boolean(profile?.is_admin);
+  const currentGems = profile && "gems" in profile ? profile.gems : 0;
 
   const { data: stats } = useQuery({
     queryKey: ["admin-stats"],
@@ -242,7 +243,7 @@ function AdminPage() {
             <ToolButton
               icon={<Gem className="h-4 w-4" />}
               label={t("Adicionar 1000 diamantes")}
-              onClick={() => grant({ gems: (profile?.gems ?? 0) + 1000 }, "Diamantes adicionados")}
+              onClick={() => grant({ gems: currentGems + 1000 }, "Diamantes adicionados")}
             />
           </div>
         </div>
