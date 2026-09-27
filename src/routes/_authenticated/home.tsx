@@ -66,10 +66,10 @@ function HomePage() {
         <div className="mb-5 rounded-3xl border border-primary/15 bg-card/80 px-4 py-4 shadow-soft">
           <div className="text-xs font-black uppercase tracking-[0.16em] text-primary">SEÇÃO 1</div>
           <div className="mt-1 text-lg font-black text-foreground">Aprenda palavras, expressões e conceitos gramaticais básicos para interagir.</div>
-          <div className="mt-1 text-xs font-semibold text-muted-foreground">{t("Fases")} · {t(langMeta?.name ?? "")} · 20 tarefas por fase</div>
+          <div className="mt-1 text-xs font-semibold text-muted-foreground">{t("Fases")} · {t(langMeta?.name ?? "")} · 15 tarefas por fase</div>
         </div>
         <div className="relative flex flex-col items-center gap-4">
-          {phases.slice(0, 10).map((l, i) => {
+          {phases.slice(0, 7).map((l, i) => {
             const isDone = completed?.has(l.id); const prevDone = i === 0 || completed?.has(phases[i - 1].id); const locked = !prevDone && !isDone; const offset = i % 2 === 0 ? "translate-x-6" : "-translate-x-6";
             return <div key={l.id} className={offset}><Link to="/lesson/$id" params={{ id: l.id }} disabled={locked} className={`group flex flex-col items-center ${locked ? "pointer-events-none opacity-50" : ""}`}><div className={`btn-3d flex h-20 w-20 items-center justify-center rounded-full text-4xl transition ${isDone ? "bg-success text-success-foreground" : locked ? "bg-muted text-muted-foreground" : "bg-gradient-primary text-primary-foreground"}`}>{isDone ? "✓" : locked ? "🔒" : l.icon}</div><div className="mt-2 text-center"><div className="text-sm font-bold">{l.title}</div><div className="text-[10px] uppercase tracking-wide text-muted-foreground">+{l.xp} XP · {tf("{n} tarefas", { n: l.questions.length })}</div></div></Link></div>;
           })}
@@ -80,8 +80,8 @@ function HomePage() {
           <div className="mt-1 text-xs font-semibold text-muted-foreground">{t("Fases")} · {t(langMeta?.name ?? "")} · 20 tarefas por fase</div>
         </div>
         <div className="relative flex flex-col items-center gap-4">
-          {phases.slice(10).map((l, localIndex) => {
-            const i = localIndex + 10;
+          {phases.slice(7).map((l, localIndex) => {
+            const i = localIndex + 7;
             const isDone = completed?.has(l.id); const prevDone = completed?.has(phases[i - 1]?.id); const locked = !prevDone && !isDone; const offset = localIndex % 2 === 0 ? "translate-x-6" : "-translate-x-6";
             return <div key={l.id} className={offset}><Link to="/lesson/$id" params={{ id: l.id }} disabled={locked} className={`group flex flex-col items-center ${locked ? "pointer-events-none opacity-50" : ""}`}><div className={`btn-3d flex h-20 w-20 items-center justify-center rounded-full text-4xl transition ${isDone ? "bg-success text-success-foreground" : locked ? "bg-muted text-muted-foreground" : "bg-gradient-primary text-primary-foreground"}`}>{isDone ? "✓" : locked ? "🔒" : l.icon}</div><div className="mt-2 text-center"><div className="text-sm font-bold">{l.title}</div><div className="text-[10px] uppercase tracking-wide text-muted-foreground">+{l.xp} XP · {tf("{n} tarefas", { n: l.questions.length })}</div></div></Link></div>;
           })}
