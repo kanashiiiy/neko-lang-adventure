@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Use the uploaded final artwork directly on `/welcome`, as the login header, and on the authenticated-entry transition; reuse `EntranceFrame` and `EntranceBrand` on remaining unauthenticated states.
+- Store Unit 1 entries as aligned Portuguese, English, Japanese-script, and Romaji tuples so Japanese display and speech never depend on Romaji conversion.
