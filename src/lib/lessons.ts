@@ -209,8 +209,6 @@ function uniqueByTarget(items: LessonItem[]): LessonItem[] {
 
 function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | undefined, level: Level = "iniciante"): LessonItem[] {
   if (phaseIdx < 10) return uniqueByTarget(UNIT1[lang].slice(0, phaseIdx + 1).flat());
-  const family = normalizeGoal(goal);
-  const curriculum = GOAL_CURRICULUM[lang][family];
   const section2Phase = phaseIdx - 10;
   const offset = levelOffset(level);
   const unit2Through = Math.min(
