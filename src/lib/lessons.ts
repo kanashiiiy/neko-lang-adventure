@@ -250,6 +250,7 @@ function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | 
 
 
 function japaneseHiragana(item: LessonItem): string {
+  if (item[3]) return item[3];
   const romaji = item[2] ?? item[0];
   const digraphs: Record<string, string> = {
     kya: "きゃ", kyu: "きゅ", kyo: "きょ", sha: "しゃ", shu: "しゅ", sho: "しょ",
@@ -297,6 +298,10 @@ function targetText(lang: Language, item: LessonItem): string {
   return lang === "ja" ? (item[2] ?? item[0]) : item[0];
 }
 
+function audioText(lang: Language, item: LessonItem): string {
+  return lang === "ja" ? (item[3] ?? item[0]) : item[0];
+}
+
 function meaningText(item: LessonItem, ui: UiLang): string {
   return translate(item[1], ui);
 }
@@ -332,9 +337,20 @@ function isShortListenItem(lang: Language, item: LessonItem): boolean {
 }
 
 function phaseKinds(lang: Language, phaseIdx: number): TaskKind[] {
-  const patterns: TaskKind[][] = [["choose","choose","choose","choose","match","complete","choose","match","complete","choose","match","choose","complete","choose","match","complete","choose","choose","match","choose"],["choose","choose","listen","choose","match","complete","choose","listen","match","complete","choose","match","choose","complete","listen","choose","match","complete","choose","match"],["choose","listen","choose","match","complete","choose","listen","match","choose","complete","choose","match","listen","choose","complete","match","choose","listen","complete","match"],["choose","choose","listen","match","complete","choose","match","listen","choose","complete","build","choose","match","complete","listen","build","choose","match","complete","choose"],["choose","listen","match","complete","choose","build","listen","match","choose","complete","build","choose","listen","match","complete","build","choose","match","listen","choose"],["choose","match","listen","complete","build","choose","listen","match","complete","build","choose","listen","match","complete","build","choose","match","listen","complete","build"],["choose","listen","match","build","complete","choose","build","listen","match","complete","choose","match","build","listen","complete","choose","build","match","listen","complete"],["choose","match","listen","complete","build","choose","listen","build","match","complete","choose","match","listen","build","complete","choose","build","match","listen","complete"],["choose","listen","match","build","complete","choose","match","listen","build","complete","choose","build","match","listen","complete","build","choose","match","listen","complete"],["choose","match","listen","build","complete","choose","listen","match","build","complete","choose","match","listen","build","complete","choose","build","match","listen","complete"]];
+  const patterns: TaskKind[][] = [
+    ["choose","choose","listen","match","complete","choose","listen","match","choose","complete","choose","listen","match","complete","choose","match","listen","choose","complete","match"],
+    ["choose","listen","choose","match","complete","choose","listen","match","choose","complete","speak","match","listen","choose","complete","choose","match","listen","complete","speak"],
+    ["choose","listen","match","complete","choose","speak","listen","match","choose","complete","build","choose","match","listen","complete","speak","choose","build","match","complete"],
+    ["choose","listen","match","complete","speak","choose","match","listen","build","complete","choose","speak","match","complete","listen","build","choose","match","complete","listen"],
+    ["choose","listen","match","complete","build","speak","listen","match","choose","complete","build","choose","listen","match","complete","speak","choose","build","listen","match"],
+    ["choose","match","listen","complete","build","speak","listen","match","complete","build","choose","listen","match","speak","build","choose","match","listen","complete","build"],
+    ["choose","listen","match","build","complete","speak","build","listen","match","complete","choose","match","build","listen","complete","speak","build","match","listen","complete"],
+    ["choose","match","listen","complete","build","speak","listen","build","match","complete","choose","match","listen","build","complete","speak","build","match","listen","complete"],
+    ["choose","listen","match","build","complete","speak","match","listen","build","complete","choose","build","match","listen","complete","speak","choose","match","listen","build"],
+    ["choose","match","listen","build","complete","speak","listen","match","build","complete","choose","match","listen","build","complete","speak","build","match","listen","complete"],
+  ];
   const pattern=patterns[Math.min(phaseIdx,9)];
-  return lang==="ja" && phaseIdx<5 ? pattern.map(k=>k==="listen" ? "choose" : k) : pattern;
+  return pattern;
 }
 
 function buildOptionsFromLearnedPool(
@@ -377,7 +393,7 @@ function makeBuildQuestion(
           : "Ouça e monte a expressão usando as palavras em português",
       ui,
     ),
-    audio: item[0],
+    audio: audioText(lang, item),
     answer: words.join(" "),
     options,
     buildOptions: options,
@@ -407,7 +423,7 @@ function makeQuestion(
     return {
       kind: "listen",
       prompt: translate("Ouça o áudio e escolha o significado correto", ui),
-      audio: item[0],
+      audio: audioText(lang, item),
       answer: meaning,
       options: pickOptions(meaning, meaningPool, optionsCount),
       japanese,
@@ -447,7 +463,7 @@ function makeQuestion(
         { lang: label },
         ui,
       ),
-      audio: item[0],
+      audio: audioText(lang, item),
       answer: target,
       translation: meaning,
       romaji,
@@ -464,8 +480,8 @@ function makeQuestion(
     return {
       kind: "speak",
       prompt: translateVars("Fale: {w}", { w: target }, ui),
-      audio: item[0],
-      answer: item[0],
+      audio: audioText(lang, item),
+      answer: audioText(lang, item),
       translation: meaning,
       romaji,
       japanese,
@@ -510,22 +526,26 @@ function buildPhase(
   // Nothing from a future phase can leak into questions or distractors.
   const pattern = phaseKinds(lang, phaseIdx);
   const questions: Question[] = Array.from({ length: 20 }, (_, index) => {
-    const early = unitPhase[index % Math.max(1, unitPhase.length)] ?? pool[0];
-    const cumulative = pool[(index * 2 + phaseIdx) % pool.length];
-    const item = index < 5 ? early : index < 10 && index % 2 === 0 ? early : cumulative;
+    const currentItem = unitPhase[index % Math.max(1, unitPhase.length)] ?? pool[0];
+    const cumulative = pool[(index * 3 + phaseIdx) % pool.length];
+    // First pass presents every new expression once. The rest alternates
+    // current-phase practice with cumulative review in a stable varied order.
+    const item = index < unitPhase.length
+      ? currentItem
+      : (index - unitPhase.length) % 2 === 0
+        ? currentItem
+        : cumulative;
     const kind = pattern[index];
 
     // Build only after short expressions have been unlocked. Earlier phases
     // stay focused on individual words and very small recognition tasks.
     if (kind === "listen") {
-      // Listening tasks stay beginner-friendly: only individual words or
-      // short two-word expressions already unlocked in the cumulative pool.
-      const reviewCurriculum = UNIT1[lang];
-      const reviewPool = uniqueByTarget(reviewCurriculum.slice(0, 5).flat());
-      const learnedPool = reviewPool.length > 0 ? reviewPool : pool;
-      const shortPool = learnedPool.filter((entry) => isShortListenItem(lang, entry));
+      // Audio grows from greetings to short questions and dialogues, while
+      // remaining strictly inside the vocabulary unlocked through this phase.
+      const maxWords = phaseIdx <= 1 ? 3 : phaseIdx <= 4 ? 5 : phaseIdx <= 7 ? 7 : 12;
+      const shortPool = pool.filter((entry) => tokenizeBuild(targetText(lang, entry)).length <= maxWords);
       const listenItem = shortPool.length > 0
-        ? shortPool[index % shortPool.length]
+        ? shortPool[(index + phaseIdx) % shortPool.length]
         : item;
       return makeQuestion(lang, listenItem, "listen", phaseIdx, pool, ui, index);
     }
