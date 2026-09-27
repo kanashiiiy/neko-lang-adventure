@@ -481,7 +481,7 @@ function makeQuestion(
       kind: "speak",
       prompt: translateVars("Fale: {w}", { w: target }, ui),
       audio: audioText(lang, item),
-      answer: target,
+      answer: audioText(lang, item),
       translation: meaning,
       romaji,
       japanese,
