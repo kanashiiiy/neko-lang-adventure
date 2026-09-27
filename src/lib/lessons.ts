@@ -203,6 +203,106 @@ function unit1Curriculum(lang: Language): Curriculum {
 }
 const UNIT1: Record<Language,Curriculum> = { pt:unit1Curriculum("pt"), en:unit1Curriculum("en"), ja:unit1Curriculum("ja") };
 
+// Keep Section 1 basic and progressive. Longer existing material remains available
+// in Section 2 so no existing learning content is unnecessarily removed.
+const SECTION1_ROWS: Unit1Row[][] = [
+  UNIT1_ROWS[0],
+  UNIT1_ROWS[1],
+  UNIT1_ROWS[2].slice(0, 4).concat([UNIT1_ROWS[2][7]]),
+  UNIT1_ROWS[3].slice(0, 6),
+  [
+    ["Sim","Yes","はい","hai"],["Não","No","いいえ","iie"],
+    ["O que é isto?","What is this?","これは何ですか","kore wa nan desu ka"],
+    ["Onde é?","Where is it?","どこですか","doko desu ka"],
+    ["Aqui","Here","ここ","koko"],["Ali","There","そこ","soko"],
+    ["Hoje","Today","今日","kyou"],["Amanhã","Tomorrow","明日","ashita"],
+  ],
+  [
+    ["Você fala português?","Do you speak Portuguese?","ポルトガル語を話しますか","porutogaru go o hanashimasu ka"],
+    ["Você fala inglês?","Do you speak English?","英語を話しますか","eigo o hanashimasu ka"],
+    ["Você fala japonês?","Do you speak Japanese?","日本語を話しますか","nihongo o hanashimasu ka"],
+    ["Sim, um pouco.","Yes, a little.","はい、少し","hai sukoshi"],
+    ["Pode repetir?","Can you repeat that?","もう一度お願いします","mou ichido onegaishimasu"],
+    ["Entendeu?","Did you understand?","わかりましたか","wakarimashita ka"],
+    ["Sim, entendi.","Yes, I understood.","はい、わかりました","hai wakarimashita"],
+  ],
+  [
+    ["Água","Water","水","mizu"],["Comida","Food","食べ物","tabemono"],
+    ["Casa","Home","家","ie"],["Escola","School","学校","gakkou"],
+    ["Quarto","Room","部屋","heya"],["Banheiro","Bathroom","トイレ","toire"],
+    ["Estação","Station","駅","eki"],["Hospital","Hospital","病院","byouin"],
+  ],
+  [
+    ["Por favor","Please","お願いします","onegaishimasu"],["Com licença","Excuse me","すみません","sumimasen"],
+    ["Desculpe","I'm sorry","ごめんなさい","gomennasai"],["Obrigado(a)","Thank you","ありがとう","arigatou"],
+    ["De nada","You're welcome","どういたしまして","douitashimashite"],["Tudo bem","It's okay","大丈夫です","daijoubu desu"],
+    ["Até mais","See you","またね","mata ne"],["Até logo","See you later","また後で","mata ato de"],
+  ],
+  [
+    ["Estou bem.","I'm fine.","元気です","genki desu"],["Estou feliz.","I'm happy.","うれしいです","ureshii desu"],
+    ["Estou cansado(a).","I'm tired.","疲れています","tsukarete imasu"],["E você?","And you?","あなたは？","anata wa"],
+    ["Eu sou o Leo.","I'm Leo.","レオです","reo desu"],["Meu nome é Ana.","My name is Ana.","私はアナです","watashi wa ana desu"],
+    ["Moro aqui.","I live here.","ここに住んでいます","koko ni sunde imasu"],["Moro perto daqui.","I live nearby.","近くに住んでいます","chikaku ni sunde imasu"],
+  ],
+  [
+    ["Olá","Hello","こんにちは","konnichiwa"],["Obrigado(a)","Thank you","ありがとう","arigatou"],
+    ["Por favor","Please","お願いします","onegaishimasu"],["Sim","Yes","はい","hai"],
+    ["Não","No","いいえ","iie"],["Aqui","Here","ここ","koko"],
+    ["Hoje","Today","今日","kyou"],["Amanhã","Tomorrow","明日","ashita"],
+  ],
+  [
+    ["Olá, tudo bem?","Hello, how are you?","こんにちは、元気ですか","konnichiwa genki desu ka"],
+    ["Estou bem, obrigado(a).","I'm fine, thank you.","元気です、ありがとう","genki desu arigatou"],
+    ["Meu nome é Ana.","My name is Ana.","私はアナです","watashi wa ana desu"],
+    ["Eu sou o Leo.","I'm Leo.","レオです","reo desu"],
+    ["Até mais.","See you.","またね","mata ne"],
+    ["Por favor, repita.","Please repeat.","もう一度お願いします","mou ichido onegaishimasu"],
+  ],
+];
+
+const SECTION1: Record<Language, Curriculum> = {
+  pt: SECTION1_ROWS.map(phase => phase.map(([pt,en]) => [pt,en] as LessonItem)),
+  en: SECTION1_ROWS.map(phase => phase.map(([pt,en]) => [en,pt] as LessonItem)),
+  ja: SECTION1_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => [romaji,pt,romaji,ja] as LessonItem)),
+};
+
+// Existing longer introductions, origin, conversation and contextual phrases move
+// into Section 2 rather than being deleted.
+const SECTION2_ROWS: Unit1Row[][] = [
+  UNIT1_ROWS[2].slice(4),
+  UNIT1_ROWS[3].slice(6),
+  UNIT1_ROWS[4],
+  UNIT1_ROWS[5],
+  UNIT1_ROWS[6],
+  UNIT1_ROWS[7],
+  UNIT1_ROWS[8],
+  UNIT1_ROWS[9],
+  [
+    ["De onde você é?","Where are you from?","どちらの出身ですか","dochira no shusshin desu ka"],
+    ["Sou do Brasil.","I'm from Brazil.","ブラジル出身です","burajiru shusshin desu"],
+    ["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"],
+    ["Moro em Belém.","I live in Belém.","ベレンに住んでいます","beren ni sunde imasu"],
+    ["Você fala inglês?","Do you speak English?","英語を話しますか","eigo o hanashimasu ka"],
+    ["Ainda estou aprendendo.","I'm still learning.","まだ勉強中です","mada benkyou chuu desu"],
+    ["Olá, posso me apresentar?","Hello, may I introduce myself?","こんにちは、自己紹介してもいいですか","konnichiwa jikoshoukai shite mo ii desu ka"],
+    ["Claro, por favor.","Of course, go ahead.","はい、どうぞ","hai douzo"],
+  ],
+  [
+    ["Olá! Meu nome é Ana.","Hello! My name is Ana.","こんにちは、私はアナです","konnichiwa watashi wa ana desu"],
+    ["Como você está hoje?","How are you today?","今日はお元気ですか","kyou wa ogenki desu ka"],
+    ["Sou do Brasil e moro em Belém.","I'm from Brazil and live in Belém.","ブラジル出身で、ベレンに住んでいます","burajiru shusshin de beren ni sunde imasu"],
+    ["Sou o Ken. Prazer em conhecer você.","I'm Ken. Nice to meet you.","ケンです。はじめまして","ken desu hajimemashite"],
+    ["Igualmente! Como você está?","Likewise! How are you?","こちらこそ。お元気ですか","kochira koso ogenki desu ka"],
+    ["Foi bom falar com você. Até logo!","It was nice talking to you. See you later!","お話しできてよかったです。また後で","ohanashi dekite yokatta desu mata ato de"],
+  ],
+];
+
+const SECTION2: Record<Language, Curriculum> = {
+  pt: SECTION2_ROWS.map(phase => phase.map(([pt,en]) => [pt,en] as LessonItem)),
+  en: SECTION2_ROWS.map(phase => phase.map(([pt,en]) => [en,pt] as LessonItem)),
+  ja: SECTION2_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) => [romaji,pt,romaji,ja] as LessonItem)),
+};
+
 
 function normalizeGoal(value: string | null | undefined): GoalFamily {
   const v = (value ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -242,10 +342,10 @@ function uniqueByTarget(items: LessonItem[]): LessonItem[] {
 }
 
 function cumulativePool(lang: Language, phaseIdx: number, goal: string | null | undefined, level: Level = "iniciante"): LessonItem[] {
-  if (phaseIdx < 10) return uniqueByTarget(UNIT1[lang].slice(0, phaseIdx + 1).flat());
+  if (phaseIdx < 10) return uniqueByTarget(SECTION1[lang].slice(0, phaseIdx + 1).flat());
   const family = normalizeGoal(goal);
-  const curriculum = GOAL_CURRICULUM[lang][family];
-  const section2Start = Math.min(8, Math.max(0, curriculum.length - 1));
+  const curriculum = SECTION2[lang];
+  const section2Start = 0;
   const section2Phase = phaseIdx - 10;
   const offset = levelOffset(level);
   const unlockedThrough = Math.min(
@@ -543,7 +643,7 @@ function buildPhase(
   ui: UiLang,
 ): Phase {
   const pool = cumulativePool(lang, phaseIdx, goal, _level);
-  const unitPhase = UNIT1[lang][phaseIdx] ?? [];
+  const unitPhase = phaseIdx < 10 ? (SECTION1[lang][phaseIdx] ?? []) : (SECTION2[lang][phaseIdx - 10] ?? []);
 
   // Keep lesson generation safe even if a future curriculum phase is empty.
   // Falling back to the last unlocked content prevents an invalid question
@@ -597,7 +697,7 @@ function buildPhase(
 
   return {
     id: `${lang}-phase-${phaseIdx + 1}`,
-    title: UNIT1_TITLES[phaseIdx] ? (ui === "en" ? UNIT1_TITLES[phaseIdx][1] : ui === "ja" ? UNIT1_TITLES[phaseIdx][2] : UNIT1_TITLES[phaseIdx][0]) : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui),
+    title: (() => { const row = phaseIdx < 10 ? UNIT1_TITLES[phaseIdx] : SECTION2_TITLES[phaseIdx - 10]; return row ? (ui === "en" ? row[1] : ui === "ja" ? row[2] : row[0]) : translateVars("Fase {n}", { n: phaseIdx + 1 }, ui); })(),
     icon: ICONS[lang][phaseIdx],
     xp: PHASE_XP[phaseIdx] ?? PHASE_XP[PHASE_XP.length - 1],
     questions,
