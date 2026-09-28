@@ -182,7 +182,7 @@ function LessonPlayer() {
   const activeIndex = reviewQueue.length > 0 ? reviewQueue[reviewIdx] ?? 0 : idx;
   const safeIdx = Math.min(activeIndex, total - 1);
   const q = lesson.questions[safeIdx];
-  const phaseNumber = Number(lesson.id.match(/-phase-(\\d+)$/)?.[1] ?? 1);
+  const phaseNumber = Number(lesson.id.match(/-phase-(\d+)$/)?.[1] ?? 1);
   const isFirstTenJapanese = lang === "ja" && phaseNumber <= 10;
   const isAudioMission = q.kind === "listen";
   const audioAnswered = isAudioMission && correct !== null;
