@@ -424,7 +424,7 @@ function buildPhase(
   });
 
   return {
-    id: \`\${lang}-phase-\${phaseIdx + 1}\`,
+    id: `${lang}-phase-${phaseIdx + 1}`,
     title: (phaseIdx < 7 ? UNIT1_TITLES[phaseIdx] : SECTION2_TITLES[phaseIdx - 7])
       ? (ui === "en"
         ? (phaseIdx < 7 ? UNIT1_TITLES[phaseIdx][1] : SECTION2_TITLES[phaseIdx - 7][1])
