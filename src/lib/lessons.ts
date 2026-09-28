@@ -391,6 +391,27 @@ function buildHardPrompt(phaseIdx: number, kind: TaskKind, ui: UiLang): string {
   return base;
 }
 
+const UNIT1_TITLES = [
+  ["Palavras e cumprimentos","Words and greetings","言葉とあいさつ"],
+  ["Educação e respostas simples","Politeness and simple answers","丁寧な表現と簡単な答え"],
+  ["Nome e apresentação básica","Basic names and introductions","名前と基本の自己紹介"],
+  ["Como você está?","How are you?","元気ですか"],
+  ["Perguntas básicas","Basic questions","基本的な質問"],
+  ["Lugares e necessidades","Places and needs","場所と必要な表現"],
+  ["Despedidas e primeira conversa","Farewells and first conversation","別れと初めての会話"],
+] as const;
+
+const SECTION2_TITLES = [
+  ["Nome e apresentação pessoal","Names and personal introductions","名前と自己紹介"],
+  ["Origem e onde você mora","Origin and where you live","出身と住んでいる場所"],
+  ["Idade e estudos","Age and studies","年齢と勉強"],
+  ["Trabalho e rotina","Work and routine","仕事と日常"],
+  ["Família","Family","家族"],
+  ["Gostos e preferências","Likes and preferences","好きなものと好み"],
+  ["Hobbies e interesses","Hobbies and interests","趣味と興味"],
+  ["Apresentando outras pessoas","Introducing other people","他の人の紹介"],
+] as const;
+
 function buildPhase(
   lang: Language,
   phaseIdx: number,
