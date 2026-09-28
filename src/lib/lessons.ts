@@ -194,6 +194,31 @@ function unit1Curriculum(lang: Language): Curriculum {
 const UNIT1: Record<Language,Curriculum> = { pt:unit1Curriculum("pt"), en:unit1Curriculum("en"), ja:unit1Curriculum("ja") };
 
 
+type Unit2Row = [pt:string,en:string,ja:string,romaji:string];
+const UNIT2_ROWS: Unit2Row[][] = [
+  [["Meu nome é...","My name is...","私の名前は...です","watashi no namae wa ... desu"],["Qual é o seu nome?","What's your name?","お名前は何ですか","onamae wa nan desu ka"],["Eu sou...","I'm...","私は...です","watashi wa ... desu"],["Prazer em conhecer você.","Nice to meet you.","はじめまして","hajimemashite"],["Prazer!","Nice to meet you!","よろしくお願いします","yoroshiku onegaishimasu"]],
+  [["Eu sou do Brasil.","I'm from Brazil.","ブラジル出身です","burajiru shusshin desu"],["De onde você é?","Where are you from?","どこの出身ですか","doko no shusshin desu ka"],["Eu moro em...","I live in...","...に住んでいます","... ni sunde imasu"],["Onde você mora?","Where do you live?","どこに住んでいますか","doko ni sunde imasu ka"],["Eu moro aqui.","I live here.","ここに住んでいます","koko ni sunde imasu"]],
+  [["Eu tenho 17 anos.","I'm 17 years old.","17歳です","juunanasai desu"],["Quantos anos você tem?","How old are you?","何歳ですか","nansai desu ka"],["Hoje tenho aula.","I have class today.","今日は授業があります","kyou wa jugyou ga arimasu"],["Eu estudo.","I study.","勉強しています","benkyou shite imasu"],["Você estuda?","Do you study?","勉強していますか","benkyou shite imasu ka"]],
+  [["Eu trabalho.","I work.","働いています","hataraite imasu"],["Onde você trabalha?","Where do you work?","どこで働いていますか","doko de hataraite imasu ka"],["Eu trabalho em...","I work at...","...で働いています","... de hataraite imasu"],["Eu estudo e trabalho.","I study and work.","勉強と仕事をしています","benkyou to shigoto o shite imasu"],["O que você faz?","What do you do?","何をしていますか","nani o shite imasu ka"]],
+  [["Minha família.","My family.","私の家族です","watashi no kazoku desu"],["Eu tenho um irmão.","I have a brother.","兄弟が一人います","kyoudai ga hitori imasu"],["Você tem irmãos?","Do you have siblings?","兄弟がいますか","kyoudai ga imasu ka"],["Minha mãe.","My mother.","私の母です","watashi no haha desu"],["Meu pai.","My father.","私の父です","watashi no chichi desu"]],
+  [["Eu gosto de música.","I like music.","音楽が好きです","ongaku ga suki desu"],["Eu gosto de jogos.","I like games.","ゲームが好きです","geemu ga suki desu"],["O que você gosta?","What do you like?","何が好きですか","nani ga suki desu ka"],["Eu não gosto de...","I don't like...","...が好きではありません","... ga suki dewa arimasen"],["Meu hobby é...","My hobby is...","趣味は...です","shumi wa ... desu"]],
+  [["Eu gosto de anime.","I like anime.","アニメが好きです","anime ga suki desu"],["Eu gosto de música e jogos.","I like music and games.","音楽とゲームが好きです","ongaku to geemu ga suki desu"],["O que você faz no tempo livre?","What do you do in your free time?","暇なときは何をしますか","hima na toki wa nani o shimasu ka"],["Eu assisto anime.","I watch anime.","アニメを見ます","anime o mimasu"],["Eu jogo.","I play games.","ゲームをします","geemu o shimasu"]],
+  [["Esta é minha família.","This is my family.","これは私の家族です","kore wa watashi no kazoku desu"],["Este é meu amigo.","This is my friend.","これは私の友達です","kore wa watashi no tomodachi desu"],["Vou apresentar meu amigo.","I'll introduce my friend.","友達を紹介します","tomodachi o shoukai shimasu"],["Ele é meu amigo.","He is my friend.","彼は私の友達です","kare wa watashi no tomodachi desu"],["Ela é minha amiga.","She is my friend.","彼女は私の友達です","kanojo wa watashi no tomodachi desu"]],
+  [["De onde você é e onde mora?","Where are you from and where do you live?","どこの出身で、どこに住んでいますか","doko no shusshin de doko ni sunde imasu ka"],["O que você gosta?","What do you like?","何が好きですか","nani ga suki desu ka"],["Você estuda ou trabalha?","Do you study or work?","勉強していますか、働いていますか","benkyou shite imasu ka hataraite imasu ka"],["Eu estudo e gosto de música.","I study and like music.","勉強していて、音楽が好きです","benkyou shite ite ongaku ga suki desu"],["Prazer em conhecer você. Até mais!","Nice to meet you. See you!","はじめまして。またね","hajimemashite mata ne"]],
+  [["Olá! Meu nome é...","Hello! My name is...","こんにちは！私の名前は...です","konnichiwa watashi no namae wa ... desu"],["Eu sou do Brasil e moro em...","I'm from Brazil and I live in...","ブラジル出身で、...に住んでいます","burajiru shusshin de ... ni sunde imasu"],["Eu estudo e gosto de jogos.","I study and like games.","勉強していて、ゲームが好きです","benkyou shite ite geemu ga suki desu"],["Este é meu amigo. Prazer em conhecer você.","This is my friend. Nice to meet you.","これは私の友達です。はじめまして","kore wa watashi no tomodachi desu hajimemashite"],["Conte sobre você.","Tell me about yourself.","あなたについて話してください","anata ni tsuite hanashite kudasai"]]
+];
+
+function unit2Curriculum(lang: Language): Curriculum {
+  return UNIT2_ROWS.map(phase => phase.map(([pt,en,ja,romaji]) =>
+    lang === "ja" ? [romaji,pt,romaji] : lang === "en" ? [en,pt] : [pt,en]
+  ) as LessonItem[]);
+}
+const UNIT2: Record<Language,Curriculum> = {
+  pt: unit2Curriculum("pt"),
+  en: unit2Curriculum("en"),
+  ja: unit2Curriculum("ja"),
+};
+
 function normalizeGoal(value: string | null | undefined): GoalFamily {
   const v = (value ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   if (v.includes("trabalh") || v.includes("profiss")) return "work";
